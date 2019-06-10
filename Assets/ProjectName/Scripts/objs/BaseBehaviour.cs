@@ -1,37 +1,13 @@
-﻿namespace framework{
-	using System.Collections;
+﻿namespace framework {
 	using System.Collections.Generic;
 	using UnityEngine;
-    using UnityEngine.SceneManagement;
+	using UnityEngine.SceneManagement;
 
-    /// <summary>
-    /// 所有GameObject脚本的基类
-    /// </summary>
-    public abstract class BaseBehaviour:MonoBehaviour{
+	/// <summary>
+	/// 所有GameObject脚本的基类
+	/// </summary>
+	public abstract class BaseBehaviour:MonoBehaviour{
 		
-		/// <summary>
-		/// 创建任意继承BaseBehaviour的脚本对象，并绑定到一个新建的GameObject
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="name"></param>
-		/// <param name="info"></param>
-		/// <param name="parent"></param>
-		/// <returns></returns>
-		public static T create<T>(string name=null,Dictionary<string,object> info=null,Transform parent=null)where T:BaseBehaviour{
-			if(name==null){
-				name=typeof(T).ToString();
-				name=name.Substring(name.LastIndexOf('.')+1);
-			}
-			if(info==null){
-				info=new Dictionary<string, object>();
-			}
-			var obj=new GameObject(name);
-			obj.transform.parent=parent;
-			T behaviour=(T)obj.AddComponent(typeof(T));
-			behaviour.init(info);
-			return behaviour;
-		}
-
 		/// <summary>
 		///  获取DontDestroyOnLoad的所有游戏对象
 		/// </summary>
@@ -57,7 +33,32 @@
 			return allGameObjects.ToArray();
 		}
 
+		/// <summary>
+		/// 创建任意继承BaseCreateBehaviour的脚本对象，并绑定到一个新建的GameObject
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <param name="name"></param>
+		/// <param name="info"></param>
+		/// <param name="parent"></param>
+		/// <returns></returns>
+		public static T create<T>(string name=null,Dictionary<string,object> info=null,Transform parent=null)where T:BaseBehaviour{
+			if(name==null){
+				name=typeof(T).ToString();
+				name=name.Substring(name.LastIndexOf('.')+1);
+			}
+			if(info==null){
+				info=new Dictionary<string, object>();
+			}
+			var obj=new GameObject(name);
+			obj.transform.parent=parent;
+			T behaviour=(T)obj.AddComponent(typeof(T));
+			behaviour.init(info);
+			return behaviour;
+		}
+
 		virtual protected void init(Dictionary<string,object> info){}
+
+		
 
 		#region Event Function
 		/// <summary>

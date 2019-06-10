@@ -9,9 +9,19 @@ public class LevelMain : BaseBehaviour
 	protected override void Start() {
 		base.Start();
 		var objs=getDontDestroyOnLoadGameObjects();
-		Debug2.Log(objs[0].name,objs.Length);
+		//Debug2.Log(objs[0].name,objs.Length);
+
+		Invoke("loadMainScene",1.5f);
 	}
- 
+
+	private void loadMainScene(){
+		SceneManager.LoadScene("main");
+	}
+
+	protected override void OnDestroy() {
+		base.OnDestroy();
+	}
+
 
 
 

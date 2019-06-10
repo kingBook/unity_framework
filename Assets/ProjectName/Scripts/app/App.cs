@@ -1,15 +1,12 @@
-﻿namespace framework{
-	using System.Collections;
-	using System.Collections.Generic;
-	using UnityEngine;
+﻿using System.Collections.Generic;
 
+namespace framework {
 	public class App:BaseApp<App>{
 		
-		protected override void Start() {
-			base.Start();
+		protected override void init(){
+			base.init();
 			var game=create<Game>("Game1",null);
 			var level=create<Level>("Level1",null,game.transform);
-
 		}
 
 	}

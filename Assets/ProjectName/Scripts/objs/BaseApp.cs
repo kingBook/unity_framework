@@ -17,11 +17,30 @@
 		protected static T _instance;
 		public static T getInstance(){ return _instance; }
 
-		protected override void Awake(){
+		//禁止子类重写
+		sealed protected override void Awake(){
 			base.Awake();
-			_instance=this as T;
-			DontDestroyOnLoad(gameObject);
-			
+			//再次加载场景时，如果已有实例则删除
+			if(_instance==null){
+				_instance=this as T;
+				DontDestroyOnLoad(gameObject);
+				init();
+			}else{
+				Destroy(gameObject);
+			}
+		}
+
+		//禁止子类重写
+		sealed protected override void Start(){
+			base.Start();
+		}
+
+		//禁止子类重写
+		sealed protected override void init(Dictionary<string,object> info){
+			base.init(info);
+		}
+
+		virtual protected void init(){
 			if(_language==Language.AUTO){
 				initLanguage();
 			}
@@ -35,7 +54,11 @@
 		}
 
 		protected override void OnDestroy(){
-			_instance=null;
+			if(_instance!=null){
+				if(_instance.Equals(this)){
+					_instance=null;
+				}
+			}
 			base.OnDestroy();
 		}
 	}

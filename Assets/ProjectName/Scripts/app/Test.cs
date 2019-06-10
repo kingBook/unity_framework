@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class Test:MonoBehaviour {
+public class Test:BaseBehaviour {
 
 	private void Start() {
 		//SpriteRenderer renderer=createObjAddComponent<SpriteRenderer>("testObj");
@@ -26,5 +26,11 @@ public class Test:MonoBehaviour {
 		
 
 	}
+
+	protected override void OnDestroy() {
+		base.OnDestroy();
+	}
+
+
 
 }
