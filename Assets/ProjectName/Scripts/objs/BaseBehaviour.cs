@@ -2,10 +2,12 @@
 	using System.Collections;
 	using System.Collections.Generic;
 	using UnityEngine;
-	/// <summary>
-	/// 所有GameObject脚本的基类
-	/// </summary>
-	public abstract class BaseBehaviour:MonoBehaviour{
+    using UnityEngine.SceneManagement;
+
+    /// <summary>
+    /// 所有GameObject脚本的基类
+    /// </summary>
+    public abstract class BaseBehaviour:MonoBehaviour{
 		
 		/// <summary>
 		/// 创建任意继承BaseBehaviour的脚本对象，并绑定到一个新建的GameObject
@@ -28,6 +30,31 @@
 			T behaviour=(T)obj.AddComponent(typeof(T));
 			behaviour.init(info);
 			return behaviour;
+		}
+
+		/// <summary>
+		///  获取DontDestroyOnLoad的所有游戏对象
+		/// </summary>
+		/// <returns></returns>
+		public static GameObject[] getDontDestroyOnLoadGameObjects(){
+			var allGameObjects=new List<GameObject>();
+			allGameObjects.AddRange(Object.FindObjectsOfType<GameObject>());
+			//移除所有场景包含的对象
+			for(var i=0;i<SceneManager.sceneCount;i++){
+				var scene=SceneManager.GetSceneAt(i);
+				var objs=scene.GetRootGameObjects();
+				for(var j=0;j<objs.Length;j++){
+					allGameObjects.Remove(objs[j]);
+				}
+			}
+			//移除父级不为null的对象
+			int k=allGameObjects.Count;
+			while(--k>=0){
+				if(allGameObjects[k].transform.parent!=null){
+					allGameObjects.RemoveAt(k);
+				}
+			}
+			return allGameObjects.ToArray();
 		}
 
 		virtual protected void init(Dictionary<string,object> info){}

@@ -11,10 +11,6 @@
 			var level=create<Level>("Level1",null,game.transform);
 
 		}
-		
-
-		
-
 
 	}
 }

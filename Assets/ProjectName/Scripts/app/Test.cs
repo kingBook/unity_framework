@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using framework;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -8,7 +9,8 @@ public class Test:MonoBehaviour {
 	private void Start() {
 		//SpriteRenderer renderer=createObjAddComponent<SpriteRenderer>("testObj");
 		//Debug.Log(renderer);//output: testObj (UnityEngine.SpriteRenderer)
-		Invoke("loadLevelScene",2);
+		Invoke("loadLevelScene",1.5f);
+		
 	}
 
 	private T createObjAddComponent<T>(string name)where T:Component{
@@ -19,6 +21,10 @@ public class Test:MonoBehaviour {
 
 
 	private void loadLevelScene(){
-		SceneManager.LoadSceneAsync("level",LoadSceneMode.Additive);
+		SceneManager.LoadScene("level");
+		
+		
+
 	}
+
 }
