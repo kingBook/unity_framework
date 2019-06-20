@@ -6,10 +6,11 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// 所有GameObject脚本的基类
 /// </summary>
-public abstract class BaseBehaviour:MonoBehaviour{
-		
+public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
+	
 	/// <summary>
 	///  获取DontDestroyOnLoad的所有游戏对象
+	///  注意：这个方法很低效
 	/// </summary>
 	/// <returns></returns>
 	public static GameObject[] getDontDestroyOnLoadGameObjects(){
@@ -34,25 +35,20 @@ public abstract class BaseBehaviour:MonoBehaviour{
 	}
 
 	/// <summary>
-	/// 创建任意继承BaseCreateBehaviour的脚本对象，并绑定到一个新建的GameObject
+	///  创建并绑定脚本到一个GameObject
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
-	/// <param name="name"></param>
-	/// <param name="info"></param>
-	/// <param name="parent"></param>
+	/// <param name="gameObject">绑定脚本的GameObject</param>
+	/// <param name="info">传递到init方法的字典</param>
 	/// <returns></returns>
-	public static T create<T>(string name=null,Dictionary<string,object> info=null,Transform parent=null)where T:BaseBehaviour{
-		if(name==null){
-			name=typeof(T).ToString();
-			name=name.Substring(name.LastIndexOf('.')+1);
-		}
+	public static T create<T>(GameObject gameObject,Dictionary<string,object> info=null)where T:BaseMonoBehaviour{
 		if(info==null){
 			info=new Dictionary<string, object>();
 		}
-		var obj=new GameObject(name);
-		obj.transform.parent=parent;
-		T behaviour=(T)obj.AddComponent(typeof(T));
+		
+		T behaviour=(T)gameObject.AddComponent(typeof(T));
 		behaviour.init(info);
+		App.getInstance().updateMgr.add(behaviour);
 		return behaviour;
 	}
 
@@ -86,12 +82,22 @@ public abstract class BaseBehaviour:MonoBehaviour{
 	/// 在 FixedUpdate 内应用运动计算时，无需将值乘以 Time.deltaTime。
 	/// 这是因为 FixedUpdate 的调用基于可靠的计时器（独立于帧率）。
 	/// </summary>
-	virtual protected void FixedUpdate(){}
+	//virtual protected void FixedUpdate(){}
+	virtual protected void OnFixedUpdate(){ }
+	void IUpdate.FixedUpdate(){
+		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
+		OnFixedUpdate();
+	}
 
 	/// <summary>
 	/// 如果 MonoBehaviour 已启用，则在每一帧都调用 Update
 	/// </summary>
-	virtual protected void Update(){}
+	//virtual protected void Update(){}
+	virtual protected void OnUpdate(){ }
+	void IUpdate.Update(){
+		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
+		OnUpdate();
+	}
 
 	/// <summary>
 	/// 每帧调用一次 LateUpdate()（在 Update()完成后）。
@@ -100,7 +106,12 @@ public abstract class BaseBehaviour:MonoBehaviour{
 	/// 如果在 Update 内让角色移动和转向，可以在 LateUpdate 中执行所有摄像机移动和旋转计算。
 	/// 这样可以确保角色在摄像机跟踪其位置之前已完全移动。
 	/// </summary>
-	virtual protected void LateUpdate(){}
+	//virtual protected void LateUpdate(){}
+	virtual protected void OnLateUpdate(){ }
+	void IUpdate.LateUpdate(){
+		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
+		OnLateUpdate();
+	}
 
 	/// <summary>
 	/// 当此碰撞器/刚体开始接触另一个刚体/碰撞器时，调用 OnCollisionEnter
@@ -146,7 +157,12 @@ public abstract class BaseBehaviour:MonoBehaviour{
 	/// <summary>
 	/// 渲染和处理 GUI 事件时调用 OnGUI
 	/// </summary>
-	virtual protected void OnGUI(){}
+	//virtual protected void OnGUI(){}
+	virtual protected void OnGUI2(){}
+	void IUpdate.OnGUI(){
+		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
+		OnGUI2();
+	}
 
 	/// <summary>
 	/// 当用户在 GUIElement 或碰撞器上按鼠标按钮时调用 OnMouseDown
@@ -359,7 +375,12 @@ public abstract class BaseBehaviour:MonoBehaviour{
 	/// <summary>
 	/// 照相机渲染场景后调用 OnRenderObject
 	/// </summary>
-	virtual protected void OnRenderObject(){}
+	//virtual protected void OnRenderObject(){}
+	virtual protected void OnRenderObject2(){}
+	void IUpdate.OnRenderObject(){
+		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
+		OnRenderObject2();
+	}
 
 	/// <summary>
 	/// 无论何时调用并完成 Network.InitializeServer，都在该服务器上调用
@@ -394,7 +415,12 @@ public abstract class BaseBehaviour:MonoBehaviour{
 	/// <summary>
 	/// 当 MonoBehaviour 将被销毁时调用此函数
 	/// </summary>
-	virtual protected void OnDestroy(){}
+	virtual protected void OnDestroy(){
+		App app=App.getInstance();
+		if(app){
+			app.updateMgr.remove(this);
+		}
+	}
 	#endregion
 
 

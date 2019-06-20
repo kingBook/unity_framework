@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Level:BaseBehaviour{
+public class Level:BaseMonoBehaviour{
 		
 }

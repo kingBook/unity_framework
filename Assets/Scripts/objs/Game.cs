@@ -2,6 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Game:BaseBehaviour{
+public class Game:BaseMonoBehaviour{
 
 }
