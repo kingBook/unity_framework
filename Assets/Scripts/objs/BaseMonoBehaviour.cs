@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	
+	private bool _isHasAddToUpdateManager=false;
+	
 	/// <summary>
 	///  获取DontDestroyOnLoad的所有游戏对象
 	///  注意：这个方法很低效
@@ -48,12 +50,18 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		
 		T behaviour=(T)gameObject.AddComponent(typeof(T));
 		behaviour.init(info);
-		App.getInstance().updateMgr.add(behaviour);
+		behaviour.addToUpdateManager();
 		return behaviour;
 	}
 
 	virtual protected void init(Dictionary<string,object> info){}
 
+	private void addToUpdateManager(){
+		if(_isHasAddToUpdateManager)return;
+		_isHasAddToUpdateManager=true;
+		
+		App.getInstance().updateMgr.add(this);
+	}
 		
 
 	#region Event Function
@@ -61,18 +69,24 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 始终在任何 Start 函数之前并在实例化预制件之后调用此函数。
 	/// 如果游戏对象在启动期间处于非活动状态，则在激活之后才会调用 Awake。）
 	/// </summary>
-	virtual protected void Awake(){}
+	virtual protected void Awake(){
+		
+	}
 
 	/// <summary>
 	/// （仅在对象处于激活状态时调用）在启用对象后立即调用此函数。
 	/// 在创建 MonoBehaviour 实例时（例如加载关卡或实例化具有脚本组件的游戏对象时）会执行此调用。
 	/// </summary>
-	virtual protected void OnEnable(){}
+	virtual protected void OnEnable(){
+		
+	}
 
 	/// <summary>
 	/// 仅当启用脚本实例后，才会在第一次帧更新之前调用 Start。
 	/// </summary>
-	virtual protected void Start(){}
+	virtual protected void Start(){
+		addToUpdateManager();
+	}
 
 	/// <summary>
 	/// 调用 FixedUpdate 的频度常常超过 Update。
@@ -322,12 +336,6 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// </summary>
 	/// <param name="joint"></param>
 	virtual protected void OnJointBreak2D(Joint2D joint){}
-
-	/// <summary>
-	/// 加载一个新级别时调用此函数
-	/// </summary>
-	/// <param name="level"></param>
-	virtual protected void OnLevelWasLoaded(int level){}
 
 	/// <summary>
 	/// 当粒子击中碰撞器时调用 OnParticleCollision
