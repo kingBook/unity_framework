@@ -60,7 +60,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		if(_isHasAddToUpdateManager)return;
 		_isHasAddToUpdateManager=true;
 		
-		App.getInstance().updateMgr.add(this);
+		App.getInstance().updateManager.add(this);
 	}
 		
 
@@ -426,7 +426,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	virtual protected void OnDestroy(){
 		App app=App.getInstance();
 		if(app){
-			app.updateMgr.remove(this);
+			app.updateManager.remove(this);
 		}
 	}
 	#endregion

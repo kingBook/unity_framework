@@ -14,10 +14,22 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		return _instance; 
 	}
 
-	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN \nCN:中文 \nEN:英文")]
+	[Tooltip("决定在Awake中是否调用init函数，" +
+	 "\n用于调试其它场景需要调用该脚本，" +
+	 "\n在Hierarchy中拖入该脚本所在的.unity文件时，" +
+	 "\n不执行init(),不载入其他场景，不创建其他对象，" +
+	 "\n发布工程时必须为true。")
+	]
+	[SerializeField]
+	private bool _isCallInitOnAwake=true;
+
+	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
+	 "\nCN:中文 " +
+	 "\nEN:英文")
+	]
 	[SerializeField]
 	protected Language _language=Language.AUTO;
-	private UpdateManager _updateMgr;
+	private UpdateManager _updateManager;
 
 
 
@@ -27,7 +39,8 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		//再次加载场景时，如果已有实例则删除
 		if(_instance==null){
 			_instance=this as T;
-			init();
+			initSelf();
+			if(_isCallInitOnAwake)init();
 		}else{
 			Destroy(gameObject);
 		}
@@ -43,13 +56,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		base.init(info);
 	}
 
-	virtual protected void init(){
+	//用于初始App和其它全局成员
+	private void initSelf(){
 		if(_language==Language.AUTO){
 			initLanguage();
 		}
-		_updateMgr=new UpdateManager();
+		_updateManager=new UpdateManager();
 	}
-
 	private void initLanguage(){
 		bool isCN=Application.systemLanguage==SystemLanguage.Chinese;
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseSimplified;
@@ -57,21 +70,24 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		_language=isCN?Language.CN:Language.EN;
 	}
 
+	//仅供子类实现
+	virtual protected void init(){}
+
 	#region IUpdate Manager
 	private void FixedUpdate(){
-		_updateMgr.fixedUpdate();
+		_updateManager.fixedUpdate();
 	}
 	private void Update(){
-		_updateMgr.update();
+		_updateManager.update();
 	}
 	private void LateUpdate(){
-		_updateMgr.lateUpdate();
+		_updateManager.lateUpdate();
 	}
 	private void OnGUI(){
-		_updateMgr.onGUI();
+		_updateManager.onGUI();
 	}
 	private void OnRenderObject(){
-		_updateMgr.onRenderObject();
+		_updateManager.onRenderObject();
 	}
 	#endregion
 
@@ -84,5 +100,5 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		base.OnDestroy();
 	}
 
-	public UpdateManager updateMgr { get => _updateMgr; }
+	public UpdateManager updateManager { get => _updateManager; }
 }
