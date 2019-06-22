@@ -97,20 +97,20 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 这是因为 FixedUpdate 的调用基于可靠的计时器（独立于帧率）。
 	/// </summary>
 	//virtual protected void FixedUpdate(){}
-	virtual protected void OnFixedUpdate(){ }
+	virtual protected void FixedUpdate2(){ }
 	void IUpdate.FixedUpdate(){
 		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
-		OnFixedUpdate();
+		FixedUpdate2();
 	}
 
 	/// <summary>
 	/// 如果 MonoBehaviour 已启用，则在每一帧都调用 Update
 	/// </summary>
 	//virtual protected void Update(){}
-	virtual protected void OnUpdate(){ }
+	virtual protected void Update2(){ }
 	void IUpdate.Update(){
 		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
-		OnUpdate();
+		Update2();
 	}
 
 	/// <summary>
@@ -121,10 +121,10 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 这样可以确保角色在摄像机跟踪其位置之前已完全移动。
 	/// </summary>
 	//virtual protected void LateUpdate(){}
-	virtual protected void OnLateUpdate(){ }
+	virtual protected void LateUpdate2(){ }
 	void IUpdate.LateUpdate(){
 		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
-		OnLateUpdate();
+		LateUpdate2();
 	}
 
 	/// <summary>
