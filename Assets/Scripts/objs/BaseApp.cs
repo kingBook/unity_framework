@@ -99,6 +99,8 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		}
 		base.OnDestroy();
 	}
-
+	
+	public Language language{ get=>_language; }
 	public UpdateManager updateManager { get => _updateManager; }
+	
 }
