@@ -1,7 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
-
+/// <summary>
+/// 更新管理器
+/// </summary>
 public class UpdateManager{
 	private List<IUpdate> _list=new List<IUpdate>();
 	public void fixedUpdate(){

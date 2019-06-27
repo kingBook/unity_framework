@@ -1,6 +1,8 @@
 ﻿
 using UnityEngine;
-
+/// <summary>
+/// 整个应用程序的单例类
+/// </summary>
 public class App:BaseApp<App>{
 	
 	private Game _game;

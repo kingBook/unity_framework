@@ -2,7 +2,7 @@
 using System.Collections;
 
 public class StringUtil{
-	public static bool CustomEndsWith(string a, string b) {
+	public static bool endsWith(string a, string b) {
         int ap = a.Length - 1;
         int bp = b.Length - 1;
 
@@ -15,7 +15,7 @@ public class StringUtil{
                 (ap < 0 && b.Length >= a.Length);
         }
 
-    public static bool CustomStartsWith(string a, string b) {
+    public static bool startsWith(string a, string b) {
         int aLen = a.Length;
         int bLen = b.Length;
         int ap = 0; int bp = 0;

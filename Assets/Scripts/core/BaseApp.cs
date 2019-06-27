@@ -5,11 +5,14 @@ using UnityEngine;
 public enum Language{AUTO,CN,EN}
 	
 /// <summary>
-/// <para>整个应用程序的单例类</para>
+/// 整个应用程序的单例抽象类
 /// </summary>
 public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
 	protected static T _instance;
+	/// <summary>
+	/// 应用程序的单例实例
+	/// </summary>
 	public static T instance{ get => _instance; }
 
 	[Tooltip("决定在Awake中是否调用init函数，" +
@@ -28,8 +31,6 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField]
 	protected Language _language=Language.AUTO;
 	private UpdateManager _updateManager;
-
-
 
 	//禁止子类重写
 	sealed protected override void Awake() {
@@ -98,7 +99,14 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		base.OnDestroy();
 	}
 	
+	/// <summary>
+	/// 应用程序的语言
+	/// </summary>
 	public Language language{ get=>_language; }
+
+	/// <summary>
+	/// 更新管理器
+	/// </summary>
 	public UpdateManager updateManager { get => _updateManager; }
 	
 }

@@ -11,8 +11,8 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	private bool _isHasAddToUpdateManager=false;
 	
 	/// <summary>
-	///  获取DontDestroyOnLoad的所有游戏对象
-	///  <br>注意：这个方法很低效</br>
+	/// 获取DontDestroyOnLoad的所有游戏对象
+	/// <br>注意：这个方法很低效</br>
 	/// </summary>
 	/// <returns></returns>
 	public static GameObject[] getDontDestroyOnLoadGameObjects(){
@@ -37,7 +37,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	}
 
 	/// <summary>
-	///  创建并绑定脚本到一个GameObject
+	///  创建并绑定脚本到一个GameObject，并且执行init(info)函数
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="gameObject">绑定脚本的GameObject</param>
