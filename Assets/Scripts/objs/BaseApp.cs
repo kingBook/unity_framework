@@ -10,9 +10,7 @@ public enum Language{AUTO,CN,EN}
 public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
 	protected static T _instance;
-	public static T getInstance(){
-		return _instance; 
-	}
+	public static T instance{ get => _instance; }
 
 	[Tooltip("决定在Awake中是否调用init函数，" +
 	 "\n用于调试其它场景需要调用该脚本，" +

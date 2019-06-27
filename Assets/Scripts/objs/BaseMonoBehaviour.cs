@@ -12,7 +12,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	
 	/// <summary>
 	///  获取DontDestroyOnLoad的所有游戏对象
-	///  注意：这个方法很低效
+	///  <br>注意：这个方法很低效</br>
 	/// </summary>
 	/// <returns></returns>
 	public static GameObject[] getDontDestroyOnLoadGameObjects(){
@@ -60,7 +60,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		if(_isHasAddToUpdateManager)return;
 		_isHasAddToUpdateManager=true;
 		
-		App.getInstance().updateManager.add(this);
+		App.instance.updateManager.add(this);
 	}
 		
 
@@ -424,9 +424,8 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 当 MonoBehaviour 将被销毁时调用此函数
 	/// </summary>
 	virtual protected void OnDestroy(){
-		App app=App.getInstance();
-		if(app){
-			app.updateManager.remove(this);
+		if(App.instance){
+			App.instance.updateManager.remove(this);
 		}
 	}
 	#endregion
