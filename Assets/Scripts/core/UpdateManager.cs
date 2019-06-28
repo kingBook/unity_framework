@@ -1,8 +1,9 @@
-﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 /// <summary>
 /// 更新管理器
+/// <br>统一调用FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject</br>
+/// <br>解决在压力状态下引起的效率低下问题，</br>
+/// <br>具体描述:https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity8.html （Update managers部分）</br>
 /// </summary>
 public class UpdateManager{
 	private List<IUpdate> _list=new List<IUpdate>();

@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/// <summary>
+/// 字符串低效方法优化
+/// 具体描述： https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity5.html (Inefficient built-in string APIs部分)
+/// </summary>
 public class StringUtil{
 	public static bool endsWith(string a, string b) {
         int ap = a.Length - 1;

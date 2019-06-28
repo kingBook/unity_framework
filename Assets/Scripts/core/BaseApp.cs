@@ -1,11 +1,12 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public enum Language{AUTO,CN,EN}
 	
 /// <summary>
-/// 整个应用程序的单例抽象类
+/// 整个应用程序的单例抽象类(基类)
+/// <br>子类不可以实现以下方法：Awake、Start、FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject。</br>
+/// <br>将override以下方法代替：init(代替Awake和Start)、FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
 /// </summary>
 public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
@@ -72,7 +73,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	//仅供子类实现
 	virtual protected void init(){}
 
-	#region IUpdate Manager
+	#region IUpdate Manager(统一调用FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject解决在压力状态下引起的效率低下问题)
 	private void FixedUpdate(){
 		_updateManager.fixedUpdate();
 	}

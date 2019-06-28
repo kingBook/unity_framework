@@ -4,7 +4,9 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// 所有GameObject脚本的基类
+/// 所有GameObject脚本的抽象类(基类)
+/// <br>子类的以下方法：FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject，</br>
+/// <br>将使用以下代替：FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
 /// </summary>
 public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	
