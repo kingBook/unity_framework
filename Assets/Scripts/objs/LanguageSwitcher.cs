@@ -1,28 +1,57 @@
 ﻿using UnityEngine;
 using System.Collections;
 /// <summary>
-/// 当App的语言和该脚本设置的一致则激活绑定该脚本的Gameobject,否则吊销
+/// 根据当前应用程序的语言激活/吊销列表中的GameObject
 /// </summary>
 public class LanguageSwitcher:BaseMonoBehaviour{
-	[Tooltip("根据语言决定是否激活该对象，" +
-	 "\n注意：只能是CN、EN，" +
-	 "\n不可以设置为AUTO")
-	]
-	[SerializeField]
-	protected Language _language=Language.EN;
+	
+	public GameObject[] enList;
+	public GameObject[] cnList;
 
-	protected override void Start() {
-		base.Start();
-		bool isActive=_language==App.instance.language;
-		gameObject.SetActive(isActive);
-	}
-
-#if UNITY_EDITOR
-	protected override void OnValidate() {
-		base.OnValidate();
-		if(_language==Language.AUTO){
-			Debug.LogError("在LanguageSwitcher中，language只能设置为EN/CN不能为AUTO");
+	protected override void Awake(){
+		base.Awake();
+		if(App.instance){
+			activeWithLanguage(App.instance.language);
 		}
 	}
-#endif
+
+	protected override void Start(){
+		base.Start();
+		activeWithLanguage(App.instance.language);
+		App.instance.changeLanguageEvent+=onChangeLanguage;
+	}
+
+	private void activeWithLanguage(Language language){
+		if(language==Language.AUTO)return;
+		GameObject[] activeList=null;
+		GameObject[] deactiveList=null;
+		if(language==Language.EN){
+			activeList=enList;
+			deactiveList=cnList;
+		}else if(language==Language.CN){
+			activeList=cnList;
+			deactiveList=enList;
+		}
+
+		int i=activeList.Length;
+		while(--i>=0){
+			activeList[i].SetActive(true);
+		}
+
+		i=deactiveList.Length;
+		while(--i>=0){
+			deactiveList[i].SetActive(false);
+		}
+	}
+	
+	private void onChangeLanguage(Language language){
+		activeWithLanguage(language);
+	}
+	
+	protected override void OnDestroy(){
+		if(App.instance){
+			App.instance.changeLanguageEvent-=onChangeLanguage;
+		}
+		base.OnDestroy();
+	}
 }

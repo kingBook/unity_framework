@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public enum Language{AUTO,CN,EN}
@@ -25,13 +26,16 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField]
 	private bool _isCallInitOnAwake=true;
 
+	public event Action<Language> changeLanguageEvent;
 	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
 	 "\nCN:中文 " +
 	 "\nEN:英文")
 	]
-	[SerializeField]
+	[SerializeField,SetProperty("language")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	protected Language _language=Language.AUTO;
+
 	private UpdateManager _updateManager;
+
 
 	//禁止子类重写
 	sealed protected override void Awake() {
@@ -68,6 +72,8 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseSimplified;
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseTraditional;
 		_language=isCN?Language.CN:Language.EN;
+		//改变语言事件
+		changeLanguageEvent?.Invoke(_language);
 	}
 
 	//仅供子类实现
@@ -103,7 +109,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// <summary>
 	/// 应用程序的语言
 	/// </summary>
-	public Language language{ get=>_language; }
+	public Language language{
+		get => _language;
+		set{
+			_language=value;
+			changeLanguageEvent?.Invoke(_language);
+		}
+	}
 
 	/// <summary>
 	/// 更新管理器
