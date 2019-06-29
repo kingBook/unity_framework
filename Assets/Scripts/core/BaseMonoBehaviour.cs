@@ -52,10 +52,13 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		
 		T behaviour=(T)gameObject.AddComponent(typeof(T));
 		behaviour.init(info);
-		behaviour.addToUpdateManager();
 		return behaviour;
 	}
 
+	/// <summary>
+	/// 只有调用create函数创建时才运行
+	/// </summary>
+	/// <param name="info"></param>
 	virtual protected void init(Dictionary<string,object> info){}
 
 	private void addToUpdateManager(){

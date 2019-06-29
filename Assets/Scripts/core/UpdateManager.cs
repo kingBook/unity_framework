@@ -1,37 +1,39 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 /// <summary>
 /// 更新管理器
 /// <br>统一调用FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject</br>
 /// <br>解决在压力状态下引起的效率低下问题，</br>
 /// <br>具体描述:https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity8.html （Update managers部分）</br>
 /// </summary>
-public class UpdateManager{
+public sealed class UpdateManager:MonoBehaviour{
 	private List<IUpdate> _list=new List<IUpdate>();
-	public void fixedUpdate(){
+
+	private void FixedUpdate(){
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].FixedUpdate();
 		}
 	}
-	public void update(){
+	private void Update(){
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].Update();
 		}
 	}
-	public void lateUpdate(){
+	private void LateUpdate(){
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].LateUpdate();
 		}
 	}
-	public void onGUI(){
+	private void OnGUI(){
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].OnGUI();
 		}
 	}
-	public void onRenderObject(){
+	private void OnRenderObject(){
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].OnRenderObject();

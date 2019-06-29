@@ -17,14 +17,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// </summary>
 	public static T instance{ get => _instance; }
 
-	[Tooltip("决定在Awake中是否调用init函数，" +
-	 "\n用于调试其它场景需要调用该脚本，" +
+	[Tooltip("用于调试其它场景需要调用该脚本，" +
 	 "\n在Hierarchy中拖入该脚本所在的.unity文件时，" +
-	 "\n不执行init(),不载入其他场景，不创建其他对象，" +
-	 "\n发布工程时必须为true。")
+	 "\n不执行不载入标题、其他场景等，将在代码中判定实现" +
+	 "\n发布工程时必须为false。")
 	]
 	[SerializeField]
-	private bool _isCallInitOnAwake=true;
+	private bool _isDebug=false;
 
 	public event Action<Language> changeLanguageEvent;
 	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
@@ -34,7 +33,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField,SetProperty("language")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	protected Language _language=Language.AUTO;
 
-	private UpdateManager _updateManager;
+	[Tooltip("场景加载器")]
+	[SerializeField]
+	private SceneLoader _sceneLoader=null;
+
+	[Tooltip("更新管理器")]
+	[SerializeField]
+	private UpdateManager _updateManager=null;
 
 
 	//禁止子类重写
@@ -43,30 +48,14 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		//再次加载场景时，如果已有实例则删除
 		if(_instance==null){
 			_instance=this as T;
-			initSelf();
-			if(_isCallInitOnAwake)init();
+			if(_language==Language.AUTO){
+				initLanguage();
+			}
 		}else{
 			Destroy(gameObject);
 		}
 	}
 
-	//禁止子类重写
-	sealed protected override void Start() {
-		base.Start();
-	}
-
-	//禁止子类重写
-	sealed protected override void init(Dictionary<string,object> info){
-		base.init(info);
-	}
-
-	//用于初始App和其它全局成员
-	private void initSelf(){
-		if(_language==Language.AUTO){
-			initLanguage();
-		}
-		_updateManager=new UpdateManager();
-	}
 	private void initLanguage(){
 		bool isCN=Application.systemLanguage==SystemLanguage.Chinese;
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseSimplified;
@@ -75,28 +64,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		//改变语言事件
 		changeLanguageEvent?.Invoke(_language);
 	}
-
-	//仅供子类实现
-	virtual protected void init(){}
-
-	#region IUpdate Manager(统一调用FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject解决在压力状态下引起的效率低下问题)
-	private void FixedUpdate(){
-		_updateManager.fixedUpdate();
-	}
-	private void Update(){
-		_updateManager.update();
-	}
-	private void LateUpdate(){
-		_updateManager.lateUpdate();
-	}
-	private void OnGUI(){
-		_updateManager.onGUI();
-	}
-	private void OnRenderObject(){
-		_updateManager.onRenderObject();
-	}
-	#endregion
-
+	
 	protected override void OnDestroy(){
 		if(_instance!=null){
 			if(_instance.Equals(this)){
@@ -105,6 +73,8 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		}
 		base.OnDestroy();
 	}
+
+	public bool isDebug{ get => _isDebug; }
 	
 	/// <summary>
 	/// 应用程序的语言
@@ -118,8 +88,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	}
 
 	/// <summary>
+	/// 场景加载器(有进度条)
+	/// </summary>
+	public SceneLoader sceneLoader{ get => _sceneLoader; }
+
+	/// <summary>
 	/// 更新管理器
 	/// </summary>
 	public UpdateManager updateManager { get => _updateManager; }
-	
+
 }

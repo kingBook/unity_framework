@@ -1,4 +1,5 @@
 ﻿
+using System.Collections.Generic;
 using UnityEngine;
 /// <summary>
 /// 整个应用程序的单例类
@@ -9,8 +10,8 @@ public class App:BaseApp<App>{
 	
 	private Game _game;
 	
-	protected override void init(){
-		base.init();
+	protected override void Start(){
+		base.Start();
 		_game=create<Game>(new GameObject("Game"));
 	}
 
