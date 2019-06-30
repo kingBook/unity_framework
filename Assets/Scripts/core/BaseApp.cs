@@ -41,6 +41,10 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField]
 	private UpdateManager _updateManager=null;
 
+	[Tooltip("声音管理器")]
+	[SerializeField]
+	private SoundManager _soundManager=null;
+
 
 	//禁止子类重写
 	sealed protected override void Awake() {
@@ -95,6 +99,8 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// <summary>
 	/// 更新管理器
 	/// </summary>
-	public UpdateManager updateManager { get => _updateManager; }
+	public UpdateManager updateManager{ get => _updateManager; }
+
+	public SoundManager soundManager{ get => _soundManager; }
 
 }

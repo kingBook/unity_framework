@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine.SceneManagement;
 /// <summary>
 /// 游戏
 /// </summary>
@@ -9,6 +10,7 @@ public class Game:BaseMonoBehaviour{
 	}
 
 	public void gotoTitle(){
-		
+		SceneManager.LoadScene("Scenes/title",LoadSceneMode.Additive);
+		App.instance.soundManager.play();
 	}
 }
