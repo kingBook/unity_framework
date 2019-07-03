@@ -39,11 +39,11 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	}
 
 	/// <summary>
-	///  创建并绑定脚本到一个GameObject，并且执行init(info)函数
+	///  创建并绑定脚本到一个GameObject，并且执行onCreate(info)函数
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="gameObject">绑定脚本的GameObject</param>
-	/// <param name="info">传递到init方法的字典</param>
+	/// <param name="info">传递到onCreate方法的字典</param>
 	/// <returns></returns>
 	public static T create<T>(GameObject gameObject,Dictionary<string,object> info=null)where T:BaseMonoBehaviour{
 		if(info==null){
@@ -51,7 +51,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		}
 		
 		T behaviour=(T)gameObject.AddComponent(typeof(T));
-		behaviour.init(info);
+		behaviour.onCreate(info);
 		return behaviour;
 	}
 
@@ -59,7 +59,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 只有调用create函数创建时才运行
 	/// </summary>
 	/// <param name="info"></param>
-	virtual protected void init(Dictionary<string,object> info){}
+	virtual protected void onCreate(Dictionary<string,object> info){}
 
 	private void addToUpdateManager(){
 		if(_isHasAddToUpdateManager)return;

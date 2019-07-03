@@ -4,13 +4,13 @@ using UnityEngine.SceneManagement;
 /// 游戏
 /// </summary>
 public class Game:BaseMonoBehaviour{
-	protected override void init(Dictionary<string,object> info) {
-		base.init(info);
+	protected override void onCreate(Dictionary<string,object> info) {
+		base.onCreate(info);
 		gotoTitle();
 	}
 
 	public void gotoTitle(){
-		SceneManager.LoadScene("Scenes/title",LoadSceneMode.Additive);
+		App.instance.sceneLoader.load("Scenes/title");
 		App.instance.soundManager.play();
 	}
 }

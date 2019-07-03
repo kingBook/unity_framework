@@ -2,7 +2,9 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
-
+/// <summary>
+/// 场景加载器
+/// </summary>
 public sealed class SceneLoader:BaseMonoBehaviour{
 	[Tooltip("进度条滑块")]
 	public Image imageMid;
@@ -16,14 +18,42 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 		gameObject.SetActive(false);
 	}
 
+	/// <summary>
+	/// Additive模式同步加载场景
+	/// </summary>
+	/// <param name="sceneName"></param>
 	public void load(string sceneName){
-		gameObject.SetActive(true);
-		imageMid.fillAmount=0;
-		StartCoroutine(loadSceneAsync(sceneName));
+		load(sceneName,LoadSceneMode.Additive);
+	}
+	/// <summary>
+	/// 同步加载场景
+	/// </summary>
+	/// <param name="sceneName"></param>
+	/// <param name="mode"></param>
+	public void load(string sceneName,LoadSceneMode mode){
+		SceneManager.LoadScene(sceneName,mode);
 	}
 
-	IEnumerator loadSceneAsync(string sceneName){
-		_asyncOperation=SceneManager.LoadSceneAsync(sceneName,LoadSceneMode.Additive);
+	/// <summary>
+	/// Additive模式异步加载场景，将显示进度条
+	/// </summary>
+	/// <param name="sceneName"></param>
+	public void loadAsync(string sceneName){
+		loadAsync(sceneName,LoadSceneMode.Additive);
+	}
+	/// <summary>
+	/// 异步加载场景，将显示进度条
+	/// </summary>
+	/// <param name="sceneName"></param>
+	/// <param name="mode"></param>
+	public void loadAsync(string sceneName,LoadSceneMode mode){
+		gameObject.SetActive(true);
+		imageMid.fillAmount=0;
+		StartCoroutine(loadSceneAsync(sceneName,mode));
+	}
+
+	IEnumerator loadSceneAsync(string sceneName,LoadSceneMode mode){
+		_asyncOperation=SceneManager.LoadSceneAsync(sceneName,mode);
 		_asyncOperation.completed+=onComplete;
 		_asyncOperation.allowSceneActivation=false;
 		while(!_asyncOperation.isDone){

@@ -6,8 +6,8 @@ public enum Language{AUTO,CN,EN}
 	
 /// <summary>
 /// 整个应用程序的单例抽象类(基类)
-/// <br>子类不可以实现以下方法：Awake、Start、FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject。</br>
-/// <br>将override以下方法代替：init(代替Awake和Start)、FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
+/// <br>子类不可以实现以下方法：Awake、FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject。</br>
+/// <br>将override以下方法代替：Start、FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
 /// </summary>
 public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
