@@ -5,7 +5,9 @@ using System.Collections;
 /// </summary>
 public class LanguageSwitcher:BaseMonoBehaviour{
 	
+	[Tooltip("英文时，需要激活的GameObject列表")]
 	public GameObject[] enList;
+	[Tooltip("中文时，需要激活的GameObject列表")]
 	public GameObject[] cnList;
 
 	protected override void Awake(){
