@@ -4,7 +4,6 @@ using System.Collections;
 /// 根据当前应用程序的语言激活/吊销列表中的GameObject
 /// </summary>
 public class LanguageSwitcher:BaseMonoBehaviour{
-	
 	[Tooltip("英文时，需要激活的GameObject列表")]
 	public GameObject[] enList;
 	[Tooltip("中文时，需要激活的GameObject列表")]
@@ -20,7 +19,7 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 	protected override void Start(){
 		base.Start();
 		activeWithLanguage(App.instance.language);
-		App.instance.changeLanguageEvent+=onChangeLanguage;
+		App.instance.onChangeLanguage+=onChangeLanguage;
 	}
 
 	private void activeWithLanguage(Language language){
@@ -49,10 +48,11 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 	private void onChangeLanguage(Language language){
 		activeWithLanguage(language);
 	}
-	
+
+
 	protected override void OnDestroy(){
 		if(App.instance){
-			App.instance.changeLanguageEvent-=onChangeLanguage;
+			App.instance.onChangeLanguage-=onChangeLanguage;
 		}
 		base.OnDestroy();
 	}

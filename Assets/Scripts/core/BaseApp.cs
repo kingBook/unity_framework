@@ -6,8 +6,8 @@ public enum Language{AUTO,CN,EN}
 	
 /// <summary>
 /// 整个应用程序的单例抽象类(基类)
-/// <br>子类不可以实现以下方法：Awake、FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject。</br>
-/// <br>将override以下方法代替：Start、FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
+/// <br>子类的以下方法：FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject，</br>
+/// <br>将使用以下代替：FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
 /// </summary>
 public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
@@ -25,7 +25,10 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField]
 	private bool _isDebug=false;
 
-	public event Action<Language> changeLanguageEvent;
+	/// <summary>
+	/// 改变语言事件
+	/// </summary>
+	public event Action<Language> onChangeLanguage;
 	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
 	 "\nCN:中文 " +
 	 "\nEN:英文")
@@ -41,13 +44,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField]
 	private UpdateManager _updateManager=null;
 
-	[Tooltip("声音管理器")]
-	[SerializeField]
-	private SoundManager _soundManager=null;
+	/// <summary>
+	/// 暂停或恢复事件，在调用setPause(bool)时方法发出
+	/// </summary>
+	public event Action<bool> onPauseOrResume;
+	private bool _isPause;
 
-
-	//禁止子类重写
-	sealed protected override void Awake() {
+	protected override void Awake() {
 		base.Awake();
 		//再次加载场景时，如果已有实例则删除
 		if(_instance==null){
@@ -66,7 +69,22 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseTraditional;
 		_language=isCN?Language.CN:Language.EN;
 		//改变语言事件
-		changeLanguageEvent?.Invoke(_language);
+		onChangeLanguage?.Invoke(_language);
+	}
+
+	/// <summary>
+	/// 设置暂停/恢复更新、物理模拟
+	/// </summary>
+	/// <param name="value"></param>
+	public void setPause(bool value){
+		if(_isPause==value)return;
+		_isPause=value;
+		//暂停或恢复3D物理模拟
+		Physics.autoSimulation=!_isPause;
+		//暂停或恢复2D物理模拟
+		Physics2D.autoSimulation=!_isPause;
+		//发出事件
+		onPauseOrResume?.Invoke(value);
 	}
 	
 	protected override void OnDestroy(){
@@ -87,7 +105,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 		get => _language;
 		set{
 			_language=value;
-			changeLanguageEvent?.Invoke(_language);
+			onChangeLanguage?.Invoke(_language);
 		}
 	}
 
@@ -101,6 +119,10 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// </summary>
 	public UpdateManager updateManager{ get => _updateManager; }
 
-	public SoundManager soundManager{ get => _soundManager; }
+	/// <summary>
+	/// 是否已暂停
+	/// </summary>
+	public bool isPause{ get => _isPause; }
+
 
 }

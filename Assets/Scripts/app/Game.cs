@@ -11,6 +11,6 @@ public class Game:BaseMonoBehaviour{
 
 	public void gotoTitle(){
 		App.instance.sceneLoader.load("Scenes/title");
-		App.instance.soundManager.play();
+		//App.instance.soundManager.play();
 	}
 }

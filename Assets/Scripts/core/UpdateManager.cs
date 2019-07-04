@@ -8,32 +8,46 @@ using UnityEngine;
 /// </summary>
 public sealed class UpdateManager:MonoBehaviour{
 	private List<IUpdate> _list=new List<IUpdate>();
+	private bool _isPause;
+
+	private void Start() {
+		App.instance.onPauseOrResume+=onPauseOrResume;
+	}
+
+	private void onPauseOrResume(bool isPause){
+		_isPause=isPause;
+	}
 
 	private void FixedUpdate(){
+		if(_isPause)return;
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].FixedUpdate();
 		}
 	}
 	private void Update(){
+		if(_isPause)return;
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].Update();
 		}
 	}
 	private void LateUpdate(){
+		if(_isPause)return;
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].LateUpdate();
 		}
 	}
 	private void OnGUI(){
+		if(_isPause)return;
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].OnGUI();
 		}
 	}
 	private void OnRenderObject(){
+		if(_isPause)return;
 		int i=_list.Count;
 		while(--i>=0){
 			_list[i].OnRenderObject();
@@ -51,5 +65,11 @@ public sealed class UpdateManager:MonoBehaviour{
 
 	public void clear(){
 		_list.Clear();
+	}
+
+	private void OnDestroy() {
+		if(App.instance){
+			App.instance.onPauseOrResume-=onPauseOrResume;
+		}
 	}
 }
