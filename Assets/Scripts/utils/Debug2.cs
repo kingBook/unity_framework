@@ -7,10 +7,14 @@ public static class Debug2 {
 	//如果传递给 Conditional 属性的任何定义均未被定义，则会被修饰的方法以及对被修饰方法的所有调用都会在编译中剔除
 	[Conditional("UNITY_EDITOR")]
 	public static void Log(params object[] args) {
-		string format="";
-		for(int i=0;i<args.Length;i++){
-			format+="{"+i+"}"+(i<args.Length-1?",":"");
+		int len=args.Length;
+		object obj;
+		string str="";
+		for(int i=0;i<len;i++){
+			obj=args[i];
+			str+=(obj==null)?"Null":obj.ToString();
+			if(i<len-1)str+=' ';
 		}
-		UnityEngine.Debug.LogFormat(format,args);
+		UnityEngine.Debug.Log(str);
 	}
 }
