@@ -1,12 +1,13 @@
 ﻿
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEngine;
 /// <summary>
 /// 整个应用程序的单例类
 /// <br>此类的以下方法：FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject，</br>
 /// <br>将使用以下代替：FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
 /// </summary>
-public class App:BaseApp<App>{
+public sealed class App:BaseApp<App>{
 	
 	private Game _game;
 

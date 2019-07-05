@@ -13,53 +13,15 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	private bool _isHasAddToUpdateManager=false;
 	
 	/// <summary>
-	/// 获取DontDestroyOnLoad的所有游戏对象
-	/// <br>注意：这个方法很低效</br>
-	/// </summary>
-	/// <returns></returns>
-	public static GameObject[] getDontDestroyOnLoadGameObjects(){
-		var allGameObjects=new List<GameObject>();
-		allGameObjects.AddRange(Object.FindObjectsOfType<GameObject>());
-		//移除所有场景包含的对象
-		for(var i=0;i<SceneManager.sceneCount;i++){
-			var scene=SceneManager.GetSceneAt(i);
-			var objs=scene.GetRootGameObjects();
-			for(var j=0;j<objs.Length;j++){
-				allGameObjects.Remove(objs[j]);
-			}
-		}
-		//移除父级不为null的对象
-		int k=allGameObjects.Count;
-		while(--k>=0){
-			if(allGameObjects[k].transform.parent!=null){
-				allGameObjects.RemoveAt(k);
-			}
-		}
-		return allGameObjects.ToArray();
-	}
-
-	/// <summary>
-	///  创建并绑定脚本到一个GameObject，并且执行onCreate(info)函数
+	/// 创建并绑定脚本到一个GameObject
 	/// </summary>
 	/// <typeparam name="T"></typeparam>
 	/// <param name="gameObject">绑定脚本的GameObject</param>
-	/// <param name="info">传递到onCreate方法的字典</param>
 	/// <returns></returns>
-	public static T create<T>(GameObject gameObject,Dictionary<string,object> info=null)where T:BaseMonoBehaviour{
-		if(info==null){
-			info=new Dictionary<string, object>();
-		}
-		
+	public static T create<T>(GameObject gameObject)where T:BaseMonoBehaviour{
 		T behaviour=(T)gameObject.AddComponent(typeof(T));
-		behaviour.onCreate(info);
 		return behaviour;
 	}
-
-	/// <summary>
-	/// 只有调用create函数创建时才运行
-	/// </summary>
-	/// <param name="info"></param>
-	virtual protected void onCreate(Dictionary<string,object> info){}
 
 	private void addToUpdateManager(){
 		if(_isHasAddToUpdateManager)return;

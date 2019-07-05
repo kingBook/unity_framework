@@ -1,16 +1,26 @@
 ﻿using System.Collections.Generic;
-using UnityEngine.SceneManagement;
 /// <summary>
-/// 游戏
+/// 游戏类
+/// <br>管理游戏全局变量、本地数据、场景切换。</br>
+/// <br>不访问关卡内的对象</br>
 /// </summary>
-public class Game:BaseMonoBehaviour{
-	protected override void onCreate(Dictionary<string,object> info) {
-		base.onCreate(info);
-		gotoTitle();
+public sealed class Game:BaseMonoBehaviour{
+	
+	protected override void Start() {
+		base.Start();
+		if(!App.instance.isDebug){
+			gotoTitleScene();
+		}
 	}
 
-	public void gotoTitle(){
+	public void gotoTitleScene(){
 		App.instance.sceneLoader.load("Scenes/title");
-		//App.instance.soundManager.play();
 	}
+
+	public void gotoLevelScene(){
+		//App.instance.sceneLoader.loadAsync("Scenes/level1");
+	}
+
+	
+
 }
