@@ -1,8 +1,15 @@
 ﻿
 using UnityEngine;
-
+/// <summary>
+/// 数学类
+/// </summary>
 public class Mathk{
-	/**将任意角度转换为[-180°,180°]，并返回转换后的角度*/
+	
+	/// <summary>
+	/// 将任意角度转换为[-180°,180°]，并返回转换后的角度
+	/// </summary>
+	/// <param name="rotation">需要转换的角度</param>
+	/// <returns></returns>
 	public static float getRotationTo180(float rotation){
 		rotation%=360.0f;
 		if     (rotation>180.0f)rotation-=360.0f;
@@ -10,7 +17,12 @@ public class Mathk{
 		return rotation;
 	}
 		
-	/**计算出任意两个角度的差(取到达目标角度的最近旋转方向),并返回这个差*/
+	/// <summary>
+	/// 计算出任意两个角度的差(取到达目标角度的最近旋转方向),并返回这个差
+	/// </summary>
+	/// <param name="rotation">当前角度</param>
+	/// <param name="targetRotation">目标角度</param>
+	/// <returns></returns>
 	public static float getFlashRotationOffset(float rotation,float targetRotation){
 		rotation=getRotationTo360(rotation);
 		targetRotation=getRotationTo360(targetRotation);
@@ -22,7 +34,11 @@ public class Mathk{
 		return offset;
 	}
 		
-	/**将任意角度转换为[0°,360°]的值,并返回转换后的值*/
+	/// <summary>
+	/// 将任意角度转换为[0°,360°]的值,并返回转换后的值
+	/// </summary>
+	/// <param name="rotation">需要转换的角度</param>
+	/// <returns></returns>
 	public static float getRotationTo360(float rotation){
 		rotation=getRotationTo180(rotation);
 		if(rotation<0) rotation+=360;
