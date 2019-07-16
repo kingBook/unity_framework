@@ -1,6 +1,6 @@
 ﻿using System.Diagnostics;
 /// <summary>
-/// 自定义的Log类，解决Debug.Log()不能多参数和在发布版本Log不剔除问题
+/// 自定义的Log类，解决Debug.Log()/Debug.LogFormat()多参数不方便和在发布版本Log不剔除问题
 /// <br>具体描述：https://docs.unity3d.com/Manual/BestPracticeUnderstandingPerformanceInUnity7.html (Debug code & the [conditional] attribute部分)</br>
 /// </summary>
 public static class Debug2 {
