@@ -391,9 +391,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 当 MonoBehaviour 将被销毁时调用此函数
 	/// </summary>
 	virtual protected void OnDestroy(){
-		if(App.instance){
-			App.instance.updateManager.remove(this);
-		}
+		App.instance.updateManager.remove(this);
 	}
 	#endregion
 

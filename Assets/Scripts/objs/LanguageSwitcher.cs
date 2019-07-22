@@ -49,11 +49,8 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 		activeWithLanguage(language);
 	}
 
-
 	protected override void OnDestroy(){
-		if(App.instance){
-			App.instance.onChangeLanguage-=onChangeLanguage;
-		}
+		App.instance.onChangeLanguage-=onChangeLanguage;
 		base.OnDestroy();
 	}
 }

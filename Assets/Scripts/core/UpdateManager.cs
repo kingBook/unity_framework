@@ -68,8 +68,6 @@ public sealed class UpdateManager:MonoBehaviour{
 	}
 
 	private void OnDestroy() {
-		if(App.instance){
-			App.instance.onPauseOrResume-=onPauseOrResume;
-		}
+		App.instance.onPauseOrResume-=onPauseOrResume;
 	}
 }
