@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections;
-using System.Collections.Generic;
 using System.Threading;
-using System.Threading.Tasks;
 using UnityEngine;
 
 public enum Language{AUTO,CN,EN}
@@ -57,15 +54,9 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 
 	protected override void Awake() {
 		base.Awake();
-		destroyInstance(false);
-		//再次加载场景时，如果已有实例则删除
-		if(_instance==null){
-			_instance=this as T;
-			if(_language==Language.AUTO){
-				initLanguage();
-			}
-		}else{
-			Destroy(gameObject);
+		_instance=this as T;
+		if(_language==Language.AUTO){
+			initLanguage();
 		}
 	}
 
@@ -94,53 +85,9 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	}
 	
 	protected override void OnDestroy(){
-		_updateManager.remove(this);
-		if(_instance!=null){
-			if(_instance.Equals(this)){
-				//_instance销毁前,为了避免调用instance出错，
-				//销毁所有绑定BaseMonoBehaviour实例的GameObject。
-				BaseMonoBehaviour[] baseMonos=Resources.FindObjectsOfTypeAll<BaseMonoBehaviour>();
-				int i=baseMonos.Length;
-				while(--i>=0){
-					BaseMonoBehaviour mono=baseMonos[i];
-					if(_instance.Equals(mono))continue;
-					//注意：调用Destroy()时并不会立即销毁，
-					//对象销毁操作始终延迟到当前Update循环结束、但始终在渲染前完成
-					Destroy(mono.gameObject);
-				}
-				//延时销毁_instance,避免调用instance出错。
-				_delayDestroyTokenSource=new CancellationTokenSource();
-				delayDestroyInstance(5000,_delayDestroyTokenSource);
-			}
-		}
-	}
-
-	/// <summary>
-	/// 延时销毁_instance,具体用法:https://www.cnblogs.com/kingBook/p/11225720.html
-	/// </summary>
-	/// <param name="ms">毫秒</param>
-	/// <param name="tokenSource">用于取消的CancellationTokenSource</param>
-	private async void delayDestroyInstance(int ms,CancellationTokenSource tokenSource){
-		try{
-            await Task.Delay(ms,tokenSource.Token);
-        }catch (Exception){
-        }
-		if(!tokenSource.IsCancellationRequested){
-			destroyInstance(true);
-		}
-	}
-	/// <summary>
-	/// 取消延时销毁_instance
-	/// </summary>
-	/// <param name="isLog">输出消息</param>
-	private void destroyInstance(bool isLog){
-		if(isLog)Debug2.Log("destroy BaseApp.instance.");
-		_instance=null;
-		if(_delayDestroyTokenSource!=null){
-			_delayDestroyTokenSource.Cancel();
-			_delayDestroyTokenSource.Dispose();
-			_delayDestroyTokenSource=null;
-		}
+		base.OnDestroy();
+		//不需要销毁_instance
+		//_instance=null;
 	}
 
 	public bool isDebug{ get => _isDebug; }

@@ -1,7 +1,4 @@
-﻿
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEngine;
+﻿using UnityEngine;
 /// <summary>
 /// 整个应用程序的单例类
 /// <br>此类的以下方法：FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject，</br>
@@ -17,7 +14,6 @@ public sealed class App:BaseApp<App>{
 		_game=create<Game>(new GameObject("Game"));
 		_game.transform.parent=transform;
 	}
-
 	public Game game{ get => _game; }
 }
 
