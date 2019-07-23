@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Threading;
 using UnityEngine;
 
 public enum Language{AUTO,CN,EN}
@@ -16,8 +15,6 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// 应用程序的单例实例
 	/// </summary>
 	public static T instance{ get => _instance; }
-	//用于取消delayDestroyInstance();函数
-	private static CancellationTokenSource _delayDestroyTokenSource;
 
 	[Tooltip("用于调试其它场景需要调用该脚本，" +
 	 "\n在Hierarchy中拖入该脚本所在的.unity文件时，" +
