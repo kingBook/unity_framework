@@ -18,10 +18,6 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	protected override void Awake() {
 		base.Awake();
-		CanvasGroup canvasGroup=GetComponent<CanvasGroup>();
-		canvasGroup.alpha=1.0f;
-
-		gameObject.SetActive(false);
 	}
 
 	protected override void OnEnable() {

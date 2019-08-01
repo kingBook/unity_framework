@@ -61,17 +61,17 @@ public class CameraHandle:BaseMonoBehaviour{
 			if(Input.GetMouseButton(0)){
 				float h=Input.GetAxis("Mouse X");
 				float v=Input.GetAxis("Mouse Y");
-				rotate(h,v);
+				rotate(h*10,v*10);
 			}
 			//非移动设备滚动鼠标中键缩放视野
 			float scroll=scrollWheelMultiple*Input.GetAxis("Mouse ScrollWheel");
-			zoomFieldOfView(scroll);
+			zoomFieldOfView(scroll*10);
 			//非移动设备按下鼠标右键平移
 			if(Input.GetMouseButton(1)){
 				float h=Input.GetAxis("Mouse X");
 				float v=Input.GetAxis("Mouse Y");
 				Vector2 translateVel=new Vector2(-h*0.1f,-v*0.1f);
-				translate(translateVel);
+				translate(translateVel*3);
 			}
 		}
 	}
