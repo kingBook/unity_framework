@@ -18,7 +18,7 @@ public sealed class Game:BaseMonoBehaviour{
 	}
 
 	public void gotoLevelScene(){
-		//App.instance.sceneLoader.loadAsync("Scenes/level1");
+		//App.instance.sceneLoader.loadAsync("Scenes/level");
 	}
 
 	
