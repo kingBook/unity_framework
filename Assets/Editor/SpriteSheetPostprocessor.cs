@@ -3,7 +3,15 @@ using System.Xml;
 using UnityEditor;
 using UnityEngine;
 
+/// <summary>
+/// 切片flash导入出来的位图表
+/// </summary>
 public class SpriteSheetPostprocessor:AssetPostprocessor{
+	
+	/// <summary>
+	/// 在导入完成后是否删除.xml文件 
+	/// </summary>
+	private bool _isOnCompleteDeleteXml=true;
 	
 	private void OnPreprocessAsset(){
 		
@@ -83,6 +91,10 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		importer.spriteImportMode=SpriteImportMode.Multiple;
 		importer.spritesheet=spritesheet;
 
+		//删除.xml
+		if(_isOnCompleteDeleteXml){
+			File.Delete(xmlPath);
+		}
 	}
 
 	private float getTextureHeightWithXmlNodes(XmlNodeList nodes){
@@ -116,12 +128,13 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 				break;
 			}
 		}
-		Debug2.Log("textureHeight:"+result,"maxX:"+maxX,"maxY:"+maxY);
+		//Debug2.Log("textureHeight:"+result,"maxX:"+maxX,"maxY:"+maxY);
 		return result;
 	}
 
 
 
+	
 	
 	
     /*private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths){
