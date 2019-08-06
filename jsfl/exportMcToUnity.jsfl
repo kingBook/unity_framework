@@ -40,23 +40,10 @@ funcs.exportMcToPng=function(){
 						//fl.trace("Folder already exists");
 					}
 					
-					var exporter=new SpriteSheetExporter();
-					exporter.addSymbol(selections[i].libraryItem,0);
-					exporter.canTrim=false;
-					exporter.algorithm="basic";//basic | maxRects
-					exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
-					/*exporter.autoSize=false;
-					exporter.sheetWidth=2048;
-					exporter.sheetHeight=2048;*/
-					var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
-					exporter.exportSpriteSheet(filePath,imageFormat,true);
-					fl.trace("export "+exportName+" sprite sheet complete");
-					//document.exportInstanceToPNGSequence(path+"unityB2Editor/Assets/levelsMaterials/"+exportName+".png",startFrame,endFrame);
-					//导出图片的大小将取能包含指定导出所有帧的最大宽高
-					//selections[i].libraryItem.exportToPNGSequence(path+"unityB2Editor/Assets/levelsMaterials/"+exportName+".png",startFrame,endFrame);
-					//fl.trace(selections[i].left+","+selections[i].top+","+selections[i].width+","+selections[i].height);
+					funcs.deleteOldFile(filePath);
 					
-					//document.save();
+					funcs.exportSpriteSheet(selections[i].libraryItem,filePath);
+					
 				}
 			}else{
 				fl.trace("error: the selected object is not symbol");
@@ -65,6 +52,38 @@ funcs.exportMcToPng=function(){
 	}else{
 		fl.trace("error: no object is selected");
 	}
+};
+
+funcs.deleteOldFile=function(filePath){
+	//如果存在png，则删除
+	const pngPath=filePath+".png";
+	if(FLfile.exists(pngPath))FLfile.remove(pngPath);
+	//如果存在.meta文件，则删除
+	const metaPath=filePath+".png.meta";
+	if(FLfile.exists(metaPath))FLfile.remove(metaPath);
+}
+
+funcs.exportSpriteSheet=function(libraryItem,filePath){
+	var exporter=new SpriteSheetExporter();
+	exporter.addSymbol(libraryItem,0);
+	exporter.canTrim=false;
+	exporter.algorithm="basic";//basic | maxRects
+	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
+	//exporter.borderPadding=5;
+	//exporter.shapePadding=5;
+	/*exporter.autoSize=false;
+	exporter.sheetWidth=2048;
+	exporter.sheetHeight=2048;*/
+	var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
+	exporter.exportSpriteSheet(filePath,imageFormat,true);
+	alert("export sprite sheet complete");
+	
+	//document.exportInstanceToPNGSequence(path+"unityB2Editor/Assets/levelsMaterials/"+exportName+".png",startFrame,endFrame);
+	//导出图片的大小将取能包含指定导出所有帧的最大宽高
+	//selections[i].libraryItem.exportToPNGSequence(path+"unityB2Editor/Assets/levelsMaterials/"+exportName+".png",startFrame,endFrame);
+	//fl.trace(selections[i].left+","+selections[i].top+","+selections[i].width+","+selections[i].height);
+	
+	//document.save();
 }
 //--------------------------------------------------------------------------------------------
 funcs.exportMcToPng();

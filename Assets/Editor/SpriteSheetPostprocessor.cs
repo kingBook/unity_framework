@@ -8,16 +8,18 @@ using UnityEngine;
 /// </summary>
 public class SpriteSheetPostprocessor:AssetPostprocessor{
 	
-	/// <summary>
-	/// 在导入完成后是否删除.xml文件 
-	/// </summary>
-	private bool _isOnCompleteDeleteXml=true;
+	//是否删除xml,(注意：只能用于测试,不删除时需要重新导入对应的png才能使切片数据正确导入)
+	private bool _isDeleteXML=true;
 	
 	private void OnPreprocessAsset(){
 		
 	}
 
 	private void OnPreprocessTexture(){
+		
+    }
+
+	private void OnPostprocessTexture(Texture2D texture){
 		string dataPath=Application.dataPath;
 		dataPath=dataPath.Substring(0,dataPath.LastIndexOf("/")+1);
 
@@ -26,31 +28,25 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		xmlPath=dataPath+xmlPath;
 
 		if(File.Exists(xmlPath)){
-			
-			OnSpriteSheetProcess(xmlPath);
-			/*var texture=AssetDatabase.LoadAssetAtPath<Texture2D>(assetPath);
-			if(texture){
-				Debug.Log("texture.height:"+texture.height);
-				OnSpriteSheetProcess(texture.height,xmlPath);
-			}else{
-				Debug.Log("null");
-				AssetDatabase.ImportAsset(assetPath);
-			}*/
-
+			OnSpriteSheetProcess(texture,xmlPath);
+			if(_isDeleteXML){
+				//删除.xml，一定要删除，否则下面重新导入会造成反复操作卡
+				File.Delete(xmlPath);
+				string pngPath=assetPath.Substring(0,dotIndex)+".png";
+				//重新导入，更新切片数据（注意：请将.xml文件删除再重新导入，
+				//否则会反复执行此项操作造成unity卡死）
+				AssetDatabase.ImportAsset(pngPath);
+			}
 		}
-    }
-
-	private void OnPostprocessTexture(Texture2D texture){
-		
 	}
 
-	private void OnSpriteSheetProcess(string xmlPath){
+	private void OnSpriteSheetProcess(Texture2D texture,string xmlPath){
 		var doc=new XmlDocument();
 		doc.Load(xmlPath);
 
 		var nodes=doc.DocumentElement.SelectNodes("SubTexture");
 		var spritesheet=new SpriteMetaData[nodes.Count];
-		float textureHeight=getTextureHeightWithXmlNodes(nodes);
+		float textureHeight=texture.height;
 
 		Vector2 pivot=new Vector2();
 		for(int i=0;i<nodes.Count;i++){
@@ -68,13 +64,19 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 			string frameXStr=ele.GetAttribute("frameX");
 			if(string.IsNullOrEmpty(frameXStr))frameXStr="0";
 			float frameX=float.Parse(frameXStr);
-
 			string frameYStr=ele.GetAttribute("frameY");
 			if(string.IsNullOrEmpty(frameYStr))frameYStr="0";
 			float frameY=float.Parse(frameYStr);
 
-			//float frameWidth=float.Parse(ele.GetAttribute("frameWidth"));
-			//float frameHeight=float.Parse(ele.GetAttribute("frameHeight"));
+			/*string frameWidthStr=ele.GetAttribute("frameWidth");
+			if(string.IsNullOrEmpty(frameWidthStr))frameWidthStr="0";
+			float frameWidth=float.Parse(frameWidthStr);
+			string frameHeightStr=ele.GetAttribute("frameHeight");
+			if(string.IsNullOrEmpty(frameHeightStr))frameHeightStr="0";
+			float frameHeight=float.Parse(frameHeightStr);
+
+			if(frameWidth>0)width=frameWidth;
+			if(frameHeight>0)height=frameHeight;*/
 
 			float poX=(pivot.x+frameX)/width;
 			float poY=(height-pivot.y-frameY)/height;
@@ -90,53 +92,8 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		var importer=assetImporter as TextureImporter;
 		importer.spriteImportMode=SpriteImportMode.Multiple;
 		importer.spritesheet=spritesheet;
-
-		//删除.xml
-		if(_isOnCompleteDeleteXml){
-			File.Delete(xmlPath);
-		}
 	}
 
-	private float getTextureHeightWithXmlNodes(XmlNodeList nodes){
-		float result=0;
-		float maxX=0;
-		float maxY=0;
-		for(int i=0;i<nodes.Count;i++){
-			XmlElement ele=nodes[i] as XmlElement;
-			float x=float.Parse(ele.GetAttribute("x"));
-			float y=float.Parse(ele.GetAttribute("y"));
-			float width=float.Parse(ele.GetAttribute("width"));
-			float height=float.Parse(ele.GetAttribute("height"));
-			float x1=x+width;
-			float y1=y+height;
-			if(x1>maxX)maxX=x1;
-			if(y1>maxY)maxY=y1;
-		}
-		float max=Mathf.Max(maxX,maxY);
-		//flash sprite sheet中，
-		//以竖向排列优先[占位高度大于某个(2的次方值)则马上放大图表高度缩小宽度进行排列）,
-		//所以如果占位宽大于占位高图表的高度一定是大于占位宽的(2的次方值)]
-		int pow=5;//5~13
-		while(true){
-			float val=1<<pow;
-			pow++;
-			if(val>max){
-				result=val;
-				break;
-			}else if(pow>=13){
-				result=val;
-				break;
-			}
-		}
-		//Debug2.Log("textureHeight:"+result,"maxX:"+maxX,"maxY:"+maxY);
-		return result;
-	}
-
-
-
-	
-	
-	
     /*private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths){
         foreach (string str in importedAssets){
 			if(str.EndsWith(".png")||str.EndsWith(".PNG")){
