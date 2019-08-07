@@ -69,16 +69,23 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// <summary>
 	/// 设置暂停/恢复更新、物理模拟
 	/// </summary>
-	/// <param name="value"></param>
-	public void setPause(bool value){
-		if(_isPause==value)return;
-		_isPause=value;
-		//暂停或恢复3D物理模拟
-		Physics.autoSimulation=!_isPause;
-		//暂停或恢复2D物理模拟
-		Physics2D.autoSimulation=!_isPause;
+	/// <param name="isPause">是否暂停</param>
+	/// <param name="isSetPhysics">是否设置物理引擎</param>
+	/// <param name="isSetVolume">是否设置音量</param>
+	public void setPause(bool isPause,bool isSetPhysics=true, bool isSetVolume=true){
+		if(_isPause==isPause)return;
+		_isPause=isPause;
+		if(isSetPhysics){
+			//暂停或恢复3D物理模拟
+			Physics.autoSimulation=!_isPause;
+			//暂停或恢复2D物理模拟
+			Physics2D.autoSimulation=!_isPause;
+		}
+		if(isSetVolume){
+			AudioListener.pause=_isPause;
+		}
 		//发出事件
-		onPauseOrResume?.Invoke(value);
+		onPauseOrResume?.Invoke(isPause);
 	}
 	
 	protected override void OnDestroy(){

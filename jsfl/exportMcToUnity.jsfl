@@ -1,15 +1,15 @@
 ﻿var document=fl.getDocumentDOM();
 var selections=document.selection;
 //.fla所在的目录路径
-/*var pathURI=document.pathURI;
-var path=pathURI.substring(0,pathURI.lastIndexOf("\/")+1);*/
+/*const pathURI=document.pathURI;
+const path=pathURI.substring(0,pathURI.lastIndexOf("\/")+1);*/
 
 //.jsfl所在的目录路径
 var scriptURI=fl.scriptURI;
 //取unity项目目录
-var path=scriptURI.substring(0,scriptURI.lastIndexOf("/jsfl")+1);
+var exportFolderPath=scriptURI.substring(0,scriptURI.lastIndexOf("/jsfl")+1);
 //导出到unity项目目录的路径
-path+="Assets/Sprites/";
+exportFolderPath+="Assets/Sprites";
 
 var timeline=document.getTimeline();
 var timelineCurrentFrame=timeline.currentFrame;//0开始
@@ -20,21 +20,18 @@ funcs.exportMcToPng=function(){
 	if(selections&&selections.length>0){
 		//将同名的多个选择项存入数组
 		for(var i=0;i<selections.length;i++){
-			if(selections[i].elementType=="instance"){
-				//fl.trace(selections[i].instanceType);
-				if(selections[i].instanceType=="symbol"){
-					const linkageClassName=selections[i].libraryItem.linkageClassName;
-					const itemName=selections[i].libraryItem.name;
-					
+			var element=selections[i];
+			//fl.trace(element.elementType);
+			if(element.elementType=="instance"){
+				if(element.instanceType=="symbol"){
+					const linkageClassName=element.libraryItem.linkageClassName;
+					const itemName=element.libraryItem.name;
 					itemName=itemName.substr(itemName.lastIndexOf("\/")+1);
-					//const instanceName=selections[i].name;
-					
+					//const instanceName=element.name;
 					const exportName=linkageClassName?linkageClassName:itemName;
+					const filePath=exportFolderPath+"/"+exportName;
 					
-					const filePath=path+exportName;
-					const folderPath=filePath.substring(0,filePath.lastIndexOf("/"));
-					
-					if(FLfile.createFolder(folderPath)){
+					if(FLfile.createFolder(exportFolderPath)){
 						//fl.trace("Folder has been created");
 					}else{
 						//fl.trace("Folder already exists");
@@ -42,8 +39,15 @@ funcs.exportMcToPng=function(){
 					
 					funcs.deleteOldFile(filePath);
 					
-					funcs.exportSpriteSheet(selections[i].libraryItem,filePath);
-					
+					const totalFrames=element.libraryItem.timeline.frameCount;
+					if(totalFrames<=1){
+						//只有一帧时，直接导出位图
+						document.exportInstanceToPNGSequence(filePath+".png");
+					}else{
+						//多帧时生成位图表
+						funcs.exportSpriteSheet(element.libraryItem,filePath);
+					}
+					alert("export complete");
 				}
 			}else{
 				fl.trace("error: the selected object is not symbol");
@@ -76,7 +80,6 @@ funcs.exportSpriteSheet=function(libraryItem,filePath){
 	exporter.sheetHeight=2048;*/
 	var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
 	exporter.exportSpriteSheet(filePath,imageFormat,true);
-	alert("export sprite sheet complete");
 	
 	//document.exportInstanceToPNGSequence(path+"unityB2Editor/Assets/levelsMaterials/"+exportName+".png",startFrame,endFrame);
 	//导出图片的大小将取能包含指定导出所有帧的最大宽高
@@ -87,12 +90,3 @@ funcs.exportSpriteSheet=function(libraryItem,filePath){
 }
 //--------------------------------------------------------------------------------------------
 funcs.exportMcToPng();
-
-
-
-
-
-
-
-
-
