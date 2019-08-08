@@ -9,7 +9,7 @@ var scriptURI=fl.scriptURI;
 //取unity项目目录
 var exportFolderPath=scriptURI.substring(0,scriptURI.lastIndexOf("/jsfl")+1);
 //导出到unity项目目录的路径
-exportFolderPath+="Assets/Sprites";
+exportFolderPath+="Assets/Textures";
 
 var timeline=document.getTimeline();
 var timelineCurrentFrame=timeline.currentFrame;//0开始

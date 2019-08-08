@@ -1,8 +1,10 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+/// <summary>
+/// 方向手柄(拖动中心的滑块控制方向)
+/// <br>通过angleNormal属性,获取方向角度力，x、y值范围[-1,1]</br>
+/// </summary>
 public class DirctionDragHandle:ScrollRect{
 	private readonly float idleAlpha=0.5f;
 	private readonly float activeAlpha=1.0f;

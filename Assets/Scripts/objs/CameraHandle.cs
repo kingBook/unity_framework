@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using System.Collections;
+using UnityEngine.EventSystems;
 
 /// <summary>
-/// 单点触摸控制相机的旋转，两点触摸缩放和平移相机视野。
+/// 移动平台:单点触摸控制相机的旋转，两点触摸缩放和平移相机视野。
+/// <br>PC平台：鼠标左键控制相机的旋转，中键缩放相机视野，右键平移相机视野</br>
 /// </summary>
 public class CameraHandle:BaseMonoBehaviour{
 	[Tooltip("缩放和旋转围绕的中心")]
@@ -23,6 +24,17 @@ public class CameraHandle:BaseMonoBehaviour{
 	private Camera _camera;
 	private float _oldDistance;
 
+	/// <summary>
+	/// 触摸点0/鼠标左键，在触摸/按下开始时是否接触UI
+	/// </summary>
+	private bool _isPointerOverUIOnBegan0;
+	/// <summary>
+	/// 触摸点1/鼠标右键，在触摸/按下开始时是否接触UI
+	/// </summary>
+	private bool _isPointerOverUIOnBegan1;
+
+
+
 	protected override void Awake() {
 		base.Awake();
 		_camera=GetComponent<Camera>();
@@ -38,36 +50,80 @@ public class CameraHandle:BaseMonoBehaviour{
 		
 		if(Input.touchSupported){
 			if(Input.touchCount==1){
-				//单点触摸上下左右旋转
-				Touch touch=Input.GetTouch(0);
-				rotate(touch.deltaPosition.x*0.5f,touch.deltaPosition.y*0.1f);
+				touchOneHandler();
 			}else if(Input.touchCount==2){
-				//两点触摸缩放视野
-				Touch touch1=Input.GetTouch(0);
-				Touch touch2=Input.GetTouch(1);
-				float distance=Vector2.Distance(touch1.position,touch2.position);
-				if(touch2.phase==TouchPhase.Began){
-					_oldDistance=distance;
-				}
-				float offset=(distance-_oldDistance)*fieldOfViewMultiple;
-				zoomFieldOfView(-offset);
-				_oldDistance=distance;
-				//两点触摸平移
-				Vector2 translateVel=(touch1.deltaPosition+touch2.deltaPosition)*0.5f*-0.01f;
-				translate(translateVel);
+				touchTwoHandler();
 			}
 		}else{
-			//非移动设备按下鼠标左键旋转
-			if(Input.GetMouseButton(0)){
+			mouseHandler();
+		}
+	}
+
+	private void touchOneHandler(){
+		Touch touch0=Input.GetTouch(0);
+		//接触开始时，触摸点0是否接触UI
+		if(touch0.phase==TouchPhase.Began){
+			_isPointerOverUIOnBegan0=EventSystem.current.IsPointerOverGameObject(touch0.fingerId);
+		}
+		//触摸点0在触摸开始时没有接触UI
+		if(!_isPointerOverUIOnBegan0){
+			//单点触摸上下左右旋转
+			rotate(touch0.deltaPosition.x*0.5f,touch0.deltaPosition.y*0.1f);
+		}
+	}
+
+	private void touchTwoHandler(){
+		Touch touch0=Input.GetTouch(0);
+		Touch touch1=Input.GetTouch(1);
+		//接触开始时，触摸点0是否接触UI
+		if(touch0.phase==TouchPhase.Began){
+			_isPointerOverUIOnBegan0=EventSystem.current.IsPointerOverGameObject(touch0.fingerId);
+		}
+		//接触开始时，触摸点1是否接触UI
+		if(touch1.phase==TouchPhase.Began){
+			_isPointerOverUIOnBegan1=EventSystem.current.IsPointerOverGameObject(touch1.fingerId);
+		}
+		//两个触摸点在触摸开始时都没有接触UI
+		if(!_isPointerOverUIOnBegan0&&!_isPointerOverUIOnBegan1){
+			//两点触摸缩放视野
+			float distance=Vector2.Distance(touch0.position,touch1.position);
+			if(touch1.phase==TouchPhase.Began){
+				_oldDistance=distance;
+			}
+			float offset=(distance-_oldDistance)*fieldOfViewMultiple;
+			zoomFieldOfView(-offset);
+			_oldDistance=distance;
+			//两点触摸平移
+			Vector2 translateVel=(touch0.deltaPosition+touch1.deltaPosition)*0.5f*-0.01f;
+			translate(translateVel);
+		}
+	}
+
+	private void mouseHandler(){
+		//按下鼠标左键时，鼠标是否接触UI
+		if(Input.GetMouseButtonDown(0)){
+			_isPointerOverUIOnBegan0=EventSystem.current.IsPointerOverGameObject();
+		}
+		//按下鼠标右键时，鼠标是否接触UI
+		if(Input.GetMouseButtonDown(1)){
+			_isPointerOverUIOnBegan1=EventSystem.current.IsPointerOverGameObject();
+		}
+		//非移动设备按下鼠标左键旋转
+		if(Input.GetMouseButton(0)){
+			//鼠标按下左键时没有接触UI
+			if(!_isPointerOverUIOnBegan0){
 				float h=Input.GetAxis("Mouse X");
 				float v=Input.GetAxis("Mouse Y");
 				rotate(h*10,v*10);
 			}
-			//非移动设备滚动鼠标中键缩放视野
-			float scroll=scrollWheelMultiple*Input.GetAxis("Mouse ScrollWheel");
-			zoomFieldOfView(scroll*10);
-			//非移动设备按下鼠标右键平移
-			if(Input.GetMouseButton(1)){
+		}
+		//非移动设备滚动鼠标中键缩放视野
+		float scroll=scrollWheelMultiple*Input.GetAxis("Mouse ScrollWheel");
+		zoomFieldOfView(scroll*10);
+		//非移动设备按下鼠标右键平移
+		if(Input.GetMouseButton(1)){
+			//鼠标按下右键没有接触UI
+			if(!_isPointerOverUIOnBegan1){
 				float h=Input.GetAxis("Mouse X");
 				float v=Input.GetAxis("Mouse Y");
 				Vector2 translateVel=new Vector2(-h*0.1f,-v*0.1f);
@@ -116,4 +172,5 @@ public class CameraHandle:BaseMonoBehaviour{
 	private void translate(Vector3 velocity){
 		_camera.transform.Translate(velocity);
 	}
+
 }
