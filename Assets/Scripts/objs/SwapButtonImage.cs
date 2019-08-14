@@ -7,30 +7,39 @@ using UnityEngine.UI;
 public class SwapButtonImage:BaseMonoBehaviour{
 	[Tooltip("来回切换的两张图片")]
 	public Sprite[] sprites;
+	[Tooltip("切换的图片(未指定时自动从当前对象组件列表中获取)")]
+	public Image image=null;
+	[Tooltip("是否侦听点击按钮事件自动切换")]
+	public bool isSwapOnClick=true;
 	private Button _button;
-	private Image _image;
 	protected override void Awake() {
 		base.Awake();
+		
 		_button=GetComponent<Button>();
-		_button.onClick.AddListener(onClick);
-
-		_image=GetComponent<Image>();
+		if(isSwapOnClick){
+			_button.onClick.AddListener(onClick);
+		}
+		if(image==null){
+			image=GetComponent<Image>();
+		}
 	}
 
 	private void onClick(){
-		if(_image.sprite==sprites[0]){
-			_image.sprite=sprites[1];
+		if(image.sprite==sprites[0]){
+			swapTo(1);
 		}else{
-			_image.sprite=sprites[0];
+			swapTo(0);
 		}
 	}
 
 	public void	swapTo(int spriteId){
-		_image.sprite=sprites[spriteId];
+		image.sprite=sprites[spriteId];
 	}
 
 	protected override void OnDestroy() {
-		_button.onClick.RemoveListener(onClick);
+		if(isSwapOnClick){
+			_button.onClick.RemoveListener(onClick);
+		}
 		base.OnDestroy();
 	}
 }
