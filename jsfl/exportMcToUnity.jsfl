@@ -18,6 +18,7 @@ var timelineCurrentFrame=timeline.currentFrame;//0开始
 var funcs={};
 funcs.exportMcToPng=function(){
 	if(selections&&selections.length>0){
+		var isHasExport=false;
 		//将同名的多个选择项存入数组
 		for(var i=0;i<selections.length;i++){
 			var element=selections[i];
@@ -41,20 +42,28 @@ funcs.exportMcToPng=function(){
 					
 					const totalFrames=element.libraryItem.timeline.frameCount;
 					if(totalFrames<=1){
+						//document.exportInstanceToPNGSequence只能选中一个
+						document.selectNone();
+						element.selected=true;
 						//只有一帧时，直接导出位图
 						document.exportInstanceToPNGSequence(filePath+".png");
+						//还原选择项
+						document.selection=selections;
 					}else{
 						//多帧时生成位图表
 						funcs.exportSpriteSheet(element.libraryItem,filePath);
 					}
-					alert("export complete");
+					isHasExport=true;
 				}
 			}else{
-				fl.trace("error: the selected object is not symbol");
+				alert("error: the selected object is not symbol");
 			}
 		}
+		if(isHasExport){
+			alert("export complete");
+		}
 	}else{
-		fl.trace("error: no object is selected");
+		alert("error: no object is selected");
 	}
 };
 
