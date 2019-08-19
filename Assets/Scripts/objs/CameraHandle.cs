@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
 /// <summary>
@@ -20,6 +21,11 @@ public class CameraHandle:BaseMonoBehaviour{
 	public float fieldOfViewMax=100;
 	[Tooltip("移动平台视野缩放的倍数")]
 	public float fieldOfViewMultiple=0.1f;
+
+	/// <summary>
+	/// 旋转前，void(float h,float v)。
+	/// </summary>
+	public event Action<float,float> onPreRotateEvent;
 
 	private Camera _camera;
 	private float _oldDistance;
@@ -67,8 +73,11 @@ public class CameraHandle:BaseMonoBehaviour{
 		}
 		//触摸点0在触摸开始时没有接触UI
 		if(!_isPointerOverUIOnBegan0){
+			float h=touch0.deltaPosition.x*0.5f;
+			float v=touch0.deltaPosition.y*0.1f;
+			onPreRotateEvent?.Invoke(h,v);
 			//单点触摸上下左右旋转
-			rotate(touch0.deltaPosition.x*0.5f,touch0.deltaPosition.y*0.1f);
+			rotate(h,v);
 		}
 	}
 
@@ -112,9 +121,13 @@ public class CameraHandle:BaseMonoBehaviour{
 		if(Input.GetMouseButton(0)){
 			//鼠标按下左键时没有接触UI
 			if(!_isPointerOverUIOnBegan0){
+				
 				float h=Input.GetAxis("Mouse X");
 				float v=Input.GetAxis("Mouse Y");
-				rotate(h*10,v*10);
+				h*=10;
+				v*=10;
+				onPreRotateEvent?.Invoke(h,v);
+				rotate(h,v);
 			}
 		}
 		//非移动设备滚动鼠标中键缩放视野

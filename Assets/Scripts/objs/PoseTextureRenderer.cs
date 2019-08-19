@@ -18,9 +18,18 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
 	/// </summary>
 	[Tooltip("用于渲染目标的纹理")]
 	public RenderTexture targetTexture;
+	[Tooltip("在Start函数是否设置相机看向目标")]
+	public bool isLookToTargetOnStart=false;
+
 	private bool _targetCameraActiveRecord;
 	private bool _targetRendererActiveRecord;
 
+	protected override void Start() {
+		base.Start();
+		if(isLookToTargetOnStart){
+			setCameraLookToTarget();
+		}
+	}
 
 	/// <summary>
 	/// 将对目标拍照渲染
@@ -43,7 +52,10 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
 		targetRenderer.gameObject.SetActive(_targetRendererActiveRecord);
     }
     
-    private void setCameraLookToTarget(){
+	/// <summary>
+	/// 设置相机的参数看向目标包围盒
+	/// </summary>
+    public void setCameraLookToTarget(){
         //相机旋转朝向目标对象
         Bounds bounds=targetRenderer.bounds;
 		Vector3 boundsCenter=bounds.center;
