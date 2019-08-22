@@ -11,7 +11,8 @@ public sealed class App:BaseApp<App>{
 	
 	protected override void Awake(){
 		base.Awake();
-		_game=create<Game>(new GameObject("Game"));
+		var gameObject=new GameObject("Game");
+		_game=gameObject.AddComponent<Game>();
 		_game.transform.parent=transform;
 	}
 	public Game game{ get => _game; }

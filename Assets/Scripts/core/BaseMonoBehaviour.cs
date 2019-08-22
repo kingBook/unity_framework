@@ -11,17 +11,6 @@ using UnityEngine.SceneManagement;
 public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	
 	private bool _isHasAddToUpdateManager=false;
-	
-	/// <summary>
-	/// 创建并绑定脚本到一个GameObject
-	/// </summary>
-	/// <typeparam name="T"></typeparam>
-	/// <param name="gameObject">绑定脚本的GameObject</param>
-	/// <returns></returns>
-	public static T create<T>(GameObject gameObject)where T:BaseMonoBehaviour{
-		T behaviour=(T)gameObject.AddComponent(typeof(T));
-		return behaviour;
-	}
 
 	private void addToUpdateManager(){
 		if(_isHasAddToUpdateManager)return;
