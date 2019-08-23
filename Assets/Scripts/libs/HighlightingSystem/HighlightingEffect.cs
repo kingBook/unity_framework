@@ -319,7 +319,7 @@ public class HighlightingEffect : MonoBehaviour
 		#if UNITY_4_0
 		if (this.enabled == false || go.activeInHierarchy == false)
 		#else
-		if (this.enabled == false || go.active == false)
+		if (this.enabled == false || go.activeSelf == false)
 		#endif
 			return;
 		
