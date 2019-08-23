@@ -18,12 +18,12 @@ public class Mathk{
 	}
 		
 	/// <summary>
-	/// 计算出任意两个角度的差(取到达目标角度的最近旋转方向),并返回这个差
+	/// 计算出目标角减当前角的差（取到达目标角度的最近旋转方向）,并返回这个差
 	/// </summary>
 	/// <param name="rotation">当前角度</param>
 	/// <param name="targetRotation">目标角度</param>
 	/// <returns></returns>
-	public static float getFlashRotationOffset(float rotation,float targetRotation){
+	public static float getRotationDifference(float rotation,float targetRotation){
 		rotation=getRotationTo360(rotation);
 		targetRotation=getRotationTo360(targetRotation);
 		float offset=targetRotation-rotation;
