@@ -17,4 +17,29 @@ public static class Debug2 {
 		}
 		UnityEngine.Debug.Log(str);
 	}
+
+	/// <summary>
+	/// 打印一个数组的所有元素，如：
+	/// <br>int[] list=new int[]{1,2,3};</br>
+	/// <br>Debug2.LogArray(list);</br>
+	/// <br>输出：1, 2, 3</br>
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="list">打印的数组</param>
+	/// <param name="pre">前缀字符</param>
+	/// <param name="end">后缀字符</param>
+	public static void LogArray<T>(T[] list,object pre=null,object end=null){
+		int len=list.Length;
+		object obj;
+		string str="";
+		for(int i=0;i<len;i++){
+			obj=list[i];
+			str+=(obj==null)?"Null":obj.ToString();
+			if(i<len-1)str+=", ";
+		}
+		string preStr=pre==null?"":pre.ToString();
+		string endStr=end==null?"":end.ToString();
+		str=preStr+" "+str+" "+endStr;
+		UnityEngine.Debug.Log(str);
+	}
 }
