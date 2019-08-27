@@ -36,4 +36,41 @@ public class MeshUtil{
 		}
 		return -1;
 	}
+
+	/// <summary>
+	/// 返回子网格的本地坐标包围盒
+	/// </summary>
+	/// <param name="mesh">网格</param>
+	/// <param name="subMeshIndex">子网格索引号</param>
+	/// <returns></returns>
+	public static Bounds getSubMeshLocalBounds(Mesh mesh,int subMeshIndex){
+		Vector3[] vertices=mesh.vertices;
+
+		int[] indices=mesh.GetIndices(subMeshIndex);
+		uint indexCount=mesh.GetIndexCount(subMeshIndex);
+
+		Vector3[] subMeshVertices=new Vector3[indexCount];
+		for(int i=0;i<indexCount;i++){
+			subMeshVertices[i]=vertices[indices[i]];
+		}
+
+		Mesh tempMesh=new Mesh();
+		tempMesh.vertices=subMeshVertices;
+		tempMesh.RecalculateBounds();
+
+		return tempMesh.bounds;
+	}
+
+	/// <summary>
+	/// 返回子网格的世界坐标包围盒
+	/// </summary>
+	/// <param name="mesh">网格</param>
+	/// <param name="subMeshIndex">子网格索引号</param>
+	/// <param name="meshTransform">网格所在游戏对象的Transform组件</param>
+	/// <returns></returns>
+	public static Bounds getSubMeshWorldBounds(Mesh mesh,int subMeshIndex,Transform meshTransform){
+		Bounds bounds=getSubMeshLocalBounds(mesh,subMeshIndex);
+		bounds.center=meshTransform.TransformPoint(bounds.center);
+		return bounds;
+	}
 }

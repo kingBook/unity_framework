@@ -22,5 +22,23 @@ public class PhysicsUtil{
 		}
 		return result;
 	}
+
+	/// <summary>
+	/// 返回射线投射到一个世界坐标包围盒的碰撞信息。
+	/// <br>RaycastHit.collider!=null表示射线与包围盒发生碰撞。</br>
+	/// </summary>
+	/// <param name="ray">射线</param>
+	/// <param name="worldBounds">世界坐标包围盒</param>
+	/// <returns></returns>
+	public static RaycastHit getRaycastBounds(Ray ray,Bounds worldBounds){
+		var gameObject=new GameObject();
+		gameObject.transform.position=worldBounds.center;
+		var boxCollider=gameObject.AddComponent<BoxCollider>();
+		boxCollider.size=worldBounds.size;
+		RaycastHit hitInfo;
+		boxCollider.Raycast(ray,out hitInfo,Mathf.Infinity);
+		Object.Destroy(gameObject);
+		return hitInfo;
+	}
 	
 }
