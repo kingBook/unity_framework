@@ -40,5 +40,32 @@ public class PhysicsUtil{
 		Object.Destroy(gameObject);
 		return hitInfo;
 	}
+
+	/// <summary>
+	/// 返回包围盒与碰撞器是否相交
+	/// </summary>
+	/// <param name="bounds">包围盒</param>
+	/// <param name="collider">碰撞器</param>
+	/// <returns></returns>
+	public static bool getBoundsIntersectsCollider<T>(Bounds bounds,T collider)where T:Collider{
+		return bounds.Intersects(collider.bounds);
+	}
+
+	/// <summary>
+	/// 返回包围盒与碰撞器列表是否有相交
+	/// </summary>
+	/// <typeparam name="T"></typeparam>
+	/// <param name="bounds">包围盒</param>
+	/// <param name="colliders">碰撞器列表</param>
+	/// <returns></returns>
+	public static bool getBoundsIntersectsColliders<T>(Bounds bounds,T[] colliders)where T:Collider{
+		int len=colliders.Length;
+		for(int i=0;i<len;i++){
+			if(getBoundsIntersectsCollider(bounds,colliders[i])){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 }
