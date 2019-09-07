@@ -7,12 +7,13 @@ using UnityEngine.Events;
 /// 场景加载器
 /// </summary>
 public sealed class SceneLoader:BaseMonoBehaviour{
-	[Tooltip("进度条滑块")]
-	public Image imageMid;
-	[Tooltip("百分比文本框")]
-	public Text txt;
+	
 	[Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)激活场景")]
 	public bool isSetActiveScene=true;
+
+	[Tooltip("进度条")]
+	[SerializeField]
+	private Progressbar _progressbar;
 
 	private AsyncOperation _asyncOperation;
 
@@ -41,7 +42,8 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 		SceneManager.LoadScene(sceneName,mode);
 		//为了能够侦听场景加载完成时设置为激活场景,所以激活
 		gameObject.SetActive(true);
-		imageMid.fillAmount=1;
+		_progressbar.gameObject.SetActive(true);
+		_progressbar.setProgress(1.0f);
 	}
 
 	/// <summary>
@@ -58,7 +60,8 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 	/// <param name="mode">加载模式,默认为：LoadSceneMode.Additive</param>
 	public void loadAsync(string sceneName,LoadSceneMode mode){
 		gameObject.SetActive(true);
-		imageMid.fillAmount=0;
+		_progressbar.gameObject.SetActive(true);
+		_progressbar.setProgress(0.0f);
 		StartCoroutine(loadSceneAsync(sceneName,mode));
 	}
 
@@ -70,11 +73,11 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 			float progress=_asyncOperation.progress;
 			if(progress>=0.9f){
 				_asyncOperation.allowSceneActivation=true;
-				imageMid.fillAmount=1.0f;
-				txt.text="loading 100%...";
+				_progressbar.setProgress(1.0f);
+				_progressbar.setText("loading 100%...");
 			}else{
-				imageMid.fillAmount=progress;
-				txt.text="loading "+Mathf.FloorToInt(progress*100)+"%...";
+				_progressbar.setProgress(progress);
+				_progressbar.setText("loading "+Mathf.FloorToInt(progress*100)+"%...");
 			}
 			yield return null;
 		}
@@ -82,6 +85,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	private void onAsyncComplete(AsyncOperation asyncOperation){
 		gameObject.SetActive(false);
+		_progressbar.gameObject.SetActive(false);
 		_asyncOperation.completed-=onAsyncComplete;
 		_asyncOperation=null;
 	}
@@ -91,6 +95,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 			SceneManager.SetActiveScene(scene);
 		}
 		gameObject.SetActive(false);
+		_progressbar.gameObject.SetActive(false);
 	}
 
 	protected override void OnDisable() {

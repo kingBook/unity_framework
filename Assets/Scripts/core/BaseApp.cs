@@ -35,6 +35,10 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField,SetProperty("language")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	protected Language _language=Language.AUTO;
 
+	[Tooltip("进度条")]
+	[SerializeField]
+	private Progressbar _progressbar;
+
 	[Tooltip("场景加载器")]
 	[SerializeField]
 	private SceneLoader _sceneLoader=null;
@@ -111,6 +115,11 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// 场景加载器(有进度条)
 	/// </summary>
 	public SceneLoader sceneLoader{ get => _sceneLoader; }
+
+	/// <summary>
+	/// 进度条Canvas
+	/// </summary>
+	public Progressbar progressbar{ get => _progressbar; }
 
 	/// <summary>
 	/// 更新管理器

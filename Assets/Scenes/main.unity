@@ -120,6 +120,51 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1 &1171199452
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1171199453}
+  - component: {fileID: 1171199454}
+  m_Layer: 0
+  m_Name: SceneLoader
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 0
+--- !u!4 &1171199453
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171199452}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 480, y: 320, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 3926725188166633273}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1171199454
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171199452}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b56baff9143b0ce408bb824902b7ef3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isSetActiveScene: 1
+  _progressbar: {fileID: 3926725189739106143}
 --- !u!114 &3926725188166633272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -134,7 +179,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _isDebug: 0
   _language: 0
-  _sceneLoader: {fileID: 3926725189739106085}
+  _progressbar: {fileID: 3926725189739106143}
+  _sceneLoader: {fileID: 1171199454}
   _updateManager: {fileID: 3926725188601805804}
 --- !u!4 &3926725188166633273
 Transform:
@@ -148,6 +194,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3926725188723983666}
+  - {fileID: 1171199453}
   - {fileID: 3926725189739106137}
   - {fileID: 3926725188601805805}
   m_Father: {fileID: 0}
@@ -359,7 +406,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 3926725188166633273}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &3926725188651017552
 GameObject:
@@ -575,21 +622,6 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &3926725189739106085
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3926725189739106142}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b56baff9143b0ce408bb824902b7ef3d, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  imageMid: {fileID: 3926725188651017554}
-  txt: {fileID: 3926725190058871101}
-  isSetActiveScene: 1
 --- !u!114 &3926725189739106136
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -625,7 +657,7 @@ RectTransform:
   - {fileID: 3926725190223556714}
   - {fileID: 3926725190058871090}
   m_Father: {fileID: 3926725188166633273}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -687,14 +719,28 @@ GameObject:
   - component: {fileID: 3926725189739106138}
   - component: {fileID: 3926725189739106139}
   - component: {fileID: 3926725189739106136}
-  - component: {fileID: 3926725189739106085}
+  - component: {fileID: 3926725189739106143}
   m_Layer: 0
-  m_Name: SceneLoader
+  m_Name: Progressbar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 0
+--- !u!114 &3926725189739106143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3926725189739106142}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6977fd2aac9b68f4e96258db0f668c7a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _imageMid: {fileID: 3926725188651017554}
+  _text: {fileID: 3926725190058871101}
 --- !u!224 &3926725190058871090
 RectTransform:
   m_ObjectHideFlags: 0
@@ -726,7 +772,7 @@ GameObject:
   - component: {fileID: 3926725190058871100}
   - component: {fileID: 3926725190058871101}
   m_Layer: 0
-  m_Name: txt
+  m_Name: text
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
