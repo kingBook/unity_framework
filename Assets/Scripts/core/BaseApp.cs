@@ -117,7 +117,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	public SceneLoader sceneLoader{ get => _sceneLoader; }
 
 	/// <summary>
-	/// 进度条Canvas
+	/// 进度条
 	/// </summary>
 	public Progressbar progressbar{ get => _progressbar; }
 
