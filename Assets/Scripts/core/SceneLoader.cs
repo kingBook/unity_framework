@@ -13,7 +13,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar _progressbar;
+	private Progressbar _progressbar=null;
 
 	private AsyncOperation _asyncOperation;
 

@@ -5,11 +5,11 @@ public class Progressbar:BaseMonoBehaviour{
 
 	[Tooltip("进度条滑块")]
 	[SerializeField]
-	private Image _imageMid;
+	private Image _imageMid=null;
 
 	[Tooltip("百分比文本框")]
 	[SerializeField]
-	private Text _text;
+	private Text _text=null;
 
 	/// <summary>
 	/// 设置显示的进度

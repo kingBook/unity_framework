@@ -37,7 +37,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar _progressbar;
+	private Progressbar _progressbar=null;
 
 	[Tooltip("场景加载器")]
 	[SerializeField]
