@@ -8,7 +8,7 @@ using UnityEngine.Events;
 /// </summary>
 public sealed class SceneLoader:BaseMonoBehaviour{
 	
-	[Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)激活场景")]
+	[Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)设置为激活场景")]
 	public bool isSetActiveScene=true;
 
 	[Tooltip("进度条")]
