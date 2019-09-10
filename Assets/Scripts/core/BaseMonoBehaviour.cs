@@ -10,6 +10,8 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	
+	/// <summary>表示是否已销毁</summary>
+	protected bool _isDestroyed=false;
 	private bool _isHasAddToUpdateManager=false;
 
 	private void addToUpdateManager(){
@@ -381,9 +383,11 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 当 MonoBehaviour 将被销毁时调用此函数
 	/// </summary>
 	virtual protected void OnDestroy(){
+		_isDestroyed=true;
 		App.instance.updateManager.remove(this);
 	}
 	#endregion
 
-
+	/// <summary>表示是否已销毁</summary>
+	public bool isDestroyed{ get=>_isDestroyed; }
 }

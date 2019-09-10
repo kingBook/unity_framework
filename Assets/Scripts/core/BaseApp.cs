@@ -39,6 +39,10 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	[SerializeField]
 	private Progressbar _progressbar=null;
 
+	[Tooltip("文件加载器")]
+	[SerializeField]
+	private FileLoader _fileLoader=null;
+
 	[Tooltip("场景加载器")]
 	[SerializeField]
 	private SceneLoader _sceneLoader=null;
@@ -112,14 +116,19 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	}
 
 	/// <summary>
-	/// 场景加载器(有进度条)
-	/// </summary>
-	public SceneLoader sceneLoader{ get => _sceneLoader; }
-
-	/// <summary>
 	/// 进度条
 	/// </summary>
 	public Progressbar progressbar{ get => _progressbar; }
+
+	/// <summary>
+	/// 文件加载器
+	/// </summary>
+	public FileLoader fileLoader{ get => _fileLoader; }
+
+	/// <summary>
+	/// 场景加载器(有进度条)
+	/// </summary>
+	public SceneLoader sceneLoader{ get => _sceneLoader; }
 
 	/// <summary>
 	/// 更新管理器
