@@ -7,7 +7,8 @@ using UnityEngine;
 /// </summary>
 public class FileLoader:BaseMonoBehaviour{
 	[Tooltip("进度条")]
-	public Progressbar progressbar;
+	[SerializeField]
+	private Progressbar _progressbar=null;
 	
 	/// <summary>
 	/// 文件加载进度事件（是假模拟的进度）
@@ -28,28 +29,33 @@ public class FileLoader:BaseMonoBehaviour{
 
 	/// <summary>
 	/// 异步加载一个或多个本地文件
+    /// <br>如果文件不存在将在onComplete(byte[][] bytesList)事件参数bytesList添加一个null</br>
 	/// </summary>
 	/// <param name="filePaths">可变长度文件路径列表，如: @"C:\Users\Administrator\Desktop\views0.xml"</param>
 	/// <param name="progressBarVisible">是否显示进度条</param>
 	public async void loadAsync(bool progressbarVisible,params string[] filePaths){
-		progressbar.gameObject.SetActive(progressbarVisible);
+		_progressbar.gameObject.SetActive(progressbarVisible);
 		gameObject.SetActive(true);
 		_isLoading=true;
 		_progressValue=0.0f;
-		progressbar.setProgress(_progressValue);
+		_progressbar.setProgress(_progressValue);
+		_progressbar.setText("loading 0%...");
 
 		byte[][] outBytesList=new byte[filePaths.Length][];
 
 		for(int i=0;i<filePaths.Length;i++){
 			byte[] buffer=null;
-			await Task.Run(()=>{
-				_fileStream=File.OpenRead(filePaths[i]);
+            string filePath=filePaths[i];
+            await Task.Run(()=>{
+                if(File.Exists(filePath)){
+                    _fileStream=File.OpenRead(filePath);
 
-				int fileLength=(int)_fileStream.Length;
-				buffer=new byte[fileLength];
+                    int fileLength=(int)_fileStream.Length;
+                    buffer=new byte[fileLength];
 
-				_fileStream.Read(buffer,0,fileLength);
-			});
+                    _fileStream.Read(buffer,0,fileLength);
+                }
+            });
 			if(_isDestroyed){
 				//加载过程中，删除该脚本绑定的对象时，打断
 				break;
@@ -61,9 +67,10 @@ public class FileLoader:BaseMonoBehaviour{
 		if(!_isDestroyed){
 			_isLoading=false;
 			_progressValue=1.0f;
-			if(progressbar!=null){
-				progressbar.setProgress(_progressValue);
-				progressbar.gameObject.SetActive(false);
+			if(_progressbar!=null){
+				_progressbar.setProgress(_progressValue);
+				_progressbar.setText("loading 100%...");
+				_progressbar.gameObject.SetActive(false);
 			}
 			gameObject.SetActive(false);
 		
@@ -76,7 +83,8 @@ public class FileLoader:BaseMonoBehaviour{
 		if(_isLoading){
 			//模拟假的加载进度
 			_progressValue=Mathf.Min(_progressValue+0.1f,0.9f);
-			progressbar.setProgress(_progressValue);
+			_progressbar.setProgress(_progressValue);
+			_progressbar.setText("loading "+Mathf.FloorToInt(_progressValue*100)+"%...");
 			onProgress?.Invoke(_progressValue);
 		}
 	}
