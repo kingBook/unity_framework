@@ -34,15 +34,9 @@ public class FileLoader:BaseMonoBehaviour{
 	/// <param name="filePaths">可变长度文件路径列表，如: @"C:\Users\Administrator\Desktop\views0.xml"</param>
 	/// <param name="progressBarVisible">是否显示进度条</param>
 	public async void loadAsync(bool progressbarVisible,params string[] filePaths){
-		_progressbar.gameObject.SetActive(progressbarVisible);
-		gameObject.SetActive(true);
-		_isLoading=true;
-		_progressValue=0.0f;
-		_progressbar.setProgress(_progressValue);
-		_progressbar.setText("loading 0%...");
+		onLoadStart(progressbarVisible);
 
 		byte[][] outBytesList=new byte[filePaths.Length][];
-
 		for(int i=0;i<filePaths.Length;i++){
 			byte[] buffer=null;
             string filePath=filePaths[i];
@@ -63,19 +57,35 @@ public class FileLoader:BaseMonoBehaviour{
 			outBytesList[i]=buffer;
 			dispose();
 		}
+
 		//所有加载完成
 		if(!_isDestroyed){
-			_isLoading=false;
-			_progressValue=1.0f;
-			if(_progressbar!=null){
-				_progressbar.setProgress(_progressValue);
-				_progressbar.setText("loading 100%...");
-				_progressbar.gameObject.SetActive(false);
-			}
-			gameObject.SetActive(false);
-		
-			onComplete?.Invoke(outBytesList);
+			onLoadCompleteAll(outBytesList);
 		}
+	}
+
+	private void onLoadStart(bool progressbarVisible){
+		_isLoading=true;
+		_progressValue=0.0f;
+		if(_progressbar!=null){
+			_progressbar.setProgress(_progressValue);
+			_progressbar.setText("loading 0%...");
+			_progressbar.gameObject.SetActive(progressbarVisible);
+		}
+		gameObject.SetActive(true);
+	}
+
+	private void onLoadCompleteAll(byte[][] outBytesList){
+		_isLoading=false;
+		_progressValue=1.0f;
+		if(_progressbar!=null){
+			_progressbar.setProgress(_progressValue);
+			_progressbar.setText("loading 100%...");
+			_progressbar.gameObject.SetActive(false);
+		}
+		gameObject.SetActive(false);
+		
+		onComplete?.Invoke(outBytesList);
 	}
 
 	protected override void Update2() {
