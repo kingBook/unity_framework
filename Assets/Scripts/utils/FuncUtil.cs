@@ -64,6 +64,8 @@ public class FuncUtil{
 		return points;
 	}
 
+
+
 	/// <summary>
 	/// 获取DontDestroyOnLoad的所有游戏对象
 	/// <br>注意：这个方法很低效</br>
@@ -88,6 +90,37 @@ public class FuncUtil{
 			}
 		}
 		return allGameObjects.ToArray();
+	}
+
+	/// <summary>
+	/// 获取秒转换为xx:xx的时钟形式字符
+	/// </summary>
+	/// <param name="secondCount">秒数</param>
+	/// <param name="isHour">如果true那么转换为xx:xx:xx形式否则xx:xx形式</param>
+	/// <returns></returns>
+	public static string getClockString(int secondCount,bool isHour=false) {
+		string result="";
+		if(isHour){
+			int hour=(int)(secondCount/60.0f/60.0f);
+			string hourString=hour<10?"0"+hour.ToString():hour.ToString();
+
+			int minute=(int)(secondCount/60.0f-hour*60.0f);
+			string minuteString=minute<10?"0"+minute.ToString():minute.ToString();
+
+			int second=(int)(secondCount-hour*60.0f*60.0f-minute*60.0f);
+			string secondString=second<10?"0"+second.ToString():second.ToString();
+
+			result=hourString+":"+minuteString+":"+secondString;
+		}else{
+			int minute=(int)(secondCount/60.0f);
+			string minuteString=minute<10?"0"+minute.ToString():minute.ToString();
+
+			int second=(int)(secondCount-minute*60.0f);
+			string secondString=second<10?"0"+second.ToString():second.ToString();
+
+			result=minuteString+":"+secondString;
+		}
+		return result; 
 	}
 	
 }
