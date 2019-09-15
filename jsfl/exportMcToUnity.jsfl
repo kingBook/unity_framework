@@ -15,39 +15,7 @@ funcs.exportMcToPng=function(){
 			var element=selections[i];
 			if(element.elementType=="instance"){
 				if(element.instanceType=="symbol"){
-					const linkageClassName=element.libraryItem.linkageClassName;
-					const itemName=element.libraryItem.name;
-					itemName=itemName.substr(itemName.lastIndexOf("\/")+1);
-					const exportName=linkageClassName?linkageClassName:itemName;
-					const filePath=exportFolderPath+"/"+exportName;
-					
-					if(FLfile.createFolder(exportFolderPath)){
-						//fl.trace("Folder has been created");
-					}else{
-						//fl.trace("Folder already exists");
-					}
-					
-					const totalFrames=element.libraryItem.timeline.frameCount;
-					if(totalFrames<=1){
-						funcs.deleteOldFile(filePath);
-						//exportInstanceToPNGSequence方法，只允许选中一个
-						document.selectNone();
-						element.selected=true;
-						//只有一帧时，直接导出位图
-						document.exportInstanceToPNGSequence(filePath+".png");
-						//还原选择项
-						document.selection=selections;
-					}else{
-						//多帧时生成位图表
-						var maxSheetWidth=2048;
-						var maxSheetHeight=2048;
-						if(funcs.isOverflowed(element.libraryItem,maxSheetWidth,maxSheetHeight)){
-							funcs.exportEveryFrame(element.libraryItem,exportFolderPath,exportName);
-						}else{
-							funcs.deleteOldFile(filePath);
-							funcs.exportAllFrameToImage(element.libraryItem,filePath);
-						}
-					}
+					funcs.exportSymbolItem(element);
 					isHasExport=true;
 				}
 			}else{
@@ -60,7 +28,43 @@ funcs.exportMcToPng=function(){
 	}else{
 		alert("error: no object is selected");
 	}
-};
+}
+
+funcs.exportSymbolItem=function(element){
+	const linkageClassName=element.libraryItem.linkageClassName;
+	const itemName=element.libraryItem.name;
+	itemName=itemName.substr(itemName.lastIndexOf("\/")+1);
+	const exportName=linkageClassName?linkageClassName:itemName;
+	const filePath=exportFolderPath+"/"+exportName;
+	
+	if(FLfile.createFolder(exportFolderPath)){
+		//fl.trace("Folder has been created");
+	}else{
+		//fl.trace("Folder already exists");
+	}
+	
+	const totalFrames=element.libraryItem.timeline.frameCount;
+	if(totalFrames<=1){
+		funcs.deleteOldFile(filePath);
+		//exportInstanceToPNGSequence方法，只允许选中一个
+		document.selectNone();
+		element.selected=true;
+		//只有一帧时，直接导出位图
+		document.exportInstanceToPNGSequence(filePath+".png");
+		//还原选择项
+		document.selection=selections;
+	}else{
+		//多帧时生成位图表
+		var maxSheetWidth=2048;
+		var maxSheetHeight=2048;
+		if(funcs.isOverflowed(element.libraryItem,maxSheetWidth,maxSheetHeight)){
+			funcs.exportEveryFrame(element.libraryItem,exportFolderPath,exportName);
+		}else{
+			funcs.deleteOldFile(filePath);
+			funcs.exportAllFrameToImage(element.libraryItem,filePath);
+		}
+	}
+}
 
 funcs.deleteOldFile=function(filePath){
 	//如果存在png，则删除
