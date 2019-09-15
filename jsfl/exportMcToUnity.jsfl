@@ -27,11 +27,10 @@ funcs.exportMcToPng=function(){
 						//fl.trace("Folder already exists");
 					}
 					
-					funcs.deleteOldFile(filePath);
-					
 					const totalFrames=element.libraryItem.timeline.frameCount;
 					if(totalFrames<=1){
-						//document.exportInstanceToPNGSequence(),只能选中一个
+						funcs.deleteOldFile(filePath);
+						//exportInstanceToPNGSequence方法，只允许选中一个
 						document.selectNone();
 						element.selected=true;
 						//只有一帧时，直接导出位图
@@ -40,7 +39,14 @@ funcs.exportMcToPng=function(){
 						document.selection=selections;
 					}else{
 						//多帧时生成位图表
-						funcs.exportSpriteSheet(element.libraryItem,filePath);
+						var maxSheetWidth=2048;
+						var maxSheetHeight=2048;
+						if(funcs.isOverflowed(element.libraryItem,maxSheetWidth,maxSheetHeight)){
+							funcs.exportEveryFrame(element.libraryItem,exportFolderPath,exportName);
+						}else{
+							funcs.deleteOldFile(filePath);
+							funcs.exportAllFrameToImage(element.libraryItem,filePath);
+						}
 					}
 					isHasExport=true;
 				}
@@ -65,14 +71,50 @@ funcs.deleteOldFile=function(filePath){
 	if(FLfile.exists(metaPath))FLfile.remove(metaPath);
 }
 
-funcs.exportSpriteSheet=function(libraryItem,filePath){
+//所有帧导出为一张图
+funcs.exportAllFrameToImage=function(libraryItem,filePath,maxSheetWidth,maxSheetHeight){
 	var exporter=new SpriteSheetExporter();
 	exporter.addSymbol(libraryItem,0);
 	exporter.canTrim=false;
 	exporter.algorithm="basic";//basic | maxRects
 	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
+	exporter.autoSize=true;
+	exporter.maxSheetWidth=maxSheetWidth;
+	exporter.maxSheetHeight=maxSheetHeight;
 	var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
 	exporter.exportSpriteSheet(filePath,imageFormat,true);
+}
+
+//每帧一张图导出所有帧
+funcs.exportEveryFrame=function(libraryItem,exportFolderPath,exportName){
+	var frameCount=libraryItem.timeline.frameCount;
+	for(var i=1;i<=frameCount;i++){
+		const filePath=exportFolderPath+"/"+exportName+i;
+		funcs.deleteOldFile(filePath);
+		var exporter=new SpriteSheetExporter();
+		exporter.addSymbol(libraryItem,i-1,i);
+		exporter.canTrim=false;
+		exporter.algorithm="basic";//basic | maxRects
+		exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
+		exporter.autoSize=true;
+		exporter.maxSheetWidth=2048;
+		exporter.maxSheetHeight=2048;
+		var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
+		exporter.exportSpriteSheet(filePath,imageFormat,true);
+	}
+}
+
+//导出所有帧时，是否超出指定大小
+funcs.isOverflowed=function(libraryItem,maxSheetWidth,maxSheetHeight){
+	var exporter=new SpriteSheetExporter();
+	exporter.addSymbol(libraryItem,0);
+	exporter.canTrim=false;
+	exporter.algorithm="basic";//basic | maxRects
+	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
+	exporter.autoSize=true;
+	exporter.maxSheetWidth=maxSheetWidth;
+	exporter.maxSheetHeight=maxSheetHeight;
+	return exporter.overflowed;
 }
 //--------------------------------------------------------------------------------------------
 funcs.exportMcToPng();
