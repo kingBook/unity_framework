@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class CameraHandle:BaseMonoBehaviour{
 	[Tooltip("缩放和旋转围绕的中心")]
-	public Transform pivot;
+	public Transform pivotTransform;
 	[Tooltip("上下旋转限制的最小角度")]
 	public int verticalAngleMin=10;
 	[Tooltip("上下旋转限制的最大角度")]
@@ -23,12 +23,25 @@ public class CameraHandle:BaseMonoBehaviour{
 	public float fieldOfViewMultiple=0.1f;
 
 	/// <summary>
-	/// 旋转前，void(float h,float v)。
+	/// 平移 void(Vector3 velocity)
+	/// </summary>
+	public event Action<Vector3> onTranslateEvent;
+	/// <summary>
+	/// 旋转前 void(float h,float v)
 	/// </summary>
 	public event Action<float,float> onPreRotateEvent;
+	/// <summary>
+	/// 旋转 void(float h,float v)
+	/// </summary>
+	public event Action<float,float> onRotateEvent;
+	/// <summary>
+	/// 缩放 void(float velocity)
+	/// </summary>
+	public event Action<float> onZoomEvent;
 
 	private Camera _camera;
 	private float _oldDistance;
+	private bool _isRotateBegin;
 
 	/// <summary>
 	/// 触摸点0/鼠标左键，在触摸/按下开始时是否接触UI
@@ -59,6 +72,9 @@ public class CameraHandle:BaseMonoBehaviour{
 				touchOneHandler();
 			}else if(Input.touchCount==2){
 				touchTwoHandler();
+				_isRotateBegin=false;
+			}else{
+				_isRotateBegin=false;
 			}
 		}else{
 			mouseHandler();
@@ -75,7 +91,10 @@ public class CameraHandle:BaseMonoBehaviour{
 		if(!_isPointerOverUIOnBegan0){
 			float h=touch0.deltaPosition.x*0.5f;
 			float v=touch0.deltaPosition.y*0.1f;
-			onPreRotateEvent?.Invoke(h,v);
+			if(!_isRotateBegin){
+				_isRotateBegin=true;
+				onPreRotateEvent?.Invoke(h,v);
+			}
 			//单点触摸上下左右旋转
 			rotate(h,v);
 		}
@@ -126,9 +145,15 @@ public class CameraHandle:BaseMonoBehaviour{
 				float v=Input.GetAxis("Mouse Y");
 				h*=10;
 				v*=10;
-				onPreRotateEvent?.Invoke(h,v);
+
+				if(!_isRotateBegin){
+					_isRotateBegin=true;
+					onPreRotateEvent?.Invoke(h,v);
+				}
 				rotate(h,v);
 			}
+		}else{
+			_isRotateBegin=false;
 		}
 		//非移动设备滚动鼠标中键缩放视野
 		float scroll=scrollWheelMultiple*Input.GetAxis("Mouse ScrollWheel");
@@ -150,22 +175,23 @@ public class CameraHandle:BaseMonoBehaviour{
 	/// </summary>
 	private void rotate(float h,float v){
 		//绕着pivot旋转Y轴，实现左右旋转
-		_camera.transform.RotateAround(pivot.position,Vector3.up, h);
+		_camera.transform.RotateAround(pivotTransform.position,Vector3.up, h);
 		//绕着pivot旋转相机朝向的右侧轴向,实现上下旋转
 		int cameraAngleX=(int)_camera.transform.rotation.eulerAngles.x;
 		//限制最大速度，避免出错
 		const float maxV=5;
 		v=Mathf.Clamp(v,-maxV,maxV);
+		onRotateEvent?.Invoke(h,v);
 		//
 		if(v>=0){
 			//限制上下旋转最小角度
 			if(cameraAngleX>verticalAngleMin){
-				_camera.transform.RotateAround(pivot.position,_camera.transform.right,-v);
+				_camera.transform.RotateAround(pivotTransform.position,_camera.transform.right,-v);
 			}
 		}else{
 			//限制上下旋转最大角度
 			if(cameraAngleX<verticalAngleMax){
-				_camera.transform.RotateAround(pivot.position,_camera.transform.right,-v);
+				_camera.transform.RotateAround(pivotTransform.position,_camera.transform.right,-v);
 			}
 		}
 	}
@@ -175,6 +201,8 @@ public class CameraHandle:BaseMonoBehaviour{
 	/// </summary>
 	/// <param name="velocity">缩放视野速度向量</param>
 	private void zoomFieldOfView(float velocity){
+		if(velocity==0)return;
+		onZoomEvent?.Invoke(velocity);
 		_camera.fieldOfView=Mathf.Clamp(_camera.fieldOfView+velocity,fieldOfViewMin,fieldOfViewMax);
 	}
 
@@ -183,6 +211,7 @@ public class CameraHandle:BaseMonoBehaviour{
 	/// </summary>
 	/// <param name="velocity">平移速度向量</param>
 	private void translate(Vector3 velocity){
+		onTranslateEvent?.Invoke(velocity);
 		_camera.transform.Translate(velocity);
 	}
 

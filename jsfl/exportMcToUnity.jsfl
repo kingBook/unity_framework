@@ -92,11 +92,21 @@ funcs.exportAllFrameToImage=function(libraryItem,filePath,maxSheetWidth,maxSheet
 //每帧一张图导出所有帧
 funcs.exportEveryFrame=function(libraryItem,exportFolderPath,exportName){
 	var frameCount=libraryItem.timeline.frameCount;
-	for(var i=1;i<=frameCount;i++){
-		const filePath=exportFolderPath+"/"+exportName+i;
+	for(var i=0;i<frameCount;i++){
+		//帧编号字符串
+		var frameNOString=i+"";
+		//小于四位，在前面加"0"
+		if(frameNOString.length<4){
+			const zeroCount=4-frameNOString.length;
+			for(var j=0;j<zeroCount;j++){
+				frameNOString="0"+frameNOString;
+			}
+		}
+		//导出的文件路径
+		const filePath=exportFolderPath+"/"+exportName+frameNOString;
 		funcs.deleteOldFile(filePath);
 		var exporter=new SpriteSheetExporter();
-		exporter.addSymbol(libraryItem,i-1,i);
+		exporter.addSymbol(libraryItem,i,i+1);
 		exporter.canTrim=false;
 		exporter.algorithm="basic";//basic | maxRects
 		exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
