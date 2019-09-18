@@ -18,8 +18,13 @@ public class MoveUpDestroy:BaseMonoBehaviour{
 
 	protected override void Start() {
 		base.Start();
-		transform.DOMoveY(transform.position.y+_moveUpDistance,_duration).onComplete=()=>{ 
+		transform.DOMoveY(transform.position.y+_moveUpDistance,_duration).onComplete=()=>{
 			Destroy(gameObject);
 		};
+	}
+
+	protected override void OnDestroy() {
+		transform.DOKill();
+		base.OnDestroy();
 	}
 }
