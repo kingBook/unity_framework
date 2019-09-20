@@ -57,11 +57,25 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	public event Action<bool> onPauseOrResume;
 	private bool _isPause;
 
+	private bool _isFirstOpen;
+
 	protected override void Awake() {
 		base.Awake();
 		_instance=this as T;
+
+		initFirstOpenApp();
+
 		if(_language==Language.AUTO){
 			initLanguage();
+		}
+	}
+
+	private void initFirstOpenApp(){
+		const string key="isFirstOpenApp";
+		_isFirstOpen=PlayerPrefs.GetInt(key,1)==1;
+		if(_isFirstOpen) {
+			PlayerPrefs.SetInt(key,0);
+			PlayerPrefs.Save();
 		}
 	}
 
@@ -139,6 +153,11 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// 是否已暂停
 	/// </summary>
 	public bool isPause{ get => _isPause; }
+
+	/// <summary>
+	/// 是否第一次打开当前应用
+	/// </summary>
+	public bool isFirstOpen{ get => _isFirstOpen; }
 
 
 }
