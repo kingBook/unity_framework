@@ -21,6 +21,9 @@ public sealed class Game:BaseMonoBehaviour{
 		App.instance.sceneLoader.loadAsync("Scenes/level");
 	}
 
-	
+	protected override void OnDestroy() {
+		base.OnDestroy();
+	}
+
 
 }

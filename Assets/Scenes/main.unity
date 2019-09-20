@@ -221,7 +221,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effd2d16da2d75d4886f902f5962d16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDebug: 0
+  _isDebug: 1
   _language: 0
   _progressbar: {fileID: 3926725189739106143}
   _fileLoader: {fileID: 535276211}

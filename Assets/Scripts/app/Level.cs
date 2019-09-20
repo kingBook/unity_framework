@@ -2,7 +2,7 @@
 using System.Collections;
 /// <summary>
 /// 关卡类
-/// <br>管理关卡全局变量、关卡内的UI、关卡胜利/失败/过关/通关。</br>
+/// <br>管理关卡内的对象。</br>
 /// </summary>
 public sealed class Level:BaseMonoBehaviour{
 	private Game _game;
