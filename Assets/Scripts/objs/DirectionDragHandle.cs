@@ -8,6 +8,8 @@ using UnityEngine.UI;
 public class DirectionDragHandle:ScrollRect{
 	private readonly float idleAlpha=0.5f;
 	private readonly float activeAlpha=1.0f;
+	/// <summary>当鼠标按下/接触开始时是否允许操作手柄在小范围内移动到鼠标/接触点位置</summary>
+	private bool _isMoveHandleOnTouchBegin=false;
 	private float _radius=0f;
 	private Vector2 _angleNormal;
 	private Vector2 _initPos;
@@ -59,7 +61,7 @@ public class DirectionDragHandle:ScrollRect{
 					if(RectTransformUtility.RectangleContainsScreenPoint(_rt,touch.position)){
 						if(touch.phase==TouchPhase.Began){
 							if(touch.position.x>_initPos.x&&touch.position.y>_initPos.y){
-								moveHandleToPos(touch.position);
+								if(_isMoveHandleOnTouchBegin)moveHandleToPos(touch.position);
 								_canvasGroup.alpha=activeAlpha;
 								_fingerId=touch.fingerId;
 							}
@@ -78,7 +80,7 @@ public class DirectionDragHandle:ScrollRect{
 				Vector2 mousePos=Input.mousePosition;
 				if(RectTransformUtility.RectangleContainsScreenPoint(_rt,mousePos)){
 					if(mousePos.x>_initPos.x&&mousePos.y>_initPos.y){
-						moveHandleToPos(mousePos);
+						if(_isMoveHandleOnTouchBegin)moveHandleToPos(mousePos);
 						_canvasGroup.alpha=activeAlpha;
 					}
 				}
