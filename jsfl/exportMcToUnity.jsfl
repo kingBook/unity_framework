@@ -86,6 +86,7 @@ funcs.exportAllFrameToImage=function(libraryItem,filePath,maxSheetWidth,maxSheet
 	exporter.maxSheetWidth=maxSheetWidth;
 	exporter.maxSheetHeight=maxSheetHeight;
 	var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
+	fl.trace(filePath);
 	exporter.exportSpriteSheet(filePath,imageFormat,true);
 }
 
