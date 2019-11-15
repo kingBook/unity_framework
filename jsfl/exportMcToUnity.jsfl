@@ -32,9 +32,10 @@ funcs.exportMcToPng=function(){
 
 funcs.exportSymbolItem=function(element){
 	const linkageClassName=element.libraryItem.linkageClassName;
-	const itemName=element.libraryItem.name;
-	itemName=itemName.substr(itemName.lastIndexOf("\/")+1);
-	const exportName=linkageClassName?linkageClassName:itemName;
+	const elementName=element.name;fl.trace("name:"+elementName);
+	const libraryItemName=element.libraryItem.name;
+	libraryItemName=libraryItemName.substr(libraryItemName.lastIndexOf("\/")+1);
+	const exportName=elementName?elementName:(linkageClassName?linkageClassName:libraryItemName);
 	const filePath=exportFolderPath+"/"+exportName;
 	
 	if(FLfile.createFolder(exportFolderPath)){
@@ -57,11 +58,11 @@ funcs.exportSymbolItem=function(element){
 		//多帧时生成位图表
 		var maxSheetWidth=2048;
 		var maxSheetHeight=2048;
-		if(funcs.isOverflowed(element.libraryItem,maxSheetWidth,maxSheetHeight)){
-			funcs.exportEveryFrame(element.libraryItem,exportFolderPath,exportName);
+		if(funcs.isOverflowed(element,maxSheetWidth,maxSheetHeight)){
+			funcs.exportEveryFrame(element,exportFolderPath,exportName);
 		}else{
 			funcs.deleteOldFile(filePath);
-			funcs.exportAllFrameToImage(element.libraryItem,filePath);
+			funcs.exportAllFrameToImage(element,filePath);
 		}
 	}
 }
