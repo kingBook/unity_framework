@@ -32,7 +32,7 @@ funcs.exportMcToPng=function(){
 
 funcs.exportSymbolItem=function(element){
 	const linkageClassName=element.libraryItem.linkageClassName;
-	const elementName=element.name;fl.trace("name:"+elementName);
+	const elementName=element.name;
 	const libraryItemName=element.libraryItem.name;
 	libraryItemName=libraryItemName.substr(libraryItemName.lastIndexOf("\/")+1);
 	const exportName=elementName?elementName:(linkageClassName?linkageClassName:libraryItemName);
@@ -77,9 +77,9 @@ funcs.deleteOldFile=function(filePath){
 }
 
 //所有帧导出为一张图
-funcs.exportAllFrameToImage=function(libraryItem,filePath,maxSheetWidth,maxSheetHeight){
+funcs.exportAllFrameToImage=function(element,filePath,maxSheetWidth,maxSheetHeight){
 	var exporter=new SpriteSheetExporter();
-	exporter.addSymbol(libraryItem,0);
+	exporter.addSymbol(element,0);
 	exporter.canTrim=false;
 	exporter.algorithm="basic";//basic | maxRects
 	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
@@ -87,13 +87,12 @@ funcs.exportAllFrameToImage=function(libraryItem,filePath,maxSheetWidth,maxSheet
 	exporter.maxSheetWidth=maxSheetWidth;
 	exporter.maxSheetHeight=maxSheetHeight;
 	var imageFormat={format:"png",bitDepth:32,backgroundColor:"#00000000"};
-	fl.trace(filePath);
 	exporter.exportSpriteSheet(filePath,imageFormat,true);
 }
 
 //每帧一张图导出所有帧
-funcs.exportEveryFrame=function(libraryItem,exportFolderPath,exportName){
-	var frameCount=libraryItem.timeline.frameCount;
+funcs.exportEveryFrame=function(element,exportFolderPath,exportName){
+	var frameCount=element.libraryItem.timeline.frameCount;
 	for(var i=0;i<frameCount;i++){
 		//帧编号字符串
 		var frameNOString=i+"";
@@ -108,7 +107,7 @@ funcs.exportEveryFrame=function(libraryItem,exportFolderPath,exportName){
 		const filePath=exportFolderPath+"/"+exportName+frameNOString;
 		funcs.deleteOldFile(filePath);
 		var exporter=new SpriteSheetExporter();
-		exporter.addSymbol(libraryItem,i,i+1);
+		exporter.addSymbol(element,"",i,i+1);
 		exporter.canTrim=false;
 		exporter.algorithm="basic";//basic | maxRects
 		exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
@@ -121,9 +120,9 @@ funcs.exportEveryFrame=function(libraryItem,exportFolderPath,exportName){
 }
 
 //导出所有帧时，是否超出指定大小
-funcs.isOverflowed=function(libraryItem,maxSheetWidth,maxSheetHeight){
+funcs.isOverflowed=function(element,maxSheetWidth,maxSheetHeight){
 	var exporter=new SpriteSheetExporter();
-	exporter.addSymbol(libraryItem,0);
+	exporter.addSymbol(element,0);
 	exporter.canTrim=false;
 	exporter.algorithm="basic";//basic | maxRects
 	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
