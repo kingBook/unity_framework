@@ -198,7 +198,7 @@ GameObject:
   - component: {fileID: 272618869}
   - component: {fileID: 272618868}
   m_Layer: 5
-  m_Name: ImageDirTop
+  m_Name: ImageHanlde
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,7 +271,6 @@ GameObject:
   - component: {fileID: 546550589}
   - component: {fileID: 546550591}
   - component: {fileID: 546550590}
-  - component: {fileID: 546550593}
   - component: {fileID: 546550592}
   m_Layer: 5
   m_Name: DirctionHandle
@@ -349,38 +348,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d11102b1c9a878a43a87accd1b28eb4f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_Content: {fileID: 272618867}
-  m_Horizontal: 1
-  m_Vertical: 1
-  m_MovementType: 1
-  m_Elasticity: 0.1
-  m_Inertia: 1
-  m_DecelerationRate: 0.135
-  m_ScrollSensitivity: 1
-  m_Viewport: {fileID: 0}
-  m_HorizontalScrollbar: {fileID: 0}
-  m_VerticalScrollbar: {fileID: 0}
-  m_HorizontalScrollbarVisibility: 0
-  m_VerticalScrollbarVisibility: 0
-  m_HorizontalScrollbarSpacing: 0
-  m_VerticalScrollbarSpacing: 0
-  m_OnValueChanged:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.UI.ScrollRect+ScrollRectEvent, UnityEngine.UI, Version=1.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!225 &546550593
-CanvasGroup:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 546550588}
-  m_Enabled: 1
-  m_Alpha: 0.5
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
-  m_IgnoreParentGroups: 0
+  handleRect: {fileID: 272618867}
+  handleParent: {fileID: 546550588}
 --- !u!1 &1048083623
 GameObject:
   m_ObjectHideFlags: 0
