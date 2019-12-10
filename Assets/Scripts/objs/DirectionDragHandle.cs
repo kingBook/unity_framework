@@ -1,15 +1,23 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+
 /// <summary>
 /// 方向手柄(拖动中心的滑块控制方向)
 /// <br>通过angleNormal属性,获取方向角度力，x、y值范围[-1,1]</br>
 /// </summary>
 public class DirectionDragHandle:BaseMonoBehaviour{
+	[System.Serializable]
+	public class MyEvent:UnityEvent<PointerEventData>{ }
+
 	[Tooltip("滑块")]
 	public RectTransform handleRect;
 	[Tooltip("滑块的父级")]
 	public GameObject handleParent;
+	
+	public MyEvent onEndDragEvent;
+	
 	private readonly float idleAlpha=0.5f;
 	private readonly float activeAlpha=1.0f;
 	/// <summary>当鼠标按下/接触开始时是否允许操作手柄在小范围内移动到鼠标/接触点位置</summary>
@@ -75,6 +83,8 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 	private void onEndDrag(PointerEventData eventData){
 		_angleNormal=Vector2.zero;
 		_canvasGroup.alpha=idleAlpha;
+		//
+		onEndDragEvent?.Invoke(eventData);
 	}
 
 	protected override void Update2(){
@@ -133,6 +143,13 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 
 		_rectTransform.offsetMin=pos;
 		_rectTransform.offsetMax=_rectTransform.offsetMax+offset;
+	}
+
+	protected override void OnDestroy() {
+		if(onEndDragEvent!=null){
+			onEndDragEvent.RemoveAllListeners();
+		}
+		base.OnDestroy();
 	}
 
 	public Vector2 angleNormal{ get=>_angleNormal;}
