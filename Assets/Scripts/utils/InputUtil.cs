@@ -7,6 +7,52 @@ using UnityEngine.EventSystems;
 public static class InputUtil{
 	
 	/// <summary>
+	/// 返回在TouchBegan时非接触UI的触摸点，未找到时touch.fingerId等于-1
+	/// </summary>
+	/// <param name="phase">判断触摸的阶段</param>
+	/// <returns>返回在TouchBegan时非接触UI的触摸点</returns>
+	public static Touch getTouchNonPointerOverUI(TouchPhase phase){
+		Touch touch;
+		for(int i=0;i<Input.touchCount;i++){
+			touch=Input.GetTouch(i);
+			if(touch.phase!=phase)continue;
+			if(!EventSystem.current.IsPointerOverGameObject(touch.fingerId)){
+				return touch;
+			}
+		}
+		//
+		touch=new Touch();
+		touch.fingerId=-1;
+		return touch;
+	}
+	
+	/// <summary>
+	/// 返回指定手指Id的Touch，未找到时touch.fingerId等于-1
+	/// </summary>
+	/// <param name="fingerId"></param>
+	/// <returns></returns>
+	public static Touch getTouchWithFingerId(int fingerId){
+		return getTouchWithFingerId(fingerId,0,false);
+	}
+	public static Touch getTouchWithFingerId(int fingerId,TouchPhase phase){
+		return getTouchWithFingerId(fingerId,phase,true);
+	}
+	private static Touch getTouchWithFingerId(int fingerId,TouchPhase phase,bool isCheckPhase){
+		Touch touch;
+		for(int i=0;i<Input.touchCount;i++){
+			touch=Input.GetTouch(i);
+			if(isCheckPhase&&touch.phase!=phase)continue;
+			if(touch.fingerId==fingerId){
+				return touch;
+			}
+		}
+		//
+		touch=new Touch();
+		touch.fingerId=-1;
+		return touch;
+	}
+	
+	/// <summary>
 	/// 鼠标按下/触摸开始时返回true,并输出坐标。
 	/// <br>鼠标未按下/未发生触摸时并返回false,并输出(0,0,0)。</br>
 	/// <br>注意：只在鼠标左键按下时/触摸在Began阶段才返回true，并输出坐标</br>

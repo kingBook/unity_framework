@@ -20,5 +20,6 @@
 	  "**/Logs":true,
 	  "**/Library":true,
 	},
+	"editor.autoClosingQuotes": "beforeWhitespace"
 	
 }

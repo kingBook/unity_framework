@@ -31,7 +31,8 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	/// <summary>
 	/// 触摸点0/鼠标左键，在触摸/按下开始时是否接触UI
 	/// </summary>
-	private bool _isPointerOverUIOnBegan0;
+	private bool _isPointerOverUIOnBegan;
+	private int _touchFingerId=-1;
     
 	protected override void Awake() {
 		base.Awake();
@@ -61,23 +62,25 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	protected override void Update2(){
 		base.Update2();
 		if(Input.touchSupported){
-			if(Input.touchCount==1){
-				touchOneHandler();
-			}
+			touchHandler();
 		}else{
 			mouseHandler();
 		}
 	}
 	
-	private void touchOneHandler(){
-		Touch touch0=Input.GetTouch(0);
-		//接触开始时，触摸点0是否接触UI
-		if(touch0.phase==TouchPhase.Began){
-			_isPointerOverUIOnBegan0=EventSystem.current.IsPointerOverGameObject(touch0.fingerId);
+	private void touchHandler(){
+		Touch touch;
+		//返回一个在触摸开始阶段时非触摸UI的触摸点
+		if(_touchFingerId>-1){
+			touch=InputUtil.getTouchWithFingerId(_touchFingerId);
+			_touchFingerId=touch.fingerId;
+		}else{
+			touch=InputUtil.getTouchNonPointerOverUI(TouchPhase.Began);
+			_touchFingerId=touch.fingerId;
 		}
-		//触摸点0在触摸开始时没有接触UI
-		if(!_isPointerOverUIOnBegan0){
-			float h=touch0.deltaPosition.x*0.5f;
+		
+		if(touch.fingerId>-1){
+			float h=touch.deltaPosition.x*0.5f;
 			if(!_isRotateBegin){
 				_isRotateBegin=true;
 				onPreRotateEvent?.Invoke(h);
@@ -90,13 +93,13 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	private void mouseHandler(){
 		//按下鼠标左键时，鼠标是否接触UI
 		if(Input.GetMouseButtonDown(0)){
-			_isPointerOverUIOnBegan0=EventSystem.current.IsPointerOverGameObject();
+			_isPointerOverUIOnBegan=EventSystem.current.IsPointerOverGameObject();
 		}
 		
 		//非移动设备按下鼠标左键旋转
 		if(Input.GetMouseButton(0)){
 			//鼠标按下左键时没有接触UI
-			if(!_isPointerOverUIOnBegan0){
+			if(!_isPointerOverUIOnBegan){
 				float h=Input.GetAxis("Mouse X");
 				h*=10;
 				
