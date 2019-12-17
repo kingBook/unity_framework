@@ -6,15 +6,13 @@
 /// </summary>
 public sealed class App:BaseApp<App>{
 	
-	private Game _game;
+	public Game game{ get; private set; }
 
-	
 	protected override void Awake(){
 		base.Awake();
 		var gameObject=new GameObject("Game");
-		_game=gameObject.AddComponent<Game>();
-		_game.transform.parent=transform;
+		game=gameObject.AddComponent<Game>();
+		game.transform.parent=transform;
 	}
-	public Game game{ get => _game; }
 }
 

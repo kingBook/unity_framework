@@ -785,8 +785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798e90bdc18797b419ec3b49d3590499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_imageMid: {fileID: 0}
-  m_text: {fileID: 0}
+  m_imageMid: {fileID: 3926725188651017554}
+  m_text: {fileID: 3926725190058871101}
 --- !u!224 &3926725190058871090
 RectTransform:
   m_ObjectHideFlags: 0
