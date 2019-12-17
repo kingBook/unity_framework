@@ -1,6 +1,5 @@
 ﻿using DG.Tweening;
 using UnityEngine;
-using UnityEngine.UI;
 /// <summary>
 /// 从指定的起始位置移动到当前位置
 /// </summary>
@@ -16,21 +15,29 @@ public class MoveFromOnCanvas:BaseMonoBehaviour{
 	/// </summary>
 	public event System.Action<MoveFromOnCanvas> onCompleteEvent;
 
-	protected override void Start() {
-		base.Start();
-		RectTransform rectTransform=(RectTransform)transform;
-		Vector2 recordPos=rectTransform.anchoredPosition;
-		rectTransform.anchoredPosition=from;
+	private RectTransform m_rectTransform;
+	private Vector2 m_posRecord;
 
-		rectTransform.DOAnchorPos(recordPos,duration).onComplete=OnComplete;
+	protected override void Awake() {
+		base.Awake();
+		m_rectTransform=(RectTransform)transform;
+		m_posRecord=m_rectTransform.anchoredPosition;
+	}
+
+	protected override void OnEnable() {
+		base.OnEnable();
+		m_rectTransform.anchoredPosition=from;
+		m_rectTransform.DOAnchorPos(m_posRecord,duration).onComplete=OnComplete;
 	}
 
 	private void OnComplete() {
+		m_rectTransform.DOKill();
 		onCompleteEvent?.Invoke(this);
 	}
 
-	protected override void OnDestroy() {
-		transform.DOKill();
-		base.OnDestroy();
+	protected override void OnDisable() {
+		m_rectTransform.DOKill();
+		base.OnDisable();
 	}
+
 }
