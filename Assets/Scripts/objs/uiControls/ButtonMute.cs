@@ -10,7 +10,7 @@ public class ButtonMute:BaseMonoBehaviour{
 	protected override void Start() {
 		base.Start();
 		SwapButtonImage swapButtonImage=GetComponent<SwapButtonImage>();
-		swapButtonImage.swapTo(AudioListener.volume<=0?1:0);
+		swapButtonImage.SwapTo(AudioListener.volume<=0?1:0);
 	}
 
 }

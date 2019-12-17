@@ -10,82 +10,99 @@ public enum Language{AUTO,CN,EN}
 /// </summary>
 public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
-	protected static T _instance;
-	/// <summary>
-	/// 应用程序的单例实例
-	/// </summary>
-	public static T instance{ get => _instance; }
+	/// <summary>应用程序的单例实例</summary>
+	public static T instance{ get; private set; }
 
 	[Tooltip("用于调试其它场景需要调用该脚本，" +
 	 "\n在Hierarchy中拖入该脚本所在的.unity文件时，" +
 	 "\n不执行载入标题、其他场景等，将在代码中判定实现" +
 	 "\n发布项目时必须为false。")
 	]
-	[SerializeField]
-	private bool _isDebug=false;
+	[SerializeField] private bool m_isDebug=false;
 
-	/// <summary>
-	/// 改变语言事件
-	/// </summary>
+	/// <summary>改变语言事件</summary>
 	public event Action<Language> onChangeLanguage;
+
 	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
 	 "\nCN:中文 " +
 	 "\nEN:英文")
 	]
 	[SerializeField,SetProperty("language")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
-	protected Language _language=Language.AUTO;
+	protected Language m_language=Language.AUTO;
 
 	[Tooltip("进度条")]
-	[SerializeField]
-	private Progressbar _progressbar=null;
+	[SerializeField] private Progressbar m_progressbar=null;
 
 	[Tooltip("文件加载器")]
-	[SerializeField]
-	private FileLoader _fileLoader=null;
+	[SerializeField] private FileLoader m_fileLoader=null;
 
 	[Tooltip("场景加载器")]
-	[SerializeField]
-	private SceneLoader _sceneLoader=null;
+	[SerializeField] private SceneLoader m_sceneLoader=null;
 
 	[Tooltip("更新管理器")]
-	[SerializeField]
-	private UpdateManager _updateManager=null;
+	[SerializeField] private UpdateManager m_updateManager=null;
 
-	/// <summary>
-	/// 暂停或恢复事件，在调用setPause(bool)时方法发出
-	/// </summary>
+	/// <summary>暂停或恢复事件，在调用setPause(bool)时方法发出</summary>
 	public event Action<bool> onPauseOrResume;
-	private bool _isPause;
 
-	private bool _isFirstOpen;
+	/// <summary>是否为调试模式，调试模式下不加载其他场景</summary>
+	public bool isDebug{ get=>m_isDebug; }
 
-	protected override void Awake() {
-		base.Awake();
-		_instance=this as T;
-
-		initFirstOpenApp();
-
-		if(_language==Language.AUTO){
-			initLanguage();
+	/// <summary>应用程序的语言</summary>
+	public Language language{
+		get => m_language;
+		set{
+			m_language=value;
+			onChangeLanguage?.Invoke(m_language);
 		}
 	}
 
-	private void initFirstOpenApp(){
+	/// <summary>进度条</summary>
+	public Progressbar progressbar{ get => m_progressbar; }
+
+	/// <summary>文件加载器</summary>
+	public FileLoader fileLoader{ get => m_fileLoader; }
+
+	/// <summary>场景加载器(有进度条)</summary>
+	public SceneLoader sceneLoader{ get => m_sceneLoader; }
+
+	/// <summary>更新管理器</summary>
+	public UpdateManager updateManager{ get => m_updateManager; }
+
+	/// <summary>是否已暂停</summary>
+	public bool isPause{ get;private set; }
+
+	/// <summary>是否第一次打开当前应用</summary>
+	public bool isFirstOpen{ get; private set; }
+
+
+	protected override void Awake() {
+		base.Awake();
+		instance=this as T;
+
+		InitFirstOpenApp();
+
+		if(m_language==Language.AUTO){
+			InitLanguage();
+		}
+	}
+
+	private void InitFirstOpenApp(){
 		const string key="isFirstOpenApp";
-		_isFirstOpen=PlayerPrefs.GetInt(key,1)==1;
-		if(_isFirstOpen) {
+		isFirstOpen=PlayerPrefs.GetInt(key,1)==1;
+		if(isFirstOpen) {
 			PlayerPrefs.SetInt(key,0);
 			PlayerPrefs.Save();
 		}
 	}
 
-	private void initLanguage(){
+	private void InitLanguage(){
 		bool isCN=Application.systemLanguage==SystemLanguage.Chinese;
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseSimplified;
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseTraditional;
-		_language=isCN?Language.CN:Language.EN;
+		m_language=isCN?Language.CN:Language.EN;
 		//改变语言事件
-		onChangeLanguage?.Invoke(_language);
+		onChangeLanguage?.Invoke(m_language);
 	}
 
 	/// <summary>
@@ -94,17 +111,18 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// <param name="isPause">是否暂停</param>
 	/// <param name="isSetPhysics">是否设置物理引擎</param>
 	/// <param name="isSetVolume">是否设置音量</param>
-	public void setPause(bool isPause,bool isSetPhysics=true, bool isSetVolume=true){
-		if(_isPause==isPause)return;
-		_isPause=isPause;
+	public void SetPause(bool isPause,bool isSetPhysics=true, bool isSetVolume=true){
+		if(this.isPause==isPause)
+			return;
+		this.isPause=isPause;
 		if(isSetPhysics){
 			//暂停或恢复3D物理模拟
-			Physics.autoSimulation=!_isPause;
+			Physics.autoSimulation=!this.isPause;
 			//暂停或恢复2D物理模拟
-			Physics2D.autoSimulation=!_isPause;
+			Physics2D.autoSimulation=!this.isPause;
 		}
 		if(isSetVolume){
-			AudioListener.pause=_isPause;
+			AudioListener.pause=this.isPause;
 		}
 		//发出事件
 		onPauseOrResume?.Invoke(isPause);
@@ -112,52 +130,13 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	
 	protected override void OnDestroy(){
 		base.OnDestroy();
-		//不需要销毁_instance
-		//_instance=null;
+		//不需要销毁instance
+		//instance=null;
 	}
 
-	public bool isDebug{ get => _isDebug; }
 	
-	/// <summary>
-	/// 应用程序的语言
-	/// </summary>
-	public Language language{
-		get => _language;
-		set{
-			_language=value;
-			onChangeLanguage?.Invoke(_language);
-		}
-	}
-
-	/// <summary>
-	/// 进度条
-	/// </summary>
-	public Progressbar progressbar{ get => _progressbar; }
-
-	/// <summary>
-	/// 文件加载器
-	/// </summary>
-	public FileLoader fileLoader{ get => _fileLoader; }
-
-	/// <summary>
-	/// 场景加载器(有进度条)
-	/// </summary>
-	public SceneLoader sceneLoader{ get => _sceneLoader; }
-
-	/// <summary>
-	/// 更新管理器
-	/// </summary>
-	public UpdateManager updateManager{ get => _updateManager; }
-
-	/// <summary>
-	/// 是否已暂停
-	/// </summary>
-	public bool isPause{ get => _isPause; }
-
-	/// <summary>
-	/// 是否第一次打开当前应用
-	/// </summary>
-	public bool isFirstOpen{ get => _isFirstOpen; }
+	
+	
 
 
 }

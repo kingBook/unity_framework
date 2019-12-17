@@ -8,32 +8,34 @@ using UnityEngine.UI;
 /// <br>通过angleNormal属性,获取方向角度力，x、y值范围[-1,1]</br>
 /// </summary>
 public class DirectionDragHandle:BaseMonoBehaviour{
-	[System.Serializable]
-	public class MyEvent:UnityEvent<PointerEventData>{ }
+	public float idleAlpha=0.5f;
+	public float activeAlpha=1.0f;
 
 	[Tooltip("滑块")]
 	public RectTransform handleRect;
 	[Tooltip("滑块的父级")]
 	public GameObject handleParent;
 	
+	[System.Serializable]
+	public class MyEvent:UnityEvent<PointerEventData>{ }
 	public MyEvent onEndDragEvent;
 	
-	private readonly float idleAlpha=0.5f;
-	private readonly float activeAlpha=1.0f;
 	/// <summary>当鼠标按下/接触开始时是否允许操作手柄在小范围内移动到鼠标/接触点位置</summary>
-	private bool _isMoveHandleOnTouchBegin=false;
-	private float _radius=0f;
-	private Vector2 _angleNormal=Vector2.zero;
-	private Vector2 _initPos;
-	private int _fingerId=-1;
-	private RectTransform _rectTransform;
-	private CanvasGroup _canvasGroup;
-	private ScrollRect _scrollRect;
+	private bool m_isMoveHandleOnTouchBegin=false;
+	private float m_radius=0f;
+	private Vector2 m_angleNormal=Vector2.zero;
+	private Vector2 m_initPos;
+	private int m_fingerId=-1;
+	private RectTransform m_rectTransform;
+	private CanvasGroup m_canvasGroup;
+	private ScrollRect m_scrollRect;
+
+	public Vector2 angleNormal{ get=>m_angleNormal;}
 
 	protected override void Awake() {
 		base.Awake();
 		//添加ScrollRect组件，必须在添加EventTrigger之前，否则无法限制滑块拖动范围
-		_scrollRect=handleParent.AddComponent<ScrollRect>();
+		m_scrollRect=handleParent.AddComponent<ScrollRect>();
 		//侦听onBeginDrag、onDrag、onEndDrag
 		EventTrigger eventTrigger=handleParent.AddComponent<EventTrigger>();
 		//onBeginDrag
@@ -44,45 +46,45 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 		//onDrag
 		entry=new EventTrigger.Entry();
 		entry.eventID=EventTriggerType.Drag;
-		entry.callback.AddListener((eventData)=>{onDrag((PointerEventData)eventData);});
+		entry.callback.AddListener((eventData)=>{OnDrag((PointerEventData)eventData);});
 		eventTrigger.triggers.Add(entry);
 		//onEndDrag
 		entry=new EventTrigger.Entry();
 		entry.eventID=EventTriggerType.EndDrag;
-		entry.callback.AddListener((eventData)=>{onEndDrag((PointerEventData)eventData);});
+		entry.callback.AddListener((eventData)=>{OnEndDrag((PointerEventData)eventData);});
 		eventTrigger.triggers.Add(entry);
 		//
-		_rectTransform=handleParent.transform as RectTransform;
-		_canvasGroup=handleParent.AddComponent<CanvasGroup>();
+		m_rectTransform=handleParent.transform as RectTransform;
+		m_canvasGroup=handleParent.AddComponent<CanvasGroup>();
 	}
 
 	protected override void Start(){
 		base.Start();
 		//计算摇杆块的半径
-		_radius=_rectTransform.sizeDelta.x*0.5f;
-		_initPos=_rectTransform.anchoredPosition;
+		m_radius=m_rectTransform.sizeDelta.x*0.5f;
+		m_initPos=m_rectTransform.anchoredPosition;
 		
-		_scrollRect.content=handleRect;
-		_canvasGroup.alpha=idleAlpha;
+		m_scrollRect.content=handleRect;
+		m_canvasGroup.alpha=idleAlpha;
     }
 
 	private void onBeginDrag(PointerEventData eventData){
-		_canvasGroup.alpha=activeAlpha;
+		m_canvasGroup.alpha=activeAlpha;
 	}
 
-	private void onDrag(PointerEventData eventData){
-		var contentPostion=_scrollRect.content.anchoredPosition;
+	private void OnDrag(PointerEventData eventData){
+		var contentPostion=m_scrollRect.content.anchoredPosition;
 		//限制滑块拖动的半径范围
-		if (contentPostion.magnitude>_radius){
-			contentPostion=contentPostion.normalized*_radius;
-			_scrollRect.content.anchoredPosition=contentPostion;
+		if (contentPostion.magnitude>m_radius){
+			contentPostion=contentPostion.normalized*m_radius;
+			m_scrollRect.content.anchoredPosition=contentPostion;
 		}
-		_angleNormal.Set(contentPostion.x/_radius,contentPostion.y/_radius);
+		m_angleNormal.Set(contentPostion.x/m_radius,contentPostion.y/m_radius);
     }
 
-	private void onEndDrag(PointerEventData eventData){
-		_angleNormal=Vector2.zero;
-		_canvasGroup.alpha=idleAlpha;
+	private void OnEndDrag(PointerEventData eventData){
+		m_angleNormal=Vector2.zero;
+		m_canvasGroup.alpha=idleAlpha;
 		//
 		onEndDragEvent?.Invoke(eventData);
 	}
@@ -92,41 +94,41 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 		if(Input.touchSupported){
 			Touch[] touchs=Input.touches;
 			foreach(Touch touch in touchs){
-				if(_fingerId==-1){
-					if(RectTransformUtility.RectangleContainsScreenPoint(_rectTransform,touch.position)){
+				if(m_fingerId==-1){
+					if(RectTransformUtility.RectangleContainsScreenPoint(m_rectTransform,touch.position)){
 						if(touch.phase==TouchPhase.Began){
-							if(touch.position.x>_initPos.x&&touch.position.y>_initPos.y){
-								if(_isMoveHandleOnTouchBegin)moveHandleToPos(touch.position);
-								_canvasGroup.alpha=activeAlpha;
-								_fingerId=touch.fingerId;
+							if(touch.position.x>m_initPos.x&&touch.position.y>m_initPos.y){
+								if(m_isMoveHandleOnTouchBegin)MoveHandleToPos(touch.position);
+								m_canvasGroup.alpha=activeAlpha;
+								m_fingerId=touch.fingerId;
 							}
 						}
 					}
-				}else if(touch.fingerId==_fingerId){
+				}else if(touch.fingerId==m_fingerId){
 					if(touch.phase==TouchPhase.Ended){
-						_fingerId=-1;
-						_rectTransform.anchoredPosition=_initPos;
-						_canvasGroup.alpha=idleAlpha;
+						m_fingerId=-1;
+						m_rectTransform.anchoredPosition=m_initPos;
+						m_canvasGroup.alpha=idleAlpha;
 					}
 				}
 			}
 		}else{
 			if(Input.GetMouseButtonDown(0)){
 				Vector2 mousePos=Input.mousePosition;
-				if(RectTransformUtility.RectangleContainsScreenPoint(_rectTransform,mousePos)){
-					if(mousePos.x>_initPos.x&&mousePos.y>_initPos.y){
-						if(_isMoveHandleOnTouchBegin)moveHandleToPos(mousePos);
-						_canvasGroup.alpha=activeAlpha;
+				if(RectTransformUtility.RectangleContainsScreenPoint(m_rectTransform,mousePos)){
+					if(mousePos.x>m_initPos.x&&mousePos.y>m_initPos.y){
+						if(m_isMoveHandleOnTouchBegin)MoveHandleToPos(mousePos);
+						m_canvasGroup.alpha=activeAlpha;
 					}
 				}
 			}else if(Input.GetMouseButtonUp(0)){
-				_rectTransform.anchoredPosition=_initPos;
-				_canvasGroup.alpha=idleAlpha;
+				m_rectTransform.anchoredPosition=m_initPos;
+				m_canvasGroup.alpha=idleAlpha;
 			}
 		}
 	}
 
-	private void moveHandleToPos(Vector2 pos){
+	private void MoveHandleToPos(Vector2 pos){
 		CanvasScaler canvasScaler=GetComponentInParent<CanvasScaler>();
 
 		//屏幕分辨率与设计分辨率的缩放因子
@@ -138,11 +140,11 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 
 		pos/=averageValue;
 
-		pos-=_rectTransform.sizeDelta*0.5f;
-		Vector2 offset=pos-_rectTransform.offsetMin;
+		pos-=m_rectTransform.sizeDelta*0.5f;
+		Vector2 offset=pos-m_rectTransform.offsetMin;
 
-		_rectTransform.offsetMin=pos;
-		_rectTransform.offsetMax=_rectTransform.offsetMax+offset;
+		m_rectTransform.offsetMin=pos;
+		m_rectTransform.offsetMax=m_rectTransform.offsetMax+offset;
 	}
 
 	protected override void OnDestroy() {
@@ -151,7 +153,5 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 		}
 		base.OnDestroy();
 	}
-
-	public Vector2 angleNormal{ get=>_angleNormal;}
 
 }

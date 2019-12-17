@@ -11,7 +11,7 @@ public static class InputUtil{
 	/// </summary>
 	/// <param name="phase">判断触摸的阶段</param>
 	/// <returns>返回在TouchBegan时非接触UI的触摸点</returns>
-	public static Touch getTouchNonPointerOverUI(TouchPhase phase){
+	public static Touch GetTouchNonPointerOverUI(TouchPhase phase){
 		Touch touch;
 		for(int i=0;i<Input.touchCount;i++){
 			touch=Input.GetTouch(i);
@@ -31,13 +31,13 @@ public static class InputUtil{
 	/// </summary>
 	/// <param name="fingerId"></param>
 	/// <returns></returns>
-	public static Touch getTouchWithFingerId(int fingerId){
-		return getTouchWithFingerId(fingerId,0,false);
+	public static Touch GetTouchWithFingerId(int fingerId){
+		return GetTouchWithFingerId(fingerId,0,false);
 	}
-	public static Touch getTouchWithFingerId(int fingerId,TouchPhase phase){
-		return getTouchWithFingerId(fingerId,phase,true);
+	public static Touch GetTouchWithFingerId(int fingerId,TouchPhase phase){
+		return GetTouchWithFingerId(fingerId,phase,true);
 	}
-	private static Touch getTouchWithFingerId(int fingerId,TouchPhase phase,bool isCheckPhase){
+	private static Touch GetTouchWithFingerId(int fingerId,TouchPhase phase,bool isCheckPhase){
 		Touch touch;
 		for(int i=0;i<Input.touchCount;i++){
 			touch=Input.GetTouch(i);
@@ -60,9 +60,9 @@ public static class InputUtil{
 	/// <param name="screenPoint">输出鼠标/触摸点的屏幕坐标</param>
 	/// <param name="isIgnorePointerOverUI">忽略UI上的点击，默认true</param>
 	/// <returns></returns>
-	public static bool getMouseDownScreenPoint(out Vector3 screenPoint,bool isIgnorePointerOverUI=true){
+	public static bool GetMouseDownScreenPoint(out Vector3 screenPoint,bool isIgnorePointerOverUI=true){
 		screenPoint=new Vector3();
-		if(isIgnorePointerOverUI&&isPointerOverUI()){
+		if(isIgnorePointerOverUI&&IsPointerOverUI()){
 			//忽略UI上的点击
 		}else if(Input.touchSupported){
 			if(Input.touchCount>0){
@@ -85,7 +85,7 @@ public static class InputUtil{
 	/// 检测鼠标左键按下时/第一个触摸点在Began阶段是否接触UI
 	/// </summary>
 	/// <returns></returns>
-	public static bool isPointerOverUI(){
+	public static bool IsPointerOverUI(){
 		bool result=false;
 		if(Input.touchSupported){
 			if(Input.touchCount>0) {

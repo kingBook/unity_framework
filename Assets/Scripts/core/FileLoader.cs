@@ -8,7 +8,7 @@ using UnityEngine;
 public class FileLoader:BaseMonoBehaviour{
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar _progressbar=null;
+	private Progressbar m_progressbar=null;
 	
 	/// <summary>
 	/// 文件加载进度事件（是假模拟的进度）
@@ -23,9 +23,9 @@ public class FileLoader:BaseMonoBehaviour{
 	/// </summary>
 	public event Action<byte[][]> onComplete;
 
-	private FileStream _fileStream;
-	private bool _isLoading;
-	private float _progressValue;
+	private FileStream m_fileStream;
+	private bool m_isLoading;
+	private float m_progressValue;
 
 	/// <summary>
 	/// 异步加载一个或多个本地文件
@@ -33,8 +33,8 @@ public class FileLoader:BaseMonoBehaviour{
 	/// </summary>
 	/// <param name="filePaths">可变长度文件路径列表，如: @"C:\Users\Administrator\Desktop\views0.xml"</param>
 	/// <param name="progressBarVisible">是否显示进度条</param>
-	public async void loadAsync(bool progressbarVisible,params string[] filePaths){
-		onLoadStart(progressbarVisible);
+	public async void LoadAsync(bool progressbarVisible,params string[] filePaths){
+		OnLoadStart(progressbarVisible);
 
 		byte[][] outBytesList=new byte[filePaths.Length][];
 		for(int i=0;i<filePaths.Length;i++){
@@ -42,46 +42,46 @@ public class FileLoader:BaseMonoBehaviour{
             string filePath=filePaths[i];
             await Task.Run(()=>{
                 if(File.Exists(filePath)){
-                    _fileStream=File.OpenRead(filePath);
+                    m_fileStream=File.OpenRead(filePath);
 
-                    int fileLength=(int)_fileStream.Length;
+                    int fileLength=(int)m_fileStream.Length;
                     buffer=new byte[fileLength];
 
-                    _fileStream.Read(buffer,0,fileLength);
+                    m_fileStream.Read(buffer,0,fileLength);
                 }
             });
-			if(_isDestroyed){
+			if(isDestroyed){
 				//加载过程中，删除该脚本绑定的对象时，打断
 				break;
 			}
 			outBytesList[i]=buffer;
-			dispose();
+			Dispose();
 		}
 
 		//所有加载完成
-		if(!_isDestroyed){
-			onLoadCompleteAll(outBytesList);
+		if(!isDestroyed){
+			OnLoadCompleteAll(outBytesList);
 		}
 	}
 
-	private void onLoadStart(bool progressbarVisible){
-		_isLoading=true;
-		_progressValue=0.0f;
-		if(_progressbar!=null){
-			_progressbar.setProgress(_progressValue);
-			_progressbar.setText("loading 0%...");
-			_progressbar.gameObject.SetActive(progressbarVisible);
+	private void OnLoadStart(bool progressbarVisible){
+		m_isLoading=true;
+		m_progressValue=0.0f;
+		if(m_progressbar!=null){
+			m_progressbar.SetProgress(m_progressValue);
+			m_progressbar.SetText("loading 0%...");
+			m_progressbar.gameObject.SetActive(progressbarVisible);
 		}
 		gameObject.SetActive(true);
 	}
 
-	private void onLoadCompleteAll(byte[][] outBytesList){
-		_isLoading=false;
-		_progressValue=1.0f;
-		if(_progressbar!=null){
-			_progressbar.setProgress(_progressValue);
-			_progressbar.setText("loading 100%...");
-			_progressbar.gameObject.SetActive(false);
+	private void OnLoadCompleteAll(byte[][] outBytesList){
+		m_isLoading=false;
+		m_progressValue=1.0f;
+		if(m_progressbar!=null){
+			m_progressbar.SetProgress(m_progressValue);
+			m_progressbar.SetText("loading 100%...");
+			m_progressbar.gameObject.SetActive(false);
 		}
 		gameObject.SetActive(false);
 		
@@ -90,25 +90,25 @@ public class FileLoader:BaseMonoBehaviour{
 
 	protected override void Update2() {
 		base.Update2();
-		if(_isLoading){
+		if(m_isLoading){
 			//模拟假的加载进度
-			_progressValue=Mathf.Min(_progressValue+0.1f,0.9f);
-			_progressbar.setProgress(_progressValue);
-			_progressbar.setText("loading "+Mathf.FloorToInt(_progressValue*100)+"%...");
-			onProgress?.Invoke(_progressValue);
+			m_progressValue=Mathf.Min(m_progressValue+0.1f,0.9f);
+			m_progressbar.SetProgress(m_progressValue);
+			m_progressbar.SetText("loading "+Mathf.FloorToInt(m_progressValue*100)+"%...");
+			onProgress?.Invoke(m_progressValue);
 		}
 	}
 
-	private void dispose(){
-		if(_fileStream!=null){
-			_fileStream.Dispose();
-			_fileStream.Close();
-			_fileStream=null;
+	private void Dispose(){
+		if(m_fileStream!=null){
+			m_fileStream.Dispose();
+			m_fileStream.Close();
+			m_fileStream=null;
 		}
 	}
 
 	protected override void OnDestroy() {
-		dispose();
+		Dispose();
 		base.OnDestroy();
 	}
 

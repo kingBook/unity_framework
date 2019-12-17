@@ -9,11 +9,11 @@ public class ImageHitTestMinAlpha:BaseMonoBehaviour{
 	[Tooltip("碰撞测试的最小透明度")]
 	[Range(0,1)]
 	public float alphaHitTestMinimumThreshold=0.01f;
-	private Image _image;
+	private Image m_image;
 
-	protected override void Awake() {
+	protected override void Awake(){
 		base.Awake();
-		_image=GetComponent<Image>();
-		_image.alphaHitTestMinimumThreshold=alphaHitTestMinimumThreshold;
+		m_image=GetComponent<Image>();
+		m_image.alphaHitTestMinimumThreshold=alphaHitTestMinimumThreshold;
 	}
 }

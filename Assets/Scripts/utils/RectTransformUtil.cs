@@ -11,7 +11,7 @@ public class RectTransformUtil{
 /// <param name="rectTransform">指定的RectTransform</param>
 /// <param name="canvasLocalScale">Canvas的缩放量</param>
 /// <returns></returns>
-public static Rect getScreenRect(RectTransform rectTransform,Vector3 canvasLocalScale){
+public static Rect GetScreenRect(RectTransform rectTransform,Vector3 canvasLocalScale){
 	Rect rect=rectTransform.rect;
 	//根据Canvas缩放
 	rect.width*=canvasLocalScale.x;

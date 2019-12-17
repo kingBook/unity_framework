@@ -5,24 +5,24 @@ using System.Collections;
 /// <br>管理关卡内的对象。</br>
 /// </summary>
 public sealed class Level:BaseMonoBehaviour{
-	private Game _game;
 
-	protected override void Start() {
+	private Game m_game;
+
+	protected override void Start(){
 		base.Start();
-		_game=App.instance.game;
+		m_game=App.instance.game;
 	}
 
-	public void vectory(){
+	public void Victory(){
 		
 	}
 
-	public void failure(){
+	public void Failure(){
 		
-
 	}
 
 
-	protected override void OnDestroy() {
+	protected override void OnDestroy(){
 		base.OnDestroy();
 	}
 

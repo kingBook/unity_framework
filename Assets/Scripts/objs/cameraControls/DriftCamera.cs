@@ -97,49 +97,49 @@ public class DriftCamera:BaseMonoBehaviour{
 	protected override void Start(){
 		base.Start();
 		if(advancedOptions.isLookToTargetOnStart){
-			lookToTarget();
+			LookToTarget();
 		}
 	}
 
 	protected override void FixedUpdate2(){
 		base.FixedUpdate2();
 		if(advancedOptions.updateCameraInFixedUpdate){
-			updateCamera();
+			UpdateCamera();
 		}
 	}
 
 	protected override void Update2(){
 		base.Update2();
 		if(advancedOptions.updateCameraInUpdate){
-			updateCamera();
+			UpdateCamera();
 		}
 	}
 
 	protected override void LateUpdate2(){
 		base.LateUpdate2();
 		if(advancedOptions.updateCameraInLateUpdate){
-			updateCamera();
+			UpdateCamera();
 		}
 	}
 	
 	/// <summary>
 	/// 立即移动相机并且并旋转朝向目标
 	/// </summary>
-	private void lookToTarget(){
+	private void LookToTarget(){
 		if(targetTransform==null)return;
-		Vector3 positionTarget=getPositionTarget();
+		Vector3 positionTarget=GetPositionTarget();
         //移动相机
 		transform.position=positionTarget;
         //旋转相机朝向
 		transform.LookAt(targetTransform);
 	}
 	
-	private void updateCamera(){
+	private void UpdateCamera(){
 		if(targetTransform==null)return;
-		Vector3 positionTarget=getPositionTarget();
+		Vector3 positionTarget=GetPositionTarget();
         //遮挡检测
 		if(advancedOptions.isCheckCrossObs){
-			checkCrossObsViewField(ref positionTarget);
+			CheckCrossObsViewField(ref positionTarget);
 		}
         //移动相机
 		transform.position=Vector3.Lerp(transform.position,positionTarget,Time.deltaTime*smoothing);
@@ -147,7 +147,7 @@ public class DriftCamera:BaseMonoBehaviour{
 		transform.LookAt(targetTransform);
 	}
 	
-	private Vector3 getPositionTarget(){
+	private Vector3 GetPositionTarget(){
 		Vector3 offset=originPositionNormalized*distance;
 		if(advancedOptions.isLookTargetRotation){
 			offset=targetTransform.rotation*offset;
@@ -159,8 +159,8 @@ public class DriftCamera:BaseMonoBehaviour{
     /// <summary>
     /// 检测遮挡并处理
     /// </summary>
-	private void checkCrossObsViewField(ref Vector3 positionTarget){
-		if(!isCrossObs(positionTarget))return;
+	private void CheckCrossObsViewField(ref Vector3 positionTarget){
+		if(!IsCrossObs(positionTarget))return;
 		for(int i=0;i<17;i++){
             //取一个相机测试点检测是否遮挡
 			Vector3 normalized=positionModeVerties[i];
@@ -172,7 +172,7 @@ public class DriftCamera:BaseMonoBehaviour{
 			for(int j=0;j<5;j++){
 				t+=0.2f;
 				Vector3 checkPos=Vector3.Slerp(positionTarget,testPosTarget,t);
-				if(!isCrossObs(checkPos)){
+				if(!IsCrossObs(checkPos)){
                     //没有被遮挡，返回该测试点
 					positionTarget=checkPos;
 					return;
@@ -185,7 +185,7 @@ public class DriftCamera:BaseMonoBehaviour{
     /// <summary>
     /// 是否被遮挡
     /// </summary>
-	private bool isCrossObs(Vector3 positionTarget){
+	private bool IsCrossObs(Vector3 positionTarget){
 		Ray ray=new Ray(positionTarget,targetTransform.position-positionTarget);
 		float maxDistance=Vector3.Distance(targetTransform.position,positionTarget);
 		

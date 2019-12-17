@@ -10,15 +10,17 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	
-	/// <summary>表示是否已销毁</summary>
-	protected bool _isDestroyed=false;
-	private bool _isHasAddToUpdateManager=false;
+	/// <summary>是否已经添加到<see cref="UpdateManager"/></summary>
+	private bool m_hasAddToUpdateManager=false;
 
-	private void addToUpdateManager(){
-		if(_isHasAddToUpdateManager)return;
-		_isHasAddToUpdateManager=true;
+	/// <summary>表示是否已销毁</summary>
+	public bool isDestroyed{ get; private set; }
+
+	private void AddToUpdateManager(){
+		if(m_hasAddToUpdateManager)return;
+		m_hasAddToUpdateManager=true;
 		
-		App.instance.updateManager.add(this);
+		App.instance.updateManager.Add(this);
 	}
 		
 
@@ -43,7 +45,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 仅当启用脚本实例后，才会在第一次帧更新之前调用 Start。
 	/// </summary>
 	virtual protected void Start(){
-		addToUpdateManager();
+		AddToUpdateManager();
 	}
 
 	/// <summary>
@@ -383,11 +385,10 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 当 MonoBehaviour 将被销毁时调用此函数
 	/// </summary>
 	virtual protected void OnDestroy(){
-		_isDestroyed=true;
-		App.instance.updateManager.remove(this);
+		isDestroyed=true;
+		App.instance.updateManager.Remove(this);
 	}
 	#endregion
 
-	/// <summary>表示是否已销毁</summary>
-	public bool isDestroyed{ get=>_isDestroyed; }
+	
 }

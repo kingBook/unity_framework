@@ -22,10 +22,10 @@ public class MoveFromOnCanvas:BaseMonoBehaviour{
 		Vector2 recordPos=rectTransform.anchoredPosition;
 		rectTransform.anchoredPosition=from;
 
-		rectTransform.DOAnchorPos(recordPos,duration).onComplete=onComplete;
+		rectTransform.DOAnchorPos(recordPos,duration).onComplete=OnComplete;
 	}
 
-	private void onComplete() {
+	private void OnComplete() {
 		onCompleteEvent?.Invoke(this);
 	}
 

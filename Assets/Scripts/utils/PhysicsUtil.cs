@@ -8,7 +8,7 @@ public class PhysicsUtil{
 	/// <param name="ray">射线</param>
 	/// <param name="layerMask">用于射线计算的LayerMask，如：LayerMask.GetMask("ItemModel")。</param>
 	/// <returns></returns>
-	public static RaycastHit getClosestRaycastHit(Ray ray,int layerMask){
+	public static RaycastHit GetClosestRaycastHit(Ray ray,int layerMask){
 		RaycastHit result=new RaycastHit();
 		RaycastHit[] hits=Physics.RaycastAll(ray,Mathf.Infinity,layerMask);
 		float minDistance=float.MaxValue;
@@ -30,7 +30,7 @@ public class PhysicsUtil{
 	/// <param name="ray">射线</param>
 	/// <param name="worldBounds">世界坐标包围盒</param>
 	/// <returns></returns>
-	public static RaycastHit getRaycastBounds(Ray ray,Bounds worldBounds){
+	public static RaycastHit GetRaycastBounds(Ray ray,Bounds worldBounds){
 		var gameObject=new GameObject();
 		gameObject.transform.position=worldBounds.center;
 		var boxCollider=gameObject.AddComponent<BoxCollider>();
@@ -47,7 +47,7 @@ public class PhysicsUtil{
 	/// <param name="bounds">包围盒</param>
 	/// <param name="collider">碰撞器</param>
 	/// <returns></returns>
-	public static bool getBoundsIntersectsCollider<T>(Bounds bounds,T collider)where T:Collider{
+	public static bool GetBoundsIntersectsCollider<T>(Bounds bounds,T collider)where T:Collider{
 		return bounds.Intersects(collider.bounds);
 	}
 
@@ -58,10 +58,10 @@ public class PhysicsUtil{
 	/// <param name="bounds">包围盒</param>
 	/// <param name="colliders">碰撞器列表</param>
 	/// <returns></returns>
-	public static bool getBoundsIntersectsColliders<T>(Bounds bounds,T[] colliders)where T:Collider{
+	public static bool GetBoundsIntersectsColliders<T>(Bounds bounds,T[] colliders)where T:Collider{
 		int len=colliders.Length;
 		for(int i=0;i<len;i++){
-			if(getBoundsIntersectsCollider(bounds,colliders[i])){
+			if(GetBoundsIntersectsCollider(bounds,colliders[i])){
 				return true;
 			}
 		}

@@ -14,25 +14,26 @@ public class ButtonHandle:BaseMonoBehaviour,IPointerDownHandler,IPointerUpHandle
 	public MyEvent onPointerDown;
 	public MyEvent onPointerUp;
 	
-	private CanvasGroup _canvasGroup;
-	private bool _isPointerDown;
+	private CanvasGroup m_canvasGroup;
+
+	public bool isPointerDown{ get; private set;}
 	
 	protected override void Start(){
 		base.Start();
-		_canvasGroup=gameObject.AddComponent<CanvasGroup>();
-		_canvasGroup.alpha=idleAlpha;
+		m_canvasGroup=gameObject.AddComponent<CanvasGroup>();
+		m_canvasGroup.alpha=idleAlpha;
 	}
 
 	public void OnPointerDown(PointerEventData eventData){
-		_isPointerDown=true;
-		_canvasGroup.alpha=activeAlpha;
+		isPointerDown=true;
+		m_canvasGroup.alpha=activeAlpha;
 		
 		onPointerDown?.Invoke(eventData);
 	}
 
     public void OnPointerUp(PointerEventData eventData){
-		_isPointerDown=false;
-		_canvasGroup.alpha=idleAlpha;
+		isPointerDown=false;
+		m_canvasGroup.alpha=idleAlpha;
 		
 		onPointerUp?.Invoke(eventData);
     }
@@ -43,6 +44,6 @@ public class ButtonHandle:BaseMonoBehaviour,IPointerDownHandler,IPointerUpHandle
 		base.OnDestroy();
 	}
 	
-	public bool isPointerDown{ get=>_isPointerDown; }
+	
     
 }

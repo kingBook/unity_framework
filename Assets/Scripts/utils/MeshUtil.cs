@@ -11,7 +11,7 @@ public class MeshUtil{
 	/// <param name="mesh"></param>
 	/// <param name="hitInfo"></param>
 	/// <returns></returns>
-	public static int getRaycastHitSubMeshIndex(Mesh mesh,RaycastHit hitInfo){
+	public static int GetRaycastHitSubMeshIndex(Mesh mesh,RaycastHit hitInfo){
 		//命中三角形的顶点索引
 		int[] triangles=mesh.triangles;
 		int triangleIndex=hitInfo.triangleIndex;
@@ -43,7 +43,7 @@ public class MeshUtil{
 	/// <param name="mesh">网格</param>
 	/// <param name="subMeshIndex">子网格索引号</param>
 	/// <returns></returns>
-	public static Bounds getSubMeshLocalBounds(Mesh mesh,int subMeshIndex){
+	public static Bounds GetSubMeshLocalBounds(Mesh mesh,int subMeshIndex){
 		Vector3[] vertices=mesh.vertices;
 
 		int[] indices=mesh.GetIndices(subMeshIndex);
@@ -68,8 +68,8 @@ public class MeshUtil{
 	/// <param name="subMeshIndex">子网格索引号</param>
 	/// <param name="meshTransform">网格所在游戏对象的Transform组件</param>
 	/// <returns></returns>
-	public static Bounds getSubMeshWorldBounds(Mesh mesh,int subMeshIndex,Transform meshTransform){
-		Bounds bounds=getSubMeshLocalBounds(mesh,subMeshIndex);
+	public static Bounds GetSubMeshWorldBounds(Mesh mesh,int subMeshIndex,Transform meshTransform){
+		Bounds bounds=GetSubMeshLocalBounds(mesh,subMeshIndex);
 		bounds.center=meshTransform.TransformPoint(bounds.center);
 		return bounds;
 	}

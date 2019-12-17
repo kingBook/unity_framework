@@ -9,16 +9,16 @@ public sealed class Game:BaseMonoBehaviour{
 	protected override void Start() {
 		base.Start();
 		if(!App.instance.isDebug){
-			gotoTitleScene();
+			GotoTitleScene();
 		}
 	}
 
-	public void gotoTitleScene(){
-		App.instance.sceneLoader.load("Scenes/title");
+	public void GotoTitleScene(){
+		App.instance.sceneLoader.Load("Scenes/title");
 	}
 
-	public void gotoLevelScene(){
-		App.instance.sceneLoader.loadAsync("Scenes/level");
+	public void GotoLevelScene(){
+		App.instance.sceneLoader.LoadAsync("Scenes/level");
 	}
 
 	protected override void OnDestroy() {

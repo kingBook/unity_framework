@@ -11,7 +11,7 @@ public static class RandomUtil{
 	/// <br>小于1时自动取值：1。</br>
 	/// <br>大于max-min时自动取值：max-min。</br>
 	/// </summary>
-	public static int[] getRandomUniqueIntList(int min,int max,int length){
+	public static int[] GetRandomUniqueIntList(int min,int max,int length){
 		int sourceLength=max-min;
 		length=Mathf.Clamp(length,1,sourceLength);
 

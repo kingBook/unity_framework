@@ -163,7 +163,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8820196aa25d8ba4a89f637f1d86056b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _progressbar: {fileID: 3926725189739106143}
+  m_progressbar: {fileID: 3926725189739106143}
 --- !u!1 &1171199452
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +208,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isSetActiveScene: 1
-  _progressbar: {fileID: 3926725189739106143}
+  m_progressbar: {fileID: 3926725189739106143}
 --- !u!114 &3926725188166633272
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -221,12 +221,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: effd2d16da2d75d4886f902f5962d16b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isDebug: 1
-  _language: 0
-  _progressbar: {fileID: 3926725189739106143}
-  _fileLoader: {fileID: 535276211}
-  _sceneLoader: {fileID: 1171199454}
-  _updateManager: {fileID: 3926725188601805804}
+  m_isDebug: 0
+  m_language: 0
+  m_progressbar: {fileID: 3926725189739106143}
+  m_fileLoader: {fileID: 535276211}
+  m_sceneLoader: {fileID: 1171199454}
+  m_updateManager: {fileID: 3926725188601805804}
 --- !u!4 &3926725188166633273
 Transform:
   m_ObjectHideFlags: 0
@@ -785,8 +785,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 798e90bdc18797b419ec3b49d3590499, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _imageMid: {fileID: 3926725188651017554}
-  _text: {fileID: 3926725190058871101}
+  m_imageMid: {fileID: 0}
+  m_text: {fileID: 0}
 --- !u!224 &3926725190058871090
 RectTransform:
   m_ObjectHideFlags: 0

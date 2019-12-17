@@ -26,89 +26,89 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	/// </summary>
 	public event Action<float> onRotateEvent;
 	
-	private Camera _camera;
-	private DriftCamera _driftCamera;
-	private bool _isRotateBegin;
+	private Camera m_camera;
+	private DriftCamera m_driftCamera;
+	private bool m_isRotateBegin;
 	/// <summary>
 	/// 鼠标左键，在按下开始时是否接触UI
 	/// </summary>
-	private bool _isMouseOverUIOnBegan;
-	private int _touchFingerId=-1;
+	private bool m_isMouseOverUIOnBegan;
+	private int m_touchFingerId=-1;
 	
     protected override void Start(){
 		base.Start();
-		_camera=GetComponent<Camera>();
-		_driftCamera=GetComponent<DriftCamera>();
+		m_camera=GetComponent<Camera>();
+		m_driftCamera=GetComponent<DriftCamera>();
     }
 	
 	protected override void Update2(){
 		base.Update2();
 		if(Input.touchSupported){
-			touchHandler();
+			TouchHandler();
 		}else{
-			mouseHandler();
+			MouseHandler();
 		}
 	}
 	
-	private void touchHandler(){
+	private void TouchHandler(){
 		Touch touch;
 		//返回一个在触摸开始阶段时非触摸UI的触摸点
-		if(_touchFingerId>-1){
-			touch=InputUtil.getTouchWithFingerId(_touchFingerId);
-			_touchFingerId=touch.fingerId;
+		if(m_touchFingerId>-1){
+			touch=InputUtil.GetTouchWithFingerId(m_touchFingerId);
+			m_touchFingerId=touch.fingerId;
 		}else{
-			touch=InputUtil.getTouchNonPointerOverUI(TouchPhase.Began);
-			_touchFingerId=touch.fingerId;
+			touch=InputUtil.GetTouchNonPointerOverUI(TouchPhase.Began);
+			m_touchFingerId=touch.fingerId;
 		}
 		
 		if(touch.fingerId>-1){
 			float h=touch.deltaPosition.x*0.5f;
-			if(!_isRotateBegin){
-				_isRotateBegin=true;
+			if(!m_isRotateBegin){
+				m_isRotateBegin=true;
 				onPreRotateEvent?.Invoke(h);
 			}
 			//单点触摸上下左右旋转
-			rotate(h);
+			Rotate(h);
 		}
 	}
 	
-	private void mouseHandler(){
+	private void MouseHandler(){
 		//按下鼠标左键时，鼠标是否接触UI
 		if(Input.GetMouseButtonDown(0)){
-			_isMouseOverUIOnBegan=EventSystem.current.IsPointerOverGameObject();
+			m_isMouseOverUIOnBegan=EventSystem.current.IsPointerOverGameObject();
 		}
 		
 		//非移动设备按下鼠标左键旋转
 		if(Input.GetMouseButton(0)){
 			//鼠标按下左键时没有接触UI
-			if(!_isMouseOverUIOnBegan){
+			if(!m_isMouseOverUIOnBegan){
 				float h=Input.GetAxis("Mouse X");
 				h*=10;
 				
-				if(!_isRotateBegin){
-					_isRotateBegin=true;
+				if(!m_isRotateBegin){
+					m_isRotateBegin=true;
 					onPreRotateEvent?.Invoke(h);
 				}
-				rotate(h);
+				Rotate(h);
 			}
 		}else{
-			_isRotateBegin=false;
+			m_isRotateBegin=false;
 		}
 	}
 	
 	/// <summary>
 	/// 旋转
 	/// </summary>
-	private void rotate(float h){
+	private void Rotate(float h){
 		//应用到DriftCamera
 		if(advancedOptions.isApplyToDriftCamera){
-			if(_driftCamera!=null){
+			if(m_driftCamera!=null){
 				Quaternion rotation=Quaternion.AngleAxis(h,Vector3.up);
-				_driftCamera.originPositionNormalized=rotation*_driftCamera.originPositionNormalized;
+				m_driftCamera.originPositionNormalized=rotation*m_driftCamera.originPositionNormalized;
 			}
 		}
 		//绕着pivot旋转Y轴，实现左右旋转
-		_camera.transform.RotateAround(targetTransform.position,Vector3.up,h);
+		m_camera.transform.RotateAround(targetTransform.position,Vector3.up,h);
 		//
 		onRotateEvent?.Invoke(h);
 	}

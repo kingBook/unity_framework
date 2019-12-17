@@ -12,17 +12,17 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 	protected override void Awake(){
 		base.Awake();
 		if(App.instance){
-			activeWithLanguage(App.instance.language);
+			ActiveWithLanguage(App.instance.language);
 		}
 	}
 
 	protected override void Start(){
 		base.Start();
-		activeWithLanguage(App.instance.language);
-		App.instance.onChangeLanguage+=onChangeLanguage;
+		ActiveWithLanguage(App.instance.language);
+		App.instance.onChangeLanguage+=OnChangeLanguage;
 	}
 
-	private void activeWithLanguage(Language language){
+	private void ActiveWithLanguage(Language language){
 		if(language==Language.AUTO)return;
 		GameObject[] activeList=null;
 		GameObject[] deactiveList=null;
@@ -45,12 +45,12 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 		}
 	}
 	
-	private void onChangeLanguage(Language language){
-		activeWithLanguage(language);
+	private void OnChangeLanguage(Language language){
+		ActiveWithLanguage(language);
 	}
 
 	protected override void OnDestroy(){
-		App.instance.onChangeLanguage-=onChangeLanguage;
+		App.instance.onChangeLanguage-=OnChangeLanguage;
 		base.OnDestroy();
 	}
 }

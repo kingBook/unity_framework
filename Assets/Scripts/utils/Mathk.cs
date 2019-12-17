@@ -10,7 +10,7 @@ public class Mathk{
 	/// </summary>
 	/// <param name="rotation">需要转换的角度</param>
 	/// <returns></returns>
-	public static float getRotationTo180(float rotation){
+	public static float GetRotationTo180(float rotation){
 		rotation%=360.0f;
 		if     (rotation>180.0f)rotation-=360.0f;
 		else if(rotation<-180.0f)rotation+=360.0f;
@@ -23,9 +23,9 @@ public class Mathk{
 	/// <param name="rotation">当前角度</param>
 	/// <param name="targetRotation">目标角度</param>
 	/// <returns></returns>
-	public static float getRotationDifference(float rotation,float targetRotation){
-		rotation=getRotationTo360(rotation);
-		targetRotation=getRotationTo360(targetRotation);
+	public static float GetRotationDifference(float rotation,float targetRotation){
+		rotation=GetRotationTo360(rotation);
+		targetRotation=GetRotationTo360(targetRotation);
 		float offset=targetRotation-rotation;
 		if(Mathf.Abs(offset)>180.0f){
 			float reDir=offset>=0?-1:1;
@@ -39,8 +39,8 @@ public class Mathk{
 	/// </summary>
 	/// <param name="rotation">需要转换的角度</param>
 	/// <returns></returns>
-	public static float getRotationTo360(float rotation){
-		rotation=getRotationTo180(rotation);
+	public static float GetRotationTo360(float rotation){
+		rotation=GetRotationTo180(rotation);
 		if(rotation<0) rotation+=360;
 		return rotation;
 	}

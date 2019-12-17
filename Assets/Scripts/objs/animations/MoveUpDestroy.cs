@@ -9,16 +9,16 @@ public class MoveUpDestroy:BaseMonoBehaviour{
 	[Tooltip("向上移动的距离")]
 	[Range(10,100)]
 	[SerializeField]
-	private float _moveUpDistance=40;
+	private float m_moveUpDistance=40;
 
 	[Tooltip("向上移动的持续时间")]
 	[Range(0,100)]
 	[SerializeField]
-	private float _duration=1.0f;
+	private float m_duration=1.0f;
 
 	protected override void Start() {
 		base.Start();
-		transform.DOMoveY(transform.position.y+_moveUpDistance,_duration).onComplete=()=>{
+		transform.DOMoveY(transform.position.y+m_moveUpDistance,m_duration).onComplete=()=>{
 			Destroy(gameObject);
 		};
 	}

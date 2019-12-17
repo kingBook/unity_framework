@@ -4,15 +4,9 @@ using UnityEngine;
 /// Yoyo动画
 /// </summary>
 public class AnimationYoyo:BaseMonoBehaviour{
-	[Tooltip("运动方向")]
-	[Range(-180,180)]
-	public float angle=90;
-	[Tooltip("运动距离")]
-	[Range(1,100)]
-	public float distance=2;
-	[Tooltip("时间(决定运动的快慢)")]
-	[Range(0.1f,3.0f)]
-	public float duration=0.8f;
+	[Tooltip("运动方向")] [Range(-180,180)]			   public float angle=90;
+	[Tooltip("运动距离")] [Range(1,100)]				   public float distance=2;
+	[Tooltip("时间(决定运动的快慢)")] [Range(0.1f,3.0f)] public float duration=0.8f;
 
 	protected override void Start(){
 		base.Start();

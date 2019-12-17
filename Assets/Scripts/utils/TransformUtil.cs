@@ -10,7 +10,7 @@ public static class TransformUtil{
 	/// </summary>
 	/// <param name="transform"></param>
 	/// <returns></returns>
-	public static Transform[] getTransformChildren(Transform transform){
+	public static Transform[] GetTransformChildren(Transform transform){
 		int childCount=transform.childCount;
 		Transform[] children=new Transform[childCount];
 		for(int i=0;i<childCount;i++){
