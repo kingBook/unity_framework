@@ -13,11 +13,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// <summary>应用程序的单例实例</summary>
 	public static T instance{ get; private set; }
 
-	[Tooltip("用于调试其它场景需要调用该脚本，" +
-	 "\n在Hierarchy中拖入该脚本所在的.unity文件时，" +
-	 "\n不执行载入标题、其他场景等，将在代码中判定实现" +
-	 "\n发布项目时必须为false。")
-	]
+	[Tooltip("标记为调试（不载入其他场景）")]
 	[SerializeField] private bool m_isDebug=false;
 
 	/// <summary>改变语言事件</summary>

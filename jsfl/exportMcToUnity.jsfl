@@ -52,6 +52,8 @@ funcs.exportSymbolItem=function(element){
 		element.selected=true;
 		//只有一帧时，直接导出位图
 		document.exportInstanceToPNGSequence(filePath+".png");
+		//创建空的xml，使unity能正确的改变纹理类型
+		FLfile.write(filePath+".xml","<?xml version=\"1.0\" encoding=\"utf-8\"?>\n<TextureAtlas imagePath=\""+exportName+".png"+"\"></TextureAtlas>");
 		//还原选择项
 		document.selection=selections;
 	}else{

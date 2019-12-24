@@ -9,7 +9,7 @@ using UnityEngine.Events;
 public sealed class SceneLoader:BaseMonoBehaviour{
 	
 	[Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)设置为激活场景")]
-	public bool isSetActiveScene=true;
+	public bool isActiveSceneOnLoaded=true;
 
 	[Tooltip("进度条")]
 	[SerializeField]
@@ -91,7 +91,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 	}
 
 	private void OnSceneLoaded(Scene scene,LoadSceneMode mode){
-		if(isSetActiveScene){
+		if(isActiveSceneOnLoaded){
 			SceneManager.SetActiveScene(scene);
 		}
 		gameObject.SetActive(false);

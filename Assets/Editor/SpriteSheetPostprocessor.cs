@@ -91,7 +91,7 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		}
 		var importer=assetImporter as TextureImporter;
 		importer.textureType=TextureImporterType.Sprite;
-		importer.spriteImportMode=SpriteImportMode.Multiple;
+		importer.spriteImportMode=nodes.Count>0?SpriteImportMode.Multiple:SpriteImportMode.Single;
 		importer.spritesheet=spritesheet;
 	}
 
