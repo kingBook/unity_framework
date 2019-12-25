@@ -4,14 +4,12 @@ using UnityEngine;
 public enum Language{AUTO,CN,EN}
 	
 /// <summary>
-/// 整个应用程序的单例抽象类(基类)
-/// <br>子类的以下方法：FixedUpdate、Update、LateUpdate、OnGUI、OnRenderObject，</br>
-/// <br>将使用以下代替：FixedUpdate2、Update2、LateUpdate2、OnGUI2、OnRenderObject2。</br>
+/// 整个应用程序的单例
 /// </summary>
-public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
+public sealed class App:BaseMonoBehaviour{
 	
 	/// <summary>应用程序的单例实例</summary>
-	public static T instance{ get; private set; }
+	public static App instance{ get; private set; }
 
 	[Tooltip("标记为调试（不载入其他场景）")]
 	[SerializeField] private bool m_isDebug=false;
@@ -24,7 +22,7 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	 "\nEN:英文")
 	]
 	[SerializeField,SetProperty("language")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
-	protected Language m_language=Language.AUTO;
+	private Language m_language=Language.AUTO;
 
 	[Tooltip("进度条")]
 	[SerializeField] private Progressbar m_progressbar=null;
@@ -37,6 +35,9 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 
 	[Tooltip("更新管理器")]
 	[SerializeField] private UpdateManager m_updateManager=null;
+
+	[Tooltip("游戏列表")]
+	[SerializeField] private BaseGame[] m_games=new BaseGame[0];
 
 	/// <summary>暂停或恢复事件，在调用setPause(bool)时方法发出</summary>
 	public event Action<bool> onPauseOrResume;
@@ -65,16 +66,37 @@ public abstract class BaseApp<T>:BaseMonoBehaviour where T:class,new(){
 	/// <summary>更新管理器</summary>
 	public UpdateManager updateManager{ get => m_updateManager; }
 
+	/// <summary>
+	/// 返回<see cref="m_games"/>[0]
+	/// </summary>
+	/// <typeparam name="U"><see cref="BaseGame"/></typeparam>
+	/// <returns></returns>
+	public T GetGame<T>() where T:BaseGame{
+		return (T)m_games[0];
+	}
+	/// <summary>
+	/// 返回<see cref="m_games"/>[index]
+	/// </summary>
+	/// <typeparam name="T"><see cref="BaseGame"/></typeparam>
+	/// <param name="index">索引</param>
+	/// <returns></returns>
+	public T GetGame<T>(int index) where T:BaseGame{
+		return (T)m_games[index];
+	}
+	/// <summary>
+	/// 返回<see cref="m_games"/>.Length
+	/// </summary>
+	public int gameCount{ get => m_games.Length; }
+
 	/// <summary>是否已暂停</summary>
 	public bool isPause{ get;private set; }
 
 	/// <summary>是否第一次打开当前应用</summary>
 	public bool isFirstOpen{ get; private set; }
 
-
 	protected override void Awake() {
 		base.Awake();
-		instance=this as T;
+		instance=this;
 
 		InitFirstOpenApp();
 

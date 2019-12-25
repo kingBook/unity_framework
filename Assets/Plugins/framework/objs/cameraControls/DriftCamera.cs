@@ -22,67 +22,17 @@ public class DriftCamera:BaseMonoBehaviour{
 	[System.Serializable]
 	public enum PositionMode{
 		Top,//0
-		
-		TopLeftForward,
-		TopForward,
-		TopRightForward,
-		TopRight,
-		TopRightBack,
-		TopBack,
-		TopLeftBack,
-		TopLeft,//8
-		
-		LeftForward,
-		Forward,
-		RightForward,
-		Right,
-		RightBack,
-		Back,
-		LeftBack,
-		Left,//16
-		
+		TopLeftForward,TopForward,TopRightForward,TopRight,TopRightBack,TopBack,TopLeftBack,TopLeft,//8
+		LeftForward,Forward,RightForward,Right,RightBack,Back,LeftBack,Left,//16
 		Bottom,//17
-		
-		BottomLeftForward,
-		BottomForward,
-		BottomRightForward,
-		BottomRight,
-		BottomRightBack,
-		BottomBack,
-		BottomLeftBack,
-		BottomLeft//25
+		BottomLeftForward,BottomForward,BottomRightForward,BottomRight,BottomRightBack,BottomBack,BottomLeftBack,BottomLeft//25
 	}
 	public static readonly Vector3[] positionModeVerties=new Vector3[]{
-		new Vector3(0,1,0),
-		
-		new Vector3(-1,1,1),
-		new Vector3(0,1,1),
-		new Vector3(1,1,1),
-		new Vector3(1,1,0),
-		new Vector3(1,1,-1),
-		new Vector3(0,1,-1),
-		new Vector3(-1,1,-1),
-		new Vector3(-1,1,0),
-		
-		new Vector3(-1,0,1),
-		new Vector3(0,0,1),
-		new Vector3(1,0,1),
-		new Vector3(1,0,0),
-		new Vector3(1,0,-1),
-		new Vector3(0,0,-1),
-		new Vector3(-1,0,-1),
-		new Vector3(-1,0,0),
-		
-		new Vector3(0,-1,0),
-		
-		new Vector3(-1,-1,1),
-		new Vector3(0,-1,1),
-		new Vector3(1,-1,1),
-		new Vector3(1,-1,0),
-		new Vector3(1,-1,-1),
-		new Vector3(0,-1,-1),
-		new Vector3(-1,-1,-1),
-		new Vector3(-1,-1,0)
+		new Vector3(0,1,0),//0
+		new Vector3(-1,1,1),new Vector3(0,1,1),new Vector3(1,1,1),new Vector3(1,1,0),new Vector3(1,1,-1),new Vector3(0,1,-1),new Vector3(-1,1,-1),new Vector3(-1,1,0),//8
+		new Vector3(-1,0,1),new Vector3(0,0,1),new Vector3(1,0,1),new Vector3(1,0,0),new Vector3(1,0,-1),new Vector3(0,0,-1),new Vector3(-1,0,-1),new Vector3(-1,0,0),//16
+		new Vector3(0,-1,0),//17
+		new Vector3(-1,-1,1),new Vector3(0,-1,1),new Vector3(1,-1,1),new Vector3(1,-1,0),new Vector3(1,-1,-1),new Vector3(0,-1,-1),new Vector3(-1,-1,-1),new Vector3(-1,-1,0)//25
 	};
 
 	public float smoothing=6.0f;

@@ -4,13 +4,13 @@ using System.Collections;
 /// 关卡类
 /// <br>管理关卡内的对象。</br>
 /// </summary>
-public sealed class Level:BaseMonoBehaviour{
+public class Level:BaseMonoBehaviour{
 
-	private Game m_game;
+	protected Game m_game;
 
 	protected override void Start(){
 		base.Start();
-		m_game=App.instance.game;
+		m_game=App.instance.GetGame<Game>();
 	}
 
 	public void Victory(){
