@@ -11,13 +11,13 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	//是否删除xml,(注意：只能用于测试,不删除时需要重新导入对应的png才能使切片数据正确导入)
 	private bool _isDeleteXML=true;
 	
-	private void OnPreprocessAsset(){
+	/*private void OnPreprocessAsset(){
 		
-	}
+	}*/
 
-	private void OnPreprocessTexture(){
+	/*private void OnPreprocessTexture(){
 		
-    }
+    }*/
 
 	private void OnPostprocessTexture(Texture2D texture){
 		string dataPath=Application.dataPath;
