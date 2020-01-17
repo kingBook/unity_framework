@@ -36,7 +36,7 @@ funcs.exportSymbolItem=function(element){
 	const libraryItemName=element.libraryItem.name;
 	libraryItemName=libraryItemName.substr(libraryItemName.lastIndexOf("\/")+1);
 	const exportName=elementName?elementName:(linkageClassName?linkageClassName:libraryItemName);
-	const filePath=exportFolderPath+"/"+exportName;
+	const filePath=exportFolderPath+"/"+exportName+"png";
 	
 	if(FLfile.createFolder(exportFolderPath)){
 		//fl.trace("Folder has been created");
