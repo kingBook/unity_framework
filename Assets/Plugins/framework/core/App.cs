@@ -21,8 +21,14 @@ public sealed class App:BaseMonoBehaviour{
 	 "\nCN:中文 " +
 	 "\nEN:英文")
 	]
-	[SerializeField,SetProperty("language")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
+	[SerializeField,SetProperty(nameof(language))]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	private Language m_language=Language.AUTO;
+	
+	[Tooltip("全局用于播放不循环音频的AudioSource")]
+	[SerializeField] private AudioSource m_effectAudioSource=null;
+	
+	[Tooltip("全局用于播放循环音频的AudioSource（unity中同时播放多个循环音频时，需要在不同GameObject添加多个AudioSource）")]
+	[SerializeField] private AudioSource m_loopAudioSource=null;
 
 	[Tooltip("进度条")]
 	[SerializeField] private Progressbar m_progressbar=null;
@@ -53,7 +59,13 @@ public sealed class App:BaseMonoBehaviour{
 			onChangeLanguage?.Invoke(m_language);
 		}
 	}
-
+	
+	/// <summary>全局用于播放不循环音频的AudioSource</summary>
+	public AudioSource effectAudioSource{ get => m_effectAudioSource; }
+	
+	/// <summary>全局用于播放循环音频的AudioSource（unity中同时播放多个循环音频时，需要在不同GameObject添加多个AudioSource）</summary>
+	public AudioSource loopAudioSource{ get => m_loopAudioSource; }
+	
 	/// <summary>进度条</summary>
 	public Progressbar progressbar{ get => m_progressbar; }
 

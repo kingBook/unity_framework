@@ -146,7 +146,7 @@ public class FuncUtil{
 		while(--j>=0){
 			Renderer renderer=subRenderers[j];
 			if(!renderer.enabled)continue;
-			if(Array.IndexOf(filterChildRenderers,renderer)>-1)continue;
+			if(System.Array.IndexOf(filterChildRenderers,renderer)>-1)continue;
 			if(bounds.min.magnitude==0f && bounds.max.magnitude==0f){
 				bounds=renderer.bounds;
 			}else{
