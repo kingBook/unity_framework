@@ -62,8 +62,10 @@ public sealed class UpdateManager:MonoBehaviour{
 	}
 
 	public void Remove(IUpdate item){
-		m_list.Remove(item);
-		m_length--;
+		bool isSuccess=m_list.Remove(item);
+		if(isSuccess){
+			m_length--;
+		}
 	}
 
 	public void Clear(){
