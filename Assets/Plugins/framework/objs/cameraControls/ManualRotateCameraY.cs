@@ -7,6 +7,9 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class ManualRotateCameraY:BaseMonoBehaviour{
 	
+	[System.Serializable]
+	public enum ActiveArea{ FullScreen,RightScreen,LeftScreen }
+	
 	[Tooltip("相机看向的目标")]
 	public Transform targetTransform;
 	
@@ -14,24 +17,20 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	public class AdvancedOptions{
 		[Tooltip("是否应用到DriftCamera组件(存在时有效)")]
 		public bool isApplyToDriftCamera=true;
+		[Tooltip("活动区域(在活动区域内划屏才能旋转相机)")]
+		public ActiveArea activeArea=ActiveArea.FullScreen;
 	}
 	public AdvancedOptions advancedOptions;
 	
-	/// <summary>
-	/// 旋转前 void(float h)
-	/// </summary>
+	/// <summary>旋转前 void(float h)</summary>
 	public event Action<float> onPreRotateEvent;
-	/// <summary>
-	/// 旋转 void(float h)
-	/// </summary>
+	/// <summary>旋转 void(float h)</summary>
 	public event Action<float> onRotateEvent;
 	
 	private Camera m_camera;
 	private DriftCamera m_driftCamera;
 	private bool m_isRotateBegin;
-	/// <summary>
-	/// 鼠标左键，在按下开始时是否接触UI
-	/// </summary>
+	/// <summary>鼠标左键，在按下开始时是否接触UI</summary>
 	private bool m_isMouseOverUIOnBegan;
 	private int m_touchFingerId=-1;
 	
@@ -62,13 +61,14 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 		}
 		
 		if(touch.fingerId>-1){
-			float h=touch.deltaPosition.x*0.5f;
-			if(!m_isRotateBegin){
-				m_isRotateBegin=true;
-				onPreRotateEvent?.Invoke(h);
+			if(GetPositionOnActiveArea(touch.position,advancedOptions.activeArea)){
+				float h=touch.deltaPosition.x*0.5f;
+				if(!m_isRotateBegin){
+					m_isRotateBegin=true;
+					onPreRotateEvent?.Invoke(h);
+				}
+				Rotate(h);
 			}
-			//单点触摸上下左右旋转
-			Rotate(h);
 		}
 	}
 	
@@ -82,14 +82,16 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 		if(Input.GetMouseButton(0)){
 			//鼠标按下左键时没有接触UI
 			if(!m_isMouseOverUIOnBegan){
-				float h=Input.GetAxis("Mouse X");
-				h*=10;
-				
-				if(!m_isRotateBegin){
-					m_isRotateBegin=true;
-					onPreRotateEvent?.Invoke(h);
+				if(GetPositionOnActiveArea(Input.mousePosition,advancedOptions.activeArea)){
+					float h=Input.GetAxis("Mouse X");
+					h*=10;
+					
+					if(!m_isRotateBegin){
+						m_isRotateBegin=true;
+						onPreRotateEvent?.Invoke(h);
+					}
+					Rotate(h);
 				}
-				Rotate(h);
 			}
 		}else{
 			m_isRotateBegin=false;
@@ -111,6 +113,17 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 		m_camera.transform.RotateAround(targetTransform.position,Vector3.up,h);
 		//
 		onRotateEvent?.Invoke(h);
+	}
+	
+	/// <summary>返回指定的位置是否在活动区域</summary>
+	private bool GetPositionOnActiveArea(Vector2 position,ActiveArea activeArea){
+		bool result=true;
+		if(activeArea==ActiveArea.RightScreen){
+			result=position.x>Screen.width*0.5f;
+		}else if(activeArea==ActiveArea.LeftScreen){
+			result=position.x<Screen.width*0.5f;
+		}
+		return result;
 	}
     
     protected override void OnDestroy(){
