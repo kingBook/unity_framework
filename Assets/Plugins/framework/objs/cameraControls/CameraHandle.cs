@@ -122,7 +122,7 @@ public class CameraHandle:BaseMonoBehaviour{
 			ZoomFieldOfView(-offset);
 			m_oldDistance=distance;
 			//两点触摸平移
-			Vector2 translateVel=(touch0.deltaPosition+touch1.deltaPosition)*0.5f*-0.01f;
+			Vector2 translateVel=(touch0.deltaPosition+touch1.deltaPosition)*(0.5f*-0.01f);
 			Translate(translateVel);
 		}
 	}
@@ -174,10 +174,11 @@ public class CameraHandle:BaseMonoBehaviour{
 	/// 旋转
 	/// </summary>
 	private void Rotate(float h,float v){
+		Transform camTransform=m_camera.transform;
 		//绕着pivot旋转Y轴，实现左右旋转
-		m_camera.transform.RotateAround(pivotTransform.position,Vector3.up, h);
+		camTransform.RotateAround(pivotTransform.position,Vector3.up, h);
 		//绕着pivot旋转相机朝向的右侧轴向,实现上下旋转
-		int cameraAngleX=(int)m_camera.transform.rotation.eulerAngles.x;
+		int cameraAngleX=(int)camTransform.rotation.eulerAngles.x;
 		//限制最大速度，避免出错
 		const float maxV=5;
 		v=Mathf.Clamp(v,-maxV,maxV);

@@ -81,7 +81,7 @@ public sealed class App:BaseMonoBehaviour{
 	/// <summary>
 	/// 返回<see cref="m_games"/>[0]
 	/// </summary>
-	/// <typeparam name="U"><see cref="BaseGame"/></typeparam>
+	/// <typeparam name="T"><see cref="BaseGame"/></typeparam>
 	/// <returns></returns>
 	public T GetGame<T>() where T:BaseGame{
 		return (T)m_games[0];
