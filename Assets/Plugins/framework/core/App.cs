@@ -111,7 +111,7 @@ public sealed class App:BaseMonoBehaviour{
 		instance=this;
 
 		InitFirstOpenApp();
-
+		
 		if(m_language==Language.AUTO){
 			InitLanguage();
 		}
