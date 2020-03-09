@@ -29,10 +29,10 @@ public class FileLoader:BaseMonoBehaviour{
 
 	/// <summary>
 	/// 异步加载一个或多个本地文件
-    /// <br>如果文件不存在将在onComplete(byte[][] bytesList)事件参数bytesList添加一个null</br>
+	/// <br>如果文件不存在将在onComplete(byte[][] bytesList)事件参数bytesList添加一个null</br>
 	/// </summary>
+	/// <param name="progressbarVisible">是否显示进度条</param>
 	/// <param name="filePaths">可变长度文件路径列表，如: @"C:\Users\Administrator\Desktop\views0.xml"</param>
-	/// <param name="progressBarVisible">是否显示进度条</param>
 	public async void LoadAsync(bool progressbarVisible,params string[] filePaths){
 		OnLoadStart(progressbarVisible);
 

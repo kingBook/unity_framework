@@ -136,8 +136,9 @@ public class DriftCamera:BaseMonoBehaviour{
     /// 是否被遮挡
     /// </summary>
 	private bool IsCrossObs(Vector3 positionTarget){
-		Ray ray=new Ray(positionTarget,targetTransform.position-positionTarget);
-		float maxDistance=Vector3.Distance(targetTransform.position,positionTarget);
+	    Vector3 position=targetTransform.position;
+	    Ray ray=new Ray(positionTarget,position-positionTarget);
+		float maxDistance=Vector3.Distance(position,positionTarget);
 		
 		const int bufferLen=50;
 		RaycastHit[] buffer=new RaycastHit[bufferLen];
