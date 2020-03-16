@@ -142,9 +142,9 @@ public sealed class App:BaseMonoBehaviour{
 	/// <param name="isSetPhysics">是否设置物理引擎</param>
 	/// <param name="isSetVolume">是否设置音量</param>
 	public void SetPause(bool isPause,bool isSetPhysics=true, bool isSetVolume=true){
-		if(this.isPause==isPause)
-			return;
+		if(this.isPause==isPause) return;
 		this.isPause=isPause;
+		
 		if(isSetPhysics){
 			//暂停或恢复3D物理模拟
 			Physics.autoSimulation=!this.isPause;

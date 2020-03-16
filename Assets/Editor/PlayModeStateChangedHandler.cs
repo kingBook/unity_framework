@@ -39,6 +39,8 @@ public static class PlayModeStateChangedHandler{
 				Scene mainScene=EditorSceneManager.OpenScene(m_mainScenePath,OpenSceneMode.Additive);
 				EditorSceneManager.SetActiveScene(mainScene);
 			}
+			EditorApplication.playModeStateChanged-=OnPlayModeStateChanged;
+			EditorSceneManager.sceneLoaded-=OnSceneLoaded;
 		}else if(playModeState==PlayModeStateChange.EnteredEditMode){
 			//=====进入编辑模式时====
 			var playBeforeData=AssetDatabase.LoadAssetAtPath<PlayBeforeData>(m_playBeforeDataPath);

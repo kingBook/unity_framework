@@ -138,6 +138,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		OnGUI2();
 	}
 
+#if UNITY_STANDALONE||UNITY_WEBGL
 	/// <summary>
 	/// 当用户在 GUIElement 或碰撞器上按鼠标按钮时调用 OnMouseDown
 	/// </summary>
@@ -172,6 +173,7 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// 仅当在同一 GUIElement 或碰撞器上按下鼠标，在松开时调用 OnMouseUpAsButton
 	/// </summary>
 	protected virtual void OnMouseUpAsButton(){}
+#endif
 
 	/// <summary>
 	/// 如果另一个碰撞器进入了触发器，则调用 OnTriggerEnter
