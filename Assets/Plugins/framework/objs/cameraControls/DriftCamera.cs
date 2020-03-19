@@ -6,17 +6,13 @@ public class DriftCamera:BaseMonoBehaviour{
 	
 	[System.Serializable]
 	public class AdvancedOptions{
-		public bool updateCameraInFixedUpdate=true;
-		public bool updateCameraInUpdate;
-		public bool updateCameraInLateUpdate;
-		[Tooltip("Start()时，立即设置相机位置并旋转朝向目标")]
-		public bool isLookToTargetOnStart;
-		[Tooltip("当目标发生旋转时，相机也绕着目标旋转")]
-		public bool isLookTargetRotation;
-        [Tooltip("是否检测穿过遮挡物并处理")]
-		public bool isCheckCrossObs=true;
-        [Tooltip("遮挡物LayerMask")]
-		public LayerMask obsLayerMask=-1;
+		public bool updateCameraInFixedUpdate;		//是否FixedUpdate函数中更新相机
+		public bool updateCameraInUpdate;			//是否在Update函数中更新相机
+		public bool updateCameraInLateUpdate=true;  //是否在LateUpdate函数中更新相机
+		public bool isLookToTargetOnStart;			//是否在Start函数中，立即设置相机位置并旋转朝向目标
+		public bool isLookTargetRotation;			//是否锁定旋转到目标（当目标发生旋转时，相机也绕着目标旋转）
+		public bool isCheckCrossObs=true;			//是否检测穿过遮挡物并处理
+		public LayerMask obsLayerMask=-1;			//遮挡物LayerMask
 	}
 	
 	[System.Serializable]
@@ -35,64 +31,53 @@ public class DriftCamera:BaseMonoBehaviour{
 		new Vector3(-1,-1,1),new Vector3(0,-1,1),new Vector3(1,-1,1),new Vector3(1,-1,0),new Vector3(1,-1,-1),new Vector3(0,-1,-1),new Vector3(-1,-1,-1),new Vector3(-1,-1,0)//25
 	};
 
-	public float smoothing=6.0f;
-	[Tooltip("相机朝向的目标点")]
-	public Transform targetTransform;
-	[Tooltip("相机相对于目标点的单位化位置")]
-	public Vector3 originPositionNormalized=new Vector3(0.2f,0.68f,-1.0f);
-	[Tooltip("相机与目标点的距离")]
-	public float distance=4.0f;
+	public float smoothing=6.0f;											//更新相机时每秒移动的距离
+	public Transform targetTransform;										//相机朝向的目标点
+	public Vector3 originPositionNormalized=new Vector3(0.2f,0.68f,-1.0f);	//相机相对于目标点的单位化位置
+	public float distance=4.0f;												//相机与目标点的距离
 	public AdvancedOptions advancedOptions;
 	
 	protected override void Start(){
 		base.Start();
 		if(advancedOptions.isLookToTargetOnStart){
-			LookToTarget();
+			//立即移动相机并且并旋转朝向目标
+			UpdateCamera(false,false);
 		}
 	}
 
 	protected override void FixedUpdate2(){
 		base.FixedUpdate2();
 		if(advancedOptions.updateCameraInFixedUpdate){
-			UpdateCamera();
+			UpdateCamera(advancedOptions.isCheckCrossObs,true);
 		}
 	}
 
 	protected override void Update2(){
 		base.Update2();
 		if(advancedOptions.updateCameraInUpdate){
-			UpdateCamera();
+			UpdateCamera(advancedOptions.isCheckCrossObs,true);
 		}
 	}
 
 	protected override void LateUpdate2(){
 		base.LateUpdate2();
 		if(advancedOptions.updateCameraInLateUpdate){
-			UpdateCamera();
+			UpdateCamera(advancedOptions.isCheckCrossObs,true);
 		}
 	}
 	
-	/// <summary>
-	/// 立即移动相机并且并旋转朝向目标
-	/// </summary>
-	private void LookToTarget(){
-		if(targetTransform==null)return;
-		Vector3 positionTarget=GetPositionTarget();
-        //移动相机
-		transform.position=positionTarget;
-        //旋转相机朝向
-		transform.LookAt(targetTransform);
-	}
-	
-	private void UpdateCamera(){
+	private void UpdateCamera(bool isCheckCrossObs,bool isLearp){
 		if(targetTransform==null)return;
 		Vector3 positionTarget=GetPositionTarget();
         //遮挡检测
-		if(advancedOptions.isCheckCrossObs){
+		if(isCheckCrossObs){
 			CheckCrossObsViewField(ref positionTarget);
 		}
         //移动相机
-		transform.position=Vector3.Lerp(transform.position,positionTarget,Time.deltaTime*smoothing);
+		if(isLearp){
+			positionTarget=Vector3.Lerp(transform.position,positionTarget,Time.deltaTime*smoothing);
+		}
+		transform.position=positionTarget;
         //旋转相机朝向
 		transform.LookAt(targetTransform);
 	}
