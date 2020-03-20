@@ -2,9 +2,13 @@ using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
 /// <summary>
-/// 绑定该组件，发光时会导致无法动态修改对象材质。
-/// <br>设置该组件enabled=false，修改材质后再设置enabled=true。</br>
-/// <br>再次激活该组件时发光效果会丢失，需要重新设置发光。</br>
+/// 使用该组件后处于发光状态时会导致对象修改材质失败。
+/// 必须在更改材质后，调用ReinitMaterials()方法解决此问题
+/// 如：
+/// <code>
+/// renderer.material=newMaterial;
+///	highlightableObject.ReinitMaterials();
+/// </code>
 /// </summary>
 public class HighlightableObject : MonoBehaviour
 {

@@ -1,18 +1,40 @@
 ﻿using UnityEngine;
+
 /// <summary>
 /// 控制相机跟随目标
 /// </summary>
 public class DriftCamera:BaseMonoBehaviour{
 	
 	[System.Serializable]
+	public class RangeFloat{
+		public Vector3 min=new Vector3(float.MinValue,float.MinValue,float.MinValue);
+		public Vector3 max=new Vector3(float.MaxValue,float.MaxValue,float.MaxValue);
+		public RangeFloat(Vector3 minValue,Vector3 maxValue){
+			min=minValue;
+			max=maxValue;
+		}
+	}
+	
+	[System.Serializable]
 	public class AdvancedOptions{
-		public bool updateCameraInFixedUpdate;		//是否FixedUpdate函数中更新相机
-		public bool updateCameraInUpdate;			//是否在Update函数中更新相机
-		public bool updateCameraInLateUpdate=true;  //是否在LateUpdate函数中更新相机
-		public bool isLookToTargetOnStart;			//是否在Start函数中，立即设置相机位置并旋转朝向目标
-		public bool isLookTargetRotation;			//是否锁定旋转到目标（当目标发生旋转时，相机也绕着目标旋转）
-		public bool isCheckCrossObs=true;			//是否检测穿过遮挡物并处理
-		public LayerMask obsLayerMask=-1;			//遮挡物LayerMask
+		public bool updateCameraInFixedUpdate;							//是否FixedUpdate函数中更新相机
+		public bool updateCameraInUpdate;								//是否在Update函数中更新相机
+		public bool updateCameraInLateUpdate=true;  					//是否在LateUpdate函数中更新相机
+		public bool isLookToTargetOnStart;								//是否在Start函数中，立即设置相机位置并旋转朝向目标
+		public bool isLookTargetRotation;								//是否锁定旋转到目标（当目标发生旋转时，相机也绕着目标旋转）
+		public RangeFloat positionRange=new RangeFloat(					//相机移动的位置范围
+			new Vector3(float.MinValue,float.MinValue,float.MinValue),
+			new Vector3(float.MaxValue,float.MaxValue,float.MaxValue));
+		[Space]
+		public bool isLockEulerAngleX;
+		public float lockEulerValueX;
+		public bool isLockEulerAngleY;
+		public float lockEulerValueY;
+		public bool isLockEulerAngleZ;
+		public float lockEulerValueZ;
+		[Space]
+		public bool isCheckCrossObs=true;								//是否检测穿过遮挡物并处理														
+		public LayerMask obsLayerMask=-1;								//遮挡物LayerMask
 	}
 	
 	[System.Serializable]
@@ -77,9 +99,20 @@ public class DriftCamera:BaseMonoBehaviour{
 		if(isLearp){
 			positionTarget=Vector3.Lerp(transform.position,positionTarget,Time.deltaTime*smoothing);
 		}
-		transform.position=positionTarget;
+		//根据要求限制位置范围
+		Vector3 tempPosition=transform.position;
+		tempPosition.x=Mathf.Clamp(positionTarget.x,advancedOptions.positionRange.min.x,advancedOptions.positionRange.max.x);
+		tempPosition.y=Mathf.Clamp(positionTarget.y,advancedOptions.positionRange.min.y,advancedOptions.positionRange.max.y);
+		tempPosition.z=Mathf.Clamp(positionTarget.z,advancedOptions.positionRange.min.z,advancedOptions.positionRange.max.z);
+		transform.position=tempPosition;
         //旋转相机朝向
 		transform.LookAt(targetTransform);
+		//根据要求锁定旋转
+		var eulerAngles=transform.eulerAngles;
+		if(advancedOptions.isLockEulerAngleX)eulerAngles.x=advancedOptions.lockEulerValueX;
+		if(advancedOptions.isLockEulerAngleY)eulerAngles.y=advancedOptions.lockEulerValueY;
+		if(advancedOptions.isLockEulerAngleZ)eulerAngles.z=advancedOptions.lockEulerValueZ;
+		transform.eulerAngles=eulerAngles;
 	}
 	
 	private Vector3 GetPositionTarget(){
