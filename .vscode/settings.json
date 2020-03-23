@@ -10,6 +10,12 @@
 	  "**/*.csproj":true,
 	  "**/*.sln":true,
 	  "**/*.unity":true,
+	  "**/*.mat":true,
+	  "**/*.ttf":true,
+	  "**/*.wav":true,
+	  "**/*.mp3":true,
+	  "**/*.rar":true,
+	  "**/*.zip":true,
 
 	  "**/*.vs":true,
 	  "**/*.vscode":true,
