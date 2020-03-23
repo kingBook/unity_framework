@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// 所有UI回调函数的基类,每一个场景都应该实现一个子类(如果场景中有UI)
+/// 所有UI的基类,每一个场景都应该实现一个子类(如果场景中有UI)
 /// </summary>
-public abstract class UICallbacksBase:BaseMonoBehaviour{
+public abstract class UIBase:BaseMonoBehaviour{
 
 	/// <summary>
 	/// 记录在静音时的音量，取消静音时恢复

@@ -281,7 +281,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 1732016853}
+      - m_Target: {fileID: 0}
         m_MethodName: ClearLocalData
         m_Mode: 1
         m_Arguments:
@@ -635,7 +635,7 @@ GameObject:
   - component: {fileID: 1732016854}
   - component: {fileID: 1732016853}
   m_Layer: 0
-  m_Name: UICallbacks
+  m_Name: UItitle
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -650,7 +650,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1732016852}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 47f5bc47ecafc7949b5a66ecf0475d21, type: 3}
+  m_Script: {fileID: 11500000, guid: 0af26164e1e10e645a026da25cebb42e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1732016854

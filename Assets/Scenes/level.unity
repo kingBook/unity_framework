@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 1798625837}
   - component: {fileID: 1798625838}
   m_Layer: 0
-  m_Name: UICallbacks
+  m_Name: UILevel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -426,6 +426,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 1798625836}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d4f627a86cbaec243b4ccb91a8622a95, type: 3}
+  m_Script: {fileID: 11500000, guid: 94e6d06b2eea11d41ad9c1c0aa031bd9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
