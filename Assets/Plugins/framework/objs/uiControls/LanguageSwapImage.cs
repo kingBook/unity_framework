@@ -23,14 +23,14 @@ public class LanguageSwapImage:BaseMonoBehaviour{
 		App.instance.onChangeLanguage+=OnChangeLanguage;
 	}
 
-	private void OnChangeLanguage(Language language){
+	private void OnChangeLanguage(App.Language language){
 		SwapImageToLanguage(language);
 	}
 
-	private void SwapImageToLanguage(Language language){
-		if(language==Language.EN){
+	private void SwapImageToLanguage(App.Language language){
+		if(language==App.Language.EN){
 			if(spriteEN!=null) m_image.sprite=spriteEN;
-		}else if(language==Language.CN){
+		}else if(language==App.Language.CN){
 			if(spriteCN!=null)m_image.sprite=spriteCN;
 		}
 	}

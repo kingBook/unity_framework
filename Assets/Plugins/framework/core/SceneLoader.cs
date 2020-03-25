@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 using UnityEngine.Events;
+#pragma warning disable 0649
+
 /// <summary>
 /// 场景加载器
 /// </summary>
@@ -13,7 +15,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar m_progressbar=null;
+	private Progressbar m_progressbar;
 
 	private AsyncOperation m_asyncOperation;
 

@@ -2,13 +2,15 @@
 using System.IO;
 using System.Threading.Tasks;
 using UnityEngine;
+#pragma warning disable 0649
+
 /// <summary>
 /// 文件加载器
 /// </summary>
 public class FileLoader:BaseMonoBehaviour{
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar m_progressbar=null;
+	private Progressbar m_progressbar;
 	
 	/// <summary>
 	/// 文件加载进度事件（是假模拟的进度）

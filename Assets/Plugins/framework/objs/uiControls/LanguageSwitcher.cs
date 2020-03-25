@@ -22,14 +22,14 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 		App.instance.onChangeLanguage+=OnChangeLanguage;
 	}
 
-	private void ActiveWithLanguage(Language language){
-		if(language==Language.AUTO)return;
+	private void ActiveWithLanguage(App.Language language){
+		if(language==App.Language.AUTO)return;
 		GameObject[] activeList=null;
 		GameObject[] deactiveList=null;
-		if(language==Language.EN){
+		if(language==App.Language.EN){
 			activeList=enList;
 			deactiveList=cnList;
-		}else if(language==Language.CN){
+		}else if(language==App.Language.CN){
 			activeList=cnList;
 			deactiveList=enList;
 		}
@@ -45,7 +45,7 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 		}
 	}
 	
-	private void OnChangeLanguage(Language language){
+	private void OnChangeLanguage(App.Language language){
 		ActiveWithLanguage(language);
 	}
 

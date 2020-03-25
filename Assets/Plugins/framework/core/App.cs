@@ -1,7 +1,7 @@
 ﻿using System;
 using UnityEngine;
 
-public enum Language{AUTO,CN,EN}
+#pragma warning disable 0649
 	
 /// <summary>
 /// 整个应用程序的单例
@@ -13,7 +13,8 @@ public sealed class App:BaseMonoBehaviour{
 
 	[Tooltip("标记为调试（不载入其他场景）")]
 	[SerializeField] private bool m_isDebug=false;
-
+	
+	public enum Language{AUTO,CN,EN}
 	/// <summary>改变语言事件</summary>
 	public event Action<Language> onChangeLanguage;
 
@@ -25,22 +26,22 @@ public sealed class App:BaseMonoBehaviour{
 	private Language m_language=Language.AUTO;
 	
 	[Tooltip("全局用于播放不循环音频的AudioSource")]
-	[SerializeField] private AudioSource m_effectAudioSource=null;
+	[SerializeField] private AudioSource m_effectAudioSource;
 	
 	[Tooltip("全局用于播放循环音频的AudioSource（unity中同时播放多个循环音频时，需要在不同GameObject添加多个AudioSource）")]
-	[SerializeField] private AudioSource m_loopAudioSource=null;
+	[SerializeField] private AudioSource m_loopAudioSource;
 
 	[Tooltip("进度条")]
-	[SerializeField] private Progressbar m_progressbar=null;
+	[SerializeField] private Progressbar m_progressbar;
 
 	[Tooltip("文件加载器")]
-	[SerializeField] private FileLoader m_fileLoader=null;
+	[SerializeField] private FileLoader m_fileLoader;
 
 	[Tooltip("场景加载器")]
-	[SerializeField] private SceneLoader m_sceneLoader=null;
+	[SerializeField] private SceneLoader m_sceneLoader;
 
 	[Tooltip("更新管理器")]
-	[SerializeField] private UpdateManager m_updateManager=null;
+	[SerializeField] private UpdateManager m_updateManager;
 
 	[Tooltip("游戏列表")]
 	[SerializeField] private BaseGame[] m_games=new BaseGame[0];
