@@ -4,7 +4,7 @@
 /// </summary>
 public class UIPanelFitSafeArea:BaseMonoBehaviour{
 	[Tooltip("如果true，将取屏幕的宽度的0.9进行测试")]
-	[SerializeField,SetProperty("isTest")]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
+	[SerializeField,SetProperty(nameof(isTest))]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	private bool m_isTest;
 
 	private Rect m_safeArea;
