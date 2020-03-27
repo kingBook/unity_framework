@@ -1,6 +1,5 @@
 ﻿using System;
 using UnityEngine;
-
 #pragma warning disable 0649
 	
 /// <summary>
@@ -13,7 +12,7 @@ public sealed class App:BaseMonoBehaviour{
 
 	[Tooltip("标记为调试（不载入其他场景）")]
 	[SerializeField] private bool m_isDebug=false;
-	
+
 	public enum Language{AUTO,CN,EN}
 	/// <summary>改变语言事件</summary>
 	public event Action<Language> onChangeLanguage;
@@ -50,7 +49,7 @@ public sealed class App:BaseMonoBehaviour{
 	public event Action<bool> onPauseOrResume;
 
 	/// <summary>是否为调试模式，调试模式下不加载其他场景</summary>
-	public bool isDebug{ get=>m_isDebug; }
+	public bool isDebug=>m_isDebug;
 
 	/// <summary>应用程序的语言</summary>
 	public Language language{
@@ -62,44 +61,42 @@ public sealed class App:BaseMonoBehaviour{
 	}
 	
 	/// <summary>全局用于播放不循环音频的AudioSource</summary>
-	public AudioSource effectAudioSource{ get => m_effectAudioSource; }
+	public AudioSource effectAudioSource=>m_effectAudioSource;
 	
 	/// <summary>全局用于播放循环音频的AudioSource（unity中同时播放多个循环音频时，需要在不同GameObject添加多个AudioSource）</summary>
-	public AudioSource loopAudioSource{ get => m_loopAudioSource; }
+	public AudioSource loopAudioSource=>m_loopAudioSource;
 	
 	/// <summary>进度条</summary>
-	public Progressbar progressbar{ get => m_progressbar; }
+	public Progressbar progressbar=>m_progressbar;
 
 	/// <summary>文件加载器</summary>
-	public FileLoader fileLoader{ get => m_fileLoader; }
+	public FileLoader fileLoader=>m_fileLoader;
 
 	/// <summary>场景加载器(有进度条)</summary>
-	public SceneLoader sceneLoader{ get => m_sceneLoader; }
+	public SceneLoader sceneLoader=>m_sceneLoader;
 
 	/// <summary>更新管理器</summary>
-	public UpdateManager updateManager{ get => m_updateManager; }
+	public UpdateManager updateManager=>m_updateManager;
 
 	/// <summary>
 	/// 返回<see cref="m_games"/>[0]
 	/// </summary>
 	/// <typeparam name="T"><see cref="BaseGame"/></typeparam>
 	/// <returns></returns>
-	public T GetGame<T>() where T:BaseGame{
-		return (T)m_games[0];
-	}
+	public T GetGame<T>() where T:BaseGame=>(T)m_games[0];
+
 	/// <summary>
 	/// 返回<see cref="m_games"/>[index]
 	/// </summary>
 	/// <typeparam name="T"><see cref="BaseGame"/></typeparam>
 	/// <param name="index">索引</param>
 	/// <returns></returns>
-	public T GetGame<T>(int index) where T:BaseGame{
-		return (T)m_games[index];
-	}
+	public T GetGame<T>(int index) where T:BaseGame=>(T)m_games[index];
+
 	/// <summary>
 	/// 返回<see cref="m_games"/>.Length
 	/// </summary>
-	public int gameCount{ get => m_games.Length; }
+	public int gameCount=>m_games.Length;
 
 	/// <summary>是否已暂停</summary>
 	public bool isPause{ get;private set; }
@@ -143,9 +140,9 @@ public sealed class App:BaseMonoBehaviour{
 	/// <param name="isSetPhysics">是否设置物理引擎</param>
 	/// <param name="isSetVolume">是否设置音量</param>
 	public void SetPause(bool isPause,bool isSetPhysics=true, bool isSetVolume=true){
-		if(this.isPause==isPause) return;
+		if(this.isPause==isPause)
+			return;
 		this.isPause=isPause;
-		
 		if(isSetPhysics){
 			//暂停或恢复3D物理模拟
 			Physics.autoSimulation=!this.isPause;
@@ -164,10 +161,4 @@ public sealed class App:BaseMonoBehaviour{
 		//不需要销毁instance
 		//instance=null;
 	}
-
-	
-	
-	
-
-
 }
