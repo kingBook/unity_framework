@@ -124,11 +124,6 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	protected virtual void OnCollisionStay2D(Collision2D collision){}
 
 	/// <summary>
-	/// 当行为被禁用或处于非活动状态时调用此函数
-	/// </summary>
-	protected virtual void OnDisable(){}
-
-	/// <summary>
 	/// 渲染和处理 GUI 事件时调用 OnGUI
 	/// </summary>
 	//virtual protected void OnGUI(){}
@@ -137,6 +132,11 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 		if(!gameObject.activeInHierarchy||!gameObject.activeSelf||!enabled)return;
 		OnGUI2();
 	}
+	
+	/// <summary>
+	/// 当行为被禁用或处于非活动状态时调用此函数
+	/// </summary>
+	protected virtual void OnDisable(){}
 
 #if UNITY_STANDALONE||UNITY_WEBGL
 	/// <summary>
