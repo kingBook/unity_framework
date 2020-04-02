@@ -29,11 +29,13 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 	private RectTransform m_rectTransform;
 	private CanvasGroup m_canvasGroup;
 	private ScrollRect m_scrollRect;
+	private Canvas m_canvas;
 
 	public Vector2 angleNormal{ get=>m_angleNormal;}
 
-	protected override void Awake() {
+	protected override void Awake(){
 		base.Awake();
+		m_canvas=GetComponentInParent<Canvas>();
 		//添加ScrollRect组件，必须在添加EventTrigger之前，否则无法限制滑块拖动范围
 		m_scrollRect=handleParent.AddComponent<ScrollRect>();
 		//侦听onBeginDrag、onDrag、onEndDrag
@@ -98,7 +100,7 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 					if(RectTransformUtility.RectangleContainsScreenPoint(m_rectTransform,touch.position)){
 						if(touch.phase==TouchPhase.Began){
 							if(touch.position.x>m_initPos.x&&touch.position.y>m_initPos.y){
-								if(m_isMoveHandleOnTouchBegin)MoveHandleToPos(touch.position);
+								if(m_isMoveHandleOnTouchBegin)MoveToScreenPos(m_rectTransform,touch.position,m_canvas);
 								m_canvasGroup.alpha=activeAlpha;
 								m_fingerId=touch.fingerId;
 							}
@@ -117,7 +119,7 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 				Vector2 mousePos=Input.mousePosition;
 				if(RectTransformUtility.RectangleContainsScreenPoint(m_rectTransform,mousePos)){
 					if(mousePos.x>m_initPos.x&&mousePos.y>m_initPos.y){
-						if(m_isMoveHandleOnTouchBegin)MoveHandleToPos(mousePos);
+						if(m_isMoveHandleOnTouchBegin)MoveToScreenPos(m_rectTransform,mousePos,m_canvas);
 						m_canvasGroup.alpha=activeAlpha;
 					}
 				}
@@ -128,23 +130,28 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 		}
 	}
 
-	private void MoveHandleToPos(Vector2 pos){
-		CanvasScaler canvasScaler=GetComponentInParent<CanvasScaler>();
+	private void MoveToScreenPos(RectTransform rectTransform,Vector2 screenPos, Canvas canvas){
+		float scaleFactor=canvas.scaleFactor;
+		Vector2 screenSize=new Vector2(Screen.width,Screen.height);
 
-		//屏幕分辨率与设计分辨率的缩放因子
-		float scaleX=Screen.width/canvasScaler.referenceResolution.x;
-		float scaleY=Screen.height/canvasScaler.referenceResolution.y;
+		screenPos/=scaleFactor;//计算屏幕在Canvas实际大小中的位置
+		
+		screenPos-=rectTransform.rect.size*0.5f;//以中心为枢轴
+		
+		Vector2 realSize=screenSize/scaleFactor;//Canvas实际大小(像素为单位)
+		
+		Vector2 anchorMinPos=realSize*rectTransform.anchorMin;//anchorMin在Canvas实际大小中的位置(像素为单位)
+		Vector2 anchorMaxPos=realSize*rectTransform.anchorMax;//anchorMax在Canvas实际大小中的位置(像素为单位)
 
-		//加权平均值
-		float averageValue=scaleX*(1-canvasScaler.matchWidthOrHeight)+scaleY*(canvasScaler.matchWidthOrHeight);
+		Vector2 leftBottomPos=anchorMinPos+rectTransform.offsetMin;//RectTransform框的左下角在Canvas实际大小中的位置(像素为单位)
+		Vector2 rightTopPos=anchorMaxPos+rectTransform.offsetMax;//RectTransform框的右上角在Canvas实际大小中的位置(像素为单位)
 
-		pos/=averageValue;
-
-		pos-=m_rectTransform.sizeDelta*0.5f;
-		Vector2 offset=pos-m_rectTransform.offsetMin;
-
-		m_rectTransform.offsetMin=pos;
-		m_rectTransform.offsetMax=m_rectTransform.offsetMax+offset;
+		Vector2 offset=screenPos-leftBottomPos;
+		
+		//offsetMin：表示RectTransform框的左下角减去anchorMin位置的值(像素为单位)。
+		//offsetMax：表示RectTransform框的右上下角减去anchorMax位置的值(像素为单位)。
+		rectTransform.offsetMin+=offset;
+		rectTransform.offsetMax+=offset;
 	}
 
 	protected override void OnDestroy() {
