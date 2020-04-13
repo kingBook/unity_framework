@@ -14,11 +14,11 @@ public sealed class Game:BaseGame{
 	}
 
 	public void GotoTitleScene(){
-		App.instance.sceneLoader.Load("Scenes/title");
+		App.instance.sceneLoader.Load("Scenes/Title");
 	}
 
 	public void GotoLevelScene(){
-		App.instance.sceneLoader.LoadAsync("Scenes/level");
+		App.instance.sceneLoader.LoadAsync("Scenes/Level");
 	}
 
 	protected override void OnDestroy() {
