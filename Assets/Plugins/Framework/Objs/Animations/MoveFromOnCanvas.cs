@@ -3,6 +3,8 @@ using UnityEngine;
 /// <summary>
 /// 从指定的起始位置移动到当前位置
 /// </summary>
+/// 
+[RequireComponent(typeof(RectTransform))]
 public class MoveFromOnCanvas:BaseMonoBehaviour{
 	[Tooltip("运动的起始位置(Canvas设计分辨率下的AnchoredPosition)")]
 	public Vector2 from;
@@ -20,7 +22,7 @@ public class MoveFromOnCanvas:BaseMonoBehaviour{
 
 	protected override void Awake() {
 		base.Awake();
-		m_rectTransform=(RectTransform)transform;
+		m_rectTransform=GetComponent<RectTransform>();
 		m_posRecord=m_rectTransform.anchoredPosition;
 	}
 
