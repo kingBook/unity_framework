@@ -335,13 +335,15 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// </summary>
 	protected virtual void OnRectTransformRemoved(){}
 
+	/*
 	/// <summary>
 	/// OnRenderImage 在所有渲染完成后被调用，以对图片进行额外渲染
 	/// 注意：当脚本绑定到Camera时，如果注册该函数且不实现任何操作会导致Game视图黑屏
 	/// </summary>
 	/// <param name="source"></param>
 	/// <param name="destination"></param>
-	//protected virtual void OnRenderImage(RenderTexture source,RenderTexture destination){}
+	protected virtual void OnRenderImage(RenderTexture source,RenderTexture destination){}
+	*/
 
 	/// <summary>
 	/// 照相机渲染场景后调用 OnRenderObject

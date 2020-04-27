@@ -2,7 +2,7 @@ using UnityEngine;
 
 #pragma warning disable 0649
 
-/// <summary> 俯视的车 </summary>
+/// <summary> 俯视的车(正前向方朝x轴) </summary>
 public class TopViewCar:BaseMonoBehaviour{
 	public float maxSpeed=15;				//移动的最大速度
 	public float maxWheelRotation=45;		//轮子的最大旋转角

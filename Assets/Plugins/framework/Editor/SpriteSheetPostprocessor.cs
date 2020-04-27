@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Reflection;
 using System.Threading.Tasks;
 using System.Xml;
 using UnityEditor;
 using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.UI;
-using Object=UnityEngine.Object;
+using Object=System.Object;
 
 /// <summary>
 /// 切片flash导入出来的位图表
@@ -19,52 +20,54 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	private enum AnimationType{ Sprite, Image }
 	/// <summary>帧频</summary>
 	private const int frameRate=24;
-	
+	/// <summary>是否创建AnimatorContrller文件</summary>
+	private bool m_isCreateAnimatorController=false;
+
+	private void OnPreprocessTexture(){
+		//去除后缀的资源相对路径，如：Assets/Textures/idle
+		string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
+		//.xml绝对路径，如：D:/projects/unity_test/Assets/Textures/idle.xml
+		string xmlPath=projectPath+'/'+assetNamePath+".xml";
+		if(File.Exists(xmlPath)){
+			TextureImporter importer=(TextureImporter)assetImporter;
+			//通过反射调用TextureImporter.GetWidthAndHeight私有方法获取纹理的高
+			object[] parameters=new object[2]{0,0};
+			MethodInfo methodInfo=importer.GetType().GetMethod("GetWidthAndHeight",BindingFlags.NonPublic|BindingFlags.Instance);
+			methodInfo.Invoke(importer,parameters);
+			int textureHeight=(int)parameters[1];
+			//切图
+			SpriteMetaData[] spritesheet=GetSpritesheetData(textureHeight,xmlPath);
+			//设置导入器属性
+			importer.textureType=TextureImporterType.Sprite;
+			importer.spriteImportMode=spritesheet.Length>0?SpriteImportMode.Multiple:SpriteImportMode.Single;
+			importer.spritesheet=spritesheet;
+		}
+	}
+
 	private void OnPostprocessTexture(Texture2D texture){
 		//去除后缀的资源相对路径，如：Assets/Textures/idle
 		string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
 		//.xml绝对路径，如：D:/projects/unity_test/Assets/Textures/idle.xml
 		string xmlPath=projectPath+'/'+assetNamePath+".xml";
-		//该文件仅用于标记是否已经创建动画文件
-		string createAnimationStartFlagPath=projectPath+'/'+assetNamePath+".createAnimatrionStart";
-		
 		if(File.Exists(xmlPath)){
-			//切图
-			SpriteMetaData[] spritesheet=GetSpritesheetData(texture,xmlPath);
-			TextureImporter importer=assetImporter as TextureImporter;
-			importer.textureType=TextureImporterType.Sprite;
-			importer.spriteImportMode=spritesheet.Length>0?SpriteImportMode.Multiple:SpriteImportMode.Single;
-			importer.spritesheet=spritesheet;
-			//删除.xml，一定要删除，否则下面重新导入会造成死机
-			File.Delete(xmlPath);
-			if(spritesheet.Length>1){
-				//"创建动画文件标记"
-				FileStream createAnimFlagFile=File.Create(createAnimationStartFlagPath);
-				createAnimFlagFile.Close();
-			}
-			//重新导入，更新切片数据（注意：请将.xml文件删除再重新导入，否则会反复执行此项操作造成unity卡死）
-			AssetDatabase.ImportAsset(assetPath);
-		}else if(File.Exists(createAnimationStartFlagPath)){
-			//如果存在"创建动画文件标记"，则创建动画文件
-			File.Delete(createAnimationStartFlagPath);
+			//延时创建动画文件
 			DelayCreateAnimationFile(assetPath,assetNamePath);
 		}
 	}
-	
+
 	/// <summary>
 	/// 获取Sprite表数据
 	/// </summary>
-	/// <param name="texture"></param>
+	/// <param name="textureHeight"></param>
 	/// <param name="xmlPath"></param>
 	/// <returns></returns>
-	private SpriteMetaData[] GetSpritesheetData(Texture2D texture,string xmlPath){
+	private SpriteMetaData[] GetSpritesheetData(int textureHeight,string xmlPath){
 		XmlDocument doc=new XmlDocument();
 		doc.Load(xmlPath);
 
 		XmlNodeList nodes=doc.DocumentElement.SelectNodes("SubTexture");
 		int len=nodes.Count;
 		SpriteMetaData[] spritesheet=new SpriteMetaData[len];
-		float textureHeight=texture.height;
 
 		Vector2 pivot=new Vector2();
 		for(int i=0;i<len;i++){
@@ -108,17 +111,18 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		}
 		return spritesheet;
 	}
+	
 	/// <summary>
 	/// 延时创建动画文件
 	/// </summary>
-	/// <param name="assetPath">Assets文件夹下有后缀的资源路径</param>
-	/// <param name="assetNamePath">Assets文件夹下无后缀的资源路径</param>
-	private async void DelayCreateAnimationFile(string assetPath,string assetNamePath){
+	/// <param name="textureAassetPath">Assets文件夹下有后缀的纹理资源路径</param>
+	/// <param name="textureAssetNamePath">Assets文件夹下无后缀的纹理资源路径</param>
+	private async void DelayCreateAnimationFile(string textureAassetPath,string textureAssetNamePath){
 		await Task.Delay(1);
 		//获取切分后的图片
-		Object[] objects=AssetDatabase.LoadAllAssetsAtPath(assetPath);
+		Object[] objects=AssetDatabase.LoadAllAssetsAtPath(textureAassetPath);
 		int len=objects.Length;
-		//objects列表中除了一个是Texture2D,其它都是Sprite（Texture2D在位置有可能在索引0或length-1）
+		//objects列表中除了一个是Texture2D,其它都是Sprite（Texture2D的索引位置有可能在0或length-1）
 		List<Sprite> spriteList=new List<Sprite>();
 		for(int i=0;i<len;i++){
 			Sprite sprite=objects[i] as Sprite;
@@ -126,8 +130,8 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		}
 		Sprite[] sprites=spriteList.ToArray();
 		//创建动画文件
-		CreateAnimationFile(AnimationType.Sprite,sprites,assetNamePath);
-		CreateAnimationFile(AnimationType.Image,sprites,assetNamePath);
+		CreateAnimationFile(AnimationType.Sprite,sprites,textureAssetNamePath);
+		CreateAnimationFile(AnimationType.Image,sprites,textureAssetNamePath);
 		//保存
 		AssetDatabase.SaveAssets();
 	}
@@ -137,8 +141,8 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	/// </summary>
 	/// <param name="type">动画的类型，用于标记是Sprite或Image</param>
 	/// <param name="sprites">Sprite帧列表</param>
-	/// <param name="assetNamePath">Assets文件夹下无后缀的资源路径</param>
-	private void CreateAnimationFile(AnimationType type,Sprite[] sprites,string assetNamePath){
+	/// <param name="textureAssetNamePath">Assets文件夹下无后缀的纹理资源路径</param>
+	private void CreateAnimationFile(AnimationType type,Sprite[] sprites,string textureAssetNamePath){
 		int len=sprites.Length;
 		AnimationClip animationClip=new AnimationClip();
 		//帧频
@@ -172,24 +176,26 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		//创建.anim文件
 		string animFilePath;
 		if(type==AnimationType.Sprite){
-			animFilePath=assetNamePath+"_sprite.anim";
+			animFilePath=textureAssetNamePath+"_sprite.anim";
 		}else{
-			animFilePath=assetNamePath+"_image.anim";
+			animFilePath=textureAssetNamePath+"_image.anim";
 		}
 		AssetDatabase.CreateAsset(animationClip,animFilePath);
 		//创建.controller文件
-		string controllerFilePath;
-		if(type==AnimationType.Sprite){
-			controllerFilePath=assetNamePath+"_sprite.controller";
-		}else{
-			controllerFilePath=assetNamePath+"_image.controller";
+		if(m_isCreateAnimatorController){
+			string controllerFilePath;
+			if(type==AnimationType.Sprite){
+				controllerFilePath=textureAssetNamePath+"_sprite.controller";
+			}else{
+				controllerFilePath=textureAssetNamePath+"_image.controller";
+			}
+			AnimatorController animatorController=AnimatorController.CreateAnimatorControllerAtPath(controllerFilePath);
+			AnimatorControllerLayer layer=animatorController.layers[0];
+			AnimatorStateMachine stateMachine=layer.stateMachine;
+			AnimatorState state=stateMachine.AddState(animationClip.name);
+			state.motion=animationClip;
+			stateMachine.AddEntryTransition(state);
 		}
-		AnimatorController animatorController=AnimatorController.CreateAnimatorControllerAtPath(controllerFilePath);
-		AnimatorControllerLayer layer=animatorController.layers[0];
-		AnimatorStateMachine stateMachine=layer.stateMachine;
-		AnimatorState state=stateMachine.AddState(animationClip.name);
-		state.motion=animationClip;
-		stateMachine.AddEntryTransition(state);
-		AssetDatabase.SaveAssets();
+		//AssetDatabase.SaveAssets();
 	}
 }
