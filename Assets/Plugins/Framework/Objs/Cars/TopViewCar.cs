@@ -20,6 +20,10 @@ public class TopViewCar:BaseMonoBehaviour{
 	private float m_wheelRotation;			//轮子的旋转角<角度>
 	private bool m_isDriveing;				//是否正在驱动中...
 	private bool m_isResetWheeling;			//是否正在重置轮子旋转角...
+	
+	
+	private Vector3 m_velocity=Vector3.zero;//当前的移动速度
+	public Vector3 velocity=>m_velocity;
 
 	protected override void FixedUpdate2(){
 		base.FixedUpdate2();
@@ -34,9 +38,9 @@ public class TopViewCar:BaseMonoBehaviour{
 		body.eulerAngles=bodyEulerAngles;
 		//按车身的当前的Y旋转角进行移动
 		float bodyRadianY=bodyEulerAngles.y*Mathf.Deg2Rad;
-		float vx=speedDelta.x*Mathf.Cos(bodyRadianY)*Time.deltaTime;
-		float vz=-speedDelta.x*Mathf.Sin(bodyRadianY)*Time.deltaTime;
-		body.Translate(vx,0,vz,Space.World);
+		m_velocity.x=speedDelta.x*Mathf.Cos(bodyRadianY)*Time.deltaTime;
+		m_velocity.z=-speedDelta.x*Mathf.Sin(bodyRadianY)*Time.deltaTime;
+		body.Translate(m_velocity,Space.World);
 		//旋转前轮
 		int i=frontWheels.Length;
 		while(--i>=0){
@@ -66,7 +70,7 @@ public class TopViewCar:BaseMonoBehaviour{
 	/// <summary>
 	/// 驱动，按下方向控制键时每帧调用
 	/// </summary>
-	/// <param name="vNormalized">单位化的移动方向</param>
+	/// <param name="vNormalized">单位化的移动方向(y：表示前后方向，x:表示左右旋转方向)</param>
 	/// <param name="moveDelta">移动速度增量</param>
 	/// <param name="wheelRotateDelta">轮子旋转增量</param>
 	public void Drive(Vector2 vNormalized,float moveDelta=1f,float wheelRotateDelta=1f){
