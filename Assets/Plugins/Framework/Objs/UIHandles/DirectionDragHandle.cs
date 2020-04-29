@@ -23,15 +23,18 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 	/// <summary>当鼠标按下/接触开始时是否允许操作手柄在小范围内移动到鼠标/接触点位置</summary>
 	private bool m_isMoveHandleOnTouchBegin=false;
 	private float m_radius=0f;
-	private Vector2 m_angleNormal=Vector2.zero;
+	private Vector2 m_direction=Vector2.zero;
 	private Vector2 m_initPos;
 	private int m_fingerId=-1;
 	private RectTransform m_rectTransform;
 	private CanvasGroup m_canvasGroup;
 	private ScrollRect m_scrollRect;
 	private Canvas m_canvas;
-
-	public Vector2 angleNormal{ get=>m_angleNormal;}
+	
+	/// <summary>输入的方向向量，值区间[-1,1]，表示输入的方向、大小（滑块离中心点越远越大）。 </summary>
+	public Vector2 direction=>m_direction;
+	/// <summary>输入的方向单位化向量，值区间[-1,1]，表示输入的方向，不表示大小。 </summary>
+	public Vector2 directionNormalized=>m_direction.normalized;
 
 	protected override void Awake(){
 		base.Awake();
@@ -81,11 +84,11 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 			contentPostion=contentPostion.normalized*m_radius;
 			m_scrollRect.content.anchoredPosition=contentPostion;
 		}
-		m_angleNormal.Set(contentPostion.x/m_radius,contentPostion.y/m_radius);
+		m_direction.Set(contentPostion.x/m_radius,contentPostion.y/m_radius);
     }
 
 	private void OnEndDrag(PointerEventData eventData){
-		m_angleNormal=Vector2.zero;
+		m_direction=Vector2.zero;
 		m_canvasGroup.alpha=idleAlpha;
 		//
 		onEndDragEvent?.Invoke(eventData);
@@ -155,9 +158,7 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 	}
 
 	protected override void OnDestroy() {
-		if(onEndDragEvent!=null){
-			onEndDragEvent.RemoveAllListeners();
-		}
+		onEndDragEvent?.RemoveAllListeners();
 		base.OnDestroy();
 	}
 
