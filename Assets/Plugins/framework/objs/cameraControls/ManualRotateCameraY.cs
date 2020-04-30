@@ -12,10 +12,12 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	
 	[Tooltip("相机看向的目标")]
 	public Transform targetTransform;
-	
+
 	[System.Serializable]
 	public class AdvancedOptions{
-		[Tooltip("是否应用到DriftCamera组件(存在时有效)")]
+		[Tooltip("跟随相机旋转的目标（如果isApplyToDriftCamera==true,会改变DriftCamera.originPositionNormalized，此目标旋转会受到影响）")]
+		public Transform targetTransformFollowRotation;
+		[Tooltip("是否应用到DriftCamera组件(存在时有效,将会旋转DriftCamera.originPositionNormalized)")]
 		public bool isApplyToDriftCamera=true;
 		[Tooltip("活动区域(在活动区域内划屏才能旋转相机)")]
 		public ActiveArea activeArea=ActiveArea.FullScreen;
@@ -111,6 +113,10 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 		}
 		//绕着pivot旋转Y轴，实现左右旋转
 		m_camera.transform.RotateAround(targetTransform.position,Vector3.up,h);
+		//跟随相机旋转的目标Transform
+		if(advancedOptions.targetTransformFollowRotation!=null){
+			advancedOptions.targetTransformFollowRotation.Rotate(0,h,0);
+		}
 		//
 		onRotateEvent?.Invoke(h);
 	}
