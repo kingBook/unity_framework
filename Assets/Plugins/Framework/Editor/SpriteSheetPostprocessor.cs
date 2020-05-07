@@ -162,7 +162,6 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 			if(sprite!=null)spriteList.Add(sprite);
 		}
 		Sprite[] sprites=spriteList.ToArray();
-		Debug.Log(sprites.Length);
 		if(sprites.Length>1){
 			//创建动画文件
 			CreateAnimationFile(AnimationType.Sprite,sprites,textureAssetNamePath);
