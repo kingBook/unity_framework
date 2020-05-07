@@ -16,16 +16,19 @@ using Object=System.Object;
 public class SpriteSheetPostprocessor:AssetPostprocessor{
 	/// <summary>当前项目的路径</summary>
 	private static readonly string projectPath=Environment.CurrentDirectory.Replace("\\","/");
+	/// <summary>是否创建AnimatorContrller文件</summary>
+	private static bool s_isCreateAnimatorController=false;
 	/// <summary>动画类型</summary>
 	private enum AnimationType{ Sprite, Image }
 	/// <summary>帧频</summary>
 	private const int frameRate=24;
-	/// <summary>是否创建AnimatorContrller文件</summary>
-	private bool m_isCreateAnimatorController=false;
-
+	
+	
 	private void OnPreprocessTexture(){
 		//去除后缀的资源相对路径，如：Assets/Textures/idle
 		string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
+		//资源文件无后缀的名称
+		string assetName=assetNamePath.Substring(assetNamePath.LastIndexOf('/')+1);
 		//.xml绝对路径，如：D:/projects/unity_test/Assets/Textures/idle.xml
 		string xmlPath=projectPath+'/'+assetNamePath+".xml";
 		if(File.Exists(xmlPath)){
@@ -36,7 +39,7 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 			methodInfo.Invoke(importer,parameters);
 			int textureHeight=(int)parameters[1];
 			//切图
-			SpriteMetaData[] spritesheet=GetSpritesheetData(textureHeight,xmlPath);
+			SpriteMetaData[] spritesheet=GetSpritesheetData(textureHeight,assetName,xmlPath);
 			//设置导入器属性
 			importer.textureType=TextureImporterType.Sprite;
 			importer.spriteImportMode=spritesheet.Length>0?SpriteImportMode.Multiple:SpriteImportMode.Single;
@@ -45,23 +48,42 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	}
 
 	private void OnPostprocessTexture(Texture2D texture){
-		//去除后缀的资源相对路径，如：Assets/Textures/idle
-		string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
-		//.xml绝对路径，如：D:/projects/unity_test/Assets/Textures/idle.xml
-		string xmlPath=projectPath+'/'+assetNamePath+".xml";
-		if(File.Exists(xmlPath)){
-			//延时创建动画文件
-			DelayCreateAnimationFile(assetPath,assetNamePath);
-		}
+		//在此方法内创建动画，删除.xml会出现不能读取问题
 	}
 
+	private static void OnPostprocessAllAssets(string[] importedAssets,string[] deletedAssets,string[] movedAssets,
+		string[] movedFromAssetPaths){
+		int i=importedAssets.Length;
+		
+		while(--i>=0){
+			string path=importedAssets[i];
+			int dotIndex=path.LastIndexOf('.');
+			if(dotIndex>-1){
+				string extension=Path.GetExtension(path).ToLower();
+				if(extension==".png"){
+					//去除后缀的资源相对路径，如：Assets/Textures/idle
+					string assetNamePath=path.Substring(0,path.LastIndexOf('.'));
+					//.xml绝对路径，如：D:/projects/unity_test/Assets/Textures/idle.xml
+					string xmlPath=projectPath+'/'+assetNamePath+".xml";
+					if(File.Exists(xmlPath)){
+						//延时创建动画文件
+						DelayCreateAnimationFile(1,path,assetNamePath);
+						//删除xml文件
+						DelayDeleteAsset(1,assetNamePath+".xml");
+					}
+				}
+			}
+		}
+	}
+	
 	/// <summary>
 	/// 获取Sprite表数据
 	/// </summary>
 	/// <param name="textureHeight"></param>
+	/// <param name="assetName"></param>
 	/// <param name="xmlPath"></param>
 	/// <returns></returns>
-	private SpriteMetaData[] GetSpritesheetData(int textureHeight,string xmlPath){
+	private SpriteMetaData[] GetSpritesheetData(int textureHeight,string assetName,string xmlPath){
 		XmlDocument doc=new XmlDocument();
 		doc.Load(xmlPath);
 
@@ -103,7 +125,7 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 			float poY=(height-pivot.y-frameY)/height;
 			
 			var spriteMetaData=new SpriteMetaData();
-			spriteMetaData.name=name;
+			spriteMetaData.name=assetName+name;
 			spriteMetaData.alignment=(int)SpriteAlignment.Custom;
 			spriteMetaData.pivot=new Vector2(poX,poY);
 			spriteMetaData.rect=new Rect(x,-y+textureHeight-height,width,height);
@@ -113,12 +135,23 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	}
 	
 	/// <summary>
+	/// 延时删除资源文件
+	/// </summary>
+	/// <param name="delay">延时的毫秒数</param>
+	/// <param name="path">资源文件相对于项目文件夹的路径</param>
+	private static async void DelayDeleteAsset(int delay, string path){
+		await Task.Delay(delay);
+		AssetDatabase.DeleteAsset(path);
+	}
+	
+	/// <summary>
 	/// 延时创建动画文件
 	/// </summary>
+	/// <param name="delay">延时的毫秒数</param>
 	/// <param name="textureAassetPath">Assets文件夹下有后缀的纹理资源路径</param>
 	/// <param name="textureAssetNamePath">Assets文件夹下无后缀的纹理资源路径</param>
-	private async void DelayCreateAnimationFile(string textureAassetPath,string textureAssetNamePath){
-		await Task.Delay(1);
+	private static async void DelayCreateAnimationFile(int delay,string textureAassetPath,string textureAssetNamePath){
+		await Task.Delay(delay);
 		//获取切分后的图片
 		Object[] objects=AssetDatabase.LoadAllAssetsAtPath(textureAassetPath);
 		int len=objects.Length;
@@ -129,11 +162,14 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 			if(sprite!=null)spriteList.Add(sprite);
 		}
 		Sprite[] sprites=spriteList.ToArray();
-		//创建动画文件
-		CreateAnimationFile(AnimationType.Sprite,sprites,textureAssetNamePath);
-		CreateAnimationFile(AnimationType.Image,sprites,textureAssetNamePath);
-		//保存
-		AssetDatabase.SaveAssets();
+		Debug.Log(sprites.Length);
+		if(sprites.Length>1){
+			//创建动画文件
+			CreateAnimationFile(AnimationType.Sprite,sprites,textureAssetNamePath);
+			CreateAnimationFile(AnimationType.Image,sprites,textureAssetNamePath);
+			//保存
+			AssetDatabase.SaveAssets();
+		}
 	}
 	
 	/// <summary>
@@ -142,7 +178,7 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	/// <param name="type">动画的类型，用于标记是Sprite或Image</param>
 	/// <param name="sprites">Sprite帧列表</param>
 	/// <param name="textureAssetNamePath">Assets文件夹下无后缀的纹理资源路径</param>
-	private void CreateAnimationFile(AnimationType type,Sprite[] sprites,string textureAssetNamePath){
+	private static void CreateAnimationFile(AnimationType type,Sprite[] sprites,string textureAssetNamePath){
 		int len=sprites.Length;
 		AnimationClip animationClip=new AnimationClip();
 		//帧频
@@ -182,7 +218,7 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		}
 		AssetDatabase.CreateAsset(animationClip,animFilePath);
 		//创建.controller文件
-		if(m_isCreateAnimatorController){
+		if(s_isCreateAnimatorController){
 			string controllerFilePath;
 			if(type==AnimationType.Sprite){
 				controllerFilePath=textureAssetNamePath+"_sprite.controller";

@@ -6,14 +6,61 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 /// <summary>
-/// FBX导入处理
+/// FBX动画分割
 /// </summary>
-public class FbxPostProcessor:AssetPostprocessor{
+public class FbxAnimationSpliter:Editor{
 	
 	/// <summary>当前项目的路径</summary>
 	private static readonly string projectPath=Environment.CurrentDirectory.Replace("\\","/");
 	
-	private void OnPreprocessAnimation(){
+	[MenuItem("Assets/Split FBX Animation",true)]
+	private static bool ValidateSplitFbxAnimation(){
+		string[] guids=Selection.assetGUIDs;
+		int i=guids.Length;
+		while(--i>=0){
+			string guid=guids[i];
+			string assetPath=AssetDatabase.GUIDToAssetPath(guid);
+			string extension=System.IO.Path.GetExtension(assetPath).ToLower();
+			if(extension==".fbx"){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	[MenuItem("Assets/Split FBX Animation")]
+	private static void SplitFbxAnimation(){
+		string[] guids=Selection.assetGUIDs;
+		int i=guids.Length;
+		while(--i>=0){
+			string guid=guids[i];
+			string assetPath=AssetDatabase.GUIDToAssetPath(guid);
+			string extension=Path.GetExtension(assetPath).ToLower();
+			if(extension!=".fbx")continue;
+			
+			//去除后缀的资源相对路径，如：Assets/Models/testFBX
+			string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
+			//.txt绝对路径，如：D:/projects/unity_test/Assets/Models/testFBX.txt
+			string txtPath=projectPath+'/'+assetNamePath+".txt";
+			
+			if(File.Exists(txtPath)){
+				StreamReader streamReader =File.OpenText(txtPath);
+				string sAnimList=streamReader.ReadToEnd();
+				streamReader.Close();
+				
+				var clipAnimations=ParseAnimFile(sAnimList);
+				
+				ModelImporter modelImporter=(ModelImporter)AssetImporter.GetAtPath(assetPath);
+				modelImporter.clipAnimations=clipAnimations;
+				EditorUtility.SetDirty(modelImporter);
+				modelImporter.SaveAndReimport();
+			}
+		}
+	}
+	
+	/*
+	 //AssetPostprocessor时，使用此方法
+	 private void OnPreprocessAnimation(){
 		//去除后缀的资源相对路径，如：Assets/Models/testFBX
 		string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
 		//.txt绝对路径，如：D:/projects/unity_test/Assets/Models/testFBX.txt
@@ -28,7 +75,8 @@ public class FbxPostProcessor:AssetPostprocessor{
 			ModelImporter modelImporter=assetImporter as ModelImporter;
 			modelImporter.clipAnimations=clipAnimations;
 		}
-	}
+	}*/
+	
 	/// <summary>
 	/// 解析动画
 	/// .txt文件格式：
@@ -39,7 +87,7 @@ public class FbxPostProcessor:AssetPostprocessor{
 	/// </summary>
 	/// <param name="sAnimList"></param>
 	/// <returns></returns>
-	private ModelImporterClipAnimation[] ParseAnimFile(string sAnimList){
+	private static ModelImporterClipAnimation[] ParseAnimFile(string sAnimList){
 		List<ModelImporterClipAnimation> list=new List<ModelImporterClipAnimation>();
 		
 		Regex regexString=new Regex(" *(?<firstFrame>[0-9]+) *- *(?<lastFrame>[0-9]+) *(?<loop>(loop|noloop| )) *(?<name>[^\r^\n]*[^\r^\n^ ])",RegexOptions.Compiled|RegexOptions.ExplicitCapture);

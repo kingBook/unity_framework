@@ -35,8 +35,10 @@ funcs.exportSymbolItem=function(element){
 	const elementName=element.name;
 	const libraryItemName=element.libraryItem.name;
 	libraryItemName=libraryItemName.substr(libraryItemName.lastIndexOf("\/")+1);
-	const exportName=elementName?elementName:(linkageClassName?linkageClassName:libraryItemName);
-	const filePath=exportFolderPath+"/"+exportName+"png";
+	//导出png的名称
+	var exportName=elementName?elementName:(linkageClassName?linkageClassName:libraryItemName);
+	//exportName+="png";
+	const filePath=exportFolderPath+"/"+exportName;
 	
 	if(FLfile.createFolder(exportFolderPath)){
 		//fl.trace("Folder has been created");
