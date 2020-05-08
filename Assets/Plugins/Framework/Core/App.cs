@@ -1,7 +1,9 @@
-﻿using System;
+﻿using DG.Tweening;
+using System;
+using System.Reflection;
 using UnityEngine;
 #pragma warning disable 0649
-	
+
 /// <summary>
 /// 整个应用程序的单例
 /// </summary>
@@ -155,7 +157,20 @@ public sealed class App:BaseMonoBehaviour{
 		//发出事件
 		onPauseOrResume?.Invoke(isPause);
 	}
-	
+
+	protected override void OnApplicationQuit(){
+		base.OnApplicationQuit();
+		#if UNITY_EDITOR //自定义进入播放模式（不重新加载域时），销毁DOTween.instance
+		if(DOTween.instance!=null){
+			DOTween.Clear(true);
+			FieldInfo isQuittingField=typeof(DOTween).GetField("isQuitting",BindingFlags.Static|BindingFlags.NonPublic);
+			isQuittingField.SetValue(DOTween.instance,false);
+			Destroy(DOTween.instance);
+			DOTween.instance=null;
+		}
+		#endif
+	}
+
 	protected override void OnDestroy(){
 		base.OnDestroy();
 		//不需要销毁instance
