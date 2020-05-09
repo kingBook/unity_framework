@@ -60,7 +60,7 @@ public static class InputUtil{
 	/// <param name="screenPoint">输出鼠标/触摸点的屏幕坐标</param>
 	/// <param name="isIgnorePointerOverUI">忽略UI上的点击，默认true</param>
 	/// <returns></returns>
-	public static bool GetMouseDownScreenPoint(out Vector3 screenPoint,bool isIgnorePointerOverUI=true){
+	public static bool GetInputScreenPoint(out Vector3 screenPoint,bool isIgnorePointerOverUI=true){
 		screenPoint=new Vector3();
 		if(isIgnorePointerOverUI&&IsPointerOverUI()){
 			//忽略UI上的点击
