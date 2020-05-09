@@ -103,27 +103,24 @@ public sealed class App:BaseMonoBehaviour{
 	/// <summary>是否已暂停</summary>
 	public bool isPause{ get;private set; }
 
-	/// <summary>是否第一次打开当前应用</summary>
-	public bool isFirstOpen{ get; private set; }
+	/// <summary>打开应用的次数</summary>
+	public int openCount{ get; private set; }
 
 	protected override void Awake() {
 		base.Awake();
 		instance=this;
-
-		InitFirstOpenApp();
+		AddOpenCount();
 		
 		if(m_language==Language.AUTO){
 			InitLanguage();
 		}
 	}
 
-	private void InitFirstOpenApp(){
-		const string key="isFirstOpenApp";
-		isFirstOpen=PlayerPrefs.GetInt(key,1)==1;
-		if(isFirstOpen) {
-			PlayerPrefs.SetInt(key,0);
-			PlayerPrefs.Save();
-		}
+	private void AddOpenCount(){
+		const string key="ApplicationOpenCount";
+		openCount=PlayerPrefs.GetInt(key,0)+1;
+		PlayerPrefs.SetInt(key,openCount);
+		PlayerPrefs.Save();
 	}
 
 	private void InitLanguage(){
