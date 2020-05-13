@@ -12,10 +12,10 @@ public sealed class UpdateManager:MonoBehaviour{
 	private bool m_isPause;
 
 	private void Start() {
-		App.instance.onPauseOrResume+=onPauseOrResume;
+		App.instance.onPauseOrResume+=OnPauseOrResume;
 	}
 
-	private void onPauseOrResume(bool isPause){
+	private void OnPauseOrResume(bool isPause){
 		m_isPause=isPause;
 	}
 
@@ -74,6 +74,6 @@ public sealed class UpdateManager:MonoBehaviour{
 	}
 
 	private void OnDestroy(){
-		App.instance.onPauseOrResume-=onPauseOrResume;
+		App.instance.onPauseOrResume-=OnPauseOrResume;
 	}
 }
