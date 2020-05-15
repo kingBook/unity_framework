@@ -27,6 +27,10 @@ public class SwapButtonImage:BaseMonoBehaviour{
 	}
 
 	private void OnClick(){
+		AutoSwap();
+	}
+	
+	public void AutoSwap(){
 		if(image.sprite==sprites[0]){
 			SwapTo(1);
 		}else{
