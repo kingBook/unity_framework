@@ -13,7 +13,7 @@ public abstract class UIBase:BaseMonoBehaviour{
 	protected override void Awake() {
 		base.Awake();
 		//记录全局音量
-		m_globalVolume=AudioListener.volume;
+		m_globalVolume=AudioListener.volume>0?AudioListener.volume:1;
 	}
 
 	/// <summary>
