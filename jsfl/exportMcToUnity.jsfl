@@ -66,7 +66,7 @@ funcs.exportSymbolItem=function(element){
 			funcs.exportEveryFrame(element,exportFolderPath,exportName);
 		}else{
 			funcs.deleteOldFile(filePath);
-			funcs.exportAllFrameToImage(element,filePath);
+			funcs.exportAllFrameToImage(element,filePath,maxSheetWidth,maxSheetHeight);
 		}
 	}
 }
