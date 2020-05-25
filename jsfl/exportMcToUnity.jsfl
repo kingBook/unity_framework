@@ -84,7 +84,7 @@ funcs.deleteOldFile=function(filePath){
 funcs.exportAllFrameToImage=function(element,filePath,maxSheetWidth,maxSheetHeight){
 	var exporter=new SpriteSheetExporter();
 	exporter.addSymbol(element,0);
-	exporter.canTrim=false;
+	exporter.allowTrimming=false;
 	exporter.algorithm="basic";//basic | maxRects
 	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
 	exporter.autoSize=true;
@@ -112,7 +112,7 @@ funcs.exportEveryFrame=function(element,exportFolderPath,exportName){
 		funcs.deleteOldFile(filePath);
 		var exporter=new SpriteSheetExporter();
 		exporter.addSymbol(element,"",i,i+1);
-		exporter.canTrim=false;
+		exporter.allowTrimming=false;
 		exporter.algorithm="basic";//basic | maxRects
 		exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
 		exporter.autoSize=true;
@@ -127,7 +127,7 @@ funcs.exportEveryFrame=function(element,exportFolderPath,exportName){
 funcs.isOverflowed=function(element,maxSheetWidth,maxSheetHeight){
 	var exporter=new SpriteSheetExporter();
 	exporter.addSymbol(element,0);
-	exporter.canTrim=false;
+	exporter.allowTrimming=false;
 	exporter.algorithm="basic";//basic | maxRects
 	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
 	exporter.autoSize=true;
