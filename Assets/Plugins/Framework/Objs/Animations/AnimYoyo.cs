@@ -16,9 +16,9 @@ public class AnimYoyo:BaseMonoBehaviour{
 		Vector3 offset=new Vector3(Mathf.Cos(angle*Mathf.Deg2Rad)*distance,
 								   Mathf.Sin(angle*Mathf.Deg2Rad)*distance,
 							       0);
-
-		transform.position=pos+offset;
-		Vector3 endPos=pos+offset*-1;
+		int dir=Random.value>0.5?1:-1;
+		transform.position=pos+offset*dir;
+		Vector3 endPos=pos+offset*-dir;
 
 		transform.DOMove(endPos,duration,false).SetLoops(-1,LoopType.Yoyo);
 	}

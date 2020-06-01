@@ -64,6 +64,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 		gameObject.SetActive(true);
 		m_progressbar.gameObject.SetActive(true);
 		m_progressbar.SetProgress(0.0f);
+		m_progressbar.SetText("Loading 0%...");
 		StartCoroutine(LoadSceneAsync(sceneName,mode));
 	}
 
@@ -76,10 +77,10 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 			if(progress>=0.9f){
 				m_asyncOperation.allowSceneActivation=true;
 				m_progressbar.SetProgress(1.0f);
-				m_progressbar.SetText("loading 100%...");
+				m_progressbar.SetText("Loading 100%...");
 			}else{
 				m_progressbar.SetProgress(progress);
-				m_progressbar.SetText("loading "+Mathf.FloorToInt(progress*100)+"%...");
+				m_progressbar.SetText("Loading "+Mathf.FloorToInt(progress*100)+"%...");
 			}
 			yield return null;
 		}
