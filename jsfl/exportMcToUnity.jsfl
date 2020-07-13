@@ -33,8 +33,10 @@ funcs.exportMcToPng=function(){
 funcs.exportSymbolItem=function(element){
 	const linkageClassName=element.libraryItem.linkageClassName;
 	const elementName=element.name;
-	const libraryItemName=element.libraryItem.name;
+	
+	var libraryItemName=element.libraryItem.name;
 	libraryItemName=libraryItemName.substr(libraryItemName.lastIndexOf("\/")+1);
+	
 	//导出png的名称
 	var exportName=elementName?elementName:(linkageClassName?linkageClassName:libraryItemName);
 	//exportName+="png";
