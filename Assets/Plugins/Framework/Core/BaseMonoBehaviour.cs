@@ -380,10 +380,12 @@ public abstract class BaseMonoBehaviour:MonoBehaviour,IUpdate{
 	/// </summary>
 	protected virtual void OnWillRenderObject(){}
 
+#if UNITY_EDITOR
 	/// <summary>
 	/// 重置为默认值
 	/// </summary>
 	protected virtual void Reset(){}
+#endif
 
 	/// <summary>
 	/// 当 MonoBehaviour 将被销毁时调用此函数
