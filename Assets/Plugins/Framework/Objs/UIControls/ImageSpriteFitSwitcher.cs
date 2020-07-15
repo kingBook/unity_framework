@@ -9,12 +9,13 @@ public class ImageSpriteFitSwitcher:BaseMonoBehaviour{
 	[SerializeField]
 	private Image m_image;
 	[SerializeField]
-	private Vector2 m_fitSize=new Vector2(200,200);
+	private Vector2 m_fitSize;
 	
 #if UNITY_EDITOR 
 	protected override void Reset(){
 		base.Reset();
 		m_image=gameObject.GetComponent<Image>();
+		m_fitSize=m_image.rectTransform.sizeDelta;
 	}
 #endif
 	
@@ -48,7 +49,6 @@ public class ImageSpriteFitSwitcher:BaseMonoBehaviour{
 	/// </summary>
 	private void Fit(Sprite sprite){
 		Vector2 size=sprite.rect.size;
-		float ratio=size.x/size.y;
 		float sx=m_fitSize.x/size.x;
 		float sy=m_fitSize.y/size.y;
 		float scale=Mathf.Min(sx,sy);
@@ -56,6 +56,5 @@ public class ImageSpriteFitSwitcher:BaseMonoBehaviour{
 		size.y*=scale;
 		m_image.rectTransform.sizeDelta=size;
 	}
-	
 	
 }
