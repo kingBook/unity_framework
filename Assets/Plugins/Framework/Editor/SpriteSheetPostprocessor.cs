@@ -68,8 +68,19 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 					if(File.Exists(xmlPath)){
 						//延时创建动画文件
 						DelayCreateAnimationFile(1,path,assetNamePath);
-						//删除xml文件
+						//删除.xml文件
 						DelayDeleteAsset(1,assetNamePath+".xml");
+					}
+				}else if(extension==".multipleImageAnim"){
+					//去除后缀的资源相对路径，如：Assets/Textures/idle
+					string assetNamePath=path.Substring(0,path.LastIndexOf('.'));
+					//.multipleImageAnim绝对路径，如：D:/projects/unity_test/Assets/Textures/idle.multipleImageAnim
+					string multipleImageAnimPath=projectPath+'/'+assetNamePath+".multipleImageAnim";
+					if(File.Exists(multipleImageAnimPath)){
+						//延时创建动画文件
+						DelayCreateAnimationFile(1,multipleImageAnimPath);
+						//删除.multipleImageAnim文件
+						DelayDeleteAsset(1,assetNamePath+".multipleImageAnim");
 					}
 				}
 			}
@@ -142,6 +153,16 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 	private static async void DelayDeleteAsset(int delay, string path){
 		await Task.Delay(delay);
 		AssetDatabase.DeleteAsset(path);
+	}
+	
+	/// <summary>
+	/// 延时创建动画文件
+	/// </summary>
+	/// <param name="delay">延时的毫秒数</param>
+	/// <param name="multipleImageAnimPath"></param>
+	private static async void DelayCreateAnimationFile(int delay,string multipleImageAnimPath){
+		await Task.Delay(delay);
+		
 	}
 	
 	/// <summary>
