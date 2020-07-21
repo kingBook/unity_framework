@@ -14,15 +14,17 @@ using Object=System.Object;
 /// 切片flash导入出来的位图表
 /// </summary>
 public class SpriteSheetPostprocessor:AssetPostprocessor{
+	
 	/// <summary>当前项目的路径</summary>
 	private static readonly string projectPath=Environment.CurrentDirectory.Replace("\\","/");
 	/// <summary>是否创建AnimatorContrller文件</summary>
 	private static bool s_isCreateAnimatorController=false;
-	/// <summary>动画类型</summary>
-	private enum AnimationType{ Sprite, Image }
+	/// <summary>单帧是否创建动画</summary>
+	private const bool isSingleFrameCreateAnim=true;
 	/// <summary>帧频</summary>
 	private const int frameRate=24;
-	
+	/// <summary>动画类型</summary>
+	private enum AnimationType{ Sprite, Image }
 	
 	private void OnPreprocessTexture(){
 		//去除后缀的资源相对路径，如：Assets/Textures/idle
@@ -203,7 +205,7 @@ public class SpriteSheetPostprocessor:AssetPostprocessor{
 		}
 		Sprite[] sprites=spriteList.ToArray();
 		
-		if(sprites.Length<=1)return;
+		if(!isSingleFrameCreateAnim&&sprites.Length<=1)return;//单帧不创建动画
 		
 		//创建动画文件
 		CreateAnimationFile(AnimationType.Sprite,sprites,textureAssetNamePath);
