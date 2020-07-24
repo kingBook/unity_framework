@@ -7,9 +7,11 @@ using System.Collections.Generic;
 public static class RandomUtil{
 	/// <summary>
 	/// 返回一个指定长度的随机int数组，数组元素范围是在[min,max)区间内(包括min,排除max)不重复的整数。
-	/// <br>注意：参数length的取值范围必须在[1,max-min]区间内。</br>
-	/// <br>小于1时自动取值：1。</br>
-	/// <br>大于max-min时自动取值：max-min。</br>
+	/// 注意：参数length的取值范围必须在[1,max-min]区间内，length小于1时取值：1，length大于max-min时取值：max-min。
+	/// 例：
+	/// ```
+	/// GetRandomUniqueIntList(0,10,10); //返回元素在[0,10)之间，长度为10的数组
+	/// ```
 	/// </summary>
 	public static int[] GetRandomUniqueIntList(int min,int max,int length){
 		int sourceLength=max-min;
