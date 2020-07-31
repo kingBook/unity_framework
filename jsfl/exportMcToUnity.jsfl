@@ -6,20 +6,22 @@ var scriptURI=fl.scriptURI;
 var exportFolderPath=scriptURI.substring(0,scriptURI.lastIndexOf("/jsfl")+1);
 //导出到unity项目目录的路径
 exportFolderPath+="Assets/Textures";
+//如果没有文件夹则创建(不需要判断文件夹是否存在)
+FLfile.createFolder(exportFolderPath);
 //最大的纹理限制
 var maxTextureSize={ width:2048, height:2048 };
 fl.outputPanel.clear();
 //--------------------------------------------------------------------------------------------
 var funcs={};
-funcs.exportMcToPng=function(){
+funcs.exportHandler=function(){
 	if(selections&&selections.length>0){
-		var isExportComplete=false;
+		var isExported=false;
 		for(var i=0;i<selections.length;i++){
 			var element=selections[i];
-			if(element.elementType=="instance"){
-				if(element.instanceType=="symbol"){//MovieClip、Button、Graphic
-					isExportComplete=funcs.exportSymbolElement(element);
-				}else if(element.instanceType=="bitmap"){
+			if(element.elementType==="instance"){
+				if(element.instanceType==="symbol"){//MovieClip、Button、Graphic
+					isExported=funcs.exportSymbolElement(element);
+				}else if(element.instanceType==="bitmap"){
 					//const linkageClassName=element.libraryItem.linkageClassName;
 	
 					//var libraryItemName=element.libraryItem.name;
@@ -28,17 +30,20 @@ funcs.exportMcToPng=function(){
 					//导出png的名称
 					//var exportName=linkageClassName?linkageClassName:libraryItemName;
 					//const filePath=exportFolderPath+"/"+exportName;
-					var bitmapSymbol=funcs.convertToSymbol(element,i,true);
-					isExportComplete=funcs.exportSymbolElement(bitmapSymbol);
+					var bitmapSymbol=funcs.convertToSymbol(element,i);
+					isExported=funcs.exportSymbolElement(bitmapSymbol);
 				}
-			}else if(element.elementType=="shape"){
-				var shapeSymbol=funcs.convertToSymbol(element,i,true);
-				isExportComplete=funcs.exportSymbolElement(shapeSymbol);
+			}else if(element.elementType==="shape"){
+				if(element.isGroup){
+					fl.trace("Warning：a group was found and exported as an image.（找到一个组并已将它导出为一张图像）");
+				}
+				var shapeSymbol=funcs.convertToSymbol(element,i);
+				isExported=funcs.exportSymbolElement(shapeSymbol);
 			}else{
 				alert("Error: unknown element type '"+element.elementType+"'");
 			}
 		}
-		if(isExportComplete){
+		if(isExported){
 			alert("Export complete");
 		}
 	}else{
@@ -46,12 +51,23 @@ funcs.exportMcToPng=function(){
 	}
 }
 
-funcs.convertToSymbol=function(element,selectionIndex,isReplaceSelection){
+/**
+* 转换 element 到元件
+* @param {Element} element 舞台上的元素
+* @param {int} selectionIndex 在selections已选择列表中的索引，不在列表中则填：-1
+* @returns {Element} 返回转换后的element
+*/
+funcs.convertToSymbol=function(element,selectionIndex){
+	var depthRecord=element.depth;
 	document.selectNone();
 	element.selected=true;
 	document.convertToSymbol("movie clip","","center");
 	var currentElement=document.selection[0];
-	if(isReplaceSelection){
+	for(var i=0;i<1000;i++){//有时候arrange方法会失效，最多执行1000次
+		document.arrange("backward");// "back", "backward", "forward",  "front"
+		if(currentElement.depth==depthRecord)break;
+	}
+	if(selectionIndex>-1){
 		selections[selectionIndex]=currentElement;
 	}
 	//还原选择项
@@ -59,6 +75,11 @@ funcs.convertToSymbol=function(element,selectionIndex,isReplaceSelection){
 	return currentElement;
 }
 
+/**
+* 导出舞台上的元件
+* @param {Symbol} element 元件
+* @returns {boolean} 返回是否导出完成
+*/
 funcs.exportSymbolElement=function(element){
 	const linkageClassName=element.libraryItem.linkageClassName;
 	const elementName=element.name;
@@ -71,12 +92,6 @@ funcs.exportSymbolElement=function(element){
 	exportName=exportName.replace(" ","_");//把名字中的空格替换为:"_"
 	const filePath=exportFolderPath+"/"+exportName;
 	
-	if(FLfile.createFolder(exportFolderPath)){
-		//fl.trace("Folder has been created");
-	}else{
-		//fl.trace("Folder already exists");
-	}
-	
 	//生成位图表
 	if(funcs.isOverflowed(element)){
 		return funcs.exportEveryFrame(element,exportFolderPath,exportName);
@@ -87,6 +102,10 @@ funcs.exportSymbolElement=function(element){
 	return false;
 }
 
+/**
+* 删除旧的文件
+* @param {string} filePath 删除的文件路径（不包含文件扩展名）
+*/
 funcs.deleteOldFile=function(filePath){
 	//删除.png
 	const pngPath=filePath+".png";
@@ -96,7 +115,13 @@ funcs.deleteOldFile=function(filePath){
 	if(FLfile.exists(metaPath))FLfile.remove(metaPath);
 }
 
-//所有帧导出为一张图
+/**
+* 所有帧导出为一张图
+* @param {Symbol} element 元件
+* @param {string} filePath 文件路径（不包含文件扩展名）
+* @param {string} exportName 导出的文件名称
+* @returns {boolean} 返回是否导出完成
+*/
 funcs.exportAllFrameToImage=function(element,filePath,exportName){
 	var exporter=new SpriteSheetExporter();
 	exporter.addSymbol(element,0);
@@ -106,7 +131,13 @@ funcs.exportAllFrameToImage=function(element,filePath,exportName){
 	return true;
 }
 
-//每帧一张图导出所有帧
+/**
+* 每帧一张图导出所有帧
+* @param {Symbol} element 元件
+* @param {string} exportFolderPath 导出的文件夹路径
+* @param {string} exportName 导出的文件名称
+* @returns 返回是否导出完成
+*/
 funcs.exportEveryFrame=function(element,exportFolderPath,exportName){
 	var s=funcs.mulPngAnimXml_beginExport();
 	var frameCount=element.libraryItem.timeline.frameCount;
@@ -167,7 +198,10 @@ funcs.mulPngAnimXml_EndExport=function(){
 	return s;
 }
 
-//导出所有帧时，是否超出指定大小
+/**
+* 检测导出所有帧到一张图时，是否超出指定大小
+* @returns {boolean}
+*/
 funcs.isOverflowed=function(element){
 	var exporter=new SpriteSheetExporter();
 	exporter.addSymbol(element,0);
@@ -175,6 +209,10 @@ funcs.isOverflowed=function(element){
 	return exporter.overflowed;
 }
 
+/**
+* 设置SpriteSheetExporter
+* @param {SpriteSheetExporter} exporter 
+*/
 funcs.setSpriteSheetExporter=function(exporter){
 	exporter.allowTrimming=true;
 	exporter.algorithm="basic";//basic | maxRects
@@ -188,4 +226,4 @@ funcs.setSpriteSheetExporter=function(exporter){
 	exporter.maxSheetHeight=maxTextureSize.height;
 }
 //--------------------------------------------------------------------------------------------
-funcs.exportMcToPng();
+funcs.exportHandler();
