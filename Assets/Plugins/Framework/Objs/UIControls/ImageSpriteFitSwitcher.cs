@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0649
+using UnityEngine;
 using UnityEngine.UI;
 /// <summary>
 /// Image.overrideSprite适配切换器。
