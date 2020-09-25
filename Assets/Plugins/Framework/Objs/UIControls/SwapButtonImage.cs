@@ -6,14 +6,31 @@ using UnityEngine.UI;
 /// </summary>
 public class SwapButtonImage:BaseMonoBehaviour{
 	
-	[Tooltip("来回切换的两张图片")]
-	public Sprite[] sprites;
 	[Tooltip("切换的图片(未指定时自动从当前对象组件列表中获取)")]
 	public Image image=null;
+
 	[Tooltip("是否侦听点击按钮事件自动切换")]
 	public bool isSwapOnClick=true;
+
+	[Tooltip("来回切换的两张图片")]
+	public Sprite[] sprites;
+
 	private Button m_button;
-	
+
+#if UNITY_EDITOR
+	protected override void Reset() {
+		base.Reset();
+		if(!image){
+			Button btn=GetComponent<Button>();
+			if(btn){
+				image=btn.image;
+			}else{
+				image=GetComponent<Image>();
+			}
+		}
+	}
+#endif
+
 	protected override void Awake() {
 		base.Awake();
 		
