@@ -58,9 +58,11 @@ public static class InputUtil{
 	/// <br>注意：只在鼠标左键按下时/触摸在Began阶段才返回true，并输出坐标</br>
 	/// </summary>
 	/// <param name="screenPoint">输出鼠标/触摸点的屏幕坐标</param>
+	/// <param name="fingerId">支持触摸时，输出触摸的手指id（默认-1）</param>
 	/// <param name="isIgnorePointerOverUI">忽略UI上的点击，默认true</param>
 	/// <returns></returns>
-	public static bool GetInputScreenPoint(out Vector3 screenPoint,bool isIgnorePointerOverUI=true){
+	public static bool GetInputScreenPoint(out Vector3 screenPoint,out int fingerId,bool isIgnorePointerOverUI=true){
+		fingerId=-1;
 		screenPoint=new Vector3();
 		if(isIgnorePointerOverUI&&IsPointerOverUI()){
 			//忽略UI上的点击
@@ -69,6 +71,7 @@ public static class InputUtil{
 				Touch touch=Input.GetTouch(0);
 				if(touch.phase==TouchPhase.Began){
 					screenPoint=touch.position;
+					fingerId=touch.fingerId;
 					return true;
 				}
 			}
@@ -101,6 +104,28 @@ public static class InputUtil{
 				if(EventSystem.current.IsPointerOverGameObject()){
 					result=true;
 				}
+			}
+		}
+		return result;
+	}
+
+	/// <summary>
+	/// 检测鼠标左键/指定fingerId的触摸是否释放
+	/// </summary>
+	/// <param name="fingerId"></param>
+	/// <returns></returns>
+	public static bool IsTouchUp(int fingerId){
+		bool result=true;
+		if(Input.touchSupported){
+			Touch touch=GetTouchWithFingerId(fingerId);
+			if(touch.fingerId>-1){
+				if(touch.phase==TouchPhase.Began || touch.phase==TouchPhase.Moved){
+					result=false;
+				}
+			}
+		}else{
+			if(Input.GetMouseButton(0)){
+				result=false;
 			}
 		}
 		return result;

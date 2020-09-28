@@ -16,7 +16,7 @@ public static class CameraUtil{
 		if(plane.Raycast(ray,out float enter)){
 			result=ray.GetPoint(enter);
 		}else{
-			throw new Exception("射线没有穿过平面，即射线与平面平行或射线方向与平面相反。");
+			throw new System.Exception("射线没有穿过平面，即射线与平面平行或射线方向与平面相反。");
 		}
 		return result;
 	}
