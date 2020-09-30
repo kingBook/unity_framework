@@ -58,7 +58,7 @@ public static class InputUtil{
 	/// <br>注意：只在鼠标左键按下时/触摸在Began阶段才返回true，并输出坐标</br>
 	/// </summary>
 	/// <param name="screenPoint">输出鼠标/触摸点的屏幕坐标</param>
-	/// <param name="fingerId">支持触摸时，输出触摸的手指id（默认-1）</param>
+	/// <param name="fingerId">鼠标模式输出0，触摸模式输出手指id，鼠标未按下/未发生触摸时输出-1</param>
 	/// <param name="isIgnorePointerOverUI">忽略UI上的点击，默认true</param>
 	/// <returns></returns>
 	public static bool GetInputScreenPoint(out Vector3 screenPoint,out int fingerId,bool isIgnorePointerOverUI=true){
@@ -78,6 +78,7 @@ public static class InputUtil{
 		}else{
 			if(Input.GetMouseButtonDown(0)){
 				screenPoint=Input.mousePosition;
+				fingerId=0;
 				return true;
 			}
 		}
