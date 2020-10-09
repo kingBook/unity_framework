@@ -33,7 +33,10 @@ public sealed class App:BaseMonoBehaviour{
 	[SerializeField] private AudioSource m_loopAudioSource;
 
 	[Tooltip("进度条")]
-	[SerializeField] private Progressbar m_progressbar;
+	[SerializeField] private PanelProgressbar m_panelProgressbar;
+
+	[Tooltip("开始Logo屏幕")]
+	[SerializeField] private PanelLogoScreen m_panelLogoScreen;
 
 	[Tooltip("文件加载器")]
 	[SerializeField] private FileLoader m_fileLoader;
@@ -69,7 +72,10 @@ public sealed class App:BaseMonoBehaviour{
 	public AudioSource loopAudioSource=>m_loopAudioSource;
 	
 	/// <summary>进度条</summary>
-	public Progressbar progressbar=>m_progressbar;
+	public PanelProgressbar panelProgressbar=>m_panelProgressbar;
+
+	/// <summary>开始Logo屏幕</summary>
+	public PanelLogoScreen panelLogoScreen=>m_panelLogoScreen;
 
 	/// <summary>文件加载器</summary>
 	public FileLoader fileLoader=>m_fileLoader;

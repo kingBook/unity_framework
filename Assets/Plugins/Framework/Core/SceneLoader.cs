@@ -15,7 +15,10 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar m_progressbar;
+	private PanelProgressbar m_panelProgressbar;
+
+	[SerializeField]
+	private Camera m_cameraStart;
 
 	private AsyncOperation m_asyncOperation;
 
@@ -44,8 +47,8 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 		SceneManager.LoadScene(sceneName,mode);
 		//为了能够侦听场景加载完成时设置为激活场景,所以激活
 		gameObject.SetActive(true);
-		m_progressbar.gameObject.SetActive(true);
-		m_progressbar.SetProgress(1.0f);
+		m_panelProgressbar.gameObject.SetActive(true);
+		m_panelProgressbar.SetProgress(1.0f);
 	}
 
 	/// <summary>
@@ -62,9 +65,9 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 	/// <param name="mode">加载模式,默认为：LoadSceneMode.Additive</param>
 	public void LoadAsync(string sceneName,LoadSceneMode mode){
 		gameObject.SetActive(true);
-		m_progressbar.gameObject.SetActive(true);
-		m_progressbar.SetProgress(0.0f);
-		m_progressbar.SetText("Loading 0%...");
+		m_panelProgressbar.gameObject.SetActive(true);
+		m_panelProgressbar.SetProgress(0.0f);
+		m_panelProgressbar.SetText("Loading 0%...");
 		StartCoroutine(LoadSceneAsync(sceneName,mode));
 	}
 
@@ -76,11 +79,11 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 			float progress=m_asyncOperation.progress;
 			if(progress>=0.9f){
 				m_asyncOperation.allowSceneActivation=true;
-				m_progressbar.SetProgress(1.0f);
-				m_progressbar.SetText("Loading 100%...");
+				m_panelProgressbar.SetProgress(1.0f);
+				m_panelProgressbar.SetText("Loading 100%...");
 			}else{
-				m_progressbar.SetProgress(progress);
-				m_progressbar.SetText("Loading "+Mathf.FloorToInt(progress*100)+"%...");
+				m_panelProgressbar.SetProgress(progress);
+				m_panelProgressbar.SetText("Loading "+Mathf.FloorToInt(progress*100)+"%...");
 			}
 			yield return null;
 		}
@@ -88,17 +91,20 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	private void OnAsyncComplete(AsyncOperation asyncOperation){
 		gameObject.SetActive(false);
-		m_progressbar.gameObject.SetActive(false);
+		m_panelProgressbar.gameObject.SetActive(false);
 		m_asyncOperation.completed-=OnAsyncComplete;
 		m_asyncOperation=null;
 	}
 
 	private void OnSceneLoaded(Scene scene,LoadSceneMode mode){
+		//吊销开始场景的主相机
+		m_cameraStart.gameObject.SetActive(false);
+
 		if(isActiveSceneOnLoaded){
 			SceneManager.SetActiveScene(scene);
 		}
 		gameObject.SetActive(false);
-		m_progressbar.gameObject.SetActive(false);
+		m_panelProgressbar.gameObject.SetActive(false);
 	}
 
 	protected override void OnDisable() {

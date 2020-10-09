@@ -10,7 +10,7 @@ using UnityEngine;
 public class FileLoader:BaseMonoBehaviour{
 	[Tooltip("进度条")]
 	[SerializeField]
-	private Progressbar m_progressbar;
+	private PanelProgressbar m_panelProgressbar;
 	
 	/// <summary>
 	/// 文件加载进度事件（是假模拟的进度）
@@ -69,10 +69,10 @@ public class FileLoader:BaseMonoBehaviour{
 	private void OnLoadStart(bool progressbarVisible){
 		m_isLoading=true;
 		m_progressValue=0.0f;
-		if(m_progressbar!=null){
-			m_progressbar.SetProgress(m_progressValue);
-			m_progressbar.SetText("loading 0%...");
-			m_progressbar.gameObject.SetActive(progressbarVisible);
+		if(m_panelProgressbar!=null){
+			m_panelProgressbar.SetProgress(m_progressValue);
+			m_panelProgressbar.SetText("loading 0%...");
+			m_panelProgressbar.gameObject.SetActive(progressbarVisible);
 		}
 		gameObject.SetActive(true);
 	}
@@ -80,10 +80,10 @@ public class FileLoader:BaseMonoBehaviour{
 	private void OnLoadCompleteAll(byte[][] outBytesList){
 		m_isLoading=false;
 		m_progressValue=1.0f;
-		if(m_progressbar!=null){
-			m_progressbar.SetProgress(m_progressValue);
-			m_progressbar.SetText("loading 100%...");
-			m_progressbar.gameObject.SetActive(false);
+		if(m_panelProgressbar!=null){
+			m_panelProgressbar.SetProgress(m_progressValue);
+			m_panelProgressbar.SetText("loading 100%...");
+			m_panelProgressbar.gameObject.SetActive(false);
 		}
 		gameObject.SetActive(false);
 		
@@ -95,8 +95,8 @@ public class FileLoader:BaseMonoBehaviour{
 		if(m_isLoading){
 			//模拟假的加载进度
 			m_progressValue=Mathf.Min(m_progressValue+0.1f,0.9f);
-			m_progressbar.SetProgress(m_progressValue);
-			m_progressbar.SetText("loading "+Mathf.FloorToInt(m_progressValue*100)+"%...");
+			m_panelProgressbar.SetProgress(m_progressValue);
+			m_panelProgressbar.SetText("loading "+Mathf.FloorToInt(m_progressValue*100)+"%...");
 			onProgress?.Invoke(m_progressValue);
 		}
 	}
