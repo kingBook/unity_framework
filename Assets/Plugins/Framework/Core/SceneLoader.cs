@@ -1,9 +1,7 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0649
+using UnityEngine;
 using System.Collections;
 using UnityEngine.SceneManagement;
-using UnityEngine.UI;
-using UnityEngine.Events;
-#pragma warning disable 0649
 
 /// <summary>
 /// 场景加载器
@@ -29,6 +27,7 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 	protected override void OnEnable() {
 		base.OnEnable();
 		SceneManager.sceneLoaded+=OnSceneLoaded;
+		SceneManager.activeSceneChanged+=OnActiveSceneChanged;
 	}
 
 	/// <summary>
@@ -97,9 +96,6 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 	}
 
 	private void OnSceneLoaded(Scene scene,LoadSceneMode mode){
-		//吊销开始场景的主相机
-		m_cameraStart.gameObject.SetActive(false);
-
 		if(isActiveSceneOnLoaded){
 			SceneManager.SetActiveScene(scene);
 		}
@@ -107,8 +103,13 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 		m_panelProgressbar.gameObject.SetActive(false);
 	}
 
+	private void OnActiveSceneChanged(Scene current,Scene next){
+		m_cameraStart.gameObject.SetActive(next.buildIndex==m_cameraStart.gameObject.scene.buildIndex);
+	}
+
 	protected override void OnDisable() {
 		SceneManager.sceneLoaded-=OnSceneLoaded;
+		SceneManager.activeSceneChanged-=OnActiveSceneChanged;
 		base.OnDisable();
 	}
 
