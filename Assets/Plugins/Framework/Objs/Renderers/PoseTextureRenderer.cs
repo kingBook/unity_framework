@@ -3,21 +3,31 @@
 /// 目标展示纹理渲染器
 /// </summary>
 public class PoseTextureRenderer:BaseMonoBehaviour{
+
 	/// <summary>
 	/// 用于拍照的相机
 	/// </summary>
     [Tooltip("用于拍照的相机")]
     public Camera targetCamera;
+
 	/// <summary>
-	/// 相机所拍摄的对象的渲染器组件
+	/// 相机所拍摄的游戏对象
 	/// </summary>
-    [Tooltip("相机所拍摄的对象的渲染器组件")]
-    public Renderer targetRenderer;
+    [Tooltip("相机所拍摄的游戏对象")]
+    public GameObject target;
+
+	/// <summary>
+	/// 用于定义渲染包围盒大小的碰撞器，当为None时，将自动取对象及子级的所有Renderer组件定义渲染包围大小
+	/// </summary>
+	[Tooltip("用于定义渲染包围盒大小的碰撞器，当为None时，将自动取对象及子级的所有Renderer组件定义渲染包围大小")]
+	public Collider targetBoundsCollider;
+
 	/// <summary>
 	/// 用于渲染目标的纹理
 	/// </summary>
 	[Tooltip("用于渲染目标的纹理")]
 	public RenderTexture targetTexture;
+
 	[Tooltip("在Start函数是否设置相机看向目标")]
 	public bool isLookToTargetOnStart=false;
 
@@ -38,10 +48,10 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
 	public void Render(){
 		//记录激活状态
 		m_targetCameraActiveRecord=targetCamera.gameObject.activeSelf;
-		m_targetRendererActiveRecord=targetRenderer.gameObject.activeSelf;
+		m_targetRendererActiveRecord=target.activeSelf;
 		//激活
 		targetCamera.gameObject.SetActive(true);
-		targetRenderer.gameObject.SetActive(true);
+		target.SetActive(true);
 		//设置相机看向目标，并渲染
         SetCameraLookToTarget();
         targetCamera.targetTexture=targetTexture;
@@ -49,7 +59,7 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
 		targetCamera.targetTexture=null;
         //恢复激活
 		targetCamera.gameObject.SetActive(m_targetCameraActiveRecord);
-		targetRenderer.gameObject.SetActive(m_targetRendererActiveRecord);
+		target.SetActive(m_targetRendererActiveRecord);
     }
     
 	/// <summary>
@@ -57,7 +67,7 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
 	/// </summary>
     public void SetCameraLookToTarget(){
         //相机旋转朝向目标对象
-        Bounds bounds=targetRenderer.bounds;
+		Bounds bounds=targetBoundsCollider?targetBoundsCollider.bounds:GetGameObjectBounds(target);
 		Vector3 boundsCenter=bounds.center;
         targetCamera.transform.LookAt(boundsCenter);
         //包围盒角点
@@ -91,4 +101,26 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
         }
         return maxDistance;
     }
+
+	private Bounds GetGameObjectBounds(GameObject gameObj){
+		Renderer[] renderers=gameObj.GetComponentsInChildren<Renderer>();
+		int len=renderers.Length;
+		if(len<=0)return new Bounds();
+		Bounds bounds=renderers[0].bounds;
+		if(len>1){
+			Vector3 min=bounds.min;
+			Vector3 max=bounds.max;
+			for(int i=1;i<len;i++){
+				Bounds tempBounds=renderers[i].bounds;
+				min.x=Mathf.Min(tempBounds.min.x,min.x);
+				min.y=Mathf.Min(tempBounds.min.y,min.y);
+				min.z=Mathf.Min(tempBounds.min.z,min.z);
+				max.x=Mathf.Max(tempBounds.max.x,max.x);
+				max.y=Mathf.Max(tempBounds.max.y,max.y);
+				max.z=Mathf.Max(tempBounds.max.z,max.z);
+			}
+			bounds.SetMinMax(min,max);
+		}
+		return bounds;
+	}
 }
