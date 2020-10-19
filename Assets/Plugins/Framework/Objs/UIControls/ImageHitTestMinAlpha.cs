@@ -5,6 +5,8 @@ using UnityEngine.UI;
 /// 设置图片碰撞测试的最小透明度
 /// <br>注意：使用此脚本必须在图片导入设置中勾选Read/Write Enabled属性</br>
 /// </summary>
+[RequireComponent(typeof(Image))]
+[DisallowMultipleComponent]
 public class ImageHitTestMinAlpha:BaseMonoBehaviour{
 	[Tooltip("碰撞测试的最小透明度")]
 	[Range(0,1)]
