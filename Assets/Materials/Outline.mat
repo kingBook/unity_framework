@@ -26,15 +26,21 @@ Material:
     m_Floats:
     - NeedPic: 1
     - PixelSnap: 1
+    - _AlphaTreshold: 0.5
     - _BlurColorMix: 1.05
     - _BlurPower: 3.06
-    - _CheckAccuracy: 0.213
-    - _CheckRange: 0
+    - _CheckAccuracy: 0.1
+    - _CheckRange: 1
+    - _EdgeColorPower: 1
+    - _EdgeStep: 0.001
+    - _EdgeWidth: 0.003
     - _LineWidth: 10
+    - _OffsetUV: 0
     - _OutLineWidth: 0.85
     - _StepX: 3.94
     - _StepY: 6.91
     m_Colors:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
+    - _EdgeColor: {r: 1, g: 0, b: 0, a: 1}
     - _LineColor: {r: 1, g: 1, b: 1, a: 1}
     - _OutlineColor: {r: 1, g: 1, b: 1, a: 1}
