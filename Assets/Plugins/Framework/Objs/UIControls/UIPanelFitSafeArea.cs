@@ -1,6 +1,10 @@
 ﻿using UnityEngine;
 /// <summary>
-/// Canvas下的Panel适应刘海屏
+/// 此脚本为了UI元素不被刘海遮挡而设计。
+/// 使用此类需要遵循以下布局：
+/// 1.Canvas下创建一个Panel（此Panel的Image将全屏显示，一般作为半透明的全屏底图）。
+/// 2.Panel下再建一个子Panel，在子Panel添加此脚本组件，子Panel的Image组件一般不用则移除
+/// （子Panel的Image及它的所有子元素都将显示在屏幕安全区内，所以需要显示在屏幕安全区内的所有UI元素都要放在子Panel内）。
 /// </summary>
 public class UIPanelFitSafeArea:BaseMonoBehaviour{
 	[Tooltip("如果true，将取屏幕的宽度的0.9进行测试")]
@@ -14,29 +18,29 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
 	protected override void Awake(){
 		base.Awake();
 		m_panel=GetComponent<RectTransform>();
-		setSafeArea();
+		SetSafeArea();
     }
 
-	private void setSafeArea(){
+	private void SetSafeArea(){
 		if(m_isTest){
 			m_safeArea=new Rect(0.0f,0.0f,Screen.width*0.9f,Screen.height);//测试：取屏幕宽度的0.9
 		}else{
 			m_safeArea=Screen.safeArea;
 		}
-		refresh(m_safeArea);
+		Refresh(m_safeArea);
 	}
 
 	protected override void Start(){
 		base.Start();
-		refresh(m_safeArea);
+		Refresh(m_safeArea);
     }
 
 	protected override void Update2() {
 		base.Update2();
-		refresh(m_safeArea);
+		Refresh(m_safeArea);
     }
 
-    private void refresh(Rect r){
+    private void Refresh(Rect r){
         if(m_lastSafeArea==r)return;
         m_lastSafeArea=r;
         //
@@ -51,7 +55,7 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
         anchorMax.y/=Screen.height;
         m_panel.anchorMin=anchorMin;
         m_panel.anchorMax=anchorMax;
-       //Debug.LogFormat("anchorMin:{0},anchorMax:{1}",m_panel.anchorMin,m_panel.anchorMax);
+		//Debug.LogFormat("anchorMin:{0},anchorMax:{1}",m_panel.anchorMin,m_panel.anchorMax);
         //Debug.Log("=====================================================================");
     }
 
@@ -60,7 +64,7 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
 		set{
 			m_isTest=value;
 			if(Application.isPlaying){
-				setSafeArea();
+				SetSafeArea();
 			}
 		}
 	}
