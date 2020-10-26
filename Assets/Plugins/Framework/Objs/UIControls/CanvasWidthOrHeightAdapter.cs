@@ -4,8 +4,8 @@ using System.Collections;
 using UnityEngine.UI;
 
 public class CanvasWidthOrHeightAdapter:BaseMonoBehaviour{
-	[SerializeField]
-	private CanvasScaler m_canvasScaler;
+	
+	[SerializeField] private CanvasScaler m_canvasScaler;
 
 	private float m_referenceScaleFactor;
 
@@ -27,8 +27,10 @@ public class CanvasWidthOrHeightAdapter:BaseMonoBehaviour{
 		base.Update2();
 		float scaleFactor=(float)Screen.width/Screen.height;
 		if(scaleFactor>m_referenceScaleFactor){
+			//匹配高度
 			m_canvasScaler.matchWidthOrHeight=1f;
 		}else if(scaleFactor<m_referenceScaleFactor){
+			//匹配宽度
 			m_canvasScaler.matchWidthOrHeight=0f;
 		}
 	}
