@@ -18,7 +18,7 @@ public class ScreenLog:BaseMonoBehaviour{
 	
 	protected override void OnGUI2(){
 		base.OnGUI2();
-		float buttonSize=Screen.height*0.1f;
+		float buttonSize=Mathf.Min(Screen.width,Screen.height)*0.1f;
 		if(m_isMinimized){ 
 			if(GUILayout.Button(" > ",GUILayout.MinWidth(buttonSize),GUILayout.MinHeight(buttonSize))){
 				m_isMinimized=false;

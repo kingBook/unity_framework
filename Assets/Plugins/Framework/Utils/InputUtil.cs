@@ -120,7 +120,7 @@ public static class InputUtil{
 		if(Input.touchSupported){
 			Touch touch=GetTouchWithFingerId(fingerId);
 			if(touch.fingerId>-1){
-				if(touch.phase==TouchPhase.Began || touch.phase==TouchPhase.Moved){
+				if(touch.phase==TouchPhase.Began || touch.phase==TouchPhase.Moved ||touch.phase==TouchPhase.Stationary){
 					result=false;
 				}
 			}

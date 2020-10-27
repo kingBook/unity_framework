@@ -4,9 +4,9 @@ using UnityEngine;
 
 public class EditorTest:Editor{
 	[MenuItem("Tools/EditorTest")]
-	public static void test(){
+	public static void Test(){
 		if(EditorApplication.isPlaying)return;
-		Debug.Log("test");
+		Debug.Log("Test");
 	}
 
 }
