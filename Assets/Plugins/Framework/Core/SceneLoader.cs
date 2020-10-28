@@ -37,8 +37,10 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 	public void Load(string sceneName){
 		Load(sceneName,LoadSceneMode.Additive);
 	}
+	
 	/// <summary>
 	/// 同步加载场景
+	/// （注意：LoadSceneMode.Additive 模式加载场景时，被加载场景里的对象不能在 Awake() 或 OnEnable() 里访问 Camera.main, 会访问到 Main 场景的主相机）
 	/// </summary>
 	/// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
 	/// <param name="mode">加载模式</param>
@@ -52,13 +54,16 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	/// <summary>
 	/// Additive模式异步加载场景，将显示进度条
+	/// （注意：LoadSceneMode.Additive 模式加载场景时，被加载场景里的对象不能在 Awake() 或 OnEnable() 里访问 Camera.main, 会访问到 Main 场景的主相机）
 	/// </summary>
 	/// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
 	public void LoadAsync(string sceneName){
 		LoadAsync(sceneName,LoadSceneMode.Additive);
 	}
+	
 	/// <summary>
 	/// 异步加载场景，将显示进度条
+	/// （注意：LoadSceneMode.Additive 模式加载场景时，被加载场景里的对象不能在 Awake() 或 OnEnable() 里访问 Camera.main, 会访问到 Main 场景的主相机）
 	/// </summary>
 	/// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
 	/// <param name="mode">加载模式,默认为：LoadSceneMode.Additive</param>

@@ -2,13 +2,13 @@
 using UnityEngine;
 /// <summary>
 /// 自定义的Log类
-/// <br>1.解决Debug.Log()/Debug.LogFormat()多参数不方便和在发布版本Log不剔除问题(需要在方法声明的上一行加入 [Conditional("UNITY_EDITOR")] 表示只在使用编辑器调试时输出)</br>
+/// <br>1.解决Debug.Log()/Debug.LogFormat()多参数不方便和在发布版本Log不剔除问题(需要在Log方法声明的上一行加入 [Conditional("UNITY_EDITOR")] 表示只在使用编辑器调试时输出)</br>
 /// <br>2.解决Vector3/Vector2很小的小数输出为0，如(1,6.167067E-11,-1.241278E-08)</br>
 /// </summary>
 /// 
 public static class Debug2 {
 	
-	public static void Log(params object[] args) {
+	public static void Log(params object[] args){
 		int len=args.Length;
 		string str="";
 		for(int i=0;i<len;i++){
@@ -29,12 +29,14 @@ public static class Debug2 {
 	}
 
 	private static string GetObjectString(object obj){
-		if(obj is Vector3 v3) {
+		if(obj is Vector3 v3){
 			return string.Format("({0},{1},{2})",v3.x,v3.y,v3.z);
 		}else if(obj is Vector2 v2) {
 			return string.Format("({0},{1})",v2.x,v2.y);
 		}else if(obj is IList list){
 			return GetListString(list);
+		}else if(obj is Vector4 v4){
+			return string.Format("({0},{1},{2},{3})",v4.x,v4.y,v4.z,v4.w);
 		}
 		return (obj==null)?"Null":obj.ToString();
 	}
