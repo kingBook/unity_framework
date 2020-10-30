@@ -2,27 +2,26 @@
 using System.Collections;
 using UnityEngine.EventSystems;
 /// <summary>
-/// 设备输入工具类
+/// 用户输入工具类
 /// </summary>
 public static class InputUtil{
 	
 	/// <summary>
-	/// 返回在TouchBegan时非接触UI的触摸点，未找到时touch.fingerId等于-1
+	/// 返回指定TouchPhase的第一个触摸点，未找到时touch.fingerId等于-1
 	/// </summary>
-	/// <param name="phase">判断触摸的阶段</param>
-	/// <returns>返回在TouchBegan时非接触UI的触摸点</returns>
-	public static Touch GetTouchNonPointerOverUI(TouchPhase phase){
+	/// <param name="phase">触摸的阶段</param>
+	/// <param name="ignorePointerOverUI">是否过滤触摸UI的触摸点</param>
+	/// <returns>返回指定TouchPhase的第一个触摸点</returns>
+	public static Touch GetFirstTouch(TouchPhase phase,bool ignorePointerOverUI){
 		Touch touch;
-		for(int i=0;i<Input.touchCount;i++){
+		for(int i=0,len=Input.touchCount;i<len;i++){
 			touch=Input.GetTouch(i);
 			if(touch.phase!=phase)continue;
-			if(!EventSystem.current.IsPointerOverGameObject(touch.fingerId)){
-				return touch;
-			}
+			if(ignorePointerOverUI&&EventSystem.current.IsPointerOverGameObject(touch.fingerId))continue;
+			return touch;
 		}
 		//
-		touch=new Touch();
-		touch.fingerId=-1;
+		touch=new Touch{ fingerId=-1 };
 		return touch;
 	}
 	
@@ -30,25 +29,24 @@ public static class InputUtil{
 	/// 返回指定手指Id的Touch，未找到时touch.fingerId等于-1
 	/// </summary>
 	/// <param name="fingerId"></param>
+	/// <param name="phases"></param>
 	/// <returns></returns>
-	public static Touch GetTouchWithFingerId(int fingerId){
-		return GetTouchWithFingerId(fingerId,0,false);
-	}
-	public static Touch GetTouchWithFingerId(int fingerId,TouchPhase phase){
-		return GetTouchWithFingerId(fingerId,phase,true);
-	}
-	private static Touch GetTouchWithFingerId(int fingerId,TouchPhase phase,bool isCheckPhase){
+	public static Touch GetTouchWithFingerId(int fingerId,params TouchPhase[] phases){
 		Touch touch;
-		for(int i=0;i<Input.touchCount;i++){
+		for(int i=0,len=Input.touchCount;i<len;i++){
 			touch=Input.GetTouch(i);
-			if(isCheckPhase&&touch.phase!=phase)continue;
-			if(touch.fingerId==fingerId){
+			if(phases.Length>0){
+				if(Array.IndexOf(phases,touch.phase)>-1){
+					if(touch.fingerId==fingerId){
+						return touch;
+					}
+				}
+			}else if(touch.fingerId==fingerId){
 				return touch;
 			}
 		}
 		//
-		touch=new Touch();
-		touch.fingerId=-1;
+		touch=new Touch{ fingerId=-1 };
 		return touch;
 	}
 	
