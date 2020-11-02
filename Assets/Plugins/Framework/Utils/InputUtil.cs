@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using System;
 /// <summary>
 /// 用户输入工具类
 /// </summary>
@@ -28,20 +29,19 @@ public static class InputUtil{
 	/// <summary>
 	/// 返回指定手指Id的Touch，未找到时touch.fingerId等于-1
 	/// </summary>
-	/// <param name="fingerId"></param>
-	/// <param name="phases"></param>
+	/// <param name="fingerId">手指 ID</param>
+	/// <param name="isIgnorePointerOverUI">当手指ID指定的 Touch 位置在UI上时是否跳过</param>
+	/// <param name="phases">触摸阶段</param>
 	/// <returns></returns>
-	public static Touch GetTouchWithFingerId(int fingerId,params TouchPhase[] phases){
+	public static Touch GetTouchWithFingerId(int fingerId,bool isIgnorePointerOverUI,params TouchPhase[] phases){
 		Touch touch;
 		for(int i=0,len=Input.touchCount;i<len;i++){
 			touch=Input.GetTouch(i);
-			if(phases.Length>0){
-				if(Array.IndexOf(phases,touch.phase)>-1){
-					if(touch.fingerId==fingerId){
-						return touch;
-					}
-				}
-			}else if(touch.fingerId==fingerId){
+			if(touch.fingerId!=fingerId)continue;
+			if(isIgnorePointerOverUI && EventSystem.current.IsPointerOverGameObject(fingerId))continue;
+			if(phases.Length>0 && Array.IndexOf(phases,touch.phase)>-1){
+				return touch;
+			}else{
 				return touch;
 			}
 		}
@@ -116,7 +116,7 @@ public static class InputUtil{
 	public static bool IsTouchUp(int fingerId){
 		bool result=true;
 		if(Input.touchSupported){
-			Touch touch=GetTouchWithFingerId(fingerId);
+			Touch touch=GetTouchWithFingerId(fingerId,false);
 			if(touch.fingerId>-1){
 				if(touch.phase==TouchPhase.Began || touch.phase==TouchPhase.Moved ||touch.phase==TouchPhase.Stationary){
 					result=false;
