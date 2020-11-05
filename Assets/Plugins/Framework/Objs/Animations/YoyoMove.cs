@@ -1,0 +1,39 @@
+﻿using UnityEngine;
+using System.Collections;
+/// <summary>
+/// Yoyo 移动
+/// </summary>
+public class YoyoMove:BaseMonoBehaviour{
+	
+	[Tooltip("运动方向")]
+	public Vector3 rotation=new Vector3(0f,0f,90f);
+
+	[Tooltip("运动半径"),Range(0,100000)]
+	public float radius=1;
+
+	[Tooltip("运动速度"),Range(1,100)]	
+	public int speed=5;
+
+	private int m_deg;
+	private Transform m_transform;
+	private Vector3 m_origin;
+
+	protected override void Awake() {
+		base.Awake();
+		m_transform=transform;
+		m_origin=m_transform.position;
+	}
+
+	protected override void FixedUpdate2(){
+		base.FixedUpdate2();
+		//m_deg:[0,360]
+		m_deg=(m_deg+speed)%360;
+		//[-1,1]
+		float t=Mathf.Sin(m_deg*Mathf.Deg2Rad);
+
+		Vector3 direction=Quaternion.Euler(rotation)*Vector3.right;
+		float distance=radius*t;
+
+		m_transform.position=m_origin+distance*direction;
+	}
+}
