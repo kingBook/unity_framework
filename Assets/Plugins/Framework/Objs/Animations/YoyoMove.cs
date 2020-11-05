@@ -14,7 +14,9 @@ public class YoyoMove:BaseMonoBehaviour{
 	[Tooltip("运动速度"),Range(1,100)]	
 	public int speed=5;
 
-	private int m_deg;
+	[Range(0,360),Tooltip("用于三角函数计算的初始欧拉角，调整此值会改变在半径范围内初始的位置")]
+	public int eulerAngle;
+
 	private Transform m_transform;
 	private Vector3 m_origin;
 
@@ -27,9 +29,9 @@ public class YoyoMove:BaseMonoBehaviour{
 	protected override void FixedUpdate2(){
 		base.FixedUpdate2();
 		//m_deg:[0,360]
-		m_deg=(m_deg+speed)%360;
+		eulerAngle=(eulerAngle+speed)%360;
 		//[-1,1]
-		float t=Mathf.Sin(m_deg*Mathf.Deg2Rad);
+		float t=Mathf.Sin(eulerAngle*Mathf.Deg2Rad);
 
 		Vector3 direction=Quaternion.Euler(rotation)*Vector3.right;
 		float distance=radius*t;

@@ -10,7 +10,9 @@ public class YoyoScale:BaseMonoBehaviour{
 	[Range(1,100)]
 	public int speed=5;
 
-	private int m_deg;
+	[Range(0,180),Tooltip("用于三角函数计算的初始欧拉角，调整此值会改变在缩放值范围内初始的缩放值")]
+	public int eulerAngle=0;
+
 	private Transform m_transform;
 
 	protected override void Awake() {
@@ -21,9 +23,9 @@ public class YoyoScale:BaseMonoBehaviour{
 	protected override void FixedUpdate2(){
 		base.FixedUpdate2();
 		//m_deg:[0,180]
-		m_deg=(m_deg+speed)%180;
+		eulerAngle=(eulerAngle+speed)%180;
 		//[0,1]
-		float t=Mathf.Sin(m_deg*Mathf.Deg2Rad);
+		float t=Mathf.Sin(eulerAngle*Mathf.Deg2Rad);
 		
 		m_transform.localScale=Vector3.Lerp(localScale.min,localScale.max,t);
 	}
