@@ -2,14 +2,23 @@
 var selections=document.selection;
 //.jsfl所在的目录路径
 var scriptURI=fl.scriptURI;
+
 //取unity项目目录
 var exportFolderPath=scriptURI.substring(0,scriptURI.lastIndexOf("/jsfl")+1);
 //导出到unity项目目录的路径
 exportFolderPath+="Assets/Textures";
 //如果没有文件夹则创建(不需要判断文件夹是否存在)
 FLfile.createFolder(exportFolderPath);
+
 //最大的纹理限制
 var maxTextureSize={ width:2048, height:2048 };
+
+//是否允许裁剪（true:取各个帧的最小包围盒大小, false:所有帧都一样大小）
+//注意：
+//如果有空白帧必须设置为 false，否则Unity中Canvas下的Image动画会出现"Invalid AABB inAABB"错误
+var isAllowTrimming=false;
+
+//清空输出面板的消息
 fl.outputPanel.clear();
 //--------------------------------------------------------------------------------------------
 var funcs={};
@@ -214,14 +223,14 @@ funcs.isOverflowed=function(element){
 * @param {SpriteSheetExporter} exporter 
 */
 funcs.setSpriteSheetExporter=function(exporter){
-	exporter.allowTrimming=true;
+	exporter.allowTrimming=isAllowTrimming;
 	exporter.algorithm="basic";//basic | maxRects
 	exporter.layoutFormat="Starling";//Starling | JSON | cocos2D v2 | cocos2D v3
 	exporter.autoSize=true;
 	exporter.stackDuplicateFrames=true;
 	//exporter.allowRotate=true;
-	exporter.borderPadding=5;
-	exporter.shapePadding=5;
+	exporter.borderPadding=isAllowTrimming?5:0;
+	exporter.shapePadding= isAllowTrimming?5:0;
 	exporter.maxSheetWidth=maxTextureSize.width;
 	exporter.maxSheetHeight=maxTextureSize.height;
 }

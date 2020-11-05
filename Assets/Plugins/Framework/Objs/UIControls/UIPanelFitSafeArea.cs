@@ -7,7 +7,8 @@
 /// （子Panel的Image及它的所有子元素都将显示在屏幕安全区内，所以需要显示在屏幕安全区内的所有UI元素都要放在子Panel内）。
 /// </summary>
 public class UIPanelFitSafeArea:BaseMonoBehaviour{
-	[Tooltip("如果true，将取屏幕的宽度的0.9进行测试")]
+	
+	[Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
 	[SerializeField,SetProperty(nameof(isTest))]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	private bool m_isTest;
 
@@ -22,11 +23,20 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
     }
 
 	private void SetSafeArea(){
+#if UNITY_EDITOR
 		if(m_isTest){
-			m_safeArea=new Rect(0.0f,0.0f,Screen.width*0.9f,Screen.height);//测试：取屏幕宽度的0.9
+			float width=Screen.width;
+			float height=Screen.height;
+			bool isPortrait=Screen.width<Screen.height;
+			if(isPortrait)height*=0.95f;
+			else width*=0.95f;
+			m_safeArea=new Rect(0.0f,0.0f,width,height);
 		}else{
 			m_safeArea=Screen.safeArea;
 		}
+#else
+		m_safeArea=Screen.safeArea;
+#endif
 		Refresh(m_safeArea);
 	}
 
