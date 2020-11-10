@@ -6,12 +6,18 @@ using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
 /// <summary>
-/// FBX动画分割
+/// FBX动画分割。<br/>
+/// 需要与.fbx同名的.txt文件。<br/>
+/// .txt文件格式：<br/>
+/// "起始帧-结束帧 loop或noloop(可选的) 动画名称(可以包含空格)"<br/>
+/// 如：<br/>
+/// 0-10 loop idle <br/>
+/// 11-25 noloop jump up <br/>
 /// </summary>
 public class FbxAnimationSpliter:Editor{
 	
 	/// <summary>当前项目的路径</summary>
-	private static readonly string projectPath=Environment.CurrentDirectory.Replace("\\","/");
+	private static readonly string s_projectPath=Environment.CurrentDirectory.Replace("\\","/");
 	
 	[MenuItem("Assets/Split FBX Animation",true)]
 	private static bool ValidateSplitFbxAnimation(){
@@ -41,7 +47,7 @@ public class FbxAnimationSpliter:Editor{
 			//去除后缀的资源相对路径，如：Assets/Models/testFBX
 			string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
 			//.txt绝对路径，如：D:/projects/unity_test/Assets/Models/testFBX.txt
-			string txtPath=projectPath+'/'+assetNamePath+".txt";
+			string txtPath=s_projectPath+'/'+assetNamePath+".txt";
 			
 			if(File.Exists(txtPath)){
 				StreamReader streamReader =File.OpenText(txtPath);
