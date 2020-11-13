@@ -28,8 +28,11 @@
 	},
 	"editor.autoClosingQuotes": "beforeWhitespace",
 	"editor.codeLens": false,
-	"editor.fontSize": 14.7,
+	"editor.fontSize": 13.2,
 	"editor.trimAutoWhitespace": false,
-	"workbench.sideBar.location": "right"
+	"workbench.sideBar.location": "right",
+	"editor.minimap.enabled": false,
+	"window.zoomLevel": 0,
+	"editor.insertSpaces": false
 	
 }
