@@ -5,7 +5,9 @@ using System.Collections;
 /// 使用此类需要如下结构: <br/>
 /// Effect->EffectChild（EffectChild是Effect子级，父级(Effect)用于控制位置，子级(EffectChild)用于控制翻转/旋转） <br/>
 /// 在子级(EffectChild)添加此脚本组件 <br/>
-/// 注意：调整显示前后关系时不要设置z轴的位置，使用此脚本的 zValue 进行设置
+/// 注意：<br/>
+/// * 调整显示前后关系时不要设置z轴的位置，使用此脚本的 zValue 进行设置 <br/>
+/// * 当需要重新设置 EffectChild 的旋转时，在设置旋转后需要调用 RecordInitEulerAngles() 函数重新记录初始的欧拉角
 /// </summary>
 public class EffectAlignCamera:BaseMonoBehaviour{
 	
@@ -18,9 +20,15 @@ public class EffectAlignCamera:BaseMonoBehaviour{
 	private bool m_isInited;
 	private Vector3 m_eulerAnglesInit;
 
+	/// <summary> 记录初始的欧拉角 </summary>
+	public void RecordInitEulerAngles(){
+		m_eulerAnglesInit=m_transform.eulerAngles;
+	}
+
 	private void Init(){
 		m_isInited=true;
-		m_eulerAnglesInit=m_transform.eulerAngles;
+		
+		RecordInitEulerAngles();
 
 		m_distanceCamera=Vector3.Distance(m_camera.transform.position,m_transform.position)+zValue;
 	}

@@ -18,4 +18,15 @@ public static class TransformUtil{
 		}
 		return children;
 	}
+	
+	/// <summary> 转换一个 Transform 数组到顶点数组 </summary>
+	public static Vector3[] CovertTransformsToVertices(Transform[] transforms,Space space=Space.World){
+		int len=transforms.Length;
+		Vector3[] vertices=new Vector3[len];
+		for(int i=0;i<len;i++){
+			if(space==Space.World) vertices[i]=transforms[i].position;
+			else vertices[i]=transforms[i].localPosition;
+		}
+		return vertices;
+	}
 }

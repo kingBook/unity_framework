@@ -44,4 +44,36 @@ public class Mathk{
 		if(rotation<0) rotation+=360;
 		return rotation;
 	}
+	
+	/// <summary> 获取点在线段的垂足（垂足会超出线段） </summary>
+	public static Vector3 GetPerpendicularPoint(Vector3 point,Vector3 lineStart,Vector3 lineEnd){
+		Vector3 rhs=point-lineStart;
+		Vector3 vector=lineEnd-lineStart;
+		float magnitude=vector.magnitude;
+		Vector3 vector2=vector;
+		if(magnitude>1E-06f){
+			vector2/=magnitude;
+		}
+		float value=Vector3.Dot(vector2,rhs);
+		return lineStart+vector2*value;
+	}
+
+	/// <summary> 点到线段的最小距离点（垂足不超出线段） </summary>
+	public static Vector3 ProjectPointLine(Vector3 point,Vector3 lineStart,Vector3 lineEnd){
+		Vector3 rhs=point-lineStart;
+		Vector3 vector=lineEnd-lineStart;
+		float magnitude=vector.magnitude;
+		Vector3 vector2=vector;
+		if(magnitude>1E-06f){
+			vector2/=magnitude;
+		}
+		float value=Vector3.Dot(vector2,rhs);
+		value=Mathf.Clamp(value,0f,magnitude);
+		return lineStart+vector2*value;
+	}
+
+	/// <summary> 点到线段的最小距离（垂足不超出线段） </summary>
+	public static float DistancePointLine(Vector3 point,Vector3 lineStart,Vector3 lineEnd){
+		return Vector3.Magnitude(ProjectPointLine(point,lineStart,lineEnd)-point);
+	}
 }

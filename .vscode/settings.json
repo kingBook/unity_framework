@@ -26,6 +26,10 @@
 	  "**/Logs":true,
 	  "**/Library":true,
 	},
-	"editor.autoClosingQuotes": "beforeWhitespace"
+	"editor.autoClosingQuotes": "beforeWhitespace",
+	"editor.codeLens": false,
+	"editor.fontSize": 14.7,
+	"editor.trimAutoWhitespace": false,
+	"workbench.sideBar.location": "right"
 	
 }
