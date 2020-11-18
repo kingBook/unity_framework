@@ -20,7 +20,7 @@ public class LanguageSwapImage:BaseMonoBehaviour{
 	protected override void Start(){
 		base.Start();
 		SwapImageToLanguage(App.instance.language);
-		App.instance.onChangeLanguage+=OnChangeLanguage;
+		App.instance.onChangeLanguageEvent+=OnChangeLanguage;
 	}
 
 	private void OnChangeLanguage(App.Language language){
@@ -36,7 +36,7 @@ public class LanguageSwapImage:BaseMonoBehaviour{
 	}
 
 	protected override void OnDestroy(){
-		App.instance.onChangeLanguage-=OnChangeLanguage;
+		App.instance.onChangeLanguageEvent-=OnChangeLanguage;
 		base.OnDestroy();
 	}
 }

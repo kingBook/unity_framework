@@ -17,13 +17,13 @@ public class FileLoader:BaseMonoBehaviour{
 	/// <br>void(float progress)</br>
 	/// <br>progress：表示加载进度，范围[0,1]</br>
 	/// </summary>
-	public event Action<float> onProgress;
+	public event Action<float> onProgressEvent;
 	/// <summary>
 	/// 文件加载完成事件
 	/// <br>void(byte[][] bytesList)</br>
 	/// <br>bytesList：表示加载完成后各个文件的总字节(索引与加载时传递的参数对应)</br>
 	/// </summary>
-	public event Action<byte[][]> onComplete;
+	public event Action<byte[][]> onCompleteEvent;
 
 	private FileStream m_fileStream;
 	private bool m_isLoading;
@@ -87,7 +87,7 @@ public class FileLoader:BaseMonoBehaviour{
 		}
 		gameObject.SetActive(false);
 		
-		onComplete?.Invoke(outBytesList);
+		onCompleteEvent?.Invoke(outBytesList);
 	}
 
 	protected override void Update2() {
@@ -97,7 +97,7 @@ public class FileLoader:BaseMonoBehaviour{
 			m_progressValue=Mathf.Min(m_progressValue+0.1f,0.9f);
 			m_panelProgressbar.SetProgress(m_progressValue);
 			m_panelProgressbar.SetText("loading "+Mathf.FloorToInt(m_progressValue*100)+"%...");
-			onProgress?.Invoke(m_progressValue);
+			onProgressEvent?.Invoke(m_progressValue);
 		}
 	}
 

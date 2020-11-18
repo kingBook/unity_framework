@@ -17,7 +17,7 @@ public sealed class App:BaseMonoBehaviour{
 
 	public enum Language{AUTO,CN,EN}
 	/// <summary>改变语言事件</summary>
-	public event Action<Language> onChangeLanguage;
+	public event Action<Language> onChangeLanguageEvent;
 
 	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
 	 "\nCN:中文 " +
@@ -51,7 +51,7 @@ public sealed class App:BaseMonoBehaviour{
 	[SerializeField] private BaseGame[] m_games=new BaseGame[0];
 
 	/// <summary>暂停或恢复事件，在调用setPause(bool)时方法发出</summary>
-	public event Action<bool> onPauseOrResume;
+	public event Action<bool> onPauseOrResumeEvent;
 
 	/// <summary>是否为调试模式，调试模式下不加载其他场景</summary>
 	public bool isDebug=>m_isDebug;
@@ -61,7 +61,7 @@ public sealed class App:BaseMonoBehaviour{
 		get => m_language;
 		set{
 			m_language=value;
-			onChangeLanguage?.Invoke(m_language);
+			onChangeLanguageEvent?.Invoke(m_language);
 		}
 	}
 	
@@ -135,7 +135,7 @@ public sealed class App:BaseMonoBehaviour{
 		isCN=isCN||Application.systemLanguage==SystemLanguage.ChineseTraditional;
 		m_language=isCN?Language.CN:Language.EN;
 		//改变语言事件
-		onChangeLanguage?.Invoke(m_language);
+		onChangeLanguageEvent?.Invoke(m_language);
 	}
 
 	/// <summary>
@@ -158,7 +158,7 @@ public sealed class App:BaseMonoBehaviour{
 			AudioListener.pause=this.isPause;
 		}
 		//发出事件
-		onPauseOrResume?.Invoke(isPause);
+		onPauseOrResumeEvent?.Invoke(isPause);
 	}
 
 	protected override void OnApplicationQuit(){

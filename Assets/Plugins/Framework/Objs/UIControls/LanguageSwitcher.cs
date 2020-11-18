@@ -19,7 +19,7 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 	protected override void Start(){
 		base.Start();
 		ActiveWithLanguage(App.instance.language);
-		App.instance.onChangeLanguage+=OnChangeLanguage;
+		App.instance.onChangeLanguageEvent+=OnChangeLanguage;
 	}
 
 	private void ActiveWithLanguage(App.Language language){
@@ -50,7 +50,7 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 	}
 
 	protected override void OnDestroy(){
-		App.instance.onChangeLanguage-=OnChangeLanguage;
+		App.instance.onChangeLanguageEvent-=OnChangeLanguage;
 		base.OnDestroy();
 	}
 }

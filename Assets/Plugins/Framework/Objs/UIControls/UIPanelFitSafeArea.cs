@@ -6,6 +6,7 @@
 /// 2.Panel下再建一个子Panel，在子Panel添加此脚本组件，子Panel的Image组件一般不用则移除
 /// （子Panel的Image及它的所有子元素都将显示在屏幕安全区内，所以需要显示在屏幕安全区内的所有UI元素都要放在子Panel内）。
 /// </summary>
+[DisallowMultipleComponent]
 public class UIPanelFitSafeArea:BaseMonoBehaviour{
 	
 	[Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]

@@ -45,7 +45,7 @@ public class DriftCamera:BaseMonoBehaviour{
 		Bottom,//17
 		BottomLeftForward,BottomForward,BottomRightForward,BottomRight,BottomRightBack,BottomBack,BottomLeftBack,BottomLeft//25
 	}
-	public static readonly Vector3[] positionModeVerties=new Vector3[]{
+	private static readonly Vector3[] s_positionModeVerties=new Vector3[]{
 		new Vector3(0,1,0),//0
 		new Vector3(-1,1,1),new Vector3(0,1,1),new Vector3(1,1,1),new Vector3(1,1,0),new Vector3(1,1,-1),new Vector3(0,1,-1),new Vector3(-1,1,-1),new Vector3(-1,1,0),//8
 		new Vector3(-1,0,1),new Vector3(0,0,1),new Vector3(1,0,1),new Vector3(1,0,0),new Vector3(1,0,-1),new Vector3(0,0,-1),new Vector3(-1,0,-1),new Vector3(-1,0,0),//16
@@ -131,7 +131,7 @@ public class DriftCamera:BaseMonoBehaviour{
 		if(!IsCrossObs(positionTarget))return;
 		for(int i=0;i<17;i++){
             //取一个相机测试点检测是否遮挡
-			Vector3 normalized=positionModeVerties[i];
+			Vector3 normalized=s_positionModeVerties[i];
 			Vector3 offset=normalized*distance;
 			offset=targetTransform.rotation*offset;
 			Vector3 testPosTarget=targetTransform.position+offset;

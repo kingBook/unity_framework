@@ -44,7 +44,7 @@ public class Mathk{
 		if(rotation<0) rotation+=360;
 		return rotation;
 	}
-	
+
 	/// <summary> 获取点在线段的垂足（垂足会超出线段） </summary>
 	public static Vector3 GetPerpendicularPoint(Vector3 point,Vector3 lineStart,Vector3 lineEnd){
 		Vector3 rhs=point-lineStart;
@@ -75,5 +75,31 @@ public class Mathk{
 	/// <summary> 点到线段的最小距离（垂足不超出线段） </summary>
 	public static float DistancePointLine(Vector3 point,Vector3 lineStart,Vector3 lineEnd){
 		return Vector3.Magnitude(ProjectPointLine(point,lineStart,lineEnd)-point);
+	}
+	
+	/// <summary>
+	/// 获取点距离顶点列表的最近的线段的索引（顺时针方向查找），当顶点列表长度小于2时返回(-1,-1)
+	/// </summary>
+	/// <param name="point">点</param>
+	/// <param name="vertices">顶点列表（顺时针方向）</param>
+	/// <param name="isClosed">顶点列表是否闭合</param>
+	/// <returns></returns>
+	public static (int startIndex, int endIndex) GetClosestPolyLineToPoint(Vector3 point,Vector3[] vertices,bool isClosed){
+		var result=(-1,-1);
+		float minDistance=float.MaxValue;
+		for(int i=0,len=vertices.Length;i<len;i++){
+			int lineStartIndex=i;
+			int lineEndIndex=(i>=len-1&&isClosed)?0:i+1;
+			if(lineEndIndex>=len)break;
+			Vector3 lineStart=vertices[lineStartIndex];
+			Vector3 lineEnd=vertices[lineEndIndex];
+
+			float distance=DistancePointLine(point,lineStart,lineEnd);
+			if(distance<minDistance){
+				minDistance=distance;
+				result=(lineStartIndex,lineEndIndex);
+			}
+		}
+		return result;
 	}
 }

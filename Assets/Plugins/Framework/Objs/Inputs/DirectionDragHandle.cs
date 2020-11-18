@@ -46,7 +46,7 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 		//onBeginDrag
 		EventTrigger.Entry entry=new EventTrigger.Entry();
 		entry.eventID=EventTriggerType.BeginDrag;
-		entry.callback.AddListener((eventData)=>{onBeginDrag((PointerEventData)eventData);});
+		entry.callback.AddListener((eventData)=>{OnBeginDrag((PointerEventData)eventData);});
 		eventTrigger.triggers.Add(entry);
 		//onDrag
 		entry=new EventTrigger.Entry();
@@ -75,7 +75,7 @@ public class DirectionDragHandle:BaseMonoBehaviour{
 		m_canvasGroup.alpha=idleAlpha;
     }
 
-	private void onBeginDrag(PointerEventData eventData){
+	private void OnBeginDrag(PointerEventData eventData){
 		m_canvasGroup.alpha=activeAlpha;
 	}
 
