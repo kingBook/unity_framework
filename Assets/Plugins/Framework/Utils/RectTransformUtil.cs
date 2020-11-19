@@ -4,43 +4,23 @@ using System.Collections;
 /// RectTransform工具类
 /// </summary>
 public class RectTransformUtil{
-	
 	/// <summary>
-	/// 返回指定RectTransform屏幕坐标矩形
-	/// </summary>
-	/// <param name="rectTransform">指定的RectTransform</param>
-	/// <param name="canvasLocalScale">Canvas的缩放量</param>
-	/// <returns></returns>
-	public static Rect GetScreenRect(RectTransform rectTransform,Vector3 canvasLocalScale){
-		Rect rect=rectTransform.rect;
-		//根据Canvas缩放
-		rect.width*=canvasLocalScale.x;
-		rect.height*=canvasLocalScale.y;
-		rect.position*=canvasLocalScale;
-		//计算矩形左下角
-		Vector2 leftBottom=(Vector2)rectTransform.position+rect.position;
-		rect.position=leftBottom;
-		return rect;
-	}
-
-	/// <summary>
-	/// 移动一个 RectTransform 到指定的屏幕坐标位置
+	/// 移动一个 RectTransform 到指定的屏幕坐标位置（此方法需要 Anchor 在左下角 AnchorMin 和 AnchorMax 都为0）
 	/// </summary>
 	/// <param name="rectTransform">要移动的 RectTransform</param>
 	/// <param name="screenPoint">屏幕坐标位置</param>
 	/// <param name="canvas">Canvas</param>
-	/// <param name="anchorX">锚点x，范围区间[0,1]</param>
-	/// <param name="anchorY">锚点y，范围区间[0,1]</param>
-	public static void MoveToScreenPoint(RectTransform rectTransform,Vector2 screenPoint,Canvas canvas,float anchorX=0.5f,float anchorY=0.5f){
+	/// <param name="anchor">锚点，x,y范围区间[0,1]</param>
+	public static void MoveToScreenPoint(RectTransform rectTransform,Vector2 screenPoint,Canvas canvas,Vector2 anchor){
 		float scaleFactor=canvas.scaleFactor;
 		Vector2 screenSize=new Vector2(Screen.width,Screen.height);
 
 		screenPoint/=scaleFactor;//计算屏幕在Canvas实际大小中的位置
 
-		//计算枢轴，默认以中心为枢轴
-		anchorX=Mathf.Clamp01(anchorX);
-		anchorY=Mathf.Clamp01(anchorY);
-		screenPoint-=rectTransform.rect.size*new Vector2(anchorX,anchorY);
+		//计算枢轴
+		anchor.x=Mathf.Clamp01(anchor.x);
+		anchor.y=Mathf.Clamp01(anchor.y);
+		screenPoint-=rectTransform.rect.size*anchor;
 		
 		Vector2 realSize=screenSize/scaleFactor;//Canvas实际大小(像素为单位)
 		
