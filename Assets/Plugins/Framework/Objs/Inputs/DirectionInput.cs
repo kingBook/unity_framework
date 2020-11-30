@@ -106,9 +106,11 @@ namespace AdventureScene{
 					//触摸按下过程中...
 					Touch touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Moved,TouchPhase.Stationary);
 					OnUiInputTouchMoved(touch.position);
+					Debug.Log($"按下过程中 fingerId:{touch.fingerId}");
 					//判断触摸释放
 					touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Canceled,TouchPhase.Ended);
 					if(touch.fingerId>-1){
+						Debug.Log($"触摸释放 fingerId:{touch.fingerId}");
 						OnUiInputTouchEnded(touch.position);
 					}
 				}else{
@@ -116,6 +118,7 @@ namespace AdventureScene{
 					Touch touch=InputUtil.GetFirstTouch(TouchPhase.Began,false);
 					if(touch.fingerId>-1){
 						bool inTouchableArea=RectTransformUtility.RectangleContainsScreenPoint(m_touchableArea,touch.position);
+						Debug.Log($"触摸按下 fingerId:{touch.fingerId}, inTouchableArea:{inTouchableArea}");
 						if(inTouchableArea){
 							m_fingerIdRecord=touch.fingerId;
 							OnUiInputTouchBegan(touch.position);

@@ -41,8 +41,6 @@ public static class InputUtil{
 			if(isIgnorePointerOverUI && EventSystem.current.IsPointerOverGameObject(fingerId))continue;
 			if(phases.Length>0 && Array.IndexOf(phases,touch.phase)>-1){
 				return touch;
-			}else{
-				return touch;
 			}
 		}
 		//
