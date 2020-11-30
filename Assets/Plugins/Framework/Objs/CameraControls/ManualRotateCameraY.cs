@@ -55,7 +55,7 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 		Touch touch;
 		//返回一个在触摸开始阶段时非触摸UI的触摸点
 		if(m_touchFingerId>-1){
-			touch=InputUtil.GetTouchWithFingerId(m_touchFingerId,false);
+			touch=InputUtil.GetTouchWithFingerId(m_touchFingerId,false,TouchPhase.Moved,TouchPhase.Stationary);
 			m_touchFingerId=touch.fingerId;
 		}else{
 			touch=InputUtil.GetFirstTouch(TouchPhase.Began,true);

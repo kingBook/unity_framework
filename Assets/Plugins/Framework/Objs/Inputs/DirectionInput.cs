@@ -72,7 +72,7 @@ namespace AdventureScene{
 				CheckUiHandleInput();
 				//释放手柄后回到中心
 				if(!m_inTouchableAreaTouchDown){
-					MoveHandleToScreenPoint(Vector3.Lerp(m_handle.position,m_handlePositionOnStart,0.2f));
+					MoveHandleToScreenPoint(Vector3.Lerp(m_handle.position,m_handlePositionOnStart,0.6f));
 					
 				}
 			}else{
@@ -152,7 +152,7 @@ namespace AdventureScene{
 		}
 
 		private void OnUiInputTouchMoved(Vector2 screenPoint){
-			bool inTouchableArea=RectTransformUtility.RectangleContainsScreenPoint(m_touchableArea,Input.mousePosition);
+			bool inTouchableArea=RectTransformUtility.RectangleContainsScreenPoint(m_touchableArea,screenPoint);
 			if(inTouchableArea){
 				MoveHandleToScreenPoint(screenPoint);
 			}else{
