@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0649
+using UnityEngine;
 /// <summary>
 /// 此脚本为了UI元素不被刘海遮挡而设计。
 /// 使用此类需要遵循以下布局：
@@ -8,75 +9,58 @@
 /// </summary>
 [DisallowMultipleComponent]
 public class UIPanelFitSafeArea:BaseMonoBehaviour{
-	
-	[Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
-	[SerializeField,SetProperty(nameof(isTest))]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
+
+	[SerializeField,Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
 	private bool m_isTest;
 
-	private Rect m_safeArea;
-    private Rect m_lastSafeArea;
-    private RectTransform m_panel;
+	private RectTransform m_panel;
+	private float m_time;
 
 	protected override void Awake(){
 		base.Awake();
 		m_panel=GetComponent<RectTransform>();
-		SetSafeArea();
-    }
-
-	private void SetSafeArea(){
-#if UNITY_EDITOR
-		if(m_isTest){
-			float width=Screen.width;
-			float height=Screen.height;
-			bool isPortrait=Screen.width<Screen.height;
-			if(isPortrait)height*=0.95f;
-			else width*=0.95f;
-			m_safeArea=new Rect(0.0f,0.0f,width,height);
-		}else{
-			m_safeArea=Screen.safeArea;
-		}
-#else
-		m_safeArea=Screen.safeArea;
-#endif
-		Refresh(m_safeArea);
+		m_time=Time.time;
 	}
-
-	protected override void Start(){
-		base.Start();
-		Refresh(m_safeArea);
-    }
 
 	protected override void Update2() {
 		base.Update2();
-		Refresh(m_safeArea);
-    }
+		if(Time.time-m_time>0.3f){//限制刷新频率
+			m_time=Time.time;
+			MatchSafeArea();
+		}
+	}
 
-    private void Refresh(Rect r){
-        if(m_lastSafeArea==r)return;
-        m_lastSafeArea=r;
-        //
-        //Debug.LogFormat("safeArea.position:{0}, safeArea.size:{1}",r.position,r.size);
-        //Debug.LogFormat("anchorMin:{0},anchorMax:{1}",m_panel.anchorMin,m_panel.anchorMax);
-        Vector2 anchorMin=r.position;
-        Vector2 anchorMax=r.position+r.size;
-        //anchorMin(左上角)、anchorMax(右下角)表示在屏幕上的百分比位置,在屏幕内的取值范围是[0,1]
-        anchorMin.x/=Screen.width;
-        anchorMin.y/=Screen.height;
-        anchorMax.x/=Screen.width;
-        anchorMax.y/=Screen.height;
-        m_panel.anchorMin=anchorMin;
-        m_panel.anchorMax=anchorMax;
-		//Debug.LogFormat("anchorMin:{0},anchorMax:{1}",m_panel.anchorMin,m_panel.anchorMax);
-        //Debug.Log("=====================================================================");
-    }
+	private void MatchSafeArea(){
+		Rect safeArea=Screen.safeArea;
+		float screenWidth=Screen.width;
+		float screenHeight=Screen.height;
+		//在 Unity 编辑中时，如果 m_isTest 为 true 时，截取屏幕进行测试
+#if UNITY_EDITOR
+		if(m_isTest){
+			bool isPortraitGameView=screenWidth<screenHeight;
+			if(isPortraitGameView)safeArea.height*=0.95f;
+			else safeArea.width*=0.95f;
+		}
+#elif UNITY_IOS||UNITY_ANDROID
+		//根据屏幕旋转重新设置正确的 screenWidth 和 screenHeight，长的为 screenWidth ，短的为 screenHeight。
+		bool isPortrait=Screen.orientation==ScreenOrientation.Portrait||Screen.orientation==ScreenOrientation.PortraitUpsideDown;
+		float minScreenValue=Mathf.Min(screenWidth,screenHeight);
+		float maxScreenValue=Mathf.Max(screenWidth,screenHeight);
+		screenWidth=isPortrait?minScreenValue:maxScreenValue;
+		screenHeight=isPortrait?maxScreenValue:minScreenValue;
+#endif
+		//计算 anchorMin、anchorMax
+		Vector2 anchorMin=safeArea.position;
+		Vector2 anchorMax=safeArea.position+safeArea.size;
+		anchorMin.x/=screenWidth;
+		anchorMin.y/=screenHeight;
+		anchorMax.x/=screenWidth;
+		anchorMax.y/=screenHeight;
+		m_panel.anchorMin=anchorMin;
+		m_panel.anchorMax=anchorMax;
+	}
 
 	public bool isTest{
 		get => m_isTest;
-		set{
-			m_isTest=value;
-			if(Application.isPlaying){
-				SetSafeArea();
-			}
-		}
 	}
 }
