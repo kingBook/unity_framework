@@ -22,7 +22,6 @@ namespace AdventureScene{
 		private bool m_inTouchableAreaTouchDown;
 		private Canvas m_canvas;
 		private CanvasGroup m_canvasGroupSliginArea;
-		private Vector3 m_handlePositionOnStart;
 		private float m_screenScaleFactorOnStart;
 
 		/// <summary> 输入的方向的大小，值区间[-1,1]，表示输入的方向、大小（滑块离中心点越远越大） </summary>
@@ -54,8 +53,6 @@ namespace AdventureScene{
 
 		protected override void Start(){
 			base.Start();
-			//记录手柄的初始位置(必须在 Awake 之后记录，否则 Canvas 未计算适配会出错)
-			m_handlePositionOnStart=m_handle.position;
 			m_screenScaleFactorOnStart=m_canvas.scaleFactor;
 			//记录可滑动的半径(必须在 Awake 之后记录，否则 Canvas 未计算适配会出错)
 			m_slidingRadiusOnStart=m_slidingArea.sizeDelta.x*0.5f*m_canvas.scaleFactor;
@@ -72,7 +69,7 @@ namespace AdventureScene{
 				CheckUiHandleInput();
 				//释放手柄后回到中心
 				if(!m_inTouchableAreaTouchDown){
-					MoveHandleToScreenPoint(Vector3.Lerp(m_handle.position,m_handlePositionOnStart,0.6f));
+					MoveHandleToScreenPoint(Vector3.Lerp(m_handle.position,m_slidingArea.position,0.6f));
 					
 				}
 			}else{
@@ -84,18 +81,17 @@ namespace AdventureScene{
 		#region UI Handle
 
 		private void MoveHandleToScreenPoint(Vector3 screenPoint){
-			Vector3 relative=screenPoint-m_handlePositionOnStart;
+			Vector3 relative=screenPoint-m_slidingArea.position;
 			relative=Vector3.ClampMagnitude(relative,m_slidingRadiusOnStart);
 			relative.z=0f;
-			m_handle.position=m_handlePositionOnStart+relative;
+			m_handle.position=m_slidingArea.position+relative;
 			//计算输出方向的大小
 			m_directionSize=relative/m_slidingRadiusOnStart;
 		}
 
 		private void OnScreenSizeChanged(){
-			//重新计算并记录圆心位置
+			//重新计算并记录可滑动半径范围
 			float scale=m_canvas.scaleFactor/m_screenScaleFactorOnStart;
-			m_handlePositionOnStart*=scale;
 			m_screenScaleFactorOnStart=m_canvas.scaleFactor;
 			m_slidingRadiusOnStart*=scale;
 		}
@@ -106,11 +102,9 @@ namespace AdventureScene{
 					//触摸按下过程中...
 					Touch touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Moved,TouchPhase.Stationary);
 					OnUiInputTouchMoved(touch.position);
-					Debug.Log($"按下过程中 fingerId:{touch.fingerId}");
 					//判断触摸释放
 					touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Canceled,TouchPhase.Ended);
 					if(touch.fingerId>-1){
-						Debug.Log($"触摸释放 fingerId:{touch.fingerId}");
 						OnUiInputTouchEnded(touch.position);
 					}
 				}else{
@@ -118,7 +112,6 @@ namespace AdventureScene{
 					Touch touch=InputUtil.GetFirstTouch(TouchPhase.Began,false);
 					if(touch.fingerId>-1){
 						bool inTouchableArea=RectTransformUtility.RectangleContainsScreenPoint(m_touchableArea,touch.position);
-						Debug.Log($"触摸按下 fingerId:{touch.fingerId}, inTouchableArea:{inTouchableArea}");
 						if(inTouchableArea){
 							m_fingerIdRecord=touch.fingerId;
 							OnUiInputTouchBegan(touch.position);

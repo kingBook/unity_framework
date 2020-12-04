@@ -9,7 +9,8 @@ public sealed class Game:BaseGame{
 	protected override void Start() {
 		base.Start();
 		if(!App.instance.isDebug){
-			GotoTitleScene();
+			//GotoTitleScene();
+			GotoLevelScene();
 		}
 	}
 
