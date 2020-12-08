@@ -20,6 +20,12 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
 		base.Awake();
 		m_panel=GetComponent<RectTransform>();
 		m_time=Time.time;
+		MatchSafeArea();
+	}
+	
+	protected override void Start(){
+		base.Start();
+		MatchSafeArea();
 	}
 
 	protected override void Update2() {
@@ -34,7 +40,7 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
 		Rect safeArea=Screen.safeArea;
 		float screenWidth=Screen.width;
 		float screenHeight=Screen.height;
-		//在 Unity 编辑中时，如果 m_isTest 为 true 时，截取屏幕进行测试
+		//在 Unity 编辑器时，如果 m_isTest 为 true 时，截取屏幕进行测试
 #if UNITY_EDITOR
 		if(m_isTest){
 			bool isPortraitGameView=screenWidth<screenHeight;
