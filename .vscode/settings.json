@@ -33,6 +33,7 @@
 	"workbench.sideBar.location": "right",
 	"editor.minimap.enabled": false,
 	"window.zoomLevel": 0,
-	"editor.insertSpaces": false
+	"editor.insertSpaces": false,
+	"editor.fontFamily": "Menlo, 'Courier New', monospace"
 	
 }
