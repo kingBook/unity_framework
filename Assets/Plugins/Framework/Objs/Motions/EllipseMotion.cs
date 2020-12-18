@@ -12,12 +12,20 @@ public class EllipseMotion:BaseMonoBehaviour{
 	[Tooltip("椭圆的中心")] public Transform center;
 	[Tooltip("速度(无方向)")] public float speed=1;
 	[Tooltip("是否逆时针运动")] public bool isCCW;
+	[Tooltip("是否暂停")] public bool isPause;
 
 
 	private float m_deg;
 
+	protected override void Awake(){
+		base.Awake();
+		Vector3 relative=transform.position-center.position;
+		m_deg=Mathf.Atan2(relative.y,relative.x)*Mathf.Rad2Deg;
+	}
+
 	protected override void FixedUpdate2(){
 		base.FixedUpdate2();
+		if(isPause)return;
 		Vector3 position=transform.position;
 		int sign=isCCW?1:-1;
 		m_deg=(m_deg+sign*speed)%360f;
