@@ -7,14 +7,13 @@ using UnityEngine.UI;
 /// </summary>
 [RequireComponent(typeof(Image))]
 [DisallowMultipleComponent]
-public class ImageHitTestMinAlpha:BaseMonoBehaviour{
+public class ImageHitTestMinAlpha:MonoBehaviour{
 	[Tooltip("碰撞测试的最小透明度")]
 	[Range(0,1)]
 	public float alphaHitTestMinimumThreshold=0.01f;
 	private Image m_image;
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		m_image=GetComponent<Image>();
 		m_image.alphaHitTestMinimumThreshold=alphaHitTestMinimumThreshold;
 	}

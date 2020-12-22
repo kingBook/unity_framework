@@ -7,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 文件加载器
 /// </summary>
-public class FileLoader:BaseMonoBehaviour{
+public class FileLoader:MonoBehaviour{
 	[Tooltip("进度条")]
 	[SerializeField]
 	private PanelProgressbar m_panelProgressbar;
@@ -52,7 +52,7 @@ public class FileLoader:BaseMonoBehaviour{
                     m_fileStream.Read(buffer,0,fileLength);
                 }
             });
-			if(isDestroyed){
+			if(!gameObject.activeSelf){
 				//加载过程中，删除该脚本绑定的对象时，打断
 				break;
 			}
@@ -61,7 +61,7 @@ public class FileLoader:BaseMonoBehaviour{
 		}
 
 		//所有加载完成
-		if(!isDestroyed){
+		if(gameObject.activeSelf){
 			OnLoadCompleteAll(outBytesList);
 		}
 	}
@@ -90,8 +90,7 @@ public class FileLoader:BaseMonoBehaviour{
 		onCompleteEvent?.Invoke(outBytesList);
 	}
 
-	protected override void Update2() {
-		base.Update2();
+	private void Update() {
 		if(m_isLoading){
 			//模拟假的加载进度
 			m_progressValue=Mathf.Min(m_progressValue+0.1f,0.9f);
@@ -109,9 +108,8 @@ public class FileLoader:BaseMonoBehaviour{
 		}
 	}
 
-	protected override void OnDestroy() {
+	private void OnDestroy(){
 		Dispose();
-		base.OnDestroy();
 	}
 
 }

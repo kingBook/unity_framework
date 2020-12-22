@@ -4,7 +4,7 @@ using DG.Tweening;
 /// <summary>
 /// 向上移动一定的距离后销毁
 /// </summary>
-public class MoveUpDestroy:BaseMonoBehaviour{
+public class MoveUpDestroy:MonoBehaviour{
 
 	[Tooltip("向上移动的距离")]
 	[Range(10,100)]
@@ -16,15 +16,13 @@ public class MoveUpDestroy:BaseMonoBehaviour{
 	[SerializeField]
 	private float m_duration=1.0f;
 
-	protected override void Start() {
-		base.Start();
+	private void Start() {
 		transform.DOMoveY(transform.position.y+m_moveUpDistance,m_duration).onComplete=()=>{
 			Destroy(gameObject);
 		};
 	}
 
-	protected override void OnDestroy() {
+	private void OnDestroy() {
 		transform.DOKill();
-		base.OnDestroy();
 	}
 }

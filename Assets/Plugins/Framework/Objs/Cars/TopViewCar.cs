@@ -3,7 +3,7 @@ using UnityEngine;
 #pragma warning disable 0649
 
 /// <summary> 俯视的车(正前向方朝x轴) </summary>
-public class TopViewCar:BaseMonoBehaviour{
+public class TopViewCar:MonoBehaviour{
 	public float maxSpeed=15;				//移动的最大速度
 	public float maxWheelRotation=45;		//轮子的最大旋转角
 	public float length=100;				//车身长
@@ -25,8 +25,7 @@ public class TopViewCar:BaseMonoBehaviour{
 	private Vector3 m_velocity=Vector3.zero;//当前的移动速度
 	public Vector3 velocity=>m_velocity;
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		//轮子的旋转角<弧度>
 		float wheelRadian=m_wheelRotation*Mathf.Deg2Rad;
 		//当前移动速度在当前轮子方向上的分量（x：用于计算车向前的位移 y：用于计算车的旋转）。

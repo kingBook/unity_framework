@@ -3,7 +3,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 数字图片文本
 /// </summary>
-public class NumberImageText:BaseMonoBehaviour{
+public class NumberImageText:MonoBehaviour{
 	[Tooltip("每一个Image表示一个数字位，最右是个位")]
 	public Image[] images;
 	[Tooltip("0-9的数字Sprite,用于切换")]
@@ -15,13 +15,11 @@ public class NumberImageText:BaseMonoBehaviour{
 
 	private float m_time=0;
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		UpdateText();
 	}
 
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		if(Time.time-m_time>0.4f){//间隔指定的秒数更新
 			m_time=Time.time;
 			UpdateText();

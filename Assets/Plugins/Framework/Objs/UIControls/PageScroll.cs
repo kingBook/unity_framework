@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// 页滚动控制
 /// </summary>
-public class PageScroll:BaseMonoBehaviour,IPointerDownHandler,IPointerUpHandler{
+public class PageScroll:MonoBehaviour,IPointerDownHandler,IPointerUpHandler{
 	[SerializeField]
 	private float m_smoothTime=0.2f;
 	[SerializeField]
@@ -20,14 +20,12 @@ public class PageScroll:BaseMonoBehaviour,IPointerDownHandler,IPointerUpHandler{
 	private bool m_isPointerDowning=false;
 
 #if UNITY_EDITOR
-	protected override void Reset() {
-		base.Reset();
+	private void Reset(){
 		m_scrollRect=GetComponent<ScrollRect>();
 	}
 #endif
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		m_pageCount=m_scrollRect.content.childCount;
 		if(m_scrollRect.horizontal){
 			m_scrollbar=m_scrollRect.horizontalScrollbar;
@@ -37,8 +35,7 @@ public class PageScroll:BaseMonoBehaviour,IPointerDownHandler,IPointerUpHandler{
 		m_scrollBarTargetValue=m_scrollbar.value;
 	}
 
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		if(!m_isPointerDowning){
 			if(m_scrollBarTargetValue<0){
 				float speedLength=m_scrollRect.velocity.magnitude;

@@ -3,15 +3,13 @@ using UnityEngine;
 using System.Collections;
 using DG.Tweening;
 
-public class PanelLogoScreen:BaseMonoBehaviour{
+public class PanelLogoScreen:MonoBehaviour{
 	
 	public event System.Action onFadeOutEvent;
 	
-	[SerializeField]
-	private CanvasGroup m_canvasGroup;
+	[SerializeField] private CanvasGroup m_canvasGroup;
 
-	protected override void OnEnable(){
-		base.OnEnable();
+	private void OnEnable(){
 		m_canvasGroup.alpha=1f;
 		Invoke(nameof(StartFadeOut),2f);
 		

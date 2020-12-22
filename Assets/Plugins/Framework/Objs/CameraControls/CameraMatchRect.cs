@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// 设置相机的在不同的屏幕分辨率下自动设置大小匹配一个矩形
 /// </summary>
-public class CameraMatchRect:BaseMonoBehaviour{
+public class CameraMatchRect:MonoBehaviour{
 	
 	public enum FitMode{ Auto, Width, Height }
 	
@@ -15,21 +15,18 @@ public class CameraMatchRect:BaseMonoBehaviour{
 	public FitMode fitMode=FitMode.Auto;
 
 #if UNITY_EDITOR
-	protected override void Reset() {
-		base.Reset();
+	private void Reset() {
 		if(!viewCamera){
 			viewCamera=GetComponent<Camera>();
 		}
 	}
 #endif
 
-	protected override void Start() {
-		base.Start();
+	private void Start() {
 		Fit();
 	}
 
-	protected override void LateUpdate2() {
-		base.LateUpdate2();
+	private void LateUpdate() {
 		if(isUpdate)Fit();
 	}
 

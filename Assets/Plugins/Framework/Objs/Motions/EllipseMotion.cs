@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// 椭圆运动
 /// </summary>
-public class EllipseMotion:BaseMonoBehaviour{
+public class EllipseMotion:MonoBehaviour{
 	
 	
 	[Tooltip("椭圆在X轴上的半轴")] public float a=3;
@@ -17,14 +17,12 @@ public class EllipseMotion:BaseMonoBehaviour{
 
 	private float m_deg;
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		Vector3 relative=transform.position-center.position;
 		m_deg=Mathf.Atan2(relative.y,relative.x)*Mathf.Rad2Deg;
 	}
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		if(isPause)return;
 		Vector3 position=transform.position;
 		int sign=isCCW?1:-1;

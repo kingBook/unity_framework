@@ -6,15 +6,14 @@ using UnityEngine.UI;
 /// 需要所有Anchors角点设置为一个点。
 /// 将以(PosX,PosY)为中心，正比缩放Sprite在FitSize的矩形框范围内。
 /// </summary>
-public class ImageSpriteFitSwitcher:BaseMonoBehaviour{
+public class ImageSpriteFitSwitcher:MonoBehaviour{
 	[SerializeField]
 	private Image m_image;
 	[SerializeField]
 	private Vector2 m_fitSize;
 	
 #if UNITY_EDITOR 
-	protected override void Reset(){
-		base.Reset();
+	private void Reset(){
 		m_image=gameObject.GetComponent<Image>();
 		m_fitSize=m_image.rectTransform.sizeDelta;
 	}

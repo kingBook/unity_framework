@@ -9,7 +9,7 @@ using System.Collections;
 /// * 调整显示前后关系时不要设置z轴的位置，使用此脚本的 zValue 进行设置 <br/>
 /// * 当需要重新设置 EffectChild 的旋转时，在设置旋转后需要调用 RecordInitEulerAngles() 函数重新记录初始的欧拉角
 /// </summary>
-public class EffectAlignCamera:BaseMonoBehaviour{
+public class EffectAlignCamera:MonoBehaviour{
 	
 	[Tooltip("用于设置显示前后的z值，值越小越靠前，当小于相机的z位置或最近裁剪面时将不显示")]
 	public float zValue=-1f;
@@ -33,15 +33,12 @@ public class EffectAlignCamera:BaseMonoBehaviour{
 		m_distanceCamera=Vector3.Distance(m_camera.transform.position,m_transform.position)+zValue;
 	}
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		m_transform=transform;
 		m_camera=Camera.main;
 	}
 
-	protected override void Update2(){
-		base.Update2();
-
+	private void Update(){
 		if(!m_isInited)Init();
 
 		AlignRotation();

@@ -3,7 +3,7 @@ using System.Collections;
 /// <summary>
 /// 两点间运动
 /// </summary>
-public class TwoPointsMotion:BaseMonoBehaviour{
+public class TwoPointsMotion:MonoBehaviour{
 	
 	[Tooltip("运动的目标点")]
 	public Transform targetTransform;
@@ -15,14 +15,12 @@ public class TwoPointsMotion:BaseMonoBehaviour{
 	private Vector3 m_positionRecord;
 	private Vector3 m_currentGotoTarget;
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		m_positionRecord=transform.position;
 		m_currentGotoTarget=targetTransform.position;
 	}
 
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		if(GotoTarget(transform.position,m_currentGotoTarget,Time.deltaTime*speed)){
 			SetReverseGotoTarget();
 			if(syncOther){

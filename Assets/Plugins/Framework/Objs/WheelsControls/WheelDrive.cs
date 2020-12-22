@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 #pragma warning disable 0649
 //轮子的外观必须是WheelCollider组件对象的子对象,并且在0索引。
-public class WheelDrive:BaseMonoBehaviour{
+public class WheelDrive:MonoBehaviour{
 	[System.Serializable]
 	public enum DriveType{
 		RearWheelDrive,//后轮驱动
@@ -34,21 +34,20 @@ public class WheelDrive:BaseMonoBehaviour{
 	
 	[Space,SerializeField] private WheelCollider[] m_rearWheels;//后轮列表
 	
-	private float _steerAngleNormalized=0;
-	private float _motorTorqueNormalized=0;
-	private bool _isBrake;
+	private float m_steerAngleNormalized=0;
+	private float m_motorTorqueNormalized=0;
+	private bool m_isBrake;
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		//配置车辆子步进参数
 		//每次进行固定更新时，车辆模拟将该固定增量时间拆分为较小的子步骤，并计算每个较小增量的悬架和轮胎力。然后，汇总所有计算得出的力和扭矩，将它们整合到一起并应用于车身。
 		//利用该函数，您可以自定义在高于和低于速度阈值时模拟将执行的子步骤数。
 		//对于每辆汽车，调用该函数一次即可，因为它实际上是向车辆而不是向某个车轮设置参数。
 		m_frontWheels[0].ConfigureVehicleSubsteps(criticalSpeed,stepsBelow,stepsAbove);
 		//
-		float steerAngle=_steerAngleNormalized*maxAngle;
-		float motorTorque=_motorTorqueNormalized*maxTorque;
-		float brakeTorqueValue=_isBrake?brakeTorque:0;
+		float steerAngle=m_steerAngleNormalized*maxAngle;
+		float motorTorque=m_motorTorqueNormalized*maxTorque;
+		float brakeTorqueValue=m_isBrake?brakeTorque:0;
 		////////////////////////////设置前轮//////////////////////////
 		int i=m_frontWheels.Length;
 		while(--i>=0){
@@ -81,17 +80,17 @@ public class WheelDrive:BaseMonoBehaviour{
 	
 	/// <summary>设置刹车</summary>
 	public void SetBrake(bool value){
-		_isBrake=value;
+		m_isBrake=value;
 	}
 	
 	/// <summary>设置单位化的转向角度[-1,1]</summary>
 	public void SetSteerAngleNormalized(float value){
-		_steerAngleNormalized=value;
+		m_steerAngleNormalized=value;
 	}
 	
 	/// <summary>设置单位化的车轮轴电机扭矩[-1,1]</summary>
 	public void SetMotorTorqueNormalized(float value){
-		_motorTorqueNormalized=value;
+		m_motorTorqueNormalized=value;
 	}
 	
 	/// <summary>当前轮轴转速（以每分钟转数为单位）</summary>

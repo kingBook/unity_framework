@@ -6,7 +6,7 @@ using UnityEngine.EventSystems;
 /// 移动平台:单点触摸控制相机的旋转，两点触摸缩放和平移相机视野。
 /// <br>PC平台：鼠标左键控制相机的旋转，中键缩放相机视野，右键平移相机视野</br>
 /// </summary>
-public class CameraHandle:BaseMonoBehaviour{
+public class CameraHandle:MonoBehaviour{
 	[Tooltip("缩放和旋转围绕的中心")]
 	public Transform pivotTransform;
 	[Tooltip("上下旋转限制的最小角度")]
@@ -54,19 +54,15 @@ public class CameraHandle:BaseMonoBehaviour{
 
 
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake() {
 		m_camera=GetComponent<Camera>();
 	}
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		
 	}
 
-	protected override void Update2() {
-		base.Update2();
-		
+	private void Update() {
 		if(Input.touchSupported){
 			if(Input.touchCount==1){
 				TouchOneHandler();

@@ -8,7 +8,7 @@ using UnityEngine;
 /// （子Panel的Image及它的所有子元素都将显示在屏幕安全区内，所以需要显示在屏幕安全区内的所有UI元素都要放在子Panel内）。
 /// </summary>
 [DisallowMultipleComponent]
-public class UIPanelFitSafeArea:BaseMonoBehaviour{
+public class UIPanelFitSafeArea:MonoBehaviour{
 
 	[SerializeField,Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
 	private bool m_isTest;
@@ -16,20 +16,17 @@ public class UIPanelFitSafeArea:BaseMonoBehaviour{
 	private RectTransform m_panel;
 	private float m_time;
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		m_panel=GetComponent<RectTransform>();
 		m_time=Time.time;
 		MatchSafeArea();
 	}
 	
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		MatchSafeArea();
 	}
 
-	protected override void Update2() {
-		base.Update2();
+	private void Update(){
 		if(Time.time-m_time>0.3f){//限制刷新频率
 			m_time=Time.time;
 			MatchSafeArea();

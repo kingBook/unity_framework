@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// <summary>
 /// 图片交换器
 /// </summary>
-public class ImageSwitcher:BaseMonoBehaviour{
+public class ImageSwitcher:MonoBehaviour{
 	
 	[Tooltip("切换的图片(未指定时自动从当前对象组件列表中获取)")]
 	public Image image=null;
@@ -13,8 +13,7 @@ public class ImageSwitcher:BaseMonoBehaviour{
 	public Sprite[] sprites;
 
 #if UNITY_EDITOR
-	protected override void Reset(){
-		base.Reset();
+	private void Reset(){
 		InitImageOnReset();
 	}
 
@@ -25,8 +24,7 @@ public class ImageSwitcher:BaseMonoBehaviour{
 	}
 #endif
 
-	protected override void Awake(){
-		base.Awake();
+	protected virtual void Awake(){
 		if(!image){
 			image=GetComponent<Image>();
 		}

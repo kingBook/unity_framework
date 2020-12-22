@@ -5,7 +5,7 @@ using UnityEngine.EventSystems;
 /// <summary>
 /// 手指在屏幕上水平移动旋转相机的Y轴
 /// </summary>
-public class ManualRotateCameraY:BaseMonoBehaviour{
+public class ManualRotateCameraY:MonoBehaviour{
 	
 	[System.Serializable]
 	public enum ActiveArea{ FullScreen,RightScreen,LeftScreen }
@@ -36,14 +36,12 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 	private bool m_isMouseOverUIOnBegan;
 	private int m_touchFingerId=-1;
 	
-    protected override void Start(){
-		base.Start();
+   private void Start(){
 		m_camera=GetComponent<Camera>();
 		m_driftCamera=GetComponent<DriftCamera>();
-    }
+	}
 	
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		if(Input.touchSupported){
 			TouchHandler();
 		}else{
@@ -131,9 +129,9 @@ public class ManualRotateCameraY:BaseMonoBehaviour{
 		}
 		return result;
 	}
-    
-    protected override void OnDestroy(){
-        base.OnDestroy();
-    }
+	
+	private void OnDestroy(){
+		
+	}
 	
 }

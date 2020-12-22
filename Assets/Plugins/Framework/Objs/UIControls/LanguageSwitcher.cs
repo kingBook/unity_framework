@@ -3,21 +3,19 @@ using System.Collections;
 /// <summary>
 /// 根据当前应用程序的语言激活/吊销列表中的GameObject
 /// </summary>
-public class LanguageSwitcher:BaseMonoBehaviour{
+public class LanguageSwitcher:MonoBehaviour{
 	[Tooltip("英文时，需要激活的GameObject列表")]
 	public GameObject[] enList;
 	[Tooltip("中文时，需要激活的GameObject列表")]
 	public GameObject[] cnList;
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		if(App.instance){
 			ActiveWithLanguage(App.instance.language);
 		}
 	}
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		ActiveWithLanguage(App.instance.language);
 		App.instance.onChangeLanguageEvent+=OnChangeLanguage;
 	}
@@ -49,8 +47,7 @@ public class LanguageSwitcher:BaseMonoBehaviour{
 		ActiveWithLanguage(language);
 	}
 
-	protected override void OnDestroy(){
+	private void OnDestroy(){
 		App.instance.onChangeLanguageEvent-=OnChangeLanguage;
-		base.OnDestroy();
 	}
 }

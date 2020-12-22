@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 
-public class DirectionInput:BaseMonoBehaviour{
+public class DirectionInput:MonoBehaviour{
 		
 	public enum Mode{ Handle, Automatic }
 
@@ -29,8 +29,7 @@ public class DirectionInput:BaseMonoBehaviour{
 	/// <summary> 输入的方向单位化向量，值区间[-1,1]，表示输入的方向，不表示大小 </summary>
 	public Vector2 directionNormalized=>m_directionSize.normalized;
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		m_canvas=GetComponentInParent<Canvas>();
 		m_canvasGroupSliginArea=m_slidingArea.GetComponent<CanvasGroup>();
 		//隐藏可触摸区域 Image
@@ -51,15 +50,13 @@ public class DirectionInput:BaseMonoBehaviour{
 		m_canvasGroupSliginArea.gameObject.SetActive(m_enableHandle);
 	}
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		m_screenScaleFactorOnStart=m_canvas.scaleFactor;
 		//记录可滑动的半径(必须在 Awake 之后记录，否则 Canvas 未计算适配会出错)
 		m_slidingRadiusOnStart=m_slidingArea.sizeDelta.x*0.5f*m_canvas.scaleFactor;
 	}
 
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		if(m_enableHandle){
 			//屏幕大小发生变化时
 			if(m_canvas.scaleFactor!=m_screenScaleFactorOnStart){

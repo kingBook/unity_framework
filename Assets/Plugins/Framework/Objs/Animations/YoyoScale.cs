@@ -3,7 +3,7 @@ using System.Collections;
 /// <summary>
 /// Yoyo 缩放
 /// </summary>
-public class YoyoScale:BaseMonoBehaviour{
+public class YoyoScale:MonoBehaviour{
 
 	public RangeVector3 localScale=new RangeVector3(Vector3.one, Vector3.one*1.5f);
 
@@ -15,13 +15,11 @@ public class YoyoScale:BaseMonoBehaviour{
 
 	private Transform m_transform;
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake() {
 		m_transform=transform;
 	}
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		//m_deg:[0,180]
 		eulerAngle=(eulerAngle+speed)%180;
 		//[0,1]

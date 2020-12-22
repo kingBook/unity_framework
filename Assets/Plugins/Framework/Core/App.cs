@@ -7,7 +7,7 @@ using UnityEngine;
 /// <summary>
 /// 整个应用程序的单例
 /// </summary>
-public sealed class App:BaseMonoBehaviour{
+public sealed class App:MonoBehaviour{
 	
 	/// <summary>应用程序的单例实例</summary>
 	public static App instance{ get; private set; }
@@ -43,9 +43,6 @@ public sealed class App:BaseMonoBehaviour{
 
 	[Tooltip("场景加载器")]
 	[SerializeField] private SceneLoader m_sceneLoader;
-
-	[Tooltip("更新管理器")]
-	[SerializeField] private UpdateManager m_updateManager;
 
 	[Tooltip("游戏列表")]
 	[SerializeField] private BaseGame[] m_games=new BaseGame[0];
@@ -83,8 +80,6 @@ public sealed class App:BaseMonoBehaviour{
 	/// <summary>场景加载器(有进度条)</summary>
 	public SceneLoader sceneLoader=>m_sceneLoader;
 
-	/// <summary>更新管理器</summary>
-	public UpdateManager updateManager=>m_updateManager;
 
 	/// <summary>
 	/// 返回<see cref="m_games"/>[0]
@@ -112,8 +107,7 @@ public sealed class App:BaseMonoBehaviour{
 	/// <summary>打开应用的次数</summary>
 	public int openCount{ get; private set; }
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake() {
 		instance=this;
 		AddOpenCount();
 		
@@ -161,8 +155,7 @@ public sealed class App:BaseMonoBehaviour{
 		onPauseOrResumeEvent?.Invoke(isPause);
 	}
 
-	protected override void OnApplicationQuit(){
-		base.OnApplicationQuit();
+	private void OnApplicationQuit(){
 		#if UNITY_EDITOR //自定义进入播放模式（不重新加载域时），销毁DOTween.instance
 		if(DOTween.instance!=null){
 			DOTween.Clear(true);
@@ -174,8 +167,7 @@ public sealed class App:BaseMonoBehaviour{
 		#endif
 	}
 
-	protected override void OnDestroy(){
-		base.OnDestroy();
+	private void OnDestroy(){
 		//不需要销毁instance
 		//instance=null;
 	}

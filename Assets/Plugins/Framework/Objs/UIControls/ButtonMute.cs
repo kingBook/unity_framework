@@ -7,10 +7,9 @@
 /// if(AudioListener.volume>0) SwapButtonImage.swapTo(0);//第一张图
 /// </code>
 [RequireComponent(typeof(ButtonImageSwitcher))]
-public class ButtonMute:BaseMonoBehaviour{
+public class ButtonMute:MonoBehaviour{
 	
-	protected override void Start() {
-		base.Start();
+	private void Start() {
 		ButtonImageSwitcher buttonImageSwitcher=GetComponent<ButtonImageSwitcher>();
 		buttonImageSwitcher.SwapTo(AudioListener.volume<=0?1:0);
 	}

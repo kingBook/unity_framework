@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 using DG.Tweening;
 
-public class MoveToOnCanvas:BaseMonoBehaviour{
+public class MoveToOnCanvas:MonoBehaviour{
 	public float delayOnStart;		 //间隔一指定的秒数才开始
 	public float duration=2.0f;		 //持续时间
 	public Vector2 position;		 //设置分辨率下的AnchorPosition
@@ -13,14 +13,13 @@ public class MoveToOnCanvas:BaseMonoBehaviour{
 	private CanvasScaler m_cavansScaler;
 	private RectTransform m_rectTransform;
 	
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		m_cavans=GetComponentInParent<Canvas>();
 		m_cavansScaler=GetComponentInParent<CanvasScaler>();
 		m_rectTransform=GetComponent<RectTransform>();
 	}
 	
-	protected override void Start(){
+	private void Start(){
 		if(delayOnStart>0){
 			Invoke(nameof(StartTween),delayOnStart);
 		}else{

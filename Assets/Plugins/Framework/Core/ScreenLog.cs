@@ -2,7 +2,7 @@
 /// <summary>
 /// 屏幕上打印Log信息
 /// </summary>
-public class ScreenLog:BaseMonoBehaviour{
+public class ScreenLog:MonoBehaviour{
 	
 	public bool isStackTrace=false;
 
@@ -11,13 +11,11 @@ public class ScreenLog:BaseMonoBehaviour{
 	private bool m_isPause;
 	private bool m_isMinimized;
 	
-	protected override void OnEnable(){
-		base.OnEnable();
+	private void OnEnable(){
 		Application.logMessageReceivedThreaded+=LogHandler;
 	}
 	
-	protected override void OnGUI2(){
-		base.OnGUI2();
+	private void OnGUI(){
 		float buttonSize=Mathf.Min(Screen.width,Screen.height)*0.1f;
 		if(m_isMinimized){ 
 			if(GUILayout.Button(" > ",GUILayout.MinWidth(buttonSize),GUILayout.MinHeight(buttonSize))){
@@ -59,9 +57,8 @@ public class ScreenLog:BaseMonoBehaviour{
 		}
 	}
 	
-	protected override void OnDisable(){
+	private void OnDisable(){
 		Application.logMessageReceivedThreaded-=LogHandler;
-		base.OnDisable();
 	}
 	
 }

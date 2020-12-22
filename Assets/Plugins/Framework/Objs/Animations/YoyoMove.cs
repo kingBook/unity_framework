@@ -3,7 +3,7 @@ using System.Collections;
 /// <summary>
 /// Yoyo 移动
 /// </summary>
-public class YoyoMove:BaseMonoBehaviour{
+public class YoyoMove:MonoBehaviour{
 	
 	[Tooltip("运动方向")]
 	public Vector3 rotation=new Vector3(0f,0f,90f);
@@ -20,14 +20,12 @@ public class YoyoMove:BaseMonoBehaviour{
 	private Transform m_transform;
 	private Vector3 m_origin;
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake() {
 		m_transform=transform;
 		m_origin=m_transform.position;
 	}
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		//m_deg:[0,360]
 		eulerAngle=(eulerAngle+speed)%360;
 		//[-1,1]

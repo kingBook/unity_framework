@@ -5,19 +5,17 @@ using System.Collections;
 /// 在动画播放后销毁一个对象 <br/>
 /// 注意：绑定此脚本的游戏必须有 Animator 组件，将在 Animator 组件动画剪辑列表[0]添加动画完成事件
 /// </summary>
-public class DestroyOnAnimationComplete:BaseMonoBehaviour{
+public class DestroyOnAnimationComplete:MonoBehaviour{
 	
 	[SerializeField] private GameObject m_destroyOnComplete;
 	
 	private Animator m_animator;
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake() {
 		m_animator=GetComponent<Animator>();
 	}
 
-	protected override void Start() {
-		base.Start();
+	private void Start() {
 		AnimatorClipInfo[] animatorClipInfos=m_animator.GetCurrentAnimatorClipInfo(0);
 		AnimationClip animationClip=animatorClipInfos[0].clip;
 		AnimationEvent animationEvent = new AnimationEvent {

@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 #pragma warning disable 0649
 
-public class PanelProgressbar:BaseMonoBehaviour{
+public class PanelProgressbar:MonoBehaviour{
 
 	[Tooltip("进度条滑块")]
 	[SerializeField] private Image m_imageMid;

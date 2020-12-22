@@ -4,7 +4,7 @@ using System.Collections;
 /// <summary>
 /// 多点运动
 /// </summary>
-public class PointsMotion:BaseMonoBehaviour{
+public class PointsMotion:MonoBehaviour{
 	
 	[Tooltip("运动速度")]
 	public float speed=1f;
@@ -26,20 +26,17 @@ public class PointsMotion:BaseMonoBehaviour{
 	public bool isPause{ get; set; }
 
 
-	protected override void Awake(){
-		base.Awake();
+	private void Awake(){
 		isPause=m_pauseOnAwake;
 	}
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		m_motionDirectionSign=m_isReverseOnStart?-1:1;
 		
 		m_targetPointIndex=GetClosestPointIndex();
 	}
 	
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		if(isPause)return;
 		if(m_targetPointIndex<0)return;
 		if(GotoTarget(transform.position,m_points[m_targetPointIndex].position,speed*Time.deltaTime)){

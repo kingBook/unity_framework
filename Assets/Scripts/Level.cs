@@ -4,12 +4,11 @@ using System.Collections;
 /// 关卡类
 /// <br>管理关卡内的对象。</br>
 /// </summary>
-public class Level:BaseMonoBehaviour{
+public class Level:MonoBehaviour{
 
 	protected Game m_game;
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		m_game=App.instance.GetGame<Game>();
 	}
 
@@ -22,8 +21,8 @@ public class Level:BaseMonoBehaviour{
 	}
 
 
-	protected override void OnDestroy(){
-		base.OnDestroy();
+	private void OnDestroy(){
+		
 	}
 
 }

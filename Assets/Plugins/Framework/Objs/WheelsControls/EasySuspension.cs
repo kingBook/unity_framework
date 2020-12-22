@@ -18,11 +18,11 @@ public class EasySuspension : MonoBehaviour
 	[Tooltip("Adjust the length of the suspension springs according to the natural frequency and damping ratio. When off, can cause unrealistic suspension bounce.")]
 	public bool setSuspensionDistance = true;
 
-    Rigidbody m_Rigidbody;
+    private Rigidbody m_rigidbody;
 
     void Start ()
     {
-        m_Rigidbody = GetComponent<Rigidbody> ();
+        m_rigidbody = GetComponent<Rigidbody> ();
 		//m_Rigidbody.mass=2500;
     }
     
@@ -40,7 +40,7 @@ public class EasySuspension : MonoBehaviour
 			wc.suspensionSpring = spring;
 
 			Vector3 wheelRelativeBody = transform.InverseTransformPoint(wc.transform.position);
-            float distance = m_Rigidbody.centerOfMass.y - wheelRelativeBody.y + wc.radius;
+            float distance = m_rigidbody.centerOfMass.y - wheelRelativeBody.y + wc.radius;
 
 			wc.forceAppPointDistance = distance - forceShift;
 

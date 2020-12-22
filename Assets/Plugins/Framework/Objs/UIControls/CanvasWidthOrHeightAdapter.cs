@@ -3,28 +3,25 @@ using UnityEngine;
 using System.Collections;
 using UnityEngine.UI;
 
-public class CanvasWidthOrHeightAdapter:BaseMonoBehaviour{
+public class CanvasWidthOrHeightAdapter:MonoBehaviour{
 	
 	[SerializeField] private CanvasScaler m_canvasScaler;
 
 	private float m_referenceScaleFactor;
 
 #if UNITY_EDITOR
-	protected override void Reset(){
-		base.Reset();
+	private void Reset(){
 		if(!m_canvasScaler){
 			m_canvasScaler=GetComponent<CanvasScaler>();
 		}
 	}
 #endif
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		m_referenceScaleFactor=m_canvasScaler.referenceResolution.x/m_canvasScaler.referenceResolution.y;
 	}
 
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		float scaleFactor=(float)Screen.width/Screen.height;
 		if(scaleFactor>m_referenceScaleFactor){
 			//匹配高度

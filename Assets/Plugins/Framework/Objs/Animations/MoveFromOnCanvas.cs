@@ -5,7 +5,7 @@ using UnityEngine;
 /// </summary>
 /// 
 [RequireComponent(typeof(RectTransform))]
-public class MoveFromOnCanvas:BaseMonoBehaviour{
+public class MoveFromOnCanvas:MonoBehaviour{
 	[Tooltip("运动的起始位置(Canvas设计分辨率下的AnchoredPosition)")]
 	public Vector2 from;
 	[Tooltip("运动持续时间")]
@@ -20,14 +20,12 @@ public class MoveFromOnCanvas:BaseMonoBehaviour{
 	private RectTransform m_rectTransform;
 	private Vector2 m_posRecord;
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake() {
 		m_rectTransform=GetComponent<RectTransform>();
 		m_posRecord=m_rectTransform.anchoredPosition;
 	}
 
-	protected override void OnEnable() {
-		base.OnEnable();
+	private void OnEnable() {
 		m_rectTransform.anchoredPosition=from;
 		m_rectTransform.DOAnchorPos(m_posRecord,duration).onComplete=OnComplete;
 	}
@@ -37,9 +35,8 @@ public class MoveFromOnCanvas:BaseMonoBehaviour{
 		onCompleteEvent?.Invoke(this);
 	}
 
-	protected override void OnDisable() {
+	private void OnDisable() {
 		m_rectTransform.DOKill();
-		base.OnDisable();
 	}
 
 }

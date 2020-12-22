@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 /**单摆*/
-public class SimplePendulum:BaseMonoBehaviour{
+public class SimplePendulum:MonoBehaviour{
 	
 	public float gravity=-9.81f;
 	public Vector2 originPosition;
@@ -32,8 +32,7 @@ public class SimplePendulum:BaseMonoBehaviour{
 		w=0f;
 	}
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		if(m_isPause)return;
 
 		if(!m_isInited){
@@ -85,8 +84,7 @@ public class SimplePendulum:BaseMonoBehaviour{
 		m_isPause=value;
 	}
 
-	protected override void OnDisable() {
-		base.OnDisable();
+	private void OnDisable(){
 		m_isInited=false;
 	}
 }

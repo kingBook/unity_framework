@@ -9,7 +9,7 @@ namespace AdventureScene{
 	/// <summary>
 	/// 按键手柄
 	/// </summary>
-	public class KeyInput:BaseMonoBehaviour{
+	public class KeyInput:MonoBehaviour{
 		
 		public enum Mode{ Handle, Automatic }
 
@@ -28,8 +28,7 @@ namespace AdventureScene{
 		/// <summary> 是否按下按钮/键盘上的 <see cref="m_keyCode"/> </summary>
 		public bool isPressed{ get; private set;}
 		
-		protected override void Awake(){
-			base.Awake();
+		private void Awake(){
 			m_buttonHandleImage=m_buttonHandle.GetComponent<Image>();
 			//根据模式设置 m_enableHandle
 			if(m_mode==Mode.Automatic){
@@ -63,8 +62,7 @@ namespace AdventureScene{
 			}
 		}
 		
-		protected override void Update2(){
-			base.Update2();
+		private void Update(){
 			//未启用UI按钮时，侦听键盘输入
 			if(!m_enableHandle){
 				if(Input.GetKeyDown(m_keyCode)){

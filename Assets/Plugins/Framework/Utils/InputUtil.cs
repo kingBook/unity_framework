@@ -39,7 +39,12 @@ public static class InputUtil{
 			touch=Input.GetTouch(i);
 			if(touch.fingerId!=fingerId)continue;
 			if(isIgnorePointerOverUI && EventSystem.current.IsPointerOverGameObject(fingerId))continue;
-			if(phases.Length>0 && Array.IndexOf(phases,touch.phase)>-1){
+			if(phases.Length>0){
+				if(Array.IndexOf(phases,touch.phase)>-1){
+					return touch;
+				}
+			}else{
+				//不填写 phases 参数时，找到 Touch 直接返回
 				return touch;
 			}
 		}

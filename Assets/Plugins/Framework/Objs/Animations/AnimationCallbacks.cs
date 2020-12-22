@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine.Events;
 using System.Collections.Generic;
 
-public class AnimationCallbacks:BaseMonoBehaviour{
+public class AnimationCallbacks:MonoBehaviour{
 	
 	[System.Serializable]
 	public struct Callback{

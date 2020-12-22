@@ -24,7 +24,7 @@ public class ButtonImageSwitcher:ImageSwitcher{
 	}
 #endif
 
-	protected override void Awake() {
+	protected override void Awake(){
 		base.Awake();
 		
 		m_button=GetComponent<Button>();
@@ -37,10 +37,9 @@ public class ButtonImageSwitcher:ImageSwitcher{
 		AutoSwap();
 	}
 
-	protected override void OnDestroy() {
+	private void OnDestroy(){
 		if(isSwapOnClick){
 			m_button.onClick.RemoveListener(OnClick);
 		}
-		base.OnDestroy();
 	}
 }

@@ -3,15 +3,14 @@
 /// <summary>
 /// 所有UI的基类,每一个场景都应该实现一个子类(如果场景中有UI)
 /// </summary>
-public abstract class UIBase:BaseMonoBehaviour{
+public abstract class UIBase:MonoBehaviour{
 
 	/// <summary>
 	/// 记录在静音时的音量，取消静音时恢复
 	/// </summary>
 	private float m_globalVolume;
 
-	protected override void Awake() {
-		base.Awake();
+	protected virtual void Awake() {
 		//记录全局音量
 		m_globalVolume=AudioListener.volume>0?AudioListener.volume:1;
 	}

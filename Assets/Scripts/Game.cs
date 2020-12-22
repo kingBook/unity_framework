@@ -6,8 +6,7 @@
 /// </summary>
 public sealed class Game:BaseGame{
 	
-	protected override void Start() {
-		base.Start();
+	private void Start(){
 		if(!App.instance.isDebug){
 			//GotoTitleScene();
 			GotoLevelScene();
@@ -22,8 +21,8 @@ public sealed class Game:BaseGame{
 		App.instance.sceneLoader.LoadAsync("Scenes/Level");
 	}
 
-	protected override void OnDestroy() {
-		base.OnDestroy();
+	private void OnDestroy(){
+		
 	}
 
 

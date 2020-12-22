@@ -3,7 +3,7 @@
 /// <summary>
 /// 控制相机跟随目标
 /// </summary>
-public class DriftCamera:BaseMonoBehaviour{
+public class DriftCamera:MonoBehaviour{
 	
 	[System.Serializable]
 	public class RangeFloat{
@@ -59,30 +59,26 @@ public class DriftCamera:BaseMonoBehaviour{
 	public float distance=4.0f;												//相机与目标点的距离
 	public AdvancedOptions advancedOptions;
 	
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		if(advancedOptions.isLookToTargetOnStart){
 			//立即移动相机并且并旋转朝向目标
 			UpdateCamera(false,false);
 		}
 	}
 
-	protected override void FixedUpdate2(){
-		base.FixedUpdate2();
+	private void FixedUpdate(){
 		if(advancedOptions.updateCameraInFixedUpdate){
 			UpdateCamera(advancedOptions.isCheckCrossObs,true);
 		}
 	}
 
-	protected override void Update2(){
-		base.Update2();
+	private void Update(){
 		if(advancedOptions.updateCameraInUpdate){
 			UpdateCamera(advancedOptions.isCheckCrossObs,true);
 		}
 	}
 
-	protected override void LateUpdate2(){
-		base.LateUpdate2();
+	private void LateUpdate(){
 		if(advancedOptions.updateCameraInLateUpdate){
 			UpdateCamera(advancedOptions.isCheckCrossObs,true);
 		}

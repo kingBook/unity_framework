@@ -4,21 +4,19 @@ using UnityEngine.UI;
 /// <summary>
 /// 根据语言交换图片
 /// </summary>
-public class LanguageSwapImage:BaseMonoBehaviour{
+public class LanguageSwapImage:MonoBehaviour{
 	public Sprite spriteEN;
 	public Sprite spriteCN;
 	private Image m_image;
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake(){
 		m_image=GetComponent<Image>();
 		if(App.instance!=null){
 			SwapImageToLanguage(App.instance.language);
 		}
 	}
 
-	protected override void Start(){
-		base.Start();
+	private void Start(){
 		SwapImageToLanguage(App.instance.language);
 		App.instance.onChangeLanguageEvent+=OnChangeLanguage;
 	}
@@ -35,8 +33,7 @@ public class LanguageSwapImage:BaseMonoBehaviour{
 		}
 	}
 
-	protected override void OnDestroy(){
+	private void OnDestroy(){
 		App.instance.onChangeLanguageEvent-=OnChangeLanguage;
-		base.OnDestroy();
 	}
 }

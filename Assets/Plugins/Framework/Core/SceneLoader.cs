@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 /// <summary>
 /// 场景加载器
 /// </summary>
-public sealed class SceneLoader:BaseMonoBehaviour{
+public sealed class SceneLoader:MonoBehaviour{
 	
 	[Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)设置为激活场景")]
 	public bool isActiveSceneOnLoaded=true;
@@ -20,12 +20,11 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 
 	private AsyncOperation m_asyncOperation;
 
-	protected override void Awake() {
-		base.Awake();
+	private void Awake(){
+		
 	}
 
-	protected override void OnEnable() {
-		base.OnEnable();
+	private void OnEnable(){
 		SceneManager.sceneLoaded+=OnSceneLoaded;
 		SceneManager.activeSceneChanged+=OnActiveSceneChanged;
 	}
@@ -112,17 +111,15 @@ public sealed class SceneLoader:BaseMonoBehaviour{
 		m_cameraStart.gameObject.SetActive(next.buildIndex==m_cameraStart.gameObject.scene.buildIndex);
 	}
 
-	protected override void OnDisable() {
+	private void OnDisable() {
 		SceneManager.sceneLoaded-=OnSceneLoaded;
 		SceneManager.activeSceneChanged-=OnActiveSceneChanged;
-		base.OnDisable();
 	}
 
-	protected override void OnDestroy(){
+	private void OnDestroy(){
 		if(m_asyncOperation!=null){
 			m_asyncOperation.completed-=OnAsyncComplete;
 		}
-		base.OnDestroy();
 	}
 
 }

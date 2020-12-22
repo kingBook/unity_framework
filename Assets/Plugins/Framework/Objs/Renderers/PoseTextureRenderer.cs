@@ -2,7 +2,7 @@
 /// <summary>
 /// 目标展示纹理渲染器
 /// </summary>
-public class PoseTextureRenderer:BaseMonoBehaviour{
+public class PoseTextureRenderer:MonoBehaviour{
 
 	/// <summary>
 	/// 用于拍照的相机
@@ -34,8 +34,7 @@ public class PoseTextureRenderer:BaseMonoBehaviour{
 	private bool m_targetCameraActiveRecord;
 	private bool m_targetRendererActiveRecord;
 
-	protected override void Start() {
-		base.Start();
+	private void Start() {
 		if(isLookToTargetOnStart){
 			SetCameraLookToTarget();
 		}
