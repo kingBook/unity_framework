@@ -100,7 +100,7 @@ public class DirectionInput:MonoBehaviour{
 				Touch touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Moved,TouchPhase.Stationary);
 				if(touch.fingerId>-1){ 
 					OnUiInputTouchMoved(touch.position);
-				｝
+				}
 				//判断触摸释放
 				touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Canceled,TouchPhase.Ended);
 				if(touch.fingerId>-1){
