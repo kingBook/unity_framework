@@ -1,10 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 /// <summary>
 /// 函数工具类
 /// </summary>
-public class FuncUtil{
+public static class FuncUtil{
 	
 	/// <summary>
 	/// 返回包围盒的角点列表
@@ -64,34 +63,6 @@ public class FuncUtil{
 		return points;
 	}
 
-
-
-	/// <summary>
-	/// 获取DontDestroyOnLoad的所有游戏对象
-	/// <br>注意：这个方法很低效</br>
-	/// </summary>
-	/// <returns></returns>
-	public static GameObject[] GetDontDestroyOnLoadGameObjects(){
-		var allGameObjects=new List<GameObject>();
-		allGameObjects.AddRange(Object.FindObjectsOfType<GameObject>());
-		//移除所有场景包含的对象
-		for(var i=0;i<SceneManager.sceneCount;i++){
-			var scene=SceneManager.GetSceneAt(i);
-			var objs=scene.GetRootGameObjects();
-			for(var j=0;j<objs.Length;j++){
-				allGameObjects.Remove(objs[j]);
-			}
-		}
-		//移除父级不为null的对象
-		int k=allGameObjects.Count;
-		while(--k>=0){
-			if(allGameObjects[k].transform.parent!=null){
-				allGameObjects.RemoveAt(k);
-			}
-		}
-		return allGameObjects.ToArray();
-	}
-
 	/// <summary>
 	/// 获取秒转换为xx:xx的时钟形式字符
 	/// </summary>
@@ -121,39 +92,6 @@ public class FuncUtil{
 			result=minuteString+":"+secondString;
 		}
 		return result; 
-	}
-	
-	/// <summary>
-	/// 返回一个游戏对象的包围盒(将跳过计算未激活的Renderer)
-	/// </summary>
-	/// <param name="gameObject">游戏对象</param>
-	/// <param name="filterChildren">需要过滤的子级对象</param>
-	/// <returns></returns>
-	public static Bounds GetGameObjectBounds(GameObject gameObject,params GameObject[]filterChildren){
-		int filterChildCount=filterChildren.Length;
-		Renderer[] filterChildRenderers=new Renderer[filterChildCount];
-		for(int i=0;i<filterChildCount;i++){
-			filterChildRenderers[i]=filterChildren[i].GetComponent<Renderer>();
-		}
-		
-		Bounds bounds=new Bounds();
-		Renderer rootRenderer=gameObject.GetComponent<Renderer>();
-		if(rootRenderer!=null&&rootRenderer.enabled){
-			bounds=rootRenderer.bounds;
-		}
-		Renderer[] subRenderers=gameObject.GetComponentsInChildren<Renderer>();
-		int j=subRenderers.Length;
-		while(--j>=0){
-			Renderer renderer=subRenderers[j];
-			if(!renderer.enabled)continue;
-			if(System.Array.IndexOf(filterChildRenderers,renderer)>-1)continue;
-			if(bounds.min.magnitude==0f && bounds.max.magnitude==0f){
-				bounds=renderer.bounds;
-			}else{
-				bounds.Encapsulate(renderer.bounds);
-			}
-		}
-		return bounds;
 	}
 	
 }

@@ -1,8 +1,8 @@
-﻿using DG.Tweening;
+﻿#pragma warning disable 0649
+using DG.Tweening;
 using System;
 using System.Reflection;
 using UnityEngine;
-#pragma warning disable 0649
 
 /// <summary>
 /// 整个应用程序的单例
@@ -11,13 +11,21 @@ public sealed class App:MonoBehaviour{
 	
 	/// <summary>应用程序的单例实例</summary>
 	public static App instance{ get; private set; }
+	
+
+	public enum Language{AUTO,CN,EN}
+	/// <summary>暂停或恢复事件，在调用setPause(bool)时方法发出</summary>
+	public event Action<bool> onPauseOrResumeEvent;
+	/// <summary>更改语言事件</summary>
+	public event Action<Language> onChangeLanguageEvent;
+	/// <summary>更改效果音频静音事件</summary>
+	public event Action<bool> onChangeEffectAudioMuteEvent;
+	/// <summary>更改循环音频静音事件</summary>
+	public event Action<bool> onChangeLoopAudioMuteEvent;
+
 
 	[Tooltip("标记为调试（不载入其他场景）")]
 	[SerializeField] private bool m_isDebug=false;
-
-	public enum Language{AUTO,CN,EN}
-	/// <summary>改变语言事件</summary>
-	public event Action<Language> onChangeLanguageEvent;
 
 	[Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
 	 "\nCN:中文 " +
@@ -25,6 +33,12 @@ public sealed class App:MonoBehaviour{
 	]
 	[SerializeField,SetProperty(nameof(language))]//此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
 	private Language m_language=Language.AUTO;
+
+	[SerializeField,SetProperty(nameof(isMuteEffectAudio))]
+	private bool m_isMuteEffectAudio;
+
+	[SerializeField,SetProperty(nameof(isMuteLoopAudio))]
+	private bool m_isMuteLoopAudio;
 	
 	[Tooltip("全局用于播放不循环音频的AudioSource")]
 	[SerializeField] private AudioSource m_effectAudioSource;
@@ -47,8 +61,12 @@ public sealed class App:MonoBehaviour{
 	[Tooltip("游戏列表")]
 	[SerializeField] private BaseGame[] m_games=new BaseGame[0];
 
-	/// <summary>暂停或恢复事件，在调用setPause(bool)时方法发出</summary>
-	public event Action<bool> onPauseOrResumeEvent;
+
+	///<summary>恢复静音时的效果音频的音量</summary>
+	private float m_onResumeEffectAudioVolume;
+	///<summary>恢复静音时的循环音频的音量</summary>
+	private float m_onResumeLoopAudioVolume;
+
 
 	/// <summary>是否为调试模式，调试模式下不加载其他场景</summary>
 	public bool isDebug=>m_isDebug;
@@ -59,6 +77,43 @@ public sealed class App:MonoBehaviour{
 		set{
 			m_language=value;
 			onChangeLanguageEvent?.Invoke(m_language);
+		}
+	}
+
+	/// <summary> 是否静音效果音频 </summary>
+	public bool isMuteEffectAudio{
+		get => m_isMuteEffectAudio;
+		set{
+			m_isMuteEffectAudio=value;
+			//设置所有非循环播放的 AudioSource，当设置取消静音时，音量都设置为：m_onResumeEffectAudioVolume
+			AudioSource[] audioSources=FindObjectsOfType<AudioSource>();
+			int i=audioSources.Length;
+			while(--i>=0){
+				AudioSource audioSource=audioSources[i];
+				if(audioSource.isActiveAndEnabled && !audioSource.loop){
+					audioSource.volume=m_isMuteEffectAudio?0.0f:m_onResumeEffectAudioVolume;
+				}
+			}
+
+			onChangeEffectAudioMuteEvent?.Invoke(m_isMuteEffectAudio);
+		}
+	}
+
+	/// <summary> 是否静音循环播放的音频 </summary>
+	public bool isMuteLoopAudio{
+		get => m_isMuteLoopAudio;
+		set{
+			m_isMuteLoopAudio=value;
+			//设置所有循环播放的 AudioSource，当设置取消静音时，音量都设置为：m_onResumeLoopAudioVolume
+			AudioSource[] audioSources=FindObjectsOfType<AudioSource>();
+			int i=audioSources.Length;
+			while(--i>=0){
+				AudioSource audioSource=audioSources[i];
+				if(audioSource.isActiveAndEnabled && audioSource.loop){
+					audioSource.volume=m_isMuteLoopAudio?0.0f:m_onResumeLoopAudioVolume;
+				}
+			}
+			onChangeLoopAudioMuteEvent?.Invoke(m_isMuteLoopAudio);
 		}
 	}
 	
@@ -107,8 +162,15 @@ public sealed class App:MonoBehaviour{
 	/// <summary>打开应用的次数</summary>
 	public int openCount{ get; private set; }
 
-	private void Awake() {
+
+	private void Awake(){
 		instance=this;
+
+		m_onResumeEffectAudioVolume=m_effectAudioSource.volume;
+		if(m_onResumeEffectAudioVolume<=0)m_onResumeEffectAudioVolume=1.0f;
+		m_onResumeLoopAudioVolume=m_loopAudioSource.volume;
+		if(m_onResumeLoopAudioVolume<=0)m_onResumeLoopAudioVolume=1.0f;
+
 		AddOpenCount();
 		
 		if(m_language==Language.AUTO){

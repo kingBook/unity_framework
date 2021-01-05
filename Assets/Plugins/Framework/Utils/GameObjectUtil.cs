@@ -4,20 +4,36 @@ using UnityEngine;
 /// 游戏对象工具类
 /// </summary>
 public static class GameObjectUtil{
+	
 	/// <summary>
-	/// 返回游戏对象及子级所有的 Renderer 组件构成的包围盒
+	/// 返回一个游戏对象的包围盒(将跳过计算未激活的Renderer)
 	/// </summary>
-	/// <param name="gameObject"></param>
+	/// <param name="gameObject">游戏对象</param>
+	/// <param name="filterChildren">需要过滤的子级对象</param>
 	/// <returns></returns>
-	public static Bounds GetRenderersBounds(GameObject gameObject){
+	public static Bounds GetGameObjectRenderersBounds(GameObject gameObject,params GameObject[]filterChildren){
+		int filterChildCount=filterChildren.Length;
+		Renderer[] filterChildRenderers=new Renderer[filterChildCount];
+		for(int i=0;i<filterChildCount;i++){
+			filterChildRenderers[i]=filterChildren[i].GetComponent<Renderer>();
+		}
+		
 		Bounds bounds=new Bounds();
-		bounds.SetMinMax(Vector3.one*float.MaxValue,Vector3.one*float.MinValue);
-
-		Renderer[] renderers=gameObject.GetComponentsInChildren<Renderer>();
-		for(int i=0,len=renderers.Length;i<len;i++){
-			Bounds rendererBounds=renderers[i].bounds;
-			bounds.SetMinMax(Vector3.Min(bounds.min,rendererBounds.min),
-							 Vector3.Max(bounds.max,rendererBounds.max));
+		Renderer rootRenderer=gameObject.GetComponent<Renderer>();
+		if(rootRenderer!=null&&rootRenderer.enabled){
+			bounds=rootRenderer.bounds;
+		}
+		Renderer[] subRenderers=gameObject.GetComponentsInChildren<Renderer>();
+		int j=subRenderers.Length;
+		while(--j>=0){
+			Renderer renderer=subRenderers[j];
+			if(!renderer.enabled)continue;
+			if(System.Array.IndexOf(filterChildRenderers,renderer)>-1)continue;
+			if(bounds.min.magnitude==0f && bounds.max.magnitude==0f){
+				bounds=renderer.bounds;
+			}else{
+				bounds.Encapsulate(renderer.bounds);
+			}
 		}
 		return bounds;
 	}
