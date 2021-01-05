@@ -98,7 +98,9 @@ public class DirectionInput:MonoBehaviour{
 			if(m_inTouchableAreaTouchDown){
 				//触摸按下过程中...
 				Touch touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Moved,TouchPhase.Stationary);
-				OnUiInputTouchMoved(touch.position);
+				if(touch.fingerId>-1){ 
+					OnUiInputTouchMoved(touch.position);
+				｝
 				//判断触摸释放
 				touch=InputUtil.GetTouchWithFingerId(m_fingerIdRecord,false,TouchPhase.Canceled,TouchPhase.Ended);
 				if(touch.fingerId>-1){
