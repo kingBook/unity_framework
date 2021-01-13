@@ -188,9 +188,6 @@ public class Mathk{
 			float s=(b*f-c*e)/d;
 			float t=(a*f-c*b)/d;
 
-			s=Mathf.Clamp(s,-1f,0f);
-			t=Mathf.Clamp(t,-1f,0f);
-
 			closestPointLine1=lineStart1+lineDirection1*s;
 			closestPointLine2=lineStart2+lineDirection2*t;
 			return true;
