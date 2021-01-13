@@ -159,7 +159,16 @@ public class Mathk{
 		}
 	}
 
-	/// <summary> 输出3D空间中不平行的两条直线距离彼此最近的两个点，如果两条直线不平行则返回True </summary>
+	/// <summary>
+	/// 输出3D空间中不平行的两条直线距离彼此最近的两个点，如果两条直线不平行则返回True
+	/// <param name="lineStart1"></param> 
+	/// <param name="lineDirection1"></param>  lineStart1-lineEnd1
+	/// <param name="lineStart2"></param>
+	/// <param name="lineDirection2"></param> lineStart2-lineEnd2
+	/// <param name="closestPointLine1"></param>
+	/// <param name="closestPointLine2"></param>
+	/// <returns></returns>
+	/// </summary>
 	public static bool GetClosestPointsOnTwo3DLines(Vector3 lineStart1,Vector3 lineDirection1,Vector3 lineStart2,Vector3 lineDirection2,out Vector3 closestPointLine1,out Vector3 closestPointLine2){
 		closestPointLine1=Vector3.zero;
 		closestPointLine2=Vector3.zero;
@@ -179,12 +188,56 @@ public class Mathk{
 			float s=(b*f-c*e)/d;
 			float t=(a*f-c*b)/d;
 
+			s=Mathf.Clamp(s,-1f,0f);
+			t=Mathf.Clamp(t,-1f,0f);
+
 			closestPointLine1=lineStart1+lineDirection1*s;
 			closestPointLine2=lineStart2+lineDirection2*t;
 			return true;
-		}else{
-			return false;
 		}
+		return false;
+	}
+
+	// <summary>
+	/// 输出3D空间中不平行的两条线段彼此最近的两个点，如果两条线段不平行且有交点则返回True
+	/// <param name="lineStart1"></param> 
+	/// <param name="lineEnd1"></param> 
+	/// <param name="lineStart2"></param>
+	/// <param name="lineEnd2"></param> 
+	/// <param name="closestPointLine1"></param>
+	/// <param name="closestPointLine2"></param>
+	/// <returns></returns>
+	/// </summary>
+	public static bool GetClosestPointsOnTwo3DLineSegments(Vector3 lineStart1,Vector3 lineEnd1,Vector3 lineStart2,Vector3 lineEnd2,out Vector3 closestPointLine1,out Vector3 closestPointLine2){
+		closestPointLine1=Vector3.zero;
+		closestPointLine2=Vector3.zero;
+
+		Vector3 lineDirection1=lineStart1-lineEnd1;
+		Vector3 lineDirection2=lineStart2-lineEnd2;
+
+
+		float a=Vector3.Dot(lineDirection1,lineDirection1);
+		float b=Vector3.Dot(lineDirection1,lineDirection2);
+		float e=Vector3.Dot(lineDirection2,lineDirection2);
+
+		float d=a*e - b*b;
+
+		//线段不平行
+		if(d!=0.0f){
+			Vector3 r=lineStart1-lineStart2;
+			float c=Vector3.Dot(lineDirection1,r);
+			float f=Vector3.Dot(lineDirection2,r);
+
+			float s=(b*f-c*e)/d;
+			float t=(a*f-c*b)/d;
+
+			if(s>=-1f&&s<=0f && t>=-1f&&t<=0f){
+				closestPointLine1=lineStart1+lineDirection1*s;
+				closestPointLine2=lineStart2+lineDirection2*t;
+				return true;
+			}
+		}
+		return false;
 	} 
 
 	/// <summary>
