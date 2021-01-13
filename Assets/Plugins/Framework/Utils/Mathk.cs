@@ -162,16 +162,19 @@ public class Mathk{
 	/// <summary>
 	/// 输出3D空间中不平行的两条直线距离彼此最近的两个点，如果两条直线不平行则返回True
 	/// <param name="lineStart1"></param> 
-	/// <param name="lineDirection1"></param>  lineStart1-lineEnd1
+	/// <param name="lineEnd1"></param>  
 	/// <param name="lineStart2"></param>
-	/// <param name="lineDirection2"></param> lineStart2-lineEnd2
+	/// <param name="lineEnd2"></param> 
 	/// <param name="closestPointLine1"></param>
 	/// <param name="closestPointLine2"></param>
 	/// <returns></returns>
 	/// </summary>
-	public static bool GetClosestPointsOnTwo3DLines(Vector3 lineStart1,Vector3 lineDirection1,Vector3 lineStart2,Vector3 lineDirection2,out Vector3 closestPointLine1,out Vector3 closestPointLine2){
+	public static bool GetClosestPointsOnTwo3DLines(Vector3 lineStart1,Vector3 lineEnd1,Vector3 lineStart2,Vector3 lineEnd2,out Vector3 closestPointLine1,out Vector3 closestPointLine2){
 		closestPointLine1=Vector3.zero;
 		closestPointLine2=Vector3.zero;
+		
+		Vector3 lineDirection1=lineStart1-lineEnd1;
+		Vector3 lineDirection2=lineStart2-lineEnd2;
 
 		float a=Vector3.Dot(lineDirection1,lineDirection1);
 		float b=Vector3.Dot(lineDirection1,lineDirection2);
