@@ -3,7 +3,7 @@
 /// <summary>
 /// 控制相机跟随目标
 /// </summary>
-public class DriftCamera:MonoBehaviour{
+public class CameraFollow:MonoBehaviour{
 	
 	[System.Serializable]
 	public class RangeFloat{

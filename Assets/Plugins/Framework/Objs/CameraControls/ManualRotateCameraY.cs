@@ -30,7 +30,7 @@ public class ManualRotateCameraY:MonoBehaviour{
 	public event Action<float> onRotateEvent;
 	
 	private Camera m_camera;
-	private DriftCamera m_driftCamera;
+	private CameraFollow m_cameraFollow;
 	private bool m_isRotateBegin;
 	/// <summary>鼠标左键，在按下开始时是否接触UI</summary>
 	private bool m_isMouseOverUIOnBegan;
@@ -38,7 +38,7 @@ public class ManualRotateCameraY:MonoBehaviour{
 	
    private void Start(){
 		m_camera=GetComponent<Camera>();
-		m_driftCamera=GetComponent<DriftCamera>();
+		m_cameraFollow=GetComponent<CameraFollow>();
 	}
 	
 	private void Update(){
@@ -104,9 +104,9 @@ public class ManualRotateCameraY:MonoBehaviour{
 	private void Rotate(float h){
 		//应用到DriftCamera
 		if(advancedOptions.isApplyToDriftCamera){
-			if(m_driftCamera!=null){
+			if(m_cameraFollow!=null){
 				Quaternion rotation=Quaternion.AngleAxis(h,Vector3.up);
-				m_driftCamera.originPositionNormalized=rotation*m_driftCamera.originPositionNormalized;
+				m_cameraFollow.originPositionNormalized=rotation*m_cameraFollow.originPositionNormalized;
 			}
 		}
 		//绕着pivot旋转Y轴，实现左右旋转
