@@ -7,8 +7,8 @@ public class CameraFollow:MonoBehaviour{
 	
 	[System.Serializable]
 	public class RangeFloat{
-		public Vector3 min=new Vector3(float.MinValue,float.MinValue,float.MinValue);
-		public Vector3 max=new Vector3(float.MaxValue,float.MaxValue,float.MaxValue);
+		public Vector3 min;
+		public Vector3 max;
 		public RangeFloat(Vector3 minValue,Vector3 maxValue){
 			min=minValue;
 			max=maxValue;
