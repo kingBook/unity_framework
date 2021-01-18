@@ -140,9 +140,12 @@ public class Mathk{
 
 	/// <summary>
 	/// 获取两条直线的交点。如果直线相交，则返回true，否则返回false。
-	/// 注意：使用此方法必须两直线都在同一个平面上
+	/// 注意：使用此方法必须两直线都在同一个平面上，交点会超出线段范围
 	/// </summary>
-	public static bool GetTwoLineIntersection(Vector3 lineStart1,Vector3 lineDirection1,Vector3 lineStart2,Vector3 lineDirection2,out Vector3 intersection){
+	public static bool GetTwoLineIntersection(Vector3 lineStart1,Vector3 lineEnd1,Vector3 lineStart2,Vector3 lineEnd2,out Vector3 intersection){
+		Vector3 lineDirection1=lineStart1-lineEnd1;
+		Vector3 lineDirection2=lineStart2-lineEnd2;
+		
 		Vector3 lineVec3=lineStart2-lineStart1;
 		Vector3 crossVec1and2=Vector3.Cross(lineDirection1,lineDirection2);
 		Vector3 crossVec3and2=Vector3.Cross(lineVec3,lineDirection2);
@@ -153,10 +156,46 @@ public class Mathk{
 			float s=Vector3.Dot(crossVec3and2,crossVec1and2) / crossVec1and2.sqrMagnitude;
 			intersection=lineStart1 + (lineDirection1*s);
 			return true;
-		}else{
-			intersection=Vector3.zero;
-			return false;
 		}
+		intersection=Vector3.zero;
+		return false;
+	}
+
+	/// <summary>
+	/// 获取两条线段的交点。如果线段相交，则返回true，否则返回false。
+	/// 注意：使用此方法必须两线段都在同一个平面上，交点不会超出线段范围
+	/// </summary>
+	public static bool GetTwoLineSegmentsIntersection(Vector3 lineStart1,Vector3 lineEnd1,Vector3 lineStart2,Vector3 lineEnd2,out Vector3 intersection){
+		Vector3 lineDirection1=lineStart1-lineEnd1;
+		Vector3 lineDirection2=lineStart2-lineEnd2;
+
+		Vector3 lineVec3=lineStart2-lineStart1;
+		Vector3 crossVec1and2=Vector3.Cross(lineDirection1,lineDirection2);
+		Vector3 crossVec3and2=Vector3.Cross(lineVec3,lineDirection2);
+
+		float planarFactor=Vector3.Dot(lineVec3,crossVec1and2);
+		//在同一个平面，且不平行
+		if(Mathf.Abs(planarFactor)<0.0001f && crossVec1and2.sqrMagnitude>0.0001f){
+			float s=Vector3.Dot(crossVec3and2,crossVec1and2) / crossVec1and2.sqrMagnitude;
+			bool isInLineSegment1=s>=-1&&s<=0;
+			if(isInLineSegment1){
+				intersection=lineStart1 + (lineDirection1*s);
+
+				Vector3 lineSegment2Min=Vector3.Min(lineStart2,lineEnd2);
+				Vector3 lineSegment2Max=Vector3.Max(lineStart2,lineEnd2);
+				bool isInLineSegment2=intersection.x>=lineSegment2Min.x && 
+									  intersection.y>=lineSegment2Min.y &&
+									  intersection.z>=lineSegment2Min.z &&
+									  intersection.x<=lineSegment2Max.x && 
+									  intersection.y<=lineSegment2Max.y &&
+									  intersection.z<=lineSegment2Max.z;
+				if(isInLineSegment2){ 
+					return true;
+				}
+			}
+		}
+		intersection=Vector3.zero;
+		return false;
 	}
 
 	/// <summary>
