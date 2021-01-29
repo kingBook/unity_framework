@@ -2,17 +2,31 @@
 using UnityEngine;
 using System.Collections;
 using DG.Tweening;
+using UnityEngine.SceneManagement;
 
 public class PanelLogoScreen:MonoBehaviour{
 	
 	public event System.Action onFadeOutEvent;
 	
-	[SerializeField] private CanvasGroup m_canvasGroup;
+	[SerializeField]
+	private CanvasGroup m_canvasGroup;
 
 	private void OnEnable(){
 		m_canvasGroup.alpha=1f;
-		Invoke(nameof(StartFadeOut),2f);
-		
+		SceneManager.sceneLoaded+=OnSceneLoaded;
+	}
+
+	private void OnDisable(){
+		SceneManager.sceneLoaded-=OnSceneLoaded;
+	}
+
+	private void OnSceneLoaded(Scene scene,LoadSceneMode mode){
+		if(scene.path!=gameObject.scene.path){
+			if(gameObject.activeInHierarchy){
+				SceneManager.sceneLoaded-=OnSceneLoaded;
+				StartFadeOut();
+			}
+		}
 	}
 
 	private void StartFadeOut(){
