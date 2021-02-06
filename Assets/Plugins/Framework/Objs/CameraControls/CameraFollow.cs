@@ -17,12 +17,18 @@ public class CameraFollow:MonoBehaviour{
 	
 	[System.Serializable]
 	public class AdvancedOptions{
-		public bool updateCameraInFixedUpdate;							//是否FixedUpdate函数中更新相机
-		public bool updateCameraInUpdate;								//是否在Update函数中更新相机
-		public bool updateCameraInLateUpdate=true;  					//是否在LateUpdate函数中更新相机
-		public bool isLookToTargetOnStart;								//是否在Start函数中，立即设置相机位置并旋转朝向目标
-		public bool isLookTargetRotation;								//是否锁定旋转到目标（当目标发生旋转时，相机也绕着目标旋转）
-		public RangeFloat positionRange=new RangeFloat(					//相机移动的位置范围
+		[Tooltip("是否FixedUpdate函数中更新相机")]
+		public bool updateCameraInFixedUpdate;
+		[Tooltip("是否在Update函数中更新相机")]
+		public bool updateCameraInUpdate;
+		[Tooltip("是否在LateUpdate函数中更新相机")]
+		public bool updateCameraInLateUpdate=true;
+		[Tooltip("是否在Start函数中，立即设置相机位置并旋转朝向目标")]
+		public bool isLookToTargetOnStart;
+		[Tooltip("是否锁定旋转到目标（当目标发生旋转时，相机也绕着目标旋转）")]
+		public bool isLookTargetRotation;
+		[Tooltip("相机移动的位置范围")]
+		public RangeFloat positionRange=new RangeFloat(	
 			new Vector3(float.MinValue,float.MinValue,float.MinValue),
 			new Vector3(float.MaxValue,float.MaxValue,float.MaxValue));
 		[Space]
@@ -33,8 +39,10 @@ public class CameraFollow:MonoBehaviour{
 		public bool isLockEulerAngleZ;
 		public float lockEulerValueZ;
 		[Space]
-		public bool isCheckCrossObs=true;								//是否检测穿过遮挡物并处理														
-		public LayerMask obsLayerMask=-1;								//遮挡物LayerMask
+		[Tooltip("是否检测穿过遮挡物并处理")]
+		public bool isCheckCrossObs=true;
+		[Tooltip("遮挡物LayerMask")]
+		public LayerMask obsLayerMask=-1;
 	}
 	
 	[System.Serializable]
@@ -53,10 +61,14 @@ public class CameraFollow:MonoBehaviour{
 		new Vector3(-1,-1,1),new Vector3(0,-1,1),new Vector3(1,-1,1),new Vector3(1,-1,0),new Vector3(1,-1,-1),new Vector3(0,-1,-1),new Vector3(-1,-1,-1),new Vector3(-1,-1,0)//25
 	};
 
-	public float smoothing=6.0f;											//更新相机时每秒移动的距离
-	public Transform targetTransform;										//相机朝向的目标点
-	public Vector3 originPositionNormalized=new Vector3(0.2f,0.68f,-1.0f);	//相机相对于目标点的单位化位置
-	public float distance=4.0f;												//相机与目标点的距离
+	[Tooltip("更新相机时每秒移动的距离")]
+	public float smoothing=6.0f;
+	[Tooltip("相机朝向的目标点")]
+	public Transform targetTransform;
+	[Tooltip("相机相对于目标点的单位化位置")]
+	public Vector3 originPositionNormalized=new Vector3(0.2f,0.68f,-1.0f);
+	[Tooltip("相机与目标点的距离")]
+	public float distance=4.0f;
 	public AdvancedOptions advancedOptions;
 	
 	private void Start(){
