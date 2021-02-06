@@ -2,15 +2,17 @@
 using System.Collections;
 
 public class PhysicsUtil{
+	
 	/// <summary>
-	/// 返回离射线原点最近的RaycastHit,如果没有找到将返回new RaycastHit()
+	/// 返回离射线原点最近的RaycastHit,如果没有找到将返回new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器
 	/// </summary>
 	/// <param name="ray">射线</param>
 	/// <param name="layerMask">用于射线计算的LayerMask，如：LayerMask.GetMask("ItemModel")。</param>
+	/// <param name="queryTriggerInteraction">定义是否查询isTrigger的碰撞器</param>
 	/// <returns></returns>
-	public static RaycastHit GetClosestRaycastHit(Ray ray,int layerMask){
+	public static RaycastHit GetClosestRaycastHit(Ray ray,int layerMask=-1,QueryTriggerInteraction queryTriggerInteraction=QueryTriggerInteraction.UseGlobal){
 		RaycastHit result=new RaycastHit();
-		RaycastHit[] hits=Physics.RaycastAll(ray,Mathf.Infinity,layerMask);
+		RaycastHit[] hits=Physics.RaycastAll(ray,Mathf.Infinity,layerMask,queryTriggerInteraction);
 		float minDistance=float.MaxValue;
 		int len=hits.Length;
 		for(int i=0;i<len;i++){
@@ -18,6 +20,30 @@ public class PhysicsUtil{
 			if(hit.distance<minDistance){
 				minDistance=hit.distance;
 				result=hit;
+			}
+		}
+		return result;
+	}
+
+	/// <summary>
+	/// 返回离射线原点最近的RaycastHit,如果没有找到将返回new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器，
+	/// 与<seealso cref="GetClosestRaycastHit"/>相比较，此方法不会分配新内存
+	/// </summary>
+	/// <param name="ray">射线</param>
+	/// <param name="layerMask">用于射线计算的LayerMask，如：LayerMask.GetMask("ItemModel")。</param>
+	/// <param name="queryTriggerInteraction">定义是否查询isTrigger的碰撞器</param>
+	/// <returns></returns>
+	public static RaycastHit GetClosestRayCastHitNonAlloc(Ray ray,int layerMask=-1,QueryTriggerInteraction queryTriggerInteraction=QueryTriggerInteraction.UseGlobal){
+		RaycastHit result=new RaycastHit();
+		int count=Physics.RaycastNonAlloc(ray,s_raycastHits,Mathf.Infinity,layerMask,queryTriggerInteraction);
+		if(count>0){
+			float minDistance=float.MaxValue;
+			for(int i=0;i<count;i++){
+				RaycastHit hit=s_raycastHits[i];
+				if(hit.distance<minDistance){
+					minDistance=hit.distance;
+					result=hit;
+				}
 			}
 		}
 		return result;
