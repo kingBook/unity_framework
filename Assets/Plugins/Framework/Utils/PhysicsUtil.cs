@@ -2,6 +2,8 @@
 using System.Collections;
 
 public class PhysicsUtil{
+
+	public static readonly RaycastHit[] RaycastHits=new RaycastHit[30];
 	
 	/// <summary>
 	/// 返回离射线原点最近的RaycastHit,如果没有找到将返回new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器
@@ -35,11 +37,11 @@ public class PhysicsUtil{
 	/// <returns></returns>
 	public static RaycastHit GetClosestRayCastHitNonAlloc(Ray ray,int layerMask=-1,QueryTriggerInteraction queryTriggerInteraction=QueryTriggerInteraction.UseGlobal){
 		RaycastHit result=new RaycastHit();
-		int count=Physics.RaycastNonAlloc(ray,s_raycastHits,Mathf.Infinity,layerMask,queryTriggerInteraction);
+		int count=Physics.RaycastNonAlloc(ray,RaycastHits,Mathf.Infinity,layerMask,queryTriggerInteraction);
 		if(count>0){
 			float minDistance=float.MaxValue;
 			for(int i=0;i<count;i++){
-				RaycastHit hit=s_raycastHits[i];
+				RaycastHit hit=RaycastHits[i];
 				if(hit.distance<minDistance){
 					minDistance=hit.distance;
 					result=hit;
