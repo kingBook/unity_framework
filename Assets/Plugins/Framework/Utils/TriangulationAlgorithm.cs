@@ -35,7 +35,7 @@ public class TriangulationAlgorithm{
 	/// <param name="verts">顺时针排列的顶点列表</param>
 	/// <param name="indexes">顶点索引列表</param>
 	/// <returns>三角形列表</returns>
-	public static List<int> ConvexTriangleIndex(List<Vector3> verts, List<int> indexes)
+	private static List<int> ConvexTriangleIndex(List<Vector3> verts, List<int> indexes)
 	{
 		int len = verts.Count;
 		//若是闭环去除最后一点
@@ -54,31 +54,41 @@ public class TriangulationAlgorithm{
 		return triangles;
 	}
 
-	public static void WidelyTriangleIndex(Vector3[] points,ref List<int> indexes,Plane plane){
+	public static void WidelyTriangleIndex(Vector3[] vertices,ref List<int> indexes,Plane plane){
 		int len = indexes.Count;
 
 		//转换到平面坐标系
-		List<Vector3> verts=new List<Vector3>();
+		List<Vector3> tempVertices=new List<Vector3>();
 		List<int> tempIndices=new List<int>();
 		Quaternion rotation=Quaternion.FromToRotation(plane.normal,Vector3.back);
 		for(int i=0;i<len;i++){
 			int index=indexes[i];
-			Vector3 vertex=points[index];
+			Vector3 vertex=vertices[index];
 			//旋转至切割平面坐标系（从平面上方看向平面）
 			vertex=rotation*vertex;
 			vertex.z=0;
-			verts.Add(vertex);
+			tempVertices.Add(vertex);
 			tempIndices.Add(i);
 		}
 
-		List<int> resultIndices=WidelyTriangleIndex(verts,tempIndices);
+		List<int> resultIndices=WidelyTriangleIndex(tempVertices,tempIndices);
 		
 		List<int> newIndices=new List<int>();
 		for(int i=0,l=resultIndices.Count;i<l;i++){
 			int index=resultIndices[i];
+			index=indexes[index];
 			newIndices.Add(index);
 		}
 		indexes=newIndices;
+	}
+
+	public static List<int> WidelyTriangleIndex(Vector3[] vertices){
+		List<int> indices=new List<int>();
+		int len=vertices.Length;
+		for(int i=0;i<len;i++){
+			indices.Add(i);
+		}
+		return WidelyTriangleIndex(new List<Vector3>(vertices),indices);
 	}
 
 	/// <summary>
@@ -94,7 +104,7 @@ public class TriangulationAlgorithm{
 	/// <param name="points">顺时针排列的顶点列表</param>
 	/// <param name="indexes">顶点索引列表</param>
 	/// <returns>三角形列表</returns>
-	 public static List<int> WidelyTriangleIndex(List<Vector3> verts, List<int> indexes)
+	public static List<int> WidelyTriangleIndex(List<Vector3> verts, List<int> indexes)
 	{
 		int len = verts.Count;
 		if (len <= 3) return ConvexTriangleIndex(verts, indexes);

@@ -20,34 +20,45 @@ public class TestTriangulationAlgorithm : MonoBehaviour{
 		
 		ConvexHullAlgorithm.Execute(ref indices,vertices,plane);
 
-		indices.Reverse();
-		//TriangulationAlgorithm.WidelyTriangleIndex(vertices,ref indices,plane);
+		indices.Reverse();//反转列表，逆时针变顺时针
 
-		List<Vector3> vertices2=new List<Vector3>();
-		List<int> indices2=new List<int>();
+		/*Vector3[] vertices2=new Vector3[indices.Count];
 		for(int i=0;i<indices.Count;i++){
 			Vector3 vertex=vertices[indices[i]];
 			vertex.z=0;
-			vertices2.Add(vertex);
-			indices2.Add(i);
+			vertices2[i]=vertex;
 		}
-		indices=TriangulationAlgorithm.WidelyTriangleIndex(vertices2,indices2);
+		indices=TriangulationAlgorithm.WidelyTriangleIndex(vertices2);*/
+
+		TriangulationAlgorithm.WidelyTriangleIndex(vertices,ref indices,plane);
 		
 		for(int i=0;i<indices.Count;i++){
 			int index=indices[i];
-			s_points.Add(vertices2[index]);
+			s_points.Add(vertices[index]);
 		}
+
+
+		
 	}
 
 	private static List<Vector3> s_points=new List<Vector3>();
 	private void OnDrawGizmos(){
+		//画三角形
 		for(int i=0;i<s_points.Count;i+=3){
 			Gizmos.DrawLine(s_points[i],s_points[i+1]);
 			Gizmos.DrawLine(s_points[i+1],s_points[i+2]);
 			Gizmos.DrawLine(s_points[i+2],s_points[i]);
+
+			//查看三角顶点顺序
+			/*UnityEditor.Handles.Label(s_points[i],"A");
+			UnityEditor.Handles.Label(s_points[i+1],"B");
+			UnityEditor.Handles.Label(s_points[i+2],"C");
+			break;*/
 		}
 	
-		/*for(int i=0;i<s_points.Count;i++){
+		/*
+		 //画线
+		 for(int i=0;i<s_points.Count;i++){
 			GizmosUtil.DrawPoint(s_points[i]);
 			UnityEditor.Handles.Label(s_points[i],string.Format("{0}",i));
 			if(i>0){
