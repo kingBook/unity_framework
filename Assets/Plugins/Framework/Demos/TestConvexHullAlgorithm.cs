@@ -17,7 +17,7 @@ public class TestConvexHullAlgorithm : MonoBehaviour{
 
 		Plane plane=new Plane(Vector3.back,0);
 		
-		ConvexHullAlgorithm.Execute(ref indices,vertices,plane);
+		ConvexHullAlgorithm.Execute(ref indices,vertices,plane.normal);
 
 		
 		for(int i=0;i<indices.Count;i++){

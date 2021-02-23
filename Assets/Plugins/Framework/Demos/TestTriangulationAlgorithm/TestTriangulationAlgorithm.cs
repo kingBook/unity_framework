@@ -18,7 +18,7 @@ public class TestTriangulationAlgorithm : MonoBehaviour{
 
 		Plane plane=new Plane(Vector3.back,0);
 		
-		ConvexHullAlgorithm.Execute(ref indices,vertices,plane);
+		ConvexHullAlgorithm.Execute(ref indices,vertices,plane.normal);
 
 		indices.Reverse();//反转列表，逆时针变顺时针
 

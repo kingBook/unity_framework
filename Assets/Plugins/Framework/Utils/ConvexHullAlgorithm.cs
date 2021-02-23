@@ -11,8 +11,14 @@ public class ConvexHullAlgorithm{
 		public Vector3 vertex;
 	}
 
-	public static void Execute(ref List<int> indices,Vector3[] vertices,Plane plane){
-		Quaternion rotation=Quaternion.FromToRotation(plane.normal,Vector3.back);
+	/// <summary>
+	/// 执行算法（将修改 indices 参数，将以相对平面坐标系(从平面上方看向平面)的逆时针顺序输出凸包索引列表）
+	/// </summary>
+	/// <param name="indices">引用的索引列表</param>
+	/// <param name="vertices">顶点列表</param>
+	/// <param name="planeNormal">坐标系平面（从平面上方看向平面）</param>
+	public static void Execute(ref List<int> indices,Vector3[] vertices,Vector3 planeNormal){
+		Quaternion rotation=Quaternion.FromToRotation(planeNormal,Vector3.back);
 		
 		int indexCount=indices.Count;
 		List<int> result=new List<int>();

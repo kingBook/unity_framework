@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+/// <summary>
+/// 三角化算法
+/// </summary>
 public class TriangulationAlgorithm{
 	
 	private const double Epsilon = 1e-7;
@@ -54,6 +56,12 @@ public class TriangulationAlgorithm{
 		return triangles;
 	}
 
+	/// <summary>
+	/// 三角化（需要转换顶点到指定平面的情况下使用此方法）
+	/// </summary>
+	/// <param name="vertices">顶点列表</param>
+	/// <param name="indexes">顺时针索引列表，执行后将更改，存储所有三角形索引列表</param>
+	/// <param name="plane">坐标系平面</param>
 	public static void WidelyTriangleIndex(Vector3[] vertices,ref List<int> indexes,Plane plane){
 		int len = indexes.Count;
 
@@ -82,6 +90,11 @@ public class TriangulationAlgorithm{
 		indexes=newIndices;
 	}
 
+	/// <summary>
+	/// 三角化（索引列表与 vertices 全部对应的情况下使用此方法）
+	/// </summary>
+	/// <param name="vertices">顶点列表</param>
+	/// <returns></returns>
 	public static List<int> WidelyTriangleIndex(Vector3[] vertices){
 		List<int> indices=new List<int>();
 		int len=vertices.Length;
@@ -127,7 +140,6 @@ public class TriangulationAlgorithm{
 				covexIndex.Add(searchIndex);
 			}
 		}
-		Debug.Log("isCovexPolygon:"+isCovexPolygon);
 		if (isCovexPolygon) return ConvexTriangleIndex(verts, indexes);
 
 		//查找可划分顶点
