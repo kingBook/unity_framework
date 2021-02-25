@@ -19,7 +19,6 @@ public class TestConvexHullAlgorithm : MonoBehaviour{
 		
 		ConvexHullAlgorithm.Execute(ref indices,vertices,plane.normal);
 
-		
 		for(int i=0;i<indices.Count;i++){
 			s_points.Add(vertices[indices[i]]);
 		}

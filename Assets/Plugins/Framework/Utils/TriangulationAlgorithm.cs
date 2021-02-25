@@ -6,7 +6,7 @@ using UnityEngine;
 /// </summary>
 public class TriangulationAlgorithm{
 	
-	private const double Epsilon = 1e-7;
+	public static readonly float Epsilon = 1e-7f;
 
 	private static bool FloatLess(float value, float other)
 	{
