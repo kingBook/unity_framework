@@ -5,6 +5,8 @@ using UnityEngine;
 /// 凸包算法
 /// </summary>
 public class ConvexHullAlgorithm{
+
+	public static readonly float Epsilon = 1e-7f;
 	
 	private struct VertexData{
 		public int index;
@@ -66,7 +68,7 @@ public class ConvexHullAlgorithm{
 			Vector3 ob=b.vertex-p0.vertex;
 			float angleA=Mathf.Atan2(oa.y,oa.x);
 			float angleB=Mathf.Atan2(ob.y,ob.x);
-			if(angleA==angleB){
+			if(Mathf.Abs(angleA-angleB)<1e-4f){
 				return (int)Mathf.Sign(oa.magnitude-ob.magnitude);
 			}
 			return (int)Mathf.Sign(angleA-angleB);
@@ -83,16 +85,18 @@ public class ConvexHullAlgorithm{
 			Vector3 v1=vertexDatas[i-1].vertex-baseVertex.vertex;//i等于2时，是 p2-p1
 			Vector3 v2=vertexDatas[i].vertex-baseVertex.vertex;//i等于2时，是 p3-p1
 			v1.z=v2.z=0;
-			//cross需要判断小数精度，否则三角化时可能出现非凸多边形, TriangulationAlgorithm.Epsilon 等于 1e-7f
-			if(Vector3.Cross(v1,v2).z<0){
+			//cross需要判断小数精度，否则三角化时可能出现非凸多边形
+			if(Vector3.Cross(v1,v2).z<Epsilon){
+			//if(Vector3.Cross(v1,v2).z<0){
 				resultVertexDatas.RemoveAt(resultVertexDatas.Count-1);
 				while(resultVertexDatas.Count>=2){
 					VertexData baseVertex2=resultVertexDatas[resultVertexDatas.Count-2];
 					Vector3 v12=resultVertexDatas[resultVertexDatas.Count-1].vertex-baseVertex2.vertex;
 					Vector3 v22=vertexDatas[i].vertex-baseVertex2.vertex;
 					v12.z=v22.z=0;
-					//cross需要判断小数精度，否则三角化时可能出现非凸多边形, TriangulationAlgorithm.Epsilon 等于 1e-7f
-					if(Vector3.Cross(v12,v22).z<0){
+					//cross需要判断小数精度，否则三角化时可能出现非凸多边形
+					if(Vector3.Cross(v12,v22).z<Epsilon){
+					//if(Vector3.Cross(v12,v22).z<0){
 						resultVertexDatas.RemoveAt(resultVertexDatas.Count-1);
 					}else{
 						break;
