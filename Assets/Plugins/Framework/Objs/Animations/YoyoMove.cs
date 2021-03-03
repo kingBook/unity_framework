@@ -16,13 +16,19 @@ public class YoyoMove:MonoBehaviour{
 
 	[Range(0,360),Tooltip("用于三角函数计算的初始欧拉角，调整此值会改变在半径范围内初始的位置")]
 	public int eulerAngle;
+	
+	public bool isDoLocalPosition;
 
 	private Transform m_transform;
 	private Vector3 m_origin;
 
-	private void Awake() {
+	private void Awake(){
 		m_transform=transform;
-		m_origin=m_transform.position;
+		if(isDoLocalPosition){
+			m_origin=m_transform.localPosition;
+		}else{
+			m_origin=m_transform.position;
+		}
 	}
 
 	private void FixedUpdate(){
@@ -34,6 +40,10 @@ public class YoyoMove:MonoBehaviour{
 		Vector3 direction=Quaternion.Euler(rotation)*Vector3.right;
 		float distance=radius*t;
 
-		m_transform.position=m_origin+distance*direction;
+		if(isDoLocalPosition){
+			m_transform.localPosition=m_origin+distance*direction;
+		}else{
+			m_transform.position=m_origin+distance*direction;
+		}
 	}
 }
