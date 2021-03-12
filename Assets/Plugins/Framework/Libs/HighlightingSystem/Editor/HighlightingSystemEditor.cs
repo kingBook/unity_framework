@@ -6,7 +6,7 @@ using System.Collections.Generic;
 [CustomEditor(typeof(HighlightingEffect))]
 public class HighlightingSystemEditor : Editor
 {
-	private string[] downsampleOptions = new string[]{"None", "Half", "Quarter"};
+	private string[] m_downsampleOptions = new string[]{"None", "Half", "Quarter"};
 	
 	private HighlightingEffect he;
 	
@@ -18,7 +18,7 @@ public class HighlightingSystemEditor : Editor
 	public override void OnInspectorGUI()
 	{
 		#if UNITY_IPHONE
-		if (Handheld.use32BitDisplayBuffer == false)
+		if (PlayerSettings.use32BitDisplayBuffer == false)
 		{
 			EditorGUILayout.HelpBox("Highlighting System requires 32-bit display buffer. Set the 'Use 32-bit Display Buffer' checkbox under the 'Resolution and Presentation' section of Player Settings.", MessageType.Error);
 		}
@@ -67,7 +67,7 @@ public class HighlightingSystemEditor : Editor
 		
 		EditorGUILayout.Space();
 		
-		he.downsampleFactor = EditorGUILayout.Popup("Downsampling:", he.downsampleFactor, downsampleOptions);
+		he.downsampleFactor = EditorGUILayout.Popup("Downsampling:", he.downsampleFactor, m_downsampleOptions);
 		he.iterations = Mathf.Clamp(EditorGUILayout.IntField("Iterations:", he.iterations), 0, 50);
 		he.blurMinSpread = EditorGUILayout.Slider("Min Spread:", he.blurMinSpread, 0f, 3f);
 		he.blurSpread = EditorGUILayout.Slider("Spread:", he.blurSpread, 0f, 3f);
