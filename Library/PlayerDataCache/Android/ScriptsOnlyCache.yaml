@@ -1,22 +1,7 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp-firstpass.dll:
-    - AdventureScene.DirectionInput
-    - AdventureScene.KeyInput
-    - App
-    - FileLoader
-    - LanguageSwitcher
-    - PanelLogoScreen
-    - PanelProgressbar
-    - SceneLoader
-    - ScreenLog
-    - UIPanelFitSafeArea
-    - UpdateManager
-    Assembly-CSharp.dll:
-    - Game
-    - Level
-    - UILevel
-    - UITitle
+    - Test
     DOTween.dll:
     - DG.Tweening.Core.DOTweenSettings
     UnityEditor.Graphs.dll:
@@ -30,66 +15,14 @@ ScriptsOnlyBuild:
     UnityEngine.UI.dll:
     - UnityEngine.EventSystems.EventSystem
     - UnityEngine.EventSystems.StandaloneInputModule
-    - UnityEngine.UI.Button
     - UnityEngine.UI.CanvasScaler
     - UnityEngine.UI.GraphicRaycaster
     - UnityEngine.UI.Image
     - UnityEngine.UI.Text
+    spine-unity-editor.dll:
+    - Spine.Unity.Editor.SpinePreferences
   sceneClasses:
-    Assets/Scenes/Level.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 108
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 9442}
-    - Class: 114
-      Script: {instanceID: 9502}
-    - Class: 114
-      Script: {instanceID: 9538}
-    - Class: 114
-      Script: {instanceID: 9540}
-    - Class: 114
-      Script: {instanceID: 9552}
-    - Class: 114
-      Script: {instanceID: 9560}
-    - Class: 114
-      Script: {instanceID: 9640}
-    - Class: 114
-      Script: {instanceID: 10040}
-    - Class: 114
-      Script: {instanceID: 10510}
-    - Class: 114
-      Script: {instanceID: 10528}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 225
-      Script: {instanceID: 0}
-    Assets/Scenes/Main.unity:
+    Assets/Plugins/Framework/Demos/Test.unity:
     - Class: 1
       Script: {instanceID: 0}
     - Class: 4
@@ -106,98 +39,33 @@ ScriptsOnlyBuild:
       Script: {instanceID: 0}
     - Class: 81
       Script: {instanceID: 0}
-    - Class: 82
-      Script: {instanceID: 0}
-    - Class: 104
-      Script: {instanceID: 0}
-    - Class: 109
-      Script: {instanceID: 0}
-    - Class: 114
-      Script: {instanceID: 9494}
-    - Class: 114
-      Script: {instanceID: 9540}
-    - Class: 114
-      Script: {instanceID: 9546}
-    - Class: 114
-      Script: {instanceID: 9552}
-    - Class: 114
-      Script: {instanceID: 9560}
-    - Class: 114
-      Script: {instanceID: 9596}
-    - Class: 114
-      Script: {instanceID: 9598}
-    - Class: 114
-      Script: {instanceID: 9618}
-    - Class: 114
-      Script: {instanceID: 9948}
-    - Class: 114
-      Script: {instanceID: 10052}
-    - Class: 114
-      Script: {instanceID: 10260}
-    - Class: 114
-      Script: {instanceID: 10372}
-    - Class: 114
-      Script: {instanceID: 10420}
-    - Class: 114
-      Script: {instanceID: 10686}
-    - Class: 114
-      Script: {instanceID: 10830}
-    - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
-      Script: {instanceID: 0}
-    - Class: 157
-      Script: {instanceID: 0}
-    - Class: 213
-      Script: {instanceID: 0}
-    - Class: 222
-      Script: {instanceID: 0}
-    - Class: 223
-      Script: {instanceID: 0}
-    - Class: 224
-      Script: {instanceID: 0}
-    - Class: 225
-      Script: {instanceID: 0}
-    Assets/Scenes/Title.unity:
-    - Class: 1
-      Script: {instanceID: 0}
-    - Class: 4
-      Script: {instanceID: 0}
-    - Class: 20
-      Script: {instanceID: 0}
-    - Class: 21
-      Script: {instanceID: 0}
-    - Class: 28
-      Script: {instanceID: 0}
-    - Class: 48
-      Script: {instanceID: 0}
-    - Class: 81
-      Script: {instanceID: 0}
     - Class: 104
       Script: {instanceID: 0}
     - Class: 108
       Script: {instanceID: 0}
+    - Class: 109
+      Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 9538}
+      Script: {instanceID: 9648}
     - Class: 114
-      Script: {instanceID: 9540}
+      Script: {instanceID: 9654}
     - Class: 114
-      Script: {instanceID: 9552}
+      Script: {instanceID: 9660}
     - Class: 114
-      Script: {instanceID: 9560}
+      Script: {instanceID: 9668}
     - Class: 114
-      Script: {instanceID: 9598}
+      Script: {instanceID: 9704}
     - Class: 114
-      Script: {instanceID: 9932}
+      Script: {instanceID: 9706}
     - Class: 114
-      Script: {instanceID: 10040}
+      Script: {instanceID: 10094}
+    - Class: 114
+      Script: {instanceID: 13336}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
       Script: {instanceID: 0}
     - Class: 157
-      Script: {instanceID: 0}
-    - Class: 213
       Script: {instanceID: 0}
     - Class: 222
       Script: {instanceID: 0}
@@ -226,6 +94,12 @@ ScriptsOnlyBuild:
     className: TMP_Dropdown
   - hash:
       serializedVersion: 2
+      Hash: 30af5f62e532d3044e78a10afa87ab99
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: AnimationReferenceAsset
+  - hash:
+      serializedVersion: 2
       Hash: 6f0c29db5353c2a61b6fb5e5d2515f3a
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
@@ -238,15 +112,21 @@ ScriptsOnlyBuild:
     className: EffectAlignCamera
   - hash:
       serializedVersion: 2
-      Hash: d854e4ab465ab800b8d85ab3b0ad3f05
+      Hash: 111713dbd4862e69eaf27f76ac343d7a
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: YoyoMove
   - hash:
       serializedVersion: 2
+      Hash: e8e6884f9aa59c3f25a5eb28f6416d62
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonRendererCustomMaterials
+  - hash:
+      serializedVersion: 2
       Hash: d0c874beeff84e0eb01b46863557a67f
     assemblyName: Assembly-CSharp-firstpass.dll
-    namespaceName: AdventureScene
+    namespaceName: 
     className: KeyInput
   - hash:
       serializedVersion: 2
@@ -286,7 +166,7 @@ ScriptsOnlyBuild:
     className: CurvedWorld_MeshBoundsCorrector
   - hash:
       serializedVersion: 2
-      Hash: b579b7df8af5c26bb01de3b49f7b34d2
+      Hash: d52183cb3d755a4b5bb5dd8518d5063b
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: App
@@ -296,6 +176,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Level
+  - hash:
+      serializedVersion: 2
+      Hash: 0fd5fbac2d59d13b484d48afc5e80642
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonGraphicCustomMaterials
   - hash:
       serializedVersion: 2
       Hash: cf9f5cf2c3145a37ac07f00e50e460f9
@@ -514,6 +400,12 @@ ScriptsOnlyBuild:
     className: WaterBase
   - hash:
       serializedVersion: 2
+      Hash: 0e36de8a1e35035e5cd579b75a88f295
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: EventDataReferenceAsset
+  - hash:
+      serializedVersion: 2
       Hash: cf9f5cf2c3145a37ac07f00e50e460f9
     assemblyName: UnityEngine.UI.dll
     namespaceName: UnityEngine.UI
@@ -727,7 +619,7 @@ ScriptsOnlyBuild:
       Hash: e0be74823c4dbe76b3921114a8a98205
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
-    className: DriftCamera
+    className: CameraFollow
   - hash:
       serializedVersion: 2
       Hash: 00274a21279f5cb831ce20f895049e38
@@ -742,10 +634,28 @@ ScriptsOnlyBuild:
     className: LanguageSwapImage
   - hash:
       serializedVersion: 2
+      Hash: 5e6cafcac3aa077fd28561e7f65c8086
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonRenderer
+  - hash:
+      serializedVersion: 2
+      Hash: 56b69fd124d87b205f0bba400d6c3eda
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonRenderSeparator
+  - hash:
+      serializedVersion: 2
       Hash: 780e8f682b3221346c034a6712a0fd25
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: AnimationPlayableAsset
+  - hash:
+      serializedVersion: 2
+      Hash: e27472033ca7125640e55292f25fdad2
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: TestLookPlanePoint
   - hash:
       serializedVersion: 2
       Hash: f27b9d1b667f05dbfdcba0eeb9f2c47f
@@ -796,10 +706,28 @@ ScriptsOnlyBuild:
     className: AnalyticsTracker
   - hash:
       serializedVersion: 2
+      Hash: 4413b36bd4dfd5d2fe8e8e1c24c94e44
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: BoundingBoxFollowerGraphic
+  - hash:
+      serializedVersion: 2
       Hash: b549c53c90bd65e2be229323fc44ded0
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: TwoPointsMotion
+  - hash:
+      serializedVersion: 2
+      Hash: 452034bc115721a46591769a06814093
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: PointFollower
+  - hash:
+      serializedVersion: 2
+      Hash: 5df6bedfb231143ea952051c623c4281
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: ActivateBasedOnFlipDirection
   - hash:
       serializedVersion: 2
       Hash: 0fb27be807aa299702f28ad0bcad1f46
@@ -820,16 +748,34 @@ ScriptsOnlyBuild:
     className: ControlTrack
   - hash:
       serializedVersion: 2
+      Hash: aaba8aa9ae18732f91cc2ed0a87d468c
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: TestTriangulationAlgorithm
+  - hash:
+      serializedVersion: 2
+      Hash: 49dcb3939f87870ac10cf1f8fcdfb35e
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: BindPositionMotion
+  - hash:
+      serializedVersion: 2
       Hash: 0a82b69cbdbe63407bd8b4e57cb92e57
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: LanguageSwitcher
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
-    assemblyName: Assembly-CSharp-firstpass.dll
-    namespaceName: 
-    className: UpdateManager
+      Hash: 7aa330a1923e603dafb277fc0f116454
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonAnimation
+  - hash:
+      serializedVersion: 2
+      Hash: cd48a96ab167746b0145cf24a3342daf
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity.Deprecated
+    className: SlotBlendModes
   - hash:
       serializedVersion: 2
       Hash: a1be9ef287ad7cc671105f616b187e15
@@ -848,6 +794,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_Asset
+  - hash:
+      serializedVersion: 2
+      Hash: a3904a178d87d0a63417d0cfdcaa9d11
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonMecanim
   - hash:
       serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
@@ -874,6 +826,12 @@ ScriptsOnlyBuild:
     className: PlanarReflection
   - hash:
       serializedVersion: 2
+      Hash: 5c8a41c270b4188dc4d8d7b68169a1bc
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: EllipseMotion
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.Water
@@ -884,6 +842,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
     className: TMP_SpriteAnimator
+  - hash:
+      serializedVersion: 2
+      Hash: 68d39a695e8b76d141388d1ed60f2635
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonUtility
   - hash:
       serializedVersion: 2
       Hash: e8230875f5b3c1bd7f9976fa138db12b
@@ -904,6 +868,12 @@ ScriptsOnlyBuild:
     className: HighlightableObject
   - hash:
       serializedVersion: 2
+      Hash: 2968a6ded30d620122fc2d57d2d07152
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonRootMotion
+  - hash:
+      serializedVersion: 2
       Hash: 4fd8bf02e3089425d3502e26c44ba31a
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -922,10 +892,28 @@ ScriptsOnlyBuild:
     className: SetPropertyExample
   - hash:
       serializedVersion: 2
+      Hash: 5638704286073716143cc2ca580b50fc
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SpineAtlasAsset
+  - hash:
+      serializedVersion: 2
+      Hash: aaba8aa9ae18732f91cc2ed0a87d468c
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: TestConvexHullAlgorithm
+  - hash:
+      serializedVersion: 2
       Hash: 97a580c59cad3623a01bbf5fb2d7fa93
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.Water
     className: SpecularLighting
+  - hash:
+      serializedVersion: 2
+      Hash: 36666ac3689f8ae085146c224becaadd
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonDataAsset
   - hash:
       serializedVersion: 2
       Hash: 461bc5ee7d6e96f4d357794efcabdf34
@@ -970,10 +958,28 @@ ScriptsOnlyBuild:
     className: FileLoader
   - hash:
       serializedVersion: 2
+      Hash: 64be6f6b565987a5ea51788410d1729c
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonGraphic
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: ButtonMute
+  - hash:
+      serializedVersion: 2
+      Hash: c506f5de23ec0494d4d9a5df5622a99e
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: BlendModeMaterialsAsset
+  - hash:
+      serializedVersion: 2
+      Hash: c1b15c745fd63a5ebcfc745252b6d789
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: BoneFollower
   - hash:
       serializedVersion: 2
       Hash: 88cc9df3c6fc697bfbeacd24c0d6f2d7
@@ -1026,14 +1032,20 @@ ScriptsOnlyBuild:
       serializedVersion: 2
       Hash: 68dec764b7f9ab82f46f64fd8111a60f
     assemblyName: Assembly-CSharp-firstpass.dll
-    namespaceName: AdventureScene
+    namespaceName: 
     className: DirectionInput
   - hash:
       serializedVersion: 2
-      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+      Hash: f9f37592b404590cce7c5df2214e6246
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: BoneFollowerGraphic
+  - hash:
+      serializedVersion: 2
+      Hash: 1e90c6044ed10bc37a1fd63e6d7c4721
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
-    className: UILevel
+    className: CanvasLevel
   - hash:
       serializedVersion: 2
       Hash: 3a0f02b507a61373ae98219f1d391ee1
@@ -1052,6 +1064,12 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: ImageHitTestMinAlpha
+  - hash:
+      serializedVersion: 2
+      Hash: bb7857e3bff0a34b919feb40ab25e1ba
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: BoundingBoxFollower
   - hash:
       serializedVersion: 2
       Hash: ee0cef6caaac8ae485bfa82f000f0f7b
@@ -1084,6 +1102,12 @@ ScriptsOnlyBuild:
     className: PanelLogoScreen
   - hash:
       serializedVersion: 2
+      Hash: 07fbec37e70d97ae0e2378051bdc0e8d
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: FollowLocationRigidbody2D
+  - hash:
+      serializedVersion: 2
       Hash: 5f5dbded8627969d98627959488ecacc
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
@@ -1108,10 +1132,22 @@ ScriptsOnlyBuild:
     className: CameraMatchRect
   - hash:
       serializedVersion: 2
+      Hash: 5502a348338eaffa2c2e21992a216f2a
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SpineSpriteAtlasAsset
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: MarkerTrack
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonPartsRenderer
   - hash:
       serializedVersion: 2
       Hash: e054a574e1728d0bd616073ffef7565e
@@ -1126,6 +1162,12 @@ ScriptsOnlyBuild:
     className: TMP_StyleSheet
   - hash:
       serializedVersion: 2
+      Hash: 9fc49739944f97b758989d5e160c8e85
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonUtilityBone
+  - hash:
+      serializedVersion: 2
       Hash: 698812e8d71fd38ac0f66f7a70a25fb5
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: UnityStandardAssets.Water
@@ -1136,6 +1178,24 @@ ScriptsOnlyBuild:
     assemblyName: Assembly-CSharp-firstpass.dll
     namespaceName: 
     className: ButtonImageSwitcher
+  - hash:
+      serializedVersion: 2
+      Hash: a5dc3314f0a80eb7e1cfdb0de0c8ceac
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: Polygon
+  - hash:
+      serializedVersion: 2
+      Hash: e9eb0a3732e46290c5b4bf45a554fe6e
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: FollowLocationRigidbody
+  - hash:
+      serializedVersion: 2
+      Hash: e9eb0a3732e46290c5b4bf45a554fe6e
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: FollowSkeletonUtilityRootRotation
   - hash:
       serializedVersion: 2
       Hash: 5372ed2ce39229b1ac910757999a8be2
@@ -1168,6 +1228,12 @@ ScriptsOnlyBuild:
     className: CameraHandle
   - hash:
       serializedVersion: 2
+      Hash: 193354b10aceaabb33a23790c4f9812b
+    assemblyName: spine-unity.dll
+    namespaceName: Spine.Unity
+    className: SkeletonMecanimRootMotion
+  - hash:
+      serializedVersion: 2
       Hash: 8649814970b42d345b89944b862453cc
     assemblyName: Unity.TextMeshPro.dll
     namespaceName: TMPro
@@ -1190,9 +1256,13 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
+  - hash:
+      serializedVersion: 2
+      Hash: cfc5bf00fd53fcf98bb79ee5b398e9ac
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: Test
   platform: 13
   scenePathNames:
-  - Assets/Scenes/Main.unity
-  - Assets/Scenes/Title.unity
-  - Assets/Scenes/Level.unity
+  - Assets/Plugins/Framework/Demos/Test.unity
   playerPath: D:/kingBook/projects/unity_framework/Builds/Android/unity_framework.apk

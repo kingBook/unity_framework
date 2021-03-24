@@ -54,18 +54,15 @@ public static class InputUtil{
 	}
 	
 	/// <summary>
-	/// 鼠标按下/触摸开始时返回true,并输出坐标。
-	/// <br>鼠标未按下/未发生触摸时并返回false,并输出(0,0,0)。</br>
-	/// <br>注意：只在鼠标左键按下时/触摸在Began阶段才返回true，并输出坐标</br>
+	/// 鼠标左键按下/有触摸处于 TouchPhase.Began 阶段时返回 true,并输出鼠标/触摸点的屏幕坐标，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段则返回 false,并输出 (0,0,0)
 	/// </summary>
-	/// <param name="screenPoint">输出鼠标/触摸点的屏幕坐标</param>
-	/// <param name="fingerId">鼠标模式输出0，触摸模式输出手指id，鼠标未按下/未发生触摸时输出-1</param>
-	/// <param name="isIgnorePointerOverUI">忽略UI上的点击，默认true</param>
-	/// <returns></returns>
-	public static bool GetInputScreenPoint(out Vector3 screenPoint,out int fingerId,bool isIgnorePointerOverUI=true){
+	/// <param name="isIgnorePointerOverUI">是否忽略UI上的点击</param>
+	/// <param name="screenPoint">输出鼠标/第一个处于  TouchPhase.Began 阶段的触摸点的屏幕坐标</param>
+	/// <param name="fingerId">鼠标模式输出0，触摸模式输出手指 id，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段输出 -1</param>
+	public static bool GetTouchBeginScreenPoint(bool isIgnorePointerOverUI,out Vector3 screenPoint,out int fingerId){
 		fingerId=-1;
 		screenPoint=new Vector3();
-		if(isIgnorePointerOverUI&&IsPointerOverUI()){
+		if(isIgnorePointerOverUI&&IsPointerOverUI(0)){
 			//忽略UI上的点击
 		}else if(Input.touchSupported){
 			if(Input.touchCount>0){
@@ -87,25 +84,23 @@ public static class InputUtil{
 	}
 
 	/// <summary>
-	/// 检测鼠标左键按下时/第一个触摸点在Began阶段是否接触UI
+	/// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
 	/// </summary>
-	/// <returns></returns>
-	public static bool IsPointerOverUI(){
+	public static bool IsPointerOverUI(int fingerId){
 		bool result=false;
 		if(Input.touchSupported){
-			if(Input.touchCount>0) {
-				Touch touch=Input.GetTouch(0);
-				if(touch.phase==TouchPhase.Began){
-					if(EventSystem.current.IsPointerOverGameObject(touch.fingerId)){
+			for(int i=0,len=Input.touchCount;i<len;i++){
+				Touch touch=Input.GetTouch(i);
+				if(touch.fingerId==fingerId){
+					if(EventSystem.current.IsPointerOverGameObject(fingerId)){
 						result=true;
+						break;
 					}
 				}
 			}
 		}else{
-			if(Input.GetMouseButton(0)){
-				if(EventSystem.current.IsPointerOverGameObject()){
-					result=true;
-				}
+			if(EventSystem.current.IsPointerOverGameObject()){
+				result=true;
 			}
 		}
 		return result;

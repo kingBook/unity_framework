@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Plugins/Framework/Demos/TestConvexHullAlgorithm.unity
+- path: Assets/Plugins/Framework/Demos/Test.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

@@ -26,6 +26,7 @@ public class TestConvexHullAlgorithm : MonoBehaviour{
 
 	private static List<Vector3> s_points=new List<Vector3>();
 	private void OnDrawGizmos(){
+#if UNITY_EDITOR
 		for(int i=0;i<s_points.Count;i++){
 			GizmosUtil.DrawPoint(s_points[i]);
 			UnityEditor.Handles.Label(s_points[i],string.Format("{0}",i));
@@ -34,6 +35,6 @@ public class TestConvexHullAlgorithm : MonoBehaviour{
 				
 			}
 		}
-
+#endif
 	}
 }
