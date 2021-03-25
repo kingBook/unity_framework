@@ -54,11 +54,12 @@ public static class InputUtil{
 	}
 	
 	/// <summary>
-	/// 鼠标左键按下/有触摸处于 TouchPhase.Began 阶段时返回 true,并输出鼠标/触摸点的屏幕坐标，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段则返回 false,并输出 (0,0,0)
+	/// 鼠标左键按下/有触摸处于 TouchPhase.Began 阶段时返回 true,并输出鼠标/触摸点的屏幕坐标，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段则返回 false,并输出屏幕坐标(0,0,0)和输出手指id（-1）
 	/// </summary>
 	/// <param name="isIgnorePointerOverUI">是否忽略UI上的点击</param>
 	/// <param name="screenPoint">输出鼠标/第一个处于  TouchPhase.Began 阶段的触摸点的屏幕坐标</param>
 	/// <param name="fingerId">鼠标模式输出0，触摸模式输出手指 id，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段输出 -1</param>
+	/// <returns></returns>
 	public static bool GetTouchBeginScreenPoint(bool isIgnorePointerOverUI,out Vector3 screenPoint,out int fingerId){
 		fingerId=-1;
 		screenPoint=new Vector3();
@@ -68,15 +69,47 @@ public static class InputUtil{
 			if(Input.touchCount>0){
 				Touch touch=Input.GetTouch(0);
 				if(touch.phase==TouchPhase.Began){
-					screenPoint=touch.position;
 					fingerId=touch.fingerId;
+					screenPoint=touch.position;
 					return true;
 				}
 			}
 		}else{
 			if(Input.GetMouseButtonDown(0)){
-				screenPoint=Input.mousePosition;
 				fingerId=0;
+				screenPoint=Input.mousePosition;
+				return true;
+			}
+		}
+		return false;
+	}
+
+	
+	/// <summary>
+	/// 鼠标左键不松开/有触摸按住不松开返回 true，并输出鼠标/第一个触摸点的屏幕坐标和手指 id，否则返回 false,并输出屏幕坐标 (0,0,0) 手指 id -1
+	/// </summary>
+	/// <param name="isIgnorePointerOverUI">是否忽略UI上的点击</param>
+	/// <param name="screenPoint">输出鼠标/第一个处于按住的触摸的屏幕坐标</param>
+	/// <param name="fingerId">鼠标模式输出0，触摸模式输出手指 id，鼠标左键未按下/没有触摸处于按下状态则输出 -1</param>
+	/// <returns></returns>
+	public static bool GetPressScreenPoint(bool isIgnorePointerOverUI,out Vector3 screenPoint,out int fingerId){
+		fingerId=-1;
+		screenPoint=new Vector3();
+		if(isIgnorePointerOverUI && IsPointerOverUI(0)){
+			//忽略UI上的点击
+		}else if(Input.touchSupported){
+			for(int i=0,len=Input.touchCount;i<len;i++){
+				Touch touch=Input.GetTouch(i);
+				if(touch.phase==TouchPhase.Began || touch.phase==TouchPhase.Moved || touch.phase==TouchPhase.Stationary){
+					fingerId=touch.fingerId;
+					screenPoint=touch.position;
+					return true;
+				}
+			}
+		}else{
+			if(Input.GetMouseButton(0)){
+				fingerId=0;
+				screenPoint=Input.mousePosition;
 				return true;
 			}
 		}
@@ -126,6 +159,19 @@ public static class InputUtil{
 			}
 		}
 		return result;
+	}
+
+	/// <summary>
+	/// 返回滑屏增量位置
+	/// </summary>
+	public static Vector2 GetSlideScreenDeltaPosition(){
+		Vector2 deltaPosition=new Vector2();
+		if(Input.touchSupported || Input.GetMouseButton(0)){
+			//支持触摸时，如果 Input.simulateMouseWithTouches 为 true 时，可以使用 "Mouse X" 和 "Mouse Y"
+			deltaPosition.x=Input.GetAxis("Mouse X");
+			deltaPosition.y=Input.GetAxis("Mouse Y");
+		}
+		return deltaPosition;
 	}
 	
 }

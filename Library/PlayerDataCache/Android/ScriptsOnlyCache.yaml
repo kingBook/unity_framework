@@ -60,7 +60,7 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 10094}
     - Class: 114
-      Script: {instanceID: 13336}
+      Script: {instanceID: 10284}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -796,6 +796,12 @@ ScriptsOnlyBuild:
     className: TMP_Asset
   - hash:
       serializedVersion: 2
+      Hash: a713ac88e5440d1d3a2357bf079211a6
+    assemblyName: Assembly-CSharp-firstpass.dll
+    namespaceName: 
+    className: Test
+  - hash:
+      serializedVersion: 2
       Hash: a3904a178d87d0a63417d0cfdcaa9d11
     assemblyName: spine-unity.dll
     namespaceName: Spine.Unity
@@ -1256,12 +1262,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: PlayableTrack
-  - hash:
-      serializedVersion: 2
-      Hash: cfc5bf00fd53fcf98bb79ee5b398e9ac
-    assemblyName: Assembly-CSharp-firstpass.dll
-    namespaceName: 
-    className: Test
   platform: 13
   scenePathNames:
   - Assets/Plugins/Framework/Demos/Test.unity
