@@ -3,23 +3,23 @@ using UnityEngine;
 /// <summary>
 /// 将当前位置绑定到目标 Transform
 /// </summary>
-public class BindPositionMotion:MonoBehaviour{
-	
-	[Tooltip("绑定的目标")] public Transform target;
-	[Tooltip("当前与目标的相对偏移量")] public Vector3 offset;
+public class BindPositionMotion : MonoBehaviour {
 
-	private void Start(){
-		SyncPosition();
-	}
+    [Tooltip("绑定的目标")] public Transform target;
+    [Tooltip("当前与目标的相对偏移量")] public Vector3 offset;
 
-	private void FixedUpdate(){
-		SyncPosition();
-	}
+    private void Start () {
+        SyncPosition();
+    }
 
-	private void SyncPosition(){
-		Vector3 targetPosition=target.position;
-		targetPosition+=offset;
-		transform.position=targetPosition;
-	}
+    private void FixedUpdate () {
+        SyncPosition();
+    }
+
+    private void SyncPosition () {
+        Vector3 targetPosition=target.position;
+        targetPosition += offset;
+        transform.position = targetPosition;
+    }
 
 }

@@ -7,37 +7,37 @@ using UnityEngine;
 /// </summary>
 /// 
 public static class Debug2 {
-	
-	public static void Log(params object[] args){
-		int len=args.Length;
-		string str="";
-		for(int i=0;i<len;i++){
-			str+=GetObjectString(args[i]);
-			if(i<len-1)str+=' ';
-		}
-		Debug.Log(str);
-	}
 
-	private static string GetListString(IList list){
-		int len=list.Count;
-		string str="";
-		for(int i=0;i<len;i++){
-			str+=GetObjectString(list[i]);
-			if(i<len-1)str+=", ";
-		}
-		return str;
-	}
+    public static void Log (params object[] args) {
+        int len=args.Length;
+        string str="";
+        for (int i = 0; i < len; i++) {
+            str += GetObjectString(args[i]);
+            if (i < len - 1) str += ' ';
+        }
+        Debug.Log(str);
+    }
 
-	private static string GetObjectString(object obj){
-		if(obj is Vector3 v3){
-			return string.Format("({0},{1},{2})",v3.x,v3.y,v3.z);
-		}else if(obj is Vector2 v2) {
-			return string.Format("({0},{1})",v2.x,v2.y);
-		}else if(obj is IList list){
-			return GetListString(list);
-		}else if(obj is Vector4 v4){
-			return string.Format("({0},{1},{2},{3})",v4.x,v4.y,v4.z,v4.w);
-		}
-		return (obj==null)?"Null":obj.ToString();
-	}
+    private static string GetListString (IList list) {
+        int len=list.Count;
+        string str="";
+        for (int i = 0; i < len; i++) {
+            str += GetObjectString(list[i]);
+            if (i < len - 1) str += ", ";
+        }
+        return str;
+    }
+
+    private static string GetObjectString (object obj) {
+        if (obj is Vector3 v3) {
+            return string.Format("({0},{1},{2})", v3.x, v3.y, v3.z);
+        } else if (obj is Vector2 v2) {
+            return string.Format("({0},{1})", v2.x, v2.y);
+        } else if (obj is IList list) {
+            return GetListString(list);
+        } else if (obj is Vector4 v4) {
+            return string.Format("({0},{1},{2},{3})", v4.x, v4.y, v4.z, v4.w);
+        }
+        return (obj == null) ? "Null" : obj.ToString();
+    }
 }

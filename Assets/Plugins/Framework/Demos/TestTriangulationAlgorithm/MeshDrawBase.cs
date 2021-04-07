@@ -14,11 +14,11 @@ public abstract class MeshDrawBase : MonoBehaviour {
     void Awake () {
         targetFilter = GetComponent<MeshFilter>();
     }
-    
+
     // Update is called once per frame
     protected virtual void Update () {
         DrawMesh();
     }
 
-    protected abstract void DrawMesh();
+    protected abstract void DrawMesh ();
 }

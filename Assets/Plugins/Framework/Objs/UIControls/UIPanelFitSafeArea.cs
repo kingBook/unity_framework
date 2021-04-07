@@ -8,43 +8,43 @@ using UnityEngine;
 /// （子Panel的Image及它的所有子元素都将显示在屏幕安全区内，所以需要显示在屏幕安全区内的所有UI元素都要放在子Panel内）。
 /// </summary>
 [DisallowMultipleComponent]
-public class UIPanelFitSafeArea:MonoBehaviour{
+public class UIPanelFitSafeArea : MonoBehaviour {
 
-	[SerializeField,Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
-	private bool m_isTest;
+    [SerializeField,Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
+    private bool m_isTest;
 
-	private RectTransform m_panel;
-	private float m_time;
+    private RectTransform m_panel;
+    private float m_time;
 
-	private void Awake(){
-		m_panel=GetComponent<RectTransform>();
-		m_time=Time.time;
-		MatchSafeArea();
-	}
-	
-	private void Start(){
-		MatchSafeArea();
-	}
+    private void Awake () {
+        m_panel = GetComponent<RectTransform>();
+        m_time = Time.time;
+        MatchSafeArea();
+    }
 
-	private void Update(){
-		if(Time.time-m_time>0.3f){//限制刷新频率
-			m_time=Time.time;
-			MatchSafeArea();
-		}
-	}
+    private void Start () {
+        MatchSafeArea();
+    }
 
-	private void MatchSafeArea(){
-		Rect safeArea=Screen.safeArea;
-		float screenWidth=Screen.width;
-		float screenHeight=Screen.height;
-		//在 Unity 编辑器时，如果 m_isTest 为 true 时，截取屏幕进行测试
+    private void Update () {
+        if (Time.time - m_time > 0.3f) {//限制刷新频率
+            m_time = Time.time;
+            MatchSafeArea();
+        }
+    }
+
+    private void MatchSafeArea () {
+        Rect safeArea=Screen.safeArea;
+        float screenWidth=Screen.width;
+        float screenHeight=Screen.height;
+        //在 Unity 编辑器时，如果 m_isTest 为 true 时，截取屏幕进行测试
 #if UNITY_EDITOR
-		if(m_isTest){
-			bool isPortraitGameView=screenWidth<screenHeight;
-			if(isPortraitGameView)safeArea.height*=0.95f;
-			else safeArea.width*=0.95f;
-		}
-#elif UNITY_IOS||UNITY_ANDROID
+        if (m_isTest) {
+            bool isPortraitGameView=screenWidth<screenHeight;
+            if (isPortraitGameView) safeArea.height *= 0.95f;
+            else safeArea.width *= 0.95f;
+        }
+#elif UNITY_IOS || UNITY_ANDROID
 		//根据屏幕旋转重新设置正确的 screenWidth 和 screenHeight，长的为 screenWidth ，短的为 screenHeight。
 		bool isPortrait=Screen.orientation==ScreenOrientation.Portrait||Screen.orientation==ScreenOrientation.PortraitUpsideDown;
 		float minScreenValue=Mathf.Min(screenWidth,screenHeight);
@@ -52,18 +52,18 @@ public class UIPanelFitSafeArea:MonoBehaviour{
 		screenWidth=isPortrait?minScreenValue:maxScreenValue;
 		screenHeight=isPortrait?maxScreenValue:minScreenValue;
 #endif
-		//计算 anchorMin、anchorMax
-		Vector2 anchorMin=safeArea.position;
-		Vector2 anchorMax=safeArea.position+safeArea.size;
-		anchorMin.x/=screenWidth;
-		anchorMin.y/=screenHeight;
-		anchorMax.x/=screenWidth;
-		anchorMax.y/=screenHeight;
-		m_panel.anchorMin=anchorMin;
-		m_panel.anchorMax=anchorMax;
-	}
+        //计算 anchorMin、anchorMax
+        Vector2 anchorMin=safeArea.position;
+        Vector2 anchorMax=safeArea.position+safeArea.size;
+        anchorMin.x /= screenWidth;
+        anchorMin.y /= screenHeight;
+        anchorMax.x /= screenWidth;
+        anchorMax.y /= screenHeight;
+        m_panel.anchorMin = anchorMin;
+        m_panel.anchorMax = anchorMax;
+    }
 
-	public bool isTest{
-		get => m_isTest;
-	}
+    public bool isTest {
+        get => m_isTest;
+    }
 }
