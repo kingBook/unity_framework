@@ -5,7 +5,7 @@
 /// </summary>
 public class ScreenLog : MonoBehaviour {
 
-    public bool isStackTrace=false;
+    public bool isStackTrace = false;
 
     private string m_output = "";
     private Vector2 m_scrollPos;
@@ -37,7 +37,7 @@ public class ScreenLog : MonoBehaviour {
                 m_isMinimized = true;
             }
             //暂停/恢复按钮
-            string pauseResumeText=m_isPause?"Resume":"Pause";
+            string pauseResumeText = m_isPause ? "Resume" : "Pause";
             if (GUILayout.Button(pauseResumeText, GUILayout.MinHeight(buttonSize))) {
                 m_isPause = !m_isPause;
             }

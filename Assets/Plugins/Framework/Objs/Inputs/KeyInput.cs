@@ -16,10 +16,10 @@ public class KeyInput : MonoBehaviour {
     public event System.Action onKeyUpEvent;
 
     [SerializeField] private Button m_buttonHandle;
-    [SerializeField] private float m_disableAlpha=0.5f;
-    [SerializeField] private float m_enableAlpha=1.0f;
-    [SerializeField] private KeyCode m_keyCode=KeyCode.J;
-    [SerializeField] private Mode m_mode=Mode.Automatic;
+    [SerializeField] private float m_disableAlpha = 0.5f;
+    [SerializeField] private float m_enableAlpha = 1.0f;
+    [SerializeField] private KeyCode m_keyCode = KeyCode.J;
+    [SerializeField] private Mode m_mode = Mode.Automatic;
 
     private bool m_enableHandle;
     private Image m_buttonHandleImage;
@@ -36,16 +36,16 @@ public class KeyInput : MonoBehaviour {
             m_enableHandle = true;
         }
         //设置未激活状态透明度
-        Color color=m_buttonHandleImage.color;
+        Color color = m_buttonHandleImage.color;
         color.a = m_disableAlpha;
         m_buttonHandleImage.color = color;
         //根据 m_enabledHandle 显示/隐藏UI按钮
         m_buttonHandleImage.gameObject.SetActive(m_enableHandle);
         //启动UI按键时，侦听按下、释放
         if (m_enableHandle) {
-            EventTrigger eventTrigger=m_buttonHandle.gameObject.AddComponent<EventTrigger>();
+            EventTrigger eventTrigger = m_buttonHandle.gameObject.AddComponent<EventTrigger>();
             //按下
-            EventTrigger.Entry entry=new EventTrigger.Entry();
+            EventTrigger.Entry entry = new EventTrigger.Entry();
             entry.eventID = EventTriggerType.PointerDown;
             entry.callback.AddListener((eventData) => {
                 OnKeyDown();
@@ -75,7 +75,7 @@ public class KeyInput : MonoBehaviour {
     private void OnKeyDown () {
         isPressed = true;
         //设置未激活状态透明度
-        Color color=m_buttonHandleImage.color;
+        Color color = m_buttonHandleImage.color;
         color.a = m_enableAlpha;
         m_buttonHandleImage.color = color;
 
@@ -85,7 +85,7 @@ public class KeyInput : MonoBehaviour {
     private void OnKeyUp () {
         isPressed = false;
         //设置激活状态透明度
-        Color color=m_buttonHandleImage.color;
+        Color color = m_buttonHandleImage.color;
         color.a = m_disableAlpha;
         m_buttonHandleImage.color = color;
 

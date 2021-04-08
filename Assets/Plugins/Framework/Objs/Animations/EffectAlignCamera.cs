@@ -54,15 +54,15 @@ public class EffectAlignCamera : MonoBehaviour {
     private void AlignOrderAndScale () {
         Vector3 cameraOrigin = m_camera.transform.position;
         Vector3 position = m_transform.position;
-        float distanceOld = Vector3.Distance(cameraOrigin,position);
+        float distanceOld = Vector3.Distance(cameraOrigin, position);
         //相机原点向当前位置的射线
-        Ray ray = new Ray(cameraOrigin,position-cameraOrigin);
+        Ray ray = new Ray(cameraOrigin, position - cameraOrigin);
         //计算显示前后位置
         Vector3 newPosition = ray.GetPoint(m_distanceCamera);
         m_transform.position = newPosition;
         //透视相机时计算缩放
         if (!m_camera.orthographic) {
-            float distanceNew = Vector3.Distance(cameraOrigin,newPosition);
+            float distanceNew = Vector3.Distance(cameraOrigin, newPosition);
             m_transform.localScale *= distanceNew / distanceOld;
         }
     }

@@ -22,15 +22,15 @@ public class CameraFollow : MonoBehaviour {
         [Tooltip("是否在Update函数中更新相机")]
         public bool updateCameraInUpdate;
         [Tooltip("是否在LateUpdate函数中更新相机")]
-        public bool updateCameraInLateUpdate=true;
+        public bool updateCameraInLateUpdate = true;
         [Tooltip("是否在Start函数中，立即设置相机位置并旋转朝向目标")]
         public bool isLookToTargetOnStart;
         [Tooltip("是否锁定旋转到目标（当目标发生旋转时，相机也绕着目标旋转）")]
         public bool isLookTargetRotation;
         [Tooltip("相机移动的位置范围")]
-        public RangeFloat positionRange=new RangeFloat(
-            new Vector3(float.MinValue,float.MinValue,float.MinValue),
-            new Vector3(float.MaxValue,float.MaxValue,float.MaxValue));
+        public RangeFloat positionRange = new RangeFloat(
+            new Vector3(float.MinValue, float.MinValue, float.MinValue),
+            new Vector3(float.MaxValue, float.MaxValue, float.MaxValue));
         [Space]
         public bool isLockEulerAngleX;
         public float lockEulerValueX;
@@ -40,9 +40,9 @@ public class CameraFollow : MonoBehaviour {
         public float lockEulerValueZ;
         [Space]
         [Tooltip("是否检测穿过遮挡物并处理")]
-        public bool isCheckCrossObs=true;
+        public bool isCheckCrossObs = true;
         [Tooltip("遮挡物LayerMask")]
-        public LayerMask obsLayerMask=-1;
+        public LayerMask obsLayerMask = -1;
     }
 
     [System.Serializable]
@@ -53,7 +53,7 @@ public class CameraFollow : MonoBehaviour {
         Bottom,//17
         BottomLeftForward, BottomForward, BottomRightForward, BottomRight, BottomRightBack, BottomBack, BottomLeftBack, BottomLeft//25
     }
-    private static readonly Vector3[] s_positionModeVerties=new Vector3[]{
+    private static readonly Vector3[] s_positionModeVerties = new Vector3[]{
         new Vector3(0,1,0),//0
 		new Vector3(-1,1,1),new Vector3(0,1,1),new Vector3(1,1,1),new Vector3(1,1,0),new Vector3(1,1,-1),new Vector3(0,1,-1),new Vector3(-1,1,-1),new Vector3(-1,1,0),//8
 		new Vector3(-1,0,1),new Vector3(0,0,1),new Vector3(1,0,1),new Vector3(1,0,0),new Vector3(1,0,-1),new Vector3(0,0,-1),new Vector3(-1,0,-1),new Vector3(-1,0,0),//16
@@ -62,13 +62,13 @@ public class CameraFollow : MonoBehaviour {
 	};
 
     [Tooltip("更新相机时每秒移动的距离")]
-    public float smoothing=6.0f;
+    public float smoothing = 6.0f;
     [Tooltip("相机朝向的目标点")]
     public Transform targetTransform;
     [Tooltip("相机相对于目标点的单位化位置")]
-    public Vector3 originPositionNormalized=new Vector3(0.2f,0.68f,-1.0f);
+    public Vector3 originPositionNormalized = new Vector3(0.2f, 0.68f, -1.0f);
     [Tooltip("相机与目标点的距离")]
-    public float distance=4.0f;
+    public float distance = 4.0f;
     public AdvancedOptions advancedOptions;
 
     private void Start () {
@@ -98,7 +98,7 @@ public class CameraFollow : MonoBehaviour {
 
     private void UpdateCamera (bool isCheckCrossObs, bool isLearp) {
         if (targetTransform == null) return;
-        Vector3 positionTarget=GetPositionTarget();
+        Vector3 positionTarget = GetPositionTarget();
         //遮挡检测
         if (isCheckCrossObs) {
             CheckCrossObsViewField(ref positionTarget);
@@ -108,7 +108,7 @@ public class CameraFollow : MonoBehaviour {
             positionTarget = Vector3.Lerp(transform.position, positionTarget, Time.deltaTime * smoothing);
         }
         //根据要求限制位置范围
-        Vector3 tempPosition=transform.position;
+        Vector3 tempPosition = transform.position;
         tempPosition.x = Mathf.Clamp(positionTarget.x, advancedOptions.positionRange.min.x, advancedOptions.positionRange.max.x);
         tempPosition.y = Mathf.Clamp(positionTarget.y, advancedOptions.positionRange.min.y, advancedOptions.positionRange.max.y);
         tempPosition.z = Mathf.Clamp(positionTarget.z, advancedOptions.positionRange.min.z, advancedOptions.positionRange.max.z);
@@ -116,7 +116,7 @@ public class CameraFollow : MonoBehaviour {
         //旋转相机朝向
         transform.LookAt(targetTransform);
         //根据要求锁定旋转
-        var eulerAngles=transform.eulerAngles;
+        var eulerAngles = transform.eulerAngles;
         if (advancedOptions.isLockEulerAngleX) eulerAngles.x = advancedOptions.lockEulerValueX;
         if (advancedOptions.isLockEulerAngleY) eulerAngles.y = advancedOptions.lockEulerValueY;
         if (advancedOptions.isLockEulerAngleZ) eulerAngles.z = advancedOptions.lockEulerValueZ;
@@ -124,11 +124,11 @@ public class CameraFollow : MonoBehaviour {
     }
 
     private Vector3 GetPositionTarget () {
-        Vector3 offset=originPositionNormalized*distance;
+        Vector3 offset = originPositionNormalized * distance;
         if (advancedOptions.isLookTargetRotation) {
             offset = targetTransform.rotation * offset;
         }
-        Vector3 positionTarget=targetTransform.position+offset;
+        Vector3 positionTarget = targetTransform.position + offset;
         return positionTarget;
     }
 
@@ -139,15 +139,15 @@ public class CameraFollow : MonoBehaviour {
         if (!IsCrossObs(positionTarget)) return;
         for (int i = 0; i < 17; i++) {
             //取一个相机测试点检测是否遮挡
-            Vector3 normalized=s_positionModeVerties[i];
-            Vector3 offset=normalized*distance;
+            Vector3 normalized = s_positionModeVerties[i];
+            Vector3 offset = normalized * distance;
             offset = targetTransform.rotation * offset;
-            Vector3 testPosTarget=targetTransform.position+offset;
+            Vector3 testPosTarget = targetTransform.position + offset;
             //球形插值运算取测试点检测是否遮挡
-            float t=0.0f;
+            float t = 0.0f;
             for (int j = 0; j < 5; j++) {
                 t += 0.2f;
-                Vector3 checkPos=Vector3.Slerp(positionTarget,testPosTarget,t);
+                Vector3 checkPos = Vector3.Slerp(positionTarget, testPosTarget, t);
                 if (!IsCrossObs(checkPos)) {
                     //没有被遮挡，返回该测试点
                     positionTarget = checkPos;
@@ -162,16 +162,16 @@ public class CameraFollow : MonoBehaviour {
     /// 是否被遮挡
     /// </summary>
     private bool IsCrossObs (Vector3 positionTarget) {
-        Vector3 position=targetTransform.position;
-        Ray ray=new Ray(positionTarget,position-positionTarget);
-        float maxDistance=Vector3.Distance(position,positionTarget);
+        Vector3 position = targetTransform.position;
+        Ray ray = new Ray(positionTarget, position - positionTarget);
+        float maxDistance = Vector3.Distance(position, positionTarget);
 
-        const int bufferLen=50;
-        RaycastHit[] buffer=new RaycastHit[bufferLen];
+        const int bufferLen = 50;
+        RaycastHit[] buffer = new RaycastHit[bufferLen];
         Physics.RaycastNonAlloc(ray, buffer, maxDistance, advancedOptions.obsLayerMask);
 
         for (int i = 0; i < bufferLen; i++) {
-            RaycastHit raycastHit=buffer[i];
+            RaycastHit raycastHit = buffer[i];
             if (raycastHit.collider != null) {
                 return true;
             }

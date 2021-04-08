@@ -9,8 +9,8 @@ using UnityEngine;
 public static class Debug2 {
 
     public static void Log (params object[] args) {
-        int len=args.Length;
-        string str="";
+        int len = args.Length;
+        string str = "";
         for (int i = 0; i < len; i++) {
             str += GetObjectString(args[i]);
             if (i < len - 1) str += ' ';
@@ -19,8 +19,8 @@ public static class Debug2 {
     }
 
     private static string GetListString (IList list) {
-        int len=list.Count;
-        string str="";
+        int len = list.Count;
+        string str = "";
         for (int i = 0; i < len; i++) {
             str += GetObjectString(list[i]);
             if (i < len - 1) str += ", ";

@@ -7,12 +7,12 @@ using System.Collections;
 public class PointsMotion : MonoBehaviour {
 
     [Tooltip("运动速度")]
-    public float speed=1f;
-    [SerializeField,Tooltip("运动路径点列表")]
+    public float speed = 1f;
+    [SerializeField, Tooltip("运动路径点列表")]
     private Transform[] m_points;
-    [SerializeField,Tooltip("初始是否逆顺序运动，默认按路径点索引低到高运动")]
+    [SerializeField, Tooltip("初始是否逆顺序运动，默认按路径点索引低到高运动")]
     private bool m_isReverseOnStart;
-    [SerializeField,Tooltip("是否闭合路径运动， 不闭合时运动到最后一个点将反向运动")]
+    [SerializeField, Tooltip("是否闭合路径运动， 不闭合时运动到最后一个点将反向运动")]
     private bool m_isClosed;
     [SerializeField, Tooltip("在Awake时暂停")]
     private bool m_pauseOnAwake;
@@ -46,15 +46,15 @@ public class PointsMotion : MonoBehaviour {
 
     private bool GotoTarget (Vector3 current, Vector3 target, float maxDistanceDelta) {
         transform.position = Vector3.MoveTowards(current, target, maxDistanceDelta);
-        float distance=Vector3.Distance(current,target);
+        float distance = Vector3.Distance(current, target);
         return distance <= 0.01f;
     }
 
     /// <summary> 获取最近点的索引，如果点列表长度为0时，则返回-1。 </summary>
     private int GetClosestPointIndex () {
-        int closestIndex=-1;
-        Vector3[] vertices=TransformUtil.CovertTransformsToVertices(m_points);
-        var polyLine=Mathk.GetClosestPolyLineToPoint(transform.position,vertices,m_isClosed);//获取距离当前点最近的边
+        int closestIndex = -1;
+        Vector3[] vertices = TransformUtil.CovertTransformsToVertices(m_points);
+        var polyLine = Mathk.GetClosestPolyLineToPoint(transform.position, vertices, m_isClosed);//获取距离当前点最近的边
         if (polyLine.startIndex > -1 && polyLine.endIndex > -1) {
             closestIndex = m_isReverseOnStart ? polyLine.startIndex : polyLine.endIndex;
         }
@@ -62,8 +62,8 @@ public class PointsMotion : MonoBehaviour {
     }
 
     private int GetNextPointIndex (int currentIndex) {
-        int len=m_points.Length;
-        int i= currentIndex;
+        int len = m_points.Length;
+        int i = currentIndex;
         if (m_isClosed) {
             if (m_isReverseOnStart) {
                 i = (i - 1 + len) % len;

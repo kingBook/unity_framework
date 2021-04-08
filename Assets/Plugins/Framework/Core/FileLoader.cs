@@ -37,7 +37,7 @@ public class FileLoader : MonoBehaviour {
     public async void LoadAsync (bool progressbarVisible, params string[] filePaths) {
         OnLoadStart(progressbarVisible);
 
-        byte[][] outBytesList=new byte[filePaths.Length][];
+        byte[][] outBytesList = new byte[filePaths.Length][];
         for (int i = 0; i < filePaths.Length; i++) {
             byte[] buffer = null;
             string filePath = filePaths[i];
@@ -45,7 +45,7 @@ public class FileLoader : MonoBehaviour {
                 if (File.Exists(filePath)) {
                     m_fileStream = File.OpenRead(filePath);
 
-                    int fileLength=(int)m_fileStream.Length;
+                    int fileLength = (int)m_fileStream.Length;
                     buffer = new byte[fileLength];
 
                     m_fileStream.Read(buffer, 0, fileLength);

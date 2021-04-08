@@ -12,7 +12,7 @@ public class CameraMatchRect : MonoBehaviour {
     public Transform max;
     public Camera viewCamera;
     public bool isUpdate;
-    public FitMode fitMode=FitMode.Auto;
+    public FitMode fitMode = FitMode.Auto;
 
 #if UNITY_EDITOR
     private void Reset () {
@@ -31,12 +31,12 @@ public class CameraMatchRect : MonoBehaviour {
     }
 
     private void Fit () {
-        Vector3 rectCenter=(min.position+max.position)*0.5f;
-        Vector3 rectExtents=(max.position-min.position)*0.5f;
-        float referenceScaleFactor=rectExtents.x/rectExtents.y;
-        float scaleFactor=(float)Screen.width/Screen.height;
+        Vector3 rectCenter = (min.position + max.position) * 0.5f;
+        Vector3 rectExtents = (max.position - min.position) * 0.5f;
+        float referenceScaleFactor = rectExtents.x / rectExtents.y;
+        float scaleFactor = (float)Screen.width / Screen.height;
 
-        FitMode tempFitMode=fitMode;
+        FitMode tempFitMode = fitMode;
         if (tempFitMode == FitMode.Auto) {
             if (scaleFactor > referenceScaleFactor) {
                 tempFitMode = FitMode.Height;
@@ -46,7 +46,7 @@ public class CameraMatchRect : MonoBehaviour {
         }
 
         if (viewCamera.orthographic) {
-            Vector3 viewCameraPos=viewCamera.transform.position;
+            Vector3 viewCameraPos = viewCamera.transform.position;
             viewCameraPos.x = rectCenter.x;
             viewCameraPos.y = rectCenter.y;
             viewCamera.transform.position = viewCameraPos;
@@ -58,14 +58,14 @@ public class CameraMatchRect : MonoBehaviour {
                 viewCamera.orthographicSize = rectExtents.x / scaleFactor;
             }
         } else {
-            float distance=Vector3.Distance(rectCenter,viewCamera.transform.position);
+            float distance = Vector3.Distance(rectCenter, viewCamera.transform.position);
             viewCamera.transform.LookAt(rectCenter);
             if (tempFitMode == FitMode.Height) {
                 //匹配高度
                 viewCamera.fieldOfView = Mathf.Atan(rectExtents.y / distance) * Mathf.Rad2Deg * 2f;
             } else if (tempFitMode == FitMode.Width) {
                 //匹配宽度
-                float tempExtentsY=rectExtents.x/viewCamera.aspect;
+                float tempExtentsY = rectExtents.x / viewCamera.aspect;
                 viewCamera.fieldOfView = Mathf.Atan(tempExtentsY / distance) * Mathf.Rad2Deg * 2f;
             }
         }

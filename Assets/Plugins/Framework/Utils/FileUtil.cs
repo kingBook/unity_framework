@@ -14,11 +14,11 @@ public static class FileUtil {
     /// <param name="readCount">读取的行数，-1或<0:读取所有行</param>
     /// <returns></returns>
     public static List<string> GetFileLines (string filePath, bool isAddLineEndEnter, int readCount = -1) {
-        StreamReader streamReader=File.OpenText(filePath);
+        StreamReader streamReader = File.OpenText(filePath);
 
-        List<string> fileLines=new List<string>();
+        List<string> fileLines = new List<string>();
         string line;
-        int count=0;
+        int count = 0;
         if (readCount != 0) {
             while ((line = streamReader.ReadLine()) != null) {
                 if (isAddLineEndEnter) {
@@ -43,15 +43,15 @@ public static class FileUtil {
     /// <param name="filePath">写入文件的路径,如果是'\'路径,需要加@转换，如:getFileLines(@"E:\unity_tags\Assets\test.txt")</param>
     public static void WriteFileLines (string[] fileLines, string filePath) {
         File.Delete(filePath);
-        var fileStream=File.Create(filePath);
+        var fileStream = File.Create(filePath);
 
-        StringBuilder strBuilder=new StringBuilder();
-        int len=fileLines.Length;
+        StringBuilder strBuilder = new StringBuilder();
+        int len = fileLines.Length;
         for (int i = 0; i < len; i++) {
             strBuilder.Append(fileLines[i]);
         }
-        UTF8Encoding utf8Bom=new UTF8Encoding(true);
-        byte[] bytes=utf8Bom.GetBytes(strBuilder.ToString());
+        UTF8Encoding utf8Bom = new UTF8Encoding(true);
+        byte[] bytes = utf8Bom.GetBytes(strBuilder.ToString());
         fileStream.Write(bytes, 0, bytes.Length);
         fileStream.Dispose();
     }

@@ -8,16 +8,16 @@ using UnityEngine.EventSystems;
 /// </summary>
 public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler {
     [SerializeField]
-    private float m_smoothTime=0.2f;
+    private float m_smoothTime = 0.2f;
     [SerializeField]
-    private float m_enableControlSpeedLength=500f;
+    private float m_enableControlSpeedLength = 500f;
     [SerializeField]
     private ScrollRect m_scrollRect;
     private Scrollbar m_scrollbar;
     private int m_pageCount;
-    private float m_scrollBarTargetValue=-1f;
-    private float m_currentVelocity=0f;
-    private bool m_isPointerDowning=false;
+    private float m_scrollBarTargetValue = -1f;
+    private float m_currentVelocity = 0f;
+    private bool m_isPointerDowning = false;
 
 #if UNITY_EDITOR
     private void Reset () {
@@ -38,9 +38,9 @@ public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
     private void Update () {
         if (!m_isPointerDowning) {
             if (m_scrollBarTargetValue < 0) {
-                float speedLength=m_scrollRect.velocity.magnitude;
+                float speedLength = m_scrollRect.velocity.magnitude;
                 if (speedLength < m_enableControlSpeedLength) {
-                    int closetPageIndex=GetClosestPageIndex();
+                    int closetPageIndex = GetClosestPageIndex();
                     m_scrollBarTargetValue = closetPageIndex * (1f / (m_pageCount - 1));
                 }
             }
@@ -51,11 +51,11 @@ public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
     }
 
     private int GetClosestPageIndex () {
-        int pageIndex=0;
-        float minDistance=float.MaxValue;
+        int pageIndex = 0;
+        float minDistance = float.MaxValue;
         for (int i = 0; i < m_pageCount; i++) {
-            float scrollTargetValue=i * (1f/(m_pageCount-1));
-            float distance=Mathf.Abs(m_scrollbar.value-scrollTargetValue);
+            float scrollTargetValue = i * (1f / (m_pageCount - 1));
+            float distance = Mathf.Abs(m_scrollbar.value - scrollTargetValue);
             if (distance < minDistance) {
                 minDistance = distance;
                 pageIndex = i;

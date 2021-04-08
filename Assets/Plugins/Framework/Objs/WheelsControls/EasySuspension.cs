@@ -29,7 +29,7 @@ public class EasySuspension : MonoBehaviour {
         foreach (WheelCollider wc in GetComponentsInChildren<WheelCollider>()) {
             JointSpring spring = wc.suspensionSpring;
 
-            float sqrtWcSprungMass = Mathf.Sqrt (wc.sprungMass);
+            float sqrtWcSprungMass = Mathf.Sqrt(wc.sprungMass);
             spring.spring = sqrtWcSprungMass * naturalFrequency * sqrtWcSprungMass * naturalFrequency;
             spring.damper = 2f * dampingRatio * Mathf.Sqrt(spring.spring * wc.sprungMass);
 

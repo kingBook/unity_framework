@@ -7,10 +7,10 @@ using DG.Tweening;
 /// </summary>
 public class MoveUpDestroy : MonoBehaviour {
 
-    [Tooltip("向上移动的距离"), Range(10,100), SerializeField]
+    [Tooltip("向上移动的距离"), Range(10, 100), SerializeField]
     private float m_moveUpDistance = 40;
 
-    [Tooltip("向上移动的持续时间"), ]
+    [Tooltip("向上移动的持续时间"),]
     private float m_duration = 1.0f;
 
     private void Start () {

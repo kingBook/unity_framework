@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CanvasLevel:UIBase{
+public class CanvasLevel : UIBase {
 
-	public DirectionInput directionInput;
-	public KeyInput keyInput;
+    public DirectionInput directionInput;
+    public KeyInput keyInput;
 }

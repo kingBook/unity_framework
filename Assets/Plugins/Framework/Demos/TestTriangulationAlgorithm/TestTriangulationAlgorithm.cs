@@ -9,14 +9,14 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
     private void Start () {
 
 
-        Vector3[] vertices=new Vector3[pointsParent.childCount];
-        List<int> indices=new List<int>();
+        Vector3[] vertices = new Vector3[pointsParent.childCount];
+        List<int> indices = new List<int>();
         for (int i = 0; i < vertices.Length; i++) {
             vertices[i] = pointsParent.GetChild(i).position;
             indices.Add(i);
         }
 
-        Plane plane=new Plane(Vector3.back,0);
+        Plane plane = new Plane(Vector3.back, 0);
 
         ConvexHullAlgorithm.Execute(ref indices, vertices, plane.normal);
 
@@ -33,7 +33,7 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
         TriangulationAlgorithm.WidelyTriangleIndex(vertices, ref indices, plane);
 
         for (int i = 0; i < indices.Count; i++) {
-            int index=indices[i];
+            int index = indices[i];
             s_points.Add(vertices[index]);
         }
 
@@ -41,7 +41,7 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
 
     }
 
-    private static List<Vector3> s_points=new List<Vector3>();
+    private static List<Vector3> s_points = new List<Vector3>();
     private void OnDrawGizmos () {
         //画三角形
         for (int i = 0; i < s_points.Count; i += 3) {

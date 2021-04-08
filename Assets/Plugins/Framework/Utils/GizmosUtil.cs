@@ -10,9 +10,9 @@ public static class GizmosUtil {
     /// </summary>
     /// <param name="vertices">路径点数组</param>
     public static void DrawPath (Vector3[] vertices) {
-        int len=vertices.Length;
+        int len = vertices.Length;
         for (int i = 0; i < len; i++) {
-            int nexti=(i+1)%len;
+            int nexti = (i + 1) % len;
             Gizmos.DrawLine(vertices[i], vertices[nexti]);
         }
     }

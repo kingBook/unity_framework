@@ -4,25 +4,25 @@ using System.Collections;
 /// 关卡类
 /// <br>管理关卡内的对象。</br>
 /// </summary>
-public class Level:MonoBehaviour{
+public class Level : MonoBehaviour {
 
-	protected Game m_game;
+    protected Game m_game;
 
-	private void Start(){
-		m_game=App.instance.GetGame<Game>();
-	}
+    private void Start () {
+        m_game = App.instance.GetGame<Game>();
+    }
 
-	public void Victory(){
-		
-	}
+    public void Victory () {
 
-	public void Failure(){
-		
-	}
+    }
+
+    public void Failure () {
+
+    }
 
 
-	private void OnDestroy(){
-		
-	}
+    private void OnDestroy () {
+
+    }
 
 }

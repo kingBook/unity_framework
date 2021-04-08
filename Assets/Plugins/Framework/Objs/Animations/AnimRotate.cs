@@ -3,7 +3,7 @@
 /// <summary>旋转动画</summary>
 public class AnimRotate : MonoBehaviour {
 
-    [SerializeField]private RangeVector3 m_eulersVelocity=new RangeVector3(new Vector3(0,5,0), new Vector3(0,10,0));
+    [SerializeField] private RangeVector3 m_eulersVelocity = new RangeVector3(new Vector3(0, 5, 0), new Vector3(0, 10, 0));
 
     private Transform m_transform;
     private Vector3 m_eulers;

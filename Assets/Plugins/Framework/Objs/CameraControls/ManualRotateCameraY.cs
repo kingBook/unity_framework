@@ -18,9 +18,9 @@ public class ManualRotateCameraY : MonoBehaviour {
         [Tooltip("跟随相机旋转的目标（如果isApplyToDriftCamera==true,会改变DriftCamera.originPositionNormalized，此目标旋转会受到影响）")]
         public Transform targetTransformFollowRotation;
         [Tooltip("是否应用到DriftCamera组件(存在时有效,将会旋转DriftCamera.originPositionNormalized)")]
-        public bool isApplyToDriftCamera=true;
+        public bool isApplyToDriftCamera = true;
         [Tooltip("活动区域(在活动区域内划屏才能旋转相机)")]
-        public ActiveArea activeArea=ActiveArea.FullScreen;
+        public ActiveArea activeArea = ActiveArea.FullScreen;
     }
     public AdvancedOptions advancedOptions;
 
@@ -34,7 +34,7 @@ public class ManualRotateCameraY : MonoBehaviour {
     private bool m_isRotateBegin;
     /// <summary>鼠标左键，在按下开始时是否接触UI</summary>
     private bool m_isMouseOverUIOnBegan;
-    private int m_touchFingerId=-1;
+    private int m_touchFingerId = -1;
 
     private void Start () {
         m_camera = GetComponent<Camera>();
@@ -62,7 +62,7 @@ public class ManualRotateCameraY : MonoBehaviour {
 
         if (touch.fingerId > -1) {
             if (GetPositionOnActiveArea(touch.position, advancedOptions.activeArea)) {
-                float h=touch.deltaPosition.x*0.5f;
+                float h = touch.deltaPosition.x * 0.5f;
                 if (!m_isRotateBegin) {
                     m_isRotateBegin = true;
                     onPreRotateEvent?.Invoke(h);
@@ -83,7 +83,7 @@ public class ManualRotateCameraY : MonoBehaviour {
             //鼠标按下左键时没有接触UI
             if (!m_isMouseOverUIOnBegan) {
                 if (GetPositionOnActiveArea(Input.mousePosition, advancedOptions.activeArea)) {
-                    float h=Input.GetAxis("Mouse X");
+                    float h = Input.GetAxis("Mouse X");
                     h *= 10;
 
                     if (!m_isRotateBegin) {
@@ -105,7 +105,7 @@ public class ManualRotateCameraY : MonoBehaviour {
         //应用到DriftCamera
         if (advancedOptions.isApplyToDriftCamera) {
             if (m_cameraFollow != null) {
-                Quaternion rotation=Quaternion.AngleAxis(h,Vector3.up);
+                Quaternion rotation = Quaternion.AngleAxis(h, Vector3.up);
                 m_cameraFollow.originPositionNormalized = rotation * m_cameraFollow.originPositionNormalized;
             }
         }
@@ -121,7 +121,7 @@ public class ManualRotateCameraY : MonoBehaviour {
 
     /// <summary>返回指定的位置是否在活动区域</summary>
     private bool GetPositionOnActiveArea (Vector2 position, ActiveArea activeArea) {
-        bool result=true;
+        bool result = true;
         if (activeArea == ActiveArea.RightScreen) {
             result = position.x > Screen.width * 0.5f;
         } else if (activeArea == ActiveArea.LeftScreen) {

@@ -4,12 +4,12 @@ using System.Collections;
 /// <summary> 两点间运动 </summary>
 public class TwoPointsMotion : MonoBehaviour {
 
-    [Tooltip("运动的起始点，None 时以当前位置为起始点（只读取在 Start() 时的位置）")]  public Transform startTransform;
-    [Tooltip("运动的目标点（只读取在 Start() 时的位置）")]                          public Transform targetTransform;
-    [Tooltip("true 时，首次运动时是否朝目标点；false 时，首次运动时是否朝起始点")]     public bool isFirstToTarget=true;
-    [Tooltip("运动速度。")]                                                      public float speed=1f;
-    [Tooltip("到达一个点时，等待的时间(秒)"), Range(0f,10f)]                       public float waitTime;
-    [Tooltip("当到达一个点时，需要同步转向的其他 TwoPointsMotion")]                 public TwoPointsMotion[] syncReversesObjects;
+    [Tooltip("运动的起始点，None 时以当前位置为起始点（只读取在 Start() 时的位置）")] public Transform startTransform;
+    [Tooltip("运动的目标点（只读取在 Start() 时的位置）")] public Transform targetTransform;
+    [Tooltip("true 时，首次运动时是否朝目标点；false 时，首次运动时是否朝起始点")] public bool isFirstToTarget = true;
+    [Tooltip("运动速度。")] public float speed = 1f;
+    [Tooltip("到达一个点时，等待的时间(秒)"), Range(0f, 10f)] public float waitTime;
+    [Tooltip("当到达一个点时，需要同步转向的其他 TwoPointsMotion")] public TwoPointsMotion[] syncReversesObjects;
 
     private Vector3 m_positionRecord;
     private Vector3 m_targetRecord;
@@ -27,7 +27,7 @@ public class TwoPointsMotion : MonoBehaviour {
 
     private bool GotoTarget (Vector3 current, Vector3 target, float maxDistanceDelta) {
         transform.position = Vector3.MoveTowards(current, target, maxDistanceDelta);
-        float distance=Vector3.Distance(current,target);
+        float distance = Vector3.Distance(current, target);
         return distance <= 0.01f;
     }
 

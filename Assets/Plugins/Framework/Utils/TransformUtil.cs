@@ -11,8 +11,8 @@ public static class TransformUtil {
     /// <param name="transform"></param>
     /// <returns></returns>
     public static Transform[] GetTransformChildren (Transform transform) {
-        int childCount=transform.childCount;
-        Transform[] children=new Transform[childCount];
+        int childCount = transform.childCount;
+        Transform[] children = new Transform[childCount];
         for (int i = 0; i < childCount; i++) {
             children[i] = transform.GetChild(i);
         }
@@ -21,8 +21,8 @@ public static class TransformUtil {
 
     /// <summary> 转换一个 Transform 数组到顶点数组 </summary>
     public static Vector3[] CovertTransformsToVertices (Transform[] transforms, Space space = Space.World) {
-        int len=transforms.Length;
-        Vector3[] vertices=new Vector3[len];
+        int len = transforms.Length;
+        Vector3[] vertices = new Vector3[len];
         for (int i = 0; i < len; i++) {
             if (space == Space.World) vertices[i] = transforms[i].position;
             else vertices[i] = transforms[i].localPosition;

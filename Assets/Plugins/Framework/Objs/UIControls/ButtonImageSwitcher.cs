@@ -7,14 +7,14 @@ using UnityEngine.UI;
 public class ButtonImageSwitcher : ImageSwitcher {
 
     [Tooltip("是否侦听点击按钮事件自动切换")]
-    public bool isSwapOnClick=true;
+    public bool isSwapOnClick = true;
 
     private Button m_button;
 
 #if UNITY_EDITOR
     protected override void InitImageOnReset () {
         if (!image) {
-            Button btn=GetComponent<Button>();
+            Button btn = GetComponent<Button>();
             if (btn) {
                 image = btn.image;
             } else {

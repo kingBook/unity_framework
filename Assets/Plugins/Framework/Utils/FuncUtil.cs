@@ -12,7 +12,7 @@ public static class FuncUtil {
     /// <param name="boundsExtents">Bounds.extents</param>
     /// <returns></returns>
     public static Vector3[] GetBoundsCorners (Vector3 boundsCenter, Vector3 boundsExtents) {
-        Vector3[] vertices=new Vector3[8];
+        Vector3[] vertices = new Vector3[8];
         //左下后
         vertices[0] = boundsCenter + Vector3.Scale(boundsExtents, new Vector3(-1, -1, -1));
         //左上后
@@ -42,7 +42,7 @@ public static class FuncUtil {
     /// <returns></returns>
     public static Vector3[] WorldPointsToPlane (Vector3[] points, int pointCount, Vector3 planeNormal) {
         for (int i = 0; i < pointCount; i++) {
-            var vertex=points[i];
+            var vertex = points[i];
             points[i] = Vector3.ProjectOnPlane(vertex, planeNormal);
         }
         return points;
@@ -57,7 +57,7 @@ public static class FuncUtil {
     /// <returns></returns>
     public static Vector3[] WorldPointsToScreen (Vector3[] points, int pointCount, Camera camera) {
         for (int i = 0; i < pointCount; i++) {
-            var vertex=points[i];
+            var vertex = points[i];
             points[i] = camera.WorldToScreenPoint(vertex);
         }
         return points;
@@ -70,24 +70,24 @@ public static class FuncUtil {
     /// <param name="isHour">如果true那么转换为xx:xx:xx形式否则xx:xx形式</param>
     /// <returns></returns>
     public static string GetClockString (int secondCount, bool isHour = false) {
-        string result="";
+        string result = "";
         if (isHour) {
-            int hour=(int)(secondCount/60.0f/60.0f);
-            string hourString=hour<10?"0"+hour.ToString():hour.ToString();
+            int hour = (int)(secondCount / 60.0f / 60.0f);
+            string hourString = hour < 10 ? "0" + hour.ToString() : hour.ToString();
 
-            int minute=(int)(secondCount/60.0f-hour*60.0f);
-            string minuteString=minute<10?"0"+minute.ToString():minute.ToString();
+            int minute = (int)(secondCount / 60.0f - hour * 60.0f);
+            string minuteString = minute < 10 ? "0" + minute.ToString() : minute.ToString();
 
-            int second=(int)(secondCount-hour*60.0f*60.0f-minute*60.0f);
-            string secondString=second<10?"0"+second.ToString():second.ToString();
+            int second = (int)(secondCount - hour * 60.0f * 60.0f - minute * 60.0f);
+            string secondString = second < 10 ? "0" + second.ToString() : second.ToString();
 
             result = hourString + ":" + minuteString + ":" + secondString;
         } else {
-            int minute=(int)(secondCount/60.0f);
-            string minuteString=minute<10?"0"+minute.ToString():minute.ToString();
+            int minute = (int)(secondCount / 60.0f);
+            string minuteString = minute < 10 ? "0" + minute.ToString() : minute.ToString();
 
-            int second=(int)(secondCount-minute*60.0f);
-            string secondString=second<10?"0"+second.ToString():second.ToString();
+            int second = (int)(secondCount - minute * 60.0f);
+            string secondString = second < 10 ? "0" + second.ToString() : second.ToString();
 
             result = minuteString + ":" + secondString;
         }

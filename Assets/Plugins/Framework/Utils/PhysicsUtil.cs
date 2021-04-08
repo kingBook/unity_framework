@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PhysicsUtil {
 
-    public static readonly RaycastHit[] RaycastHits=new RaycastHit[30];
+    public static readonly RaycastHit[] RaycastHits = new RaycastHit[30];
 
     /// <summary>
     /// 返回离射线原点最近的RaycastHit,如果没有找到将返回new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器
@@ -14,12 +14,12 @@ public class PhysicsUtil {
     /// <param name="queryTriggerInteraction">定义是否查询isTrigger的碰撞器</param>
     /// <returns></returns>
     public static RaycastHit GetClosestRayCastHitNonAlloc (Ray ray, Rigidbody[] ignoreBodies = null, int layerMask = -1, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
-        RaycastHit result=new RaycastHit();
-        int count=Physics.RaycastNonAlloc(ray,RaycastHits,Mathf.Infinity,layerMask,queryTriggerInteraction);
+        RaycastHit result = new RaycastHit();
+        int count = Physics.RaycastNonAlloc(ray, RaycastHits, Mathf.Infinity, layerMask, queryTriggerInteraction);
         if (count > 0) {
-            float minDistance=float.MaxValue;
+            float minDistance = float.MaxValue;
             for (int i = 0; i < count; i++) {
-                RaycastHit hit=RaycastHits[i];
+                RaycastHit hit = RaycastHits[i];
                 if (ignoreBodies != null && System.Array.IndexOf(ignoreBodies, hit.rigidbody) > -1) continue;
                 if (hit.distance < minDistance) {
                     minDistance = hit.distance;
@@ -38,9 +38,9 @@ public class PhysicsUtil {
     /// <param name="worldBounds">世界坐标包围盒</param>
     /// <returns></returns>
     public static RaycastHit GetRaycastBounds (Ray ray, Bounds worldBounds) {
-        var gameObject=new GameObject();
+        var gameObject = new GameObject();
         gameObject.transform.position = worldBounds.center;
-        var boxCollider=gameObject.AddComponent<BoxCollider>();
+        var boxCollider = gameObject.AddComponent<BoxCollider>();
         boxCollider.size = worldBounds.size;
         RaycastHit hitInfo;
         boxCollider.Raycast(ray, out hitInfo, Mathf.Infinity);
@@ -66,7 +66,7 @@ public class PhysicsUtil {
     /// <param name="colliders">碰撞器列表</param>
     /// <returns></returns>
     public static bool GetBoundsIntersectsColliders<T> (Bounds bounds, T[] colliders) where T : Collider {
-        int len=colliders.Length;
+        int len = colliders.Length;
         for (int i = 0; i < len; i++) {
             if (GetBoundsIntersectsCollider(bounds, colliders[i])) {
                 return true;

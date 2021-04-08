@@ -21,9 +21,9 @@ public class DestroyOnAnimationComplete : MonoBehaviour {
         AnimatorClipInfo[] animatorClipInfos = m_animator.GetCurrentAnimatorClipInfo(0);
         AnimationClip animationClip = animatorClipInfos[0].clip;
         AnimationEvent animationEvent = new AnimationEvent {
-            objectReferenceParameter=this,
-            functionName=nameof(OnComplete),
-            time=animationClip.length
+            objectReferenceParameter = this,
+            functionName = nameof(OnComplete),
+            time = animationClip.length
         };
         animationClip.AddEvent(animationEvent);
     }

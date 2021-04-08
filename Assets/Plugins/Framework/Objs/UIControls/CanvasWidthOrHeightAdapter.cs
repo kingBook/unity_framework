@@ -22,7 +22,7 @@ public class CanvasWidthOrHeightAdapter : MonoBehaviour {
     }
 
     private void Update () {
-        float scaleFactor=(float)Screen.width/Screen.height;
+        float scaleFactor = (float)Screen.width / Screen.height;
         if (scaleFactor > m_referenceScaleFactor) {
             //匹配高度
             m_canvasScaler.matchWidthOrHeight = 1f;

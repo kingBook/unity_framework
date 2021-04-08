@@ -17,7 +17,7 @@ public class BindPositionMotion : MonoBehaviour {
     }
 
     private void SyncPosition () {
-        Vector3 targetPosition=target.position;
+        Vector3 targetPosition = target.position;
         targetPosition += offset;
         transform.position = targetPosition;
     }

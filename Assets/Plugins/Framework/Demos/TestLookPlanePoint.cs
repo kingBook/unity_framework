@@ -15,10 +15,10 @@ public class TestLookPlanePoint : MonoBehaviour {
     }
 
     private void Update () {
-        var plane=new Plane(planeTransform.up,0);
-        var pos=ball.position;
-        var rotation=Quaternion.FromToRotation(plane.normal,Vector3.back);
-        Vector3 pos2=rotation*pos;
+        var plane = new Plane(planeTransform.up, 0);
+        var pos = ball.position;
+        var rotation = Quaternion.FromToRotation(plane.normal, Vector3.back);
+        Vector3 pos2 = rotation * pos;
         Debug.Log($"{pos} {pos2}");
     }
 

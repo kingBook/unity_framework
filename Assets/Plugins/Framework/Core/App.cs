@@ -25,7 +25,7 @@ public sealed class App : MonoBehaviour {
 
 
     [Tooltip("标记为调试（不载入其他场景）")]
-    [SerializeField] private bool m_isDebug=false;
+    [SerializeField] private bool m_isDebug = false;
 
     [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
      "\nCN:中文 " +
@@ -59,7 +59,7 @@ public sealed class App : MonoBehaviour {
     [SerializeField] private SceneLoader m_sceneLoader;
 
     [Tooltip("游戏列表")]
-    [SerializeField] private BaseGame[] m_games=new BaseGame[0];
+    [SerializeField] private BaseGame[] m_games = new BaseGame[0];
 
 
     ///<summary>恢复静音时的效果音频的音量</summary>
@@ -87,9 +87,9 @@ public sealed class App : MonoBehaviour {
             m_isMuteEffectAudio = value;
             //设置所有非循环播放的 AudioSource，当设置取消静音时，音量都设置为：m_onResumeEffectAudioVolume
             AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
-            int i=audioSources.Length;
+            int i = audioSources.Length;
             while (--i >= 0) {
-                AudioSource audioSource=audioSources[i];
+                AudioSource audioSource = audioSources[i];
                 if (audioSource.isActiveAndEnabled && !audioSource.loop) {
                     audioSource.volume = m_isMuteEffectAudio ? 0.0f : m_onResumeEffectAudioVolume;
                 }
@@ -106,7 +106,7 @@ public sealed class App : MonoBehaviour {
             m_isMuteLoopAudio = value;
             //设置所有循环播放的 AudioSource，当设置取消静音时，音量都设置为：m_onResumeLoopAudioVolume
             AudioSource[] audioSources = FindObjectsOfType<AudioSource>();
-            int i=audioSources.Length;
+            int i = audioSources.Length;
             while (--i >= 0) {
                 AudioSource audioSource = audioSources[i];
                 if (audioSource.isActiveAndEnabled && audioSource.loop) {
@@ -179,14 +179,14 @@ public sealed class App : MonoBehaviour {
     }
 
     private void AddOpenCount () {
-        const string key="ApplicationOpenCount";
+        const string key = "ApplicationOpenCount";
         openCount = PlayerPrefs.GetInt(key, 0) + 1;
         PlayerPrefs.SetInt(key, openCount);
         PlayerPrefs.Save();
     }
 
     private void InitLanguage () {
-        bool isCN = Application.systemLanguage==SystemLanguage.Chinese;
+        bool isCN = Application.systemLanguage == SystemLanguage.Chinese;
         isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseSimplified;
         isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseTraditional;
         m_language = isCN ? Language.CN : Language.EN;
@@ -221,7 +221,7 @@ public sealed class App : MonoBehaviour {
 #if UNITY_EDITOR //自定义进入播放模式（不重新加载域时），销毁DOTween.instance
         if (DOTween.instance != null) {
             DOTween.Clear(true);
-            FieldInfo isQuittingField = typeof(DOTween).GetField("isQuitting",BindingFlags.Static|BindingFlags.NonPublic);
+            FieldInfo isQuittingField = typeof(DOTween).GetField("isQuitting", BindingFlags.Static | BindingFlags.NonPublic);
             isQuittingField.SetValue(DOTween.instance, false);
             Destroy(DOTween.instance);
             DOTween.instance = null;

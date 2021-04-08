@@ -3,7 +3,7 @@
 /// <summary>单摆 </summary>
 public class SimplePendulum : MonoBehaviour {
 
-    public float gravity=-9.81f;
+    public float gravity = -9.81f;
     public Vector2 originPosition;
     public Transform targetTransform;
 
@@ -25,11 +25,11 @@ public class SimplePendulum : MonoBehaviour {
     public void Init () {
         m_deltaTime = Time.fixedDeltaTime;
 
-        Vector2 relative=(Vector2)targetTransform.position-originPosition;
+        Vector2 relative = (Vector2)targetTransform.position - originPosition;
 
         length = relative.magnitude;
 
-        float angle=Mathf.Atan2(relative.y,relative.x);
+        float angle = Mathf.Atan2(relative.y, relative.x);
         m_currentAngle = WorldAngleToLocal(angle);
 
         w = 0f;
@@ -43,8 +43,8 @@ public class SimplePendulum : MonoBehaviour {
             Init();
         }
 
-        float k1,k2,k3,k4;
-        float l1,l2,l3,l4;
+        float k1, k2, k3, k4;
+        float l1, l2, l3, l4;
         {
             k1 = w;
             l1 = (gravity / length) * Mathf.Sin(m_currentAngle);
@@ -61,10 +61,10 @@ public class SimplePendulum : MonoBehaviour {
             m_currentAngle += m_deltaTime * (k1 + 2f * k2 + 2f * k3 + k4) / (6f/*2f*Math.PI*/);
             w += m_deltaTime * (l1 + 2f * l2 + 2f * l3 + l4) / (6f/*2f*Math.PI*/);
         }
-        float newX=originPosition.x+Mathf.Sin(m_currentAngle)*length;
-        float newY=originPosition.y-Mathf.Cos(m_currentAngle)*length;
+        float newX = originPosition.x + Mathf.Sin(m_currentAngle) * length;
+        float newY = originPosition.y - Mathf.Cos(m_currentAngle) * length;
 
-        Vector3 targetPos=targetTransform.position;
+        Vector3 targetPos = targetTransform.position;
 
         m_velocity.x = newX - targetPos.x;
         m_velocity.y = newY - targetPos.y;

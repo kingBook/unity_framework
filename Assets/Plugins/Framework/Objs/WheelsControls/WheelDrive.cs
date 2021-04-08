@@ -10,32 +10,32 @@ public class WheelDrive : MonoBehaviour {
     }
 
     [Tooltip("Maximum steering angle of the wheels.")]
-    public float maxAngle=30f;//车轮的最大转向角。
+    public float maxAngle = 30f;//车轮的最大转向角。
 
     [Tooltip("Maximum torque applied to the driving wheels.")]
-    public float maxTorque=1000f;//施加在驱动轮上的最大扭矩。
+    public float maxTorque = 1000f;//施加在驱动轮上的最大扭矩。
 
     [Tooltip("Maximum brake torque applied to the driving wheels.")]
-    public float brakeTorque=30000f;//施加在驱动轮上的最大制动(刹车)扭矩。
+    public float brakeTorque = 30000f;//施加在驱动轮上的最大制动(刹车)扭矩。
 
     [Tooltip("The vehicle's speed when the physics engine can use different amount of sub-steps (in m/s).")]
-    public float criticalSpeed=5f;//子步进算法的speedThreshold（用于WheelCollider.ConfigureVehicleSubsteps方法）。
+    public float criticalSpeed = 5f;//子步进算法的speedThreshold（用于WheelCollider.ConfigureVehicleSubsteps方法）。
 
     [Tooltip("Simulation sub-steps when the speed is below critical.")]
-    public int stepsBelow=5;//当车辆速度低于 speedThreshold 时，模拟子步骤的数量（用于WheelCollider.ConfigureVehicleSubsteps方法）。
+    public int stepsBelow = 5;//当车辆速度低于 speedThreshold 时，模拟子步骤的数量（用于WheelCollider.ConfigureVehicleSubsteps方法）。
 
     [Tooltip("Simulation sub-steps when the speed is above critical.")]
-    public int stepsAbove=3;//当车辆速度高于 speedThreshold 时，模拟子步骤的数量（用于WheelCollider.ConfigureVehicleSubsteps方法）。
+    public int stepsAbove = 3;//当车辆速度高于 speedThreshold 时，模拟子步骤的数量（用于WheelCollider.ConfigureVehicleSubsteps方法）。
 
     [Tooltip("The vehicle's drive type: rear-wheels drive, front-wheels drive or all-wheels drive.")]
     public DriveType driveType;//车辆的驱动类型：RearWheelDrive（后轮驱动）、FrontWheelDrive（前轮驱动）、AllWheelDrive（所有轮驱动）。
 
-    [Space,SerializeField] private WheelCollider[] m_frontWheels;//前轮列表
+    [Space, SerializeField] private WheelCollider[] m_frontWheels;//前轮列表
 
-    [Space,SerializeField] private WheelCollider[] m_rearWheels;//后轮列表
+    [Space, SerializeField] private WheelCollider[] m_rearWheels;//后轮列表
 
-    private float m_steerAngleNormalized=0;
-    private float m_motorTorqueNormalized=0;
+    private float m_steerAngleNormalized = 0;
+    private float m_motorTorqueNormalized = 0;
     private bool m_isBrake;
 
     private void FixedUpdate () {
@@ -45,13 +45,13 @@ public class WheelDrive : MonoBehaviour {
         //对于每辆汽车，调用该函数一次即可，因为它实际上是向车辆而不是向某个车轮设置参数。
         m_frontWheels[0].ConfigureVehicleSubsteps(criticalSpeed, stepsBelow, stepsAbove);
         //
-        float steerAngle=m_steerAngleNormalized*maxAngle;
-        float motorTorque=m_motorTorqueNormalized*maxTorque;
-        float brakeTorqueValue=m_isBrake?brakeTorque:0;
+        float steerAngle = m_steerAngleNormalized * maxAngle;
+        float motorTorque = m_motorTorqueNormalized * maxTorque;
+        float brakeTorqueValue = m_isBrake ? brakeTorque : 0;
         ////////////////////////////设置前轮//////////////////////////
-        int i=m_frontWheels.Length;
+        int i = m_frontWheels.Length;
         while (--i >= 0) {
-            WheelCollider wheel=m_frontWheels[i];
+            WheelCollider wheel = m_frontWheels[i];
             wheel.steerAngle = steerAngle;//前轮设置转向角
             if (driveType != DriveType.RearWheelDrive) {
                 wheel.motorTorque = motorTorque;
@@ -61,7 +61,7 @@ public class WheelDrive : MonoBehaviour {
         ////////////////////////////设置后轮//////////////////////////
         i = m_rearWheels.Length;
         while (--i >= 0) {
-            WheelCollider wheel=m_rearWheels[i];
+            WheelCollider wheel = m_rearWheels[i];
             wheel.brakeTorque = brakeTorqueValue;//后轮设置刹车扭矩
             if (driveType != DriveType.FrontWheelDrive) {
                 wheel.motorTorque = motorTorque;
@@ -73,7 +73,7 @@ public class WheelDrive : MonoBehaviour {
     /// <summary>更新车轮外观</summary>
     private void UpdateWheelSkin (WheelCollider wheel) {
         wheel.GetWorldPose(out Vector3 p, out Quaternion q);
-        Transform skinTransform=wheel.transform.GetChild(0);
+        Transform skinTransform = wheel.transform.GetChild(0);
         skinTransform.position = p;
         skinTransform.rotation = q;
     }
@@ -99,7 +99,7 @@ public class WheelDrive : MonoBehaviour {
     /// <summary>指示车轮当前是否与某物发生碰撞</summary>
     public bool isGrounded {
         get {
-            int i=m_frontWheels.Length;
+            int i = m_frontWheels.Length;
             while (--i >= 0) {
                 if (m_frontWheels[i].isGrounded) {
                     return true;

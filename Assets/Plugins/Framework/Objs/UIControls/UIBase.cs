@@ -40,7 +40,7 @@ public abstract class UIBase : MonoBehaviour {
     /// 切换暂停
     /// </summary>
     public void TogglePause () {
-        bool isPause=App.instance.isPause;
+        bool isPause = App.instance.isPause;
         App.instance.SetPause(!isPause);
     }
 

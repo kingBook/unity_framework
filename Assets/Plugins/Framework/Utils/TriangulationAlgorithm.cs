@@ -59,12 +59,12 @@ public class TriangulationAlgorithm {
         int len = indexes.Count;
 
         //转换到平面坐标系
-        List<Vector3> tempVertices=new List<Vector3>();
-        List<int> tempIndices=new List<int>();
-        Quaternion rotation=Quaternion.FromToRotation(plane.normal,Vector3.back);
+        List<Vector3> tempVertices = new List<Vector3>();
+        List<int> tempIndices = new List<int>();
+        Quaternion rotation = Quaternion.FromToRotation(plane.normal, Vector3.back);
         for (int i = 0; i < len; i++) {
-            int index=indexes[i];
-            Vector3 vertex=vertices[index];
+            int index = indexes[i];
+            Vector3 vertex = vertices[index];
             //旋转至切割平面坐标系（从平面上方看向平面）
             vertex = rotation * vertex;
             vertex.z = 0;
@@ -72,11 +72,11 @@ public class TriangulationAlgorithm {
             tempIndices.Add(i);
         }
 
-        List<int> resultIndices=WidelyTriangleIndex(tempVertices,tempIndices);
+        List<int> resultIndices = WidelyTriangleIndex(tempVertices, tempIndices);
 
-        List<int> newIndices=new List<int>();
+        List<int> newIndices = new List<int>();
         for (int i = 0, l = resultIndices.Count; i < l; i++) {
-            int index=resultIndices[i];
+            int index = resultIndices[i];
             index = indexes[index];
             newIndices.Add(index);
         }
@@ -89,8 +89,8 @@ public class TriangulationAlgorithm {
     /// <param name="vertices">顶点列表</param>
     /// <returns></returns>
     public static List<int> WidelyTriangleIndex (Vector3[] vertices) {
-        List<int> indices=new List<int>();
-        int len=vertices.Length;
+        List<int> indices = new List<int>();
+        int len = vertices.Length;
         for (int i = 0; i < len; i++) {
             indices.Add(i);
         }

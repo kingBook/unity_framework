@@ -11,8 +11,8 @@ public class StringUtil {
     /// 比较两个字符串的尾部是否相等
     /// </summary>
     public static bool EndsWith (string a, string b) {
-        int ap=a.Length-1;
-        int bp=b.Length-1;
+        int ap = a.Length - 1;
+        int bp = b.Length - 1;
 
         while (ap >= 0 && bp >= 0 && a[ap] == b[bp]) {
             ap--; bp--;
@@ -24,9 +24,9 @@ public class StringUtil {
     /// 比较两个字符串的开头是否相等
     /// </summary>
     public static bool StartsWith (string a, string b) {
-        int aLen=a.Length;
-        int bLen=b.Length;
-        int ap=0; int bp=0;
+        int aLen = a.Length;
+        int bLen = b.Length;
+        int ap = 0; int bp = 0;
 
         while (ap < aLen && bp < bLen && a[ap] == b[bp]) {
             ap++; bp++;
@@ -40,12 +40,12 @@ public class StringUtil {
     /// <param name="text"></param>
     /// <returns></returns>
     public static string GetEndNumberString (string text) {
-        var regex=new Regex(@"\d",RegexOptions.RightToLeft);
+        var regex = new Regex(@"\d", RegexOptions.RightToLeft);
 
-        string numberString="";
-        int i=text.Length;
+        string numberString = "";
+        int i = text.Length;
         while (--i >= 0) {
-            Match match=regex.Match(text,i,1);
+            Match match = regex.Match(text, i, 1);
             if (match.Success) {
                 numberString = match.Value + numberString;
             } else {

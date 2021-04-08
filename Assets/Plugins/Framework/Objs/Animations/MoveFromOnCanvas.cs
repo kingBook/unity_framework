@@ -9,8 +9,8 @@ using UnityEngine;
 public class MoveFromOnCanvas : MonoBehaviour {
     [Tooltip("运动的起始位置(Canvas设计分辨率下的AnchoredPosition)")]
     public Vector2 from;
-    [Tooltip("运动持续时间"), Range(0,10)]
-    public float duration=1.5f;
+    [Tooltip("运动持续时间"), Range(0, 10)]
+    public float duration = 1.5f;
 
     /// <summary>
     /// void(MoveFromOnCanvas target)

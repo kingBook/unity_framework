@@ -10,7 +10,7 @@
 public class ButtonMute : MonoBehaviour {
 
     private void Start () {
-        ButtonImageSwitcher buttonImageSwitcher=GetComponent<ButtonImageSwitcher>();
+        ButtonImageSwitcher buttonImageSwitcher = GetComponent<ButtonImageSwitcher>();
         buttonImageSwitcher.SwapTo(AudioListener.volume <= 0 ? 1 : 0);
     }
 

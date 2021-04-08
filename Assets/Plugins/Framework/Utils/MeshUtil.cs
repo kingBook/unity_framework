@@ -13,21 +13,21 @@ public class MeshUtil {
     /// <returns></returns>
     public static int GetRaycastHitSubMeshIndex (Mesh mesh, RaycastHit hitInfo) {
         //命中三角形的顶点索引
-        int[] triangles=mesh.triangles;
-        int triangleIndex=hitInfo.triangleIndex;
-        int i0=triangles[triangleIndex*3];
-        int i1=triangles[triangleIndex*3+1];
-        int i2=triangles[triangleIndex*3+2];
+        int[] triangles = mesh.triangles;
+        int triangleIndex = hitInfo.triangleIndex;
+        int i0 = triangles[triangleIndex * 3];
+        int i1 = triangles[triangleIndex * 3 + 1];
+        int i2 = triangles[triangleIndex * 3 + 2];
 
-        int subMeshCount=mesh.subMeshCount;
+        int subMeshCount = mesh.subMeshCount;
         for (int i = 0; i < subMeshCount; i++) {
-            var indices=mesh.GetIndices(i);
-            int vertexCount=indices.Length;
+            var indices = mesh.GetIndices(i);
+            int vertexCount = indices.Length;
 
             for (int j = 0; j < vertexCount; j += 3) {
-                int j0=indices[j];
-                int j1=indices[j+1];
-                int j2=indices[j+2];
+                int j0 = indices[j];
+                int j1 = indices[j + 1];
+                int j2 = indices[j + 2];
                 //如果子网格的索引与命中三角形匹配，则表示是命中的子网格
                 if (i0 == j0 && i1 == j1 && i2 == j2) {
                     return i;
@@ -44,17 +44,17 @@ public class MeshUtil {
     /// <param name="subMeshIndex">子网格索引号</param>
     /// <returns></returns>
     public static Bounds GetSubMeshLocalBounds (Mesh mesh, int subMeshIndex) {
-        Vector3[] vertices=mesh.vertices;
+        Vector3[] vertices = mesh.vertices;
 
-        int[] indices=mesh.GetIndices(subMeshIndex);
-        uint indexCount=mesh.GetIndexCount(subMeshIndex);
+        int[] indices = mesh.GetIndices(subMeshIndex);
+        uint indexCount = mesh.GetIndexCount(subMeshIndex);
 
-        Vector3[] subMeshVertices=new Vector3[indexCount];
+        Vector3[] subMeshVertices = new Vector3[indexCount];
         for (int i = 0; i < indexCount; i++) {
             subMeshVertices[i] = vertices[indices[i]];
         }
 
-        Mesh tempMesh=new Mesh();
+        Mesh tempMesh = new Mesh();
         tempMesh.vertices = subMeshVertices;
         tempMesh.RecalculateBounds();
 
@@ -69,7 +69,7 @@ public class MeshUtil {
     /// <param name="meshTransform">网格所在游戏对象的Transform组件</param>
     /// <returns></returns>
     public static Bounds GetSubMeshWorldBounds (Mesh mesh, int subMeshIndex, Transform meshTransform) {
-        Bounds bounds=GetSubMeshLocalBounds(mesh,subMeshIndex);
+        Bounds bounds = GetSubMeshLocalBounds(mesh, subMeshIndex);
         bounds.center = meshTransform.TransformPoint(bounds.center);
         return bounds;
     }

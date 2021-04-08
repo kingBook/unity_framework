@@ -29,7 +29,7 @@ public class PoseTextureRenderer : MonoBehaviour {
     public RenderTexture targetTexture;
 
     [Tooltip("在Start函数是否设置相机看向目标")]
-    public bool isLookToTargetOnStart=false;
+    public bool isLookToTargetOnStart = false;
 
     private bool m_targetCameraActiveRecord;
     private bool m_targetRendererActiveRecord;
@@ -66,20 +66,20 @@ public class PoseTextureRenderer : MonoBehaviour {
     /// </summary>
     public void SetCameraLookToTarget () {
         //相机旋转朝向目标对象
-        Bounds bounds=targetBoundsCollider?targetBoundsCollider.bounds:GetGameObjectBounds(target);
-        Vector3 boundsCenter=bounds.center;
+        Bounds bounds = targetBoundsCollider ? targetBoundsCollider.bounds : GetGameObjectBounds(target);
+        Vector3 boundsCenter = bounds.center;
         targetCamera.transform.LookAt(boundsCenter);
         //包围盒角点
-        Vector3[] points=FuncUtil.GetBoundsCorners(boundsCenter,bounds.extents);
+        Vector3[] points = FuncUtil.GetBoundsCorners(boundsCenter, bounds.extents);
         //所有角点投射到平面
-        Vector3 planeNormal=boundsCenter-targetCamera.transform.position;
+        Vector3 planeNormal = boundsCenter - targetCamera.transform.position;
         FuncUtil.WorldPointsToPlane(points, points.Length, planeNormal);
         //平面中心
-        Vector3 planeCenter=Vector3.ProjectOnPlane(boundsCenter,planeNormal);
+        Vector3 planeCenter = Vector3.ProjectOnPlane(boundsCenter, planeNormal);
         //取平面上各个点与平面中心的最大距离作为相机的视野矩形框大小
-        float halfHeight=GetMaxDistanceToPlaneCenter(points,points.Length,planeCenter);
+        float halfHeight = GetMaxDistanceToPlaneCenter(points, points.Length, planeCenter);
         //相机与包围盒中心的距离(世界坐标为单位)
-        float distance=Vector3.Distance(boundsCenter,targetCamera.transform.position);
+        float distance = Vector3.Distance(boundsCenter, targetCamera.transform.position);
         //得到视野大小
         targetCamera.fieldOfView = Mathf.Atan2(halfHeight, distance) * Mathf.Rad2Deg * 2;
     }
@@ -92,25 +92,25 @@ public class PoseTextureRenderer : MonoBehaviour {
     /// <param name="planeCenter">平面中心</param>
     /// <returns></returns>
     private float GetMaxDistanceToPlaneCenter (Vector3[] points, int pointCount, Vector3 planeCenter) {
-        float maxDistance=float.MinValue;
+        float maxDistance = float.MinValue;
         for (int i = 0; i < pointCount; i++) {
-            var vertex=points[i];
-            float distance=Vector3.Distance(vertex,planeCenter);
+            var vertex = points[i];
+            float distance = Vector3.Distance(vertex, planeCenter);
             if (distance > maxDistance) maxDistance = distance;
         }
         return maxDistance;
     }
 
     private Bounds GetGameObjectBounds (GameObject gameObj) {
-        Renderer[] renderers=gameObj.GetComponentsInChildren<Renderer>();
-        int len=renderers.Length;
+        Renderer[] renderers = gameObj.GetComponentsInChildren<Renderer>();
+        int len = renderers.Length;
         if (len <= 0) return new Bounds();
-        Bounds bounds=renderers[0].bounds;
+        Bounds bounds = renderers[0].bounds;
         if (len > 1) {
-            Vector3 min=bounds.min;
-            Vector3 max=bounds.max;
+            Vector3 min = bounds.min;
+            Vector3 max = bounds.max;
             for (int i = 1; i < len; i++) {
-                Bounds tempBounds=renderers[i].bounds;
+                Bounds tempBounds = renderers[i].bounds;
                 min.x = Mathf.Min(tempBounds.min.x, min.x);
                 min.y = Mathf.Min(tempBounds.min.y, min.y);
                 min.z = Mathf.Min(tempBounds.min.z, min.z);

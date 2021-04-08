@@ -13,9 +13,9 @@ public static class XmlUtil {
     /// <param name="isAddXmlDeclaration">是否添加xml声明</param>
     /// <returns></returns>
     public static XmlDocument CreateXmlDocument (bool isAddXmlDeclaration) {
-        XmlDocument doc=new XmlDocument();
+        XmlDocument doc = new XmlDocument();
         if (isAddXmlDeclaration) {
-            XmlDeclaration xmlDeclaration=doc.CreateXmlDeclaration("1.0","UTF-8",null);
+            XmlDeclaration xmlDeclaration = doc.CreateXmlDeclaration("1.0", "UTF-8", null);
             doc.AppendChild(xmlDeclaration);
         }
         return doc;
@@ -28,7 +28,7 @@ public static class XmlUtil {
     /// <param name="isAddXmlDeclaration"></param>
     /// <returns></returns>
     public static XmlDocument CreateXmlDocument (string xml, bool isAddXmlDeclaration) {
-        XmlDocument doc=CreateXmlDocument(isAddXmlDeclaration);
+        XmlDocument doc = CreateXmlDocument(isAddXmlDeclaration);
         doc.LoadXml(xml);
         return doc;
     }
@@ -39,7 +39,7 @@ public static class XmlUtil {
     /// <param name="xml">合法的xml字符串</param>
     /// <returns></returns>
     public static string FormatXml (string xml) {
-        XmlDocument doc=CreateXmlDocument(xml,false);
+        XmlDocument doc = CreateXmlDocument(xml, false);
         return FormatXml(doc);
     }
 

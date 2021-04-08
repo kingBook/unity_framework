@@ -22,8 +22,8 @@ public class LanguageSwitcher : MonoBehaviour {
 
     private void ActiveWithLanguage (App.Language language) {
         if (language == App.Language.AUTO) return;
-        GameObject[] activeList=null;
-        GameObject[] deactiveList=null;
+        GameObject[] activeList = null;
+        GameObject[] deactiveList = null;
         if (language == App.Language.EN) {
             activeList = enList;
             deactiveList = cnList;
@@ -32,7 +32,7 @@ public class LanguageSwitcher : MonoBehaviour {
             deactiveList = enList;
         }
 
-        int i=activeList.Length;
+        int i = activeList.Length;
         while (--i >= 0) {
             activeList[i].SetActive(true);
         }

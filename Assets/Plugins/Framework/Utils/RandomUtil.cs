@@ -14,12 +14,12 @@ public static class RandomUtil {
     /// ```
     /// </summary>
     public static int[] GetRandomUniqueIntList (int min, int max, int length) {
-        int sourceLength=max-min;
+        int sourceLength = max - min;
         length = Mathf.Clamp(length, 1, sourceLength);
 
-        int[] results=new int[length];
+        int[] results = new int[length];
 
-        List<int> sourceList=new List<int>(sourceLength);
+        List<int> sourceList = new List<int>(sourceLength);
         int i;
         for (i = 0; i < sourceLength; i++) {
             sourceList.Add(min + i);

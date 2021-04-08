@@ -4,26 +4,26 @@
 /// <br>管理游戏全局变量、本地数据、场景切换。</br>
 /// <br>不访问关卡内的对象</br>
 /// </summary>
-public sealed class Game:BaseGame{
-	
-	private void Start(){
-		if(!App.instance.isDebug){
-			//GotoTitleScene();
-			GotoLevelScene();
-		}
-	}
+public sealed class Game : BaseGame {
 
-	public void GotoTitleScene(){
-		App.instance.sceneLoader.Load("Scenes/Title");
-	}
+    private void Start () {
+        if (!App.instance.isDebug) {
+            //GotoTitleScene();
+            GotoLevelScene();
+        }
+    }
 
-	public void GotoLevelScene(){
-		App.instance.sceneLoader.LoadAsync("Scenes/Level_1");
-	}
+    public void GotoTitleScene () {
+        App.instance.sceneLoader.Load("Scenes/Title");
+    }
 
-	private void OnDestroy(){
-		
-	}
+    public void GotoLevelScene () {
+        App.instance.sceneLoader.LoadAsync("Scenes/Level_1");
+    }
+
+    private void OnDestroy () {
+
+    }
 
 
 }

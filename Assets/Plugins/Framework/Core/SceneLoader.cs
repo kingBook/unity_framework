@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 public sealed class SceneLoader : MonoBehaviour {
 
     [Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)设置为激活场景")]
-    public bool isActiveSceneOnLoaded=true;
+    public bool isActiveSceneOnLoaded = true;
 
     [Tooltip("进度条"), SerializeField]
     private PanelProgressbar m_panelProgressbar;
@@ -79,7 +79,7 @@ public sealed class SceneLoader : MonoBehaviour {
         m_asyncOperation.completed += OnAsyncComplete;
         m_asyncOperation.allowSceneActivation = false;
         while (!m_asyncOperation.isDone) {
-            float progress=m_asyncOperation.progress;
+            float progress = m_asyncOperation.progress;
             if (progress >= 0.9f) {
                 m_asyncOperation.allowSceneActivation = true;
                 m_panelProgressbar.SetProgress(1.0f);

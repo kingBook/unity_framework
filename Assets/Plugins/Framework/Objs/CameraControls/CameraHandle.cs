@@ -10,17 +10,17 @@ public class CameraHandle : MonoBehaviour {
     [Tooltip("缩放和旋转围绕的中心")]
     public Transform pivotTransform;
     [Tooltip("上下旋转限制的最小角度")]
-    public int verticalAngleMin=10;
+    public int verticalAngleMin = 10;
     [Tooltip("上下旋转限制的最大角度")]
-    public int verticalAngleMax=60;
+    public int verticalAngleMax = 60;
     [Tooltip("鼠标滚轮的速度倍数")]
-    public float scrollWheelMultiple=10;
+    public float scrollWheelMultiple = 10;
     [Tooltip("缩放时相机视野最小值")]
-    public float fieldOfViewMin=10;
+    public float fieldOfViewMin = 10;
     [Tooltip("缩放时相机视野最大值")]
-    public float fieldOfViewMax=100;
+    public float fieldOfViewMax = 100;
     [Tooltip("移动平台视野缩放的倍数")]
-    public float fieldOfViewMultiple=0.1f;
+    public float fieldOfViewMultiple = 0.1f;
 
     /// <summary>
     /// 平移 void(Vector3 velocity)
@@ -29,11 +29,11 @@ public class CameraHandle : MonoBehaviour {
     /// <summary>
     /// 旋转前 void(float h,float v)
     /// </summary>
-    public event Action<float,float> onPreRotateEvent;
+    public event Action<float, float> onPreRotateEvent;
     /// <summary>
     /// 旋转 void(float h,float v)
     /// </summary>
-    public event Action<float,float> onRotateEvent;
+    public event Action<float, float> onRotateEvent;
     /// <summary>
     /// 缩放 void(float velocity)
     /// </summary>
@@ -78,15 +78,15 @@ public class CameraHandle : MonoBehaviour {
     }
 
     private void TouchOneHandler () {
-        Touch touch0=Input.GetTouch(0);
+        Touch touch0 = Input.GetTouch(0);
         //接触开始时，触摸点0是否接触UI
         if (touch0.phase == TouchPhase.Began) {
             m_isPointerOverUIOnBegan0 = EventSystem.current.IsPointerOverGameObject(touch0.fingerId);
         }
         //触摸点0在触摸开始时没有接触UI
         if (!m_isPointerOverUIOnBegan0) {
-            float h=touch0.deltaPosition.x*0.5f;
-            float v=touch0.deltaPosition.y*0.1f;
+            float h = touch0.deltaPosition.x * 0.5f;
+            float v = touch0.deltaPosition.y * 0.1f;
             if (!m_isRotateBegin) {
                 m_isRotateBegin = true;
                 onPreRotateEvent?.Invoke(h, v);
@@ -97,8 +97,8 @@ public class CameraHandle : MonoBehaviour {
     }
 
     private void TouchTwoHandler () {
-        Touch touch0=Input.GetTouch(0);
-        Touch touch1=Input.GetTouch(1);
+        Touch touch0 = Input.GetTouch(0);
+        Touch touch1 = Input.GetTouch(1);
         //接触开始时，触摸点0是否接触UI
         if (touch0.phase == TouchPhase.Began) {
             m_isPointerOverUIOnBegan0 = EventSystem.current.IsPointerOverGameObject(touch0.fingerId);
@@ -110,15 +110,15 @@ public class CameraHandle : MonoBehaviour {
         //两个触摸点在触摸开始时都没有接触UI
         if (!m_isPointerOverUIOnBegan0 && !m_isPointerOverUIOnBegan1) {
             //两点触摸缩放视野
-            float distance=Vector2.Distance(touch0.position,touch1.position);
+            float distance = Vector2.Distance(touch0.position, touch1.position);
             if (touch1.phase == TouchPhase.Began) {
                 m_oldDistance = distance;
             }
-            float offset=(distance-m_oldDistance)*fieldOfViewMultiple;
+            float offset = (distance - m_oldDistance) * fieldOfViewMultiple;
             ZoomFieldOfView(-offset);
             m_oldDistance = distance;
             //两点触摸平移
-            Vector2 translateVel=(touch0.deltaPosition+touch1.deltaPosition)*(0.5f*-0.01f);
+            Vector2 translateVel = (touch0.deltaPosition + touch1.deltaPosition) * (0.5f * -0.01f);
             Translate(translateVel);
         }
     }
@@ -137,8 +137,8 @@ public class CameraHandle : MonoBehaviour {
             //鼠标按下左键时没有接触UI
             if (!m_isPointerOverUIOnBegan0) {
 
-                float h=Input.GetAxis("Mouse X");
-                float v=Input.GetAxis("Mouse Y");
+                float h = Input.GetAxis("Mouse X");
+                float v = Input.GetAxis("Mouse Y");
                 h *= 10;
                 v *= 10;
 
@@ -152,15 +152,15 @@ public class CameraHandle : MonoBehaviour {
             m_isRotateBegin = false;
         }
         //非移动设备滚动鼠标中键缩放视野
-        float scroll=scrollWheelMultiple*Input.GetAxis("Mouse ScrollWheel");
+        float scroll = scrollWheelMultiple * Input.GetAxis("Mouse ScrollWheel");
         ZoomFieldOfView(scroll * 10);
         //非移动设备按下鼠标右键平移
         if (Input.GetMouseButton(1)) {
             //鼠标按下右键没有接触UI
             if (!m_isPointerOverUIOnBegan1) {
-                float h=Input.GetAxis("Mouse X");
-                float v=Input.GetAxis("Mouse Y");
-                Vector2 translateVel=new Vector2(-h*0.1f,-v*0.1f);
+                float h = Input.GetAxis("Mouse X");
+                float v = Input.GetAxis("Mouse Y");
+                Vector2 translateVel = new Vector2(-h * 0.1f, -v * 0.1f);
                 Translate(translateVel * 3);
             }
         }
@@ -170,13 +170,13 @@ public class CameraHandle : MonoBehaviour {
     /// 旋转
     /// </summary>
     private void Rotate (float h, float v) {
-        Transform camTransform=m_camera.transform;
+        Transform camTransform = m_camera.transform;
         //绕着pivot旋转Y轴，实现左右旋转
         camTransform.RotateAround(pivotTransform.position, Vector3.up, h);
         //绕着pivot旋转相机朝向的右侧轴向,实现上下旋转
-        int cameraAngleX=(int)camTransform.rotation.eulerAngles.x;
+        int cameraAngleX = (int)camTransform.rotation.eulerAngles.x;
         //限制最大速度，避免出错
-        const float maxV=5;
+        const float maxV = 5;
         v = Mathf.Clamp(v, -maxV, maxV);
         onRotateEvent?.Invoke(h, v);
         //

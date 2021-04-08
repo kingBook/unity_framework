@@ -67,7 +67,7 @@ public static class InputUtil {
             //忽略UI上的点击
         } else if (Input.touchSupported) {
             if (Input.touchCount > 0) {
-                Touch touch=Input.GetTouch(0);
+                Touch touch = Input.GetTouch(0);
                 if (touch.phase == TouchPhase.Began) {
                     fingerId = touch.fingerId;
                     screenPoint = touch.position;
@@ -99,7 +99,7 @@ public static class InputUtil {
             //忽略UI上的点击
         } else if (Input.touchSupported) {
             for (int i = 0, len = Input.touchCount; i < len; i++) {
-                Touch touch=Input.GetTouch(i);
+                Touch touch = Input.GetTouch(i);
                 if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) {
                     fingerId = touch.fingerId;
                     screenPoint = touch.position;
@@ -120,10 +120,10 @@ public static class InputUtil {
     /// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
     /// </summary>
     public static bool IsPointerOverUI (int fingerId) {
-        bool result=false;
+        bool result = false;
         if (Input.touchSupported) {
             for (int i = 0, len = Input.touchCount; i < len; i++) {
-                Touch touch=Input.GetTouch(i);
+                Touch touch = Input.GetTouch(i);
                 if (touch.fingerId == fingerId) {
                     if (EventSystem.current.IsPointerOverGameObject(fingerId)) {
                         result = true;
@@ -145,9 +145,9 @@ public static class InputUtil {
     /// <param name="fingerId"></param>
     /// <returns></returns>
     public static bool IsTouchUp (int fingerId) {
-        bool result=true;
+        bool result = true;
         if (Input.touchSupported) {
-            Touch touch=GetTouchWithFingerId(fingerId,false);
+            Touch touch = GetTouchWithFingerId(fingerId, false);
             if (touch.fingerId > -1) {
                 if (touch.phase == TouchPhase.Began || touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary) {
                     result = false;
@@ -165,7 +165,7 @@ public static class InputUtil {
     /// 返回滑屏增量位置
     /// </summary>
     public static Vector2 GetSlideScreenDeltaPosition () {
-        Vector2 deltaPosition=new Vector2();
+        Vector2 deltaPosition = new Vector2();
         if (Input.touchSupported || Input.GetMouseButton(0)) {
             //支持触摸时，如果 Input.simulateMouseWithTouches 为 true 时，可以使用 "Mouse X" 和 "Mouse Y"
             deltaPosition.x = Input.GetAxis("Mouse X");

@@ -7,7 +7,7 @@ using UnityEngine.UI;
 public class ImageSwitcher : MonoBehaviour {
 
     [Tooltip("切换的图片(未指定时自动从当前对象组件列表中获取)")]
-    public Image image=null;
+    public Image image = null;
 
     [Tooltip("来回切换的两张图片")]
     public Sprite[] sprites;
