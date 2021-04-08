@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿#pragma warning disable 0649
+
+using UnityEngine;
 using System.Collections;
 
 /// <summary> 两点间运动 </summary>
