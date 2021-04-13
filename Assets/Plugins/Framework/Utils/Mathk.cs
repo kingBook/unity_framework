@@ -35,13 +35,13 @@ public class Mathk {
     }
 
     /// <summary>
-    /// 将任意角度转换为[0°,360°]的值,并返回转换后的值
+    /// 将任意角度转换为[0°,360°]的值,并返回转换后的值（此函数的与 Mathf.Repeat(rotation,360f) 效果一样）
     /// </summary>
     /// <param name="rotation">需要转换的角度</param>
     /// <returns></returns>
     public static float GetRotationTo360 (float rotation) {
         rotation = GetRotationTo180(rotation);
-        if (rotation < 0) rotation += 360;
+        if (rotation < 0) rotation += 360f;
         return rotation;
     }
 
