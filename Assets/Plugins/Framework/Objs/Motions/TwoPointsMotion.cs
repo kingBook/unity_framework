@@ -35,6 +35,29 @@ public class TwoPointsMotion : MonoBehaviour {
 		//如果在等待中，则停止计时
 		StopWaitTimer();
 	}
+	
+	/// <summary>
+	/// 添加自己到同步反转的对象
+	/// </summary>
+	/// <param name="syncObj"></param>
+	private void AddSelfToSyncReversesObject (TwoPointsMotion syncObj) {
+		bool isOtherListNull = syncObj.syncReversesObjects == null;
+		if (isOtherListNull || System.Array.IndexOf(syncObj.syncReversesObjects, this) < 0) {
+			if (isOtherListNull) {
+				syncObj.syncReversesObjects = new TwoPointsMotion[] { this };
+			} else {
+				int len = syncObj.syncReversesObjects.Length;
+
+				TwoPointsMotion[] list = new TwoPointsMotion[len + 1];
+				System.Array.Copy(syncObj.syncReversesObjects, list, len);
+
+				list[len] = this;
+
+				syncObj.syncReversesObjects = list;
+			}
+
+		}
+	}
 
 	private bool GotoTarget (Vector3 current, Vector3 target, float maxDistanceDelta) {
 		transform.position = Vector3.MoveTowards(current, target, maxDistanceDelta);
@@ -45,7 +68,10 @@ public class TwoPointsMotion : MonoBehaviour {
 	private void ReverseSyncObjects () {
 		if (syncReversesObjects != null) {
 			for (int i = 0, len = syncReversesObjects.Length; i < len; i++) {
-				syncReversesObjects[i].SetReverseGotoTarget();
+				TwoPointsMotion syncObj = syncReversesObjects[i];
+				if (syncObj) {
+					syncObj.SetReverseGotoTarget();
+				}
 			}
 		}
 	}
@@ -64,6 +90,12 @@ public class TwoPointsMotion : MonoBehaviour {
 	}
 
 	private void Start () {
+		//把自身添加到所有同步反转的对象的同步列表
+		for (int i = 0, len = syncReversesObjects.Length; i < len; i++) {
+			TwoPointsMotion syncObj = syncReversesObjects[i];
+			if (syncObj) AddSelfToSyncReversesObject(syncObj);
+		}
+		
 		//记录起始点
 		if (startTransform) {
 			m_positionRecord = startTransform.position;
