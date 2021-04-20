@@ -60,7 +60,7 @@ public static class InputUtil {
     /// <param name="screenPoint">输出鼠标/第一个处于  TouchPhase.Began 阶段的触摸点的屏幕坐标</param>
     /// <param name="fingerId">鼠标模式输出0，触摸模式输出手指 id，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段输出 -1</param>
     /// <returns></returns>
-    public static bool GetTouchBeginScreenPoint (bool isIgnorePointerOverUI, out Vector3 screenPoint, out int fingerId) {
+    public static bool GetTouchBeganScreenPoint (bool isIgnorePointerOverUI, out Vector3 screenPoint, out int fingerId) {
         fingerId = -1;
         screenPoint = new Vector3();
         if (isIgnorePointerOverUI && IsPointerOverUI(0)) {
