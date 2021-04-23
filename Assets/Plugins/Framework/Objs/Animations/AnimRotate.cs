@@ -16,7 +16,7 @@ public class AnimRotate : MonoBehaviour {
                                Random.Range(m_eulersVelocity.min.z, m_eulersVelocity.max.z));
     }
 
-    private void Update () {
+    private void FixedUpdate () {
         m_transform.Rotate(m_eulers);
     }
 }
