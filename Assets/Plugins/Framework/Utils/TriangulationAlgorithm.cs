@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+
 /// <summary>
 /// 三角化算法
 /// </summary>
@@ -35,7 +36,7 @@ public class TriangulationAlgorithm {
     /// <returns>三角形列表</returns>
     private static List<int> ConvexTriangleIndex (List<Vector3> verts, List<int> indexes) {
         int len = verts.Count;
-        //若是闭环去除最后一点
+        // 若是闭环去除最后一点
         if (len > 1 && Vector3Equal(verts[0], verts[len - 1])) {
             len--;
         }
@@ -58,14 +59,14 @@ public class TriangulationAlgorithm {
     public static void WidelyTriangleIndex (Vector3[] vertices, ref List<int> indexes, Plane plane) {
         int len = indexes.Count;
 
-        //转换到平面坐标系
+        // 转换到平面坐标系
         List<Vector3> tempVertices = new List<Vector3>();
         List<int> tempIndices = new List<int>();
         Quaternion rotation = Quaternion.FromToRotation(plane.normal, Vector3.back);
         for (int i = 0; i < len; i++) {
             int index = indexes[i];
             Vector3 vertex = vertices[index];
-            //旋转至切割平面坐标系（从平面上方看向平面）
+            // 旋转至切割平面坐标系（从平面上方看向平面）
             vertex = rotation * vertex;
             vertex.z = 0;
             tempVertices.Add(vertex);
@@ -116,7 +117,7 @@ public class TriangulationAlgorithm {
 
         int searchIndex = 0;
         List<int> covexIndex = new List<int>();
-        bool isCovexPolygon = true;//判断多边形是否是凸多边形
+        bool isCovexPolygon = true; // 判断多边形是否是凸多边形
 
         for (searchIndex = 0; searchIndex < len; searchIndex++) {
             List<Vector3> polygon = new List<Vector3>(verts.ToArray());
@@ -130,8 +131,8 @@ public class TriangulationAlgorithm {
         }
         if (isCovexPolygon) return ConvexTriangleIndex(verts, indexes);
 
-        //查找可划分顶点
-        int canFragementIndex = -1;//可划分顶点索引
+        // 查找可划分顶点
+        int canFragementIndex = -1; // 可划分顶点索引
         for (int i = 0; i < len; i++) {
             if (i > searchIndex) {
                 List<Vector3> polygon = new List<Vector3>(verts.ToArray());
@@ -153,18 +154,18 @@ public class TriangulationAlgorithm {
             return new List<int>();
         }
 
-        //用可划分顶点将凹多边形划分为一个三角形和一个多边形
+        // 用可划分顶点将凹多边形划分为一个三角形和一个多边形
         List<int> tTriangles = new List<int>();
         int next = (canFragementIndex == len - 1) ? 0 : canFragementIndex + 1;
         int prev = (canFragementIndex == 0) ? len - 1 : canFragementIndex - 1;
         tTriangles.Add(indexes[prev]);
         tTriangles.Add(indexes[canFragementIndex]);
         tTriangles.Add(indexes[next]);
-        //剔除可划分顶点及索引
+        // 剔除可划分顶点及索引
         verts.RemoveAt(canFragementIndex);
         indexes.RemoveAt(canFragementIndex);
 
-        //递归划分
+        // 递归划分
         List<int> leaveTriangles = WidelyTriangleIndex(verts, indexes);
         tTriangles.AddRange(leaveTriangles);
 
@@ -200,13 +201,13 @@ public class TriangulationAlgorithm {
     /// <param name="p2">线段尾</param>
     /// <returns></returns>
     private static bool IsDetectIntersect (Ray2D ray, Vector3 p1, Vector3 p2) {
-        float pointY;//交点Y坐标，x固定值
+        float pointY; // 交点Y坐标，x固定值
         if (FloatEqual(p1.x, p2.x)) {
             return false;
         } else if (FloatEqual(p1.y, p2.y)) {
             pointY = p1.y;
         } else {
-            //直线两点式方程：(y-y2)/(y1-y2) = (x-x2)/(x1-x2)
+            // 直线两点式方程：(y-y2)/(y1-y2) = (x-x2)/(x1-x2)
             float a = p1.x - p2.x;
             float b = p1.y - p2.y;
             float c = p2.y / b - p2.x / a;
@@ -215,12 +216,12 @@ public class TriangulationAlgorithm {
         }
 
         if (FloatLess(pointY, ray.origin.y)) {
-            //交点y小于射线起点y
+            // 交点y小于射线起点y
             return false;
         } else {
-            Vector3 leftP = FloatLess(p1.x, p2.x) ? p1 : p2;//左端点
-            Vector3 rightP = FloatLess(p1.x, p2.x) ? p2 : p1;//右端点
-                                                             //交点x位于线段两个端点x之外，相交与线段某个端点时，仅将射线L与左侧多边形一边的端点记为焦点(即就是：只将右端点记为交点)
+            Vector3 leftP = FloatLess(p1.x, p2.x) ? p1 : p2; // 左端点
+            Vector3 rightP = FloatLess(p1.x, p2.x) ? p2 : p1; // 右端点
+            // 交点x位于线段两个端点x之外，相交与线段某个端点时，仅将射线L与左侧多边形一边的端点记为焦点(即就是：只将右端点记为交点)
             if (!FloatGreat(ray.origin.x, leftP.x) || FloatGreat(ray.origin.x, rightP.x)) {
                 return false;
             }
@@ -237,7 +238,7 @@ public class TriangulationAlgorithm {
     /// <returns>true:点在多边形之内，false:相反</returns>
     private static bool IsPointInsidePolygon (Vector3 point, List<Vector3> polygonVerts) {
         int len = polygonVerts.Count;
-        Ray2D ray = new Ray2D(point, new Vector3(0, 1)); //y方向射线
+        Ray2D ray = new Ray2D(point, new Vector3(0, 1)); // y方向射线
         int interNum = 0;
 
         for (int i = 1; i < len; i++) {
@@ -246,7 +247,7 @@ public class TriangulationAlgorithm {
             }
         }
 
-        //不是闭环
+        // 不是闭环
         if (!Vector3Equal(polygonVerts[0], polygonVerts[len - 1])) {
             if (IsDetectIntersect(ray, polygonVerts[len - 1], polygonVerts[0])) {
                 interNum++;

@@ -42,7 +42,7 @@ public class EditScenes : Editor {
 			PrefabUtility.RevertPropertyOverride(propAnchoredPos,InteractionMode.AutomatedAction);*/
 
             //修改后，必须标记'已编辑'，否则保存场景无效
-            EditorSceneManager.MarkSceneDirty(scene);
+            //EditorSceneManager.MarkSceneDirty(scene);
         });
     }
 
