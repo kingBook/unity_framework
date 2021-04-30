@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Plugins/Framework/Demos/TestTriangulationAlgorithm.unity
+- path: Assets/Plugins/Framework/Demos/TestLineSegmentIntersectCircle.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0
