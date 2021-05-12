@@ -54,7 +54,7 @@ public class PointsMotion : MonoBehaviour {
     private int GetClosestPointIndex () {
         int closestIndex = -1;
         Vector3[] vertices = TransformUtil.CovertTransformsToVertices(m_points);
-        var polyLine = Mathk.GetClosestPolyLineToPoint(transform.position, vertices, m_isClosed);//获取距离当前点最近的边
+        var polyLine = GeomUtil.GetClosestPolyLineToPoint(transform.position, vertices, m_isClosed);//获取距离当前点最近的边
         if (polyLine.startIndex > -1 && polyLine.endIndex > -1) {
             closestIndex = m_isReverseOnStart ? polyLine.startIndex : polyLine.endIndex;
         }
