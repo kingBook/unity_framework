@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using System.Collections;
 using System.IO;
-
+using System.Collections.Generic;
 
 public static class EditorLevelSequence {
 
@@ -16,6 +16,7 @@ public static class EditorLevelSequence {
     /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_”。（一般都有 "Level_1"、"Level_2"... 一样的前缀加数字的命名） </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
+    /// <param name="maxLevelNumber"> 最大的关卡数 </param>
     public static void CheckLevelSequenceRight (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int maxLevelNumber) {
         // 如果目录尾部有 "/" 则删除
         if (levelFilesDirectory[levelFilesDirectory.Length - 1] == '/') {
@@ -30,6 +31,47 @@ public static class EditorLevelSequence {
                 //查找到最后一个都没缺失，则输出‘无缺失’消息
                 if (i >= maxLevelNumber) {
                     Debug.Log("检查完成：没有关卡缺失");
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// 查找 [1, maxLevelNumber] 之间，如有某一关缺失，则后面的都向前移
+    /// </summary>
+    /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
+    /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_”。（一般都有 "Level_1"、"Level_2"... 一样的前缀加数字的命名） </param>
+    /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
+    public static void MergeGap (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension) {
+        // 如果目录尾部有 "/" 则删除
+        if (levelFilesDirectory[levelFilesDirectory.Length - 1] == '/') {
+            levelFilesDirectory = levelFilesDirectory.Remove(levelFilesDirectory.Length - 1, 1);
+        }
+
+
+        // 查找缺失的所有关卡
+        List<int> missLevelNumbers = new List<int>(); // 缺失的关卡列表
+
+        for (int i = 1; i <= MaxLevelCount; i++) {
+            string path = $"{levelFilesDirectory}/{levelFileNamesPrefix}{i}{levelFileNamesExtension}";
+            if (!File.Exists(path)) {
+                missLevelNumbers.Add(i); // 添加缺失的关卡数
+            }
+        }
+
+
+        if (missLevelNumbers.Count > 0) {
+            while (true) {
+                int levelNumber = missLevelNumbers[missLevelNumbers.Count-1] + 1; // 缺失关的下一关
+                for (int i = levelNumber; i <= MaxLevelCount; i++) {
+                    string fileName = $"{levelFileNamesPrefix}{i}"; // 无后缀
+                    int prevLevelNumber = levelNumber - 1;
+                    RenameFileIntoSequence(levelFilesDirectory, levelFileNamesPrefix, levelFileNamesExtension, fileName, prevLevelNumber);
+                }
+
+                missLevelNumbers.RemoveAt(missLevelNumbers.Count - 1);
+                if (missLevelNumbers.Count <= 0) {
+                    break;
                 }
             }
         }
@@ -141,6 +183,6 @@ public static class EditorLevelSequence {
         string newFileName = $"{levelFileNamesPrefix}{insertLevelNumber}{levelFileNamesExtension}";
 
         AssetDatabase.RenameAsset(oldFilePath, newFileName);
-        Debug.Log($"已将 {fileName}{levelFileNamesExtension} 重命名为：{levelFileNamesPrefix}{insertLevelNumber}{levelFileNamesExtension}");
+        //Debug.Log($"已将 {fileName}{levelFileNamesExtension} 重命名为：{levelFileNamesPrefix}{insertLevelNumber}{levelFileNamesExtension}");
     }
 }

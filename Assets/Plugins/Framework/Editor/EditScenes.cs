@@ -10,6 +10,11 @@ public class EditScenes : Editor {
     private static string[] s_scenePaths;
     private static System.Action<Scene> s_onOpendCallback;
 
+    [MenuItem("Tools/EditScenes", true)]
+    private static bool ValidateMenuItem () {
+        return !EditorApplication.isPlaying;
+    }
+
     [MenuItem("Tools/EditScenes")]
     public static void Main () {
         if (EditorApplication.isPlaying) return;

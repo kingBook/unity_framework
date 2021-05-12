@@ -1,16 +1,16 @@
 ﻿using UnityEditor;
 using UnityEditor.SceneManagement;
 
-public class PlayModeStartSceneEditor : Editor {
+public class EditorPlayModeStartScene : Editor {
 
     [MenuItem("Tools/PlayModeUseStartScene", true)]
-    static bool ValidatePlayModeUseStartScene () {
+    private static bool ValidateMenuItem () {
         Menu.SetChecked("Tools/PlayModeUseStartScene", EditorSceneManager.playModeStartScene != null);
         return !EditorApplication.isPlaying;
     }
 
     [MenuItem("Tools/PlayModeUseStartScene")]
-    static void SetPlayModeStartScene () {
+    private static void SetPlayModeStartScene () {
         if (Menu.GetChecked("Tools/PlayModeUseStartScene")) {
             EditorSceneManager.playModeStartScene = null;
         } else {
