@@ -28,6 +28,9 @@ public class EditorTest : Editor {
 
         // 将文件名指定的文件如：“Level_20-4” 插入到指定的关卡数
         //EditorLevelSequence.RenameFileIntoSequence("Assets/Scenes", "Level_", ".unity", "Level_20-4", 21);
+		
+		// 重命名一个文件
+        //EditorLevelSequence.RenameFile("Assets/Scenes",".unity", "Level_0", "Level_-");
     }
 
 

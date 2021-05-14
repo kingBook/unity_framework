@@ -185,4 +185,28 @@ public static class EditorLevelSequence {
         AssetDatabase.RenameAsset(oldFilePath, newFileName);
         //Debug.Log($"已将 {fileName}{levelFileNamesExtension} 重命名为：{levelFileNamesPrefix}{insertLevelNumber}{levelFileNamesExtension}");
     }
+	
+	/// <summary>
+    /// 重命名一个文件
+    /// </summary>
+    /// <param name="directory"> 包含文件的目录，如：“Assets/Scenes” </param>
+    /// <param name="fileExtension"> 文件的后缀，如：“.unity” </param>
+    /// <param name="fileName"> 原来的文件名（不包含后缀），如：“Level_1”</param>
+    /// <param name="newFileName"> 新的文件名（不包含后缀），如：“Level_2” </param>
+    public static void RenameFile (string directory, string fileExtension, string fileName, string newFileName) {
+        // 如果目录尾部有 "/" 则删除
+        if (directory[directory.Length - 1] == '/') {
+            directory = directory.Remove(directory.Length - 1, 1);
+        }
+
+        string newFilePath = $"{directory}/{newFileName}{fileExtension}";
+        if (File.Exists(newFilePath)) {
+            Debug.LogError(newFilePath + " 已存在，请指定新的名称");
+            return;
+        }
+        string oldFilePath = $"{directory}/{fileName}{fileExtension}";
+        string newName = $"{newFileName}{fileExtension}";
+
+        AssetDatabase.RenameAsset(oldFilePath, newName);
+    }
 }

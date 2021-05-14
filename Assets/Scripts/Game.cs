@@ -18,7 +18,7 @@ public sealed class Game : BaseGame {
     }
 
     public void GotoLevelScene () {
-        App.instance.sceneLoader.LoadAsync("Scenes/Level_1");
+        App.instance.sceneLoader.LoadAsync("Scenes/Level_0");
     }
 
     private void OnDestroy () {
