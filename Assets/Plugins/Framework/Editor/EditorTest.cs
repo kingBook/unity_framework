@@ -26,11 +26,16 @@ public class EditorTest : Editor {
         // 将所有 “Level_28-1”、“Level_28-2”... 命名的场景文件插入到关卡序列
         //EditorLevelSequence.InsertAllLevelFile("Assets/Scenes", "Level_", ".unity");
 
-        // 将文件名指定的文件如：“Level_20-4” 插入到指定的关卡数
+        // 将文件名指定的文件如：“Level_20-4” 插入到指定的目标关卡，目标关卡及之后的关卡将后移
         //EditorLevelSequence.RenameFileIntoSequence("Assets/Scenes", "Level_", ".unity", "Level_20-4", 21);
-		
-		// 重命名一个文件
+
+        // 在已排序好的关卡序列中，将某一关调整到指定的目标关，目标关及之后的关卡会后移，调整后会产生间隙
+        //EditorLevelSequence.AdjustFileSequence("Assets/Scenes", "Level_", ".unity",136,135);
+
+        // 重命名一个文件
         //EditorLevelSequence.RenameFile("Assets/Scenes",".unity", "Level_0", "Level_-");
+
+
     }
 
 

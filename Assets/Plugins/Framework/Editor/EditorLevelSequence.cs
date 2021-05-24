@@ -59,13 +59,12 @@ public static class EditorLevelSequence {
             }
         }
 
-
         if (missLevelNumbers.Count > 0) {
             while (true) {
-                int levelNumber = missLevelNumbers[missLevelNumbers.Count-1] + 1; // 缺失关的下一关
+                int levelNumber = missLevelNumbers[missLevelNumbers.Count - 1] + 1; // 缺失关的下一关
                 for (int i = levelNumber; i <= MaxLevelCount; i++) {
                     string fileName = $"{levelFileNamesPrefix}{i}"; // 无后缀
-                    int prevLevelNumber = levelNumber - 1;
+                    int prevLevelNumber = i - 1;
                     RenameFileIntoSequence(levelFilesDirectory, levelFileNamesPrefix, levelFileNamesExtension, fileName, prevLevelNumber);
                 }
 
@@ -185,8 +184,30 @@ public static class EditorLevelSequence {
         AssetDatabase.RenameAsset(oldFilePath, newFileName);
         //Debug.Log($"已将 {fileName}{levelFileNamesExtension} 重命名为：{levelFileNamesPrefix}{insertLevelNumber}{levelFileNamesExtension}");
     }
-	
-	/// <summary>
+
+    /// <summary>
+    /// 调整某一关到指定目标关，目标关及之后的关卡会后移（注意：1.调整后可能会产生间隙。2.关卡数量超过500需要调整最大关卡数（MaxLevelCount）常量。）
+    /// </summary>
+    /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
+    /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_”。（一般都有 "Level_1"、"Level_2"... 一样的前缀加数字的命名） </param>
+    /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
+    /// <param name="currentLevelNumber"> 当前关卡 </param>
+    /// <param name="targetLevelNumber"> 目标关卡 </param>
+    public static void AdjustFileSequence (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int currentLevelNumber, int targetLevelNumber) {
+        if (currentLevelNumber == targetLevelNumber) {
+            return;
+        }
+
+        // 先当前文件换一个临时的名称
+        string currentFileName = $"{levelFileNamesPrefix}{currentLevelNumber}";
+        string tempFileName = $"{currentFileName}_temp";
+        RenameFile(levelFilesDirectory, levelFileNamesExtension, currentFileName, tempFileName);
+
+        // 将临时命名的文件插入到指定的目标关卡，目标关卡及之后的关卡将后移
+        RenameFileIntoSequence(levelFilesDirectory, levelFileNamesPrefix, levelFileNamesExtension, tempFileName, targetLevelNumber);
+    }
+
+    /// <summary>
     /// 重命名一个文件
     /// </summary>
     /// <param name="directory"> 包含文件的目录，如：“Assets/Scenes” </param>
