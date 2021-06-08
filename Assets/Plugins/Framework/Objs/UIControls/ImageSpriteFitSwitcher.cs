@@ -1,16 +1,17 @@
 ﻿#pragma warning disable 0649
+
 using UnityEngine;
 using UnityEngine.UI;
+
 /// <summary>
 /// Image.overrideSprite适配切换器。
 /// 需要所有Anchors角点设置为一个点。
 /// 将以(PosX,PosY)为中心，正比缩放Sprite在FitSize的矩形框范围内。
 /// </summary>
 public class ImageSpriteFitSwitcher : MonoBehaviour {
-    [SerializeField]
-    private Image m_image;
-    [SerializeField]
-    private Vector2 m_fitSize;
+
+    [SerializeField] private Image m_image;
+    [SerializeField] private Vector2 m_fitSize;
 
 #if UNITY_EDITOR
     private void Reset () {
