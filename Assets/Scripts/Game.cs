@@ -10,14 +10,6 @@ public sealed class Game : BaseGame {
 
     public int levelNumber { get; private set; }
 
-    private void Start () {
-		// 非调试时，才加载其它场景
-        if (!App.instance.isDebug) {
-            //GotoTitleScene();
-            GotoLevelScene(1);
-        }
-    }
-
     public void GotoTitleScene () {
         App.instance.sceneLoader.Load("Scenes/Title");
     }
@@ -38,6 +30,14 @@ public sealed class Game : BaseGame {
     public void NextLevel (Scene sceneUnload) {
         SceneManager.UnloadSceneAsync(sceneUnload);
         GotoLevelScene(levelNumber + 1);
+    }
+
+    private void Start () {
+        // 非调试时，才加载其它场景
+        if (!App.instance.isDebug) {
+            //GotoTitleScene();
+            GotoLevelScene(1);
+        }
     }
 
     private void OnDestroy () {
