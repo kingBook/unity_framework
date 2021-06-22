@@ -1,4 +1,6 @@
-﻿using System;
+﻿#if UNITY_EDITOR
+
+using System;
 using UnityEditor;
 using UnityEngine;
 using System.Collections;
@@ -231,3 +233,5 @@ public static class EditorLevelSequence {
         AssetDatabase.RenameAsset(oldFilePath, newName);
     }
 }
+
+#endif

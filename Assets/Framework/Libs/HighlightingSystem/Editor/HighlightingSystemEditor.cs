@@ -1,3 +1,5 @@
+#if UNITY_EDITOR
+
 using UnityEngine;
 using UnityEditor;
 using System.Collections;
@@ -74,3 +76,5 @@ public class HighlightingSystemEditor : Editor
 		he.blurIntensity = EditorGUILayout.Slider("Intensity:", he.blurIntensity, 0f, 1f);
 	}
 }
+
+#endif

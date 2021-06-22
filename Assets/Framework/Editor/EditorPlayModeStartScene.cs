@@ -1,4 +1,6 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+
+using UnityEditor;
 using UnityEditor.SceneManagement;
 
 public class EditorPlayModeStartScene : Editor {
@@ -19,3 +21,5 @@ public class EditorPlayModeStartScene : Editor {
         }
     }
 }
+
+#endif

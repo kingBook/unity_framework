@@ -1,4 +1,6 @@
-﻿// Copyright (c) 2014 Luminary LLC
+﻿#if UNITY_EDITOR
+
+// Copyright (c) 2014 Luminary LLC
 // Licensed under The MIT License (See LICENSE for full text)
 using UnityEngine;
 using UnityEditor;
@@ -64,3 +66,5 @@ public class SetPropertyDrawer : PropertyDrawer
 		return GetParentObjectOfProperty(string.Join(".", fields, 1, fields.Length - 1), obj);
 	}
 }
+
+#endif
