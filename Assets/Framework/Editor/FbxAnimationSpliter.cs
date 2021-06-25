@@ -7,6 +7,7 @@ using System.IO;
 using System.Text.RegularExpressions;
 using UnityEditor;
 using UnityEngine;
+
 /// <summary>
 /// FBX动画分割。<br/>
 /// 需要与.fbx同名的.txt文件。<br/>

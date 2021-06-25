@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// 屏幕上打印Log信息
+/// 调试助手，用于在屏幕显示 Log 信息等
 /// </summary>
-public class ScreenLog : MonoBehaviour {
+public class DebugHelper : MonoBehaviour {
 
     public bool isStackTrace = false;
 
@@ -26,26 +26,42 @@ public class ScreenLog : MonoBehaviour {
             float width = Screen.width * 0.3f;
             float height = Screen.height;
             GUILayout.BeginVertical();
-            //滚动的文本
+
+            // 滚动的文本
             m_scrollPos = GUILayout.BeginScrollView(m_scrollPos);
             GUILayout.TextArea(m_output, GUILayout.MaxWidth(width), GUILayout.ExpandHeight(true));
             GUILayout.EndScrollView();
 
             GUILayout.BeginHorizontal();
-            //最小化按钮
-            if (GUILayout.Button(" < ", GUILayout.MinHeight(buttonSize))) {
-                m_isMinimized = true;
-            }
-            //暂停/恢复按钮
-            string pauseResumeText = m_isPause ? "Resume" : "Pause";
-            if (GUILayout.Button(pauseResumeText, GUILayout.MinHeight(buttonSize))) {
-                m_isPause = !m_isPause;
-            }
-            //清除按钮
-            if (GUILayout.Button("Clear", GUILayout.MinHeight(buttonSize))) {
-                m_output = "";
+            {
+                // 最小化按钮
+                if (GUILayout.Button(" < ", GUILayout.MinHeight(buttonSize))) {
+                    m_isMinimized = true;
+                }
+
+                // 暂停/恢复按钮
+                string pauseResumeText = m_isPause ? "Resume" : "Pause";
+                if (GUILayout.Button(pauseResumeText, GUILayout.MinHeight(buttonSize))) {
+                    m_isPause = !m_isPause;
+                }
+
+                // 清除按钮
+                if (GUILayout.Button("Clear", GUILayout.MinHeight(buttonSize))) {
+                    m_output = "";
+                }
             }
             GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            {
+                // 清除本地数据按钮
+                if (GUILayout.Button("ClearLocalData", GUILayout.MinHeight(buttonSize))) {
+                    PlayerPrefs.DeleteAll();
+                    PlayerPrefs.Save();
+                }
+            }
+            GUILayout.EndHorizontal();
+
             GUILayout.EndVertical();
         }
     }
