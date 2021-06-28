@@ -5,12 +5,21 @@
 /// </summary>
 public class DebugHelper : MonoBehaviour {
 
-    public bool isStackTrace = false;
+    /// <summary>
+    /// 添加金钱事件，函数格式：void OnAddMoneys()
+    /// </summary>
+    public event System.Action onAddMoneysEvent;
+
+    [Tooltip("是否最小化")]
+    [SerializeField] private bool m_isMinimized;
 
     private string m_output = "";
     private Vector2 m_scrollPos;
     private bool m_isPause;
-    private bool m_isMinimized;
+    private bool m_isStackTrace;
+    private bool m_isUnlockLevel;
+
+    public bool isUnlockLevel => m_isUnlockLevel;
 
     private void OnEnable () {
         Application.logMessageReceivedThreaded += LogHandler;
@@ -23,7 +32,7 @@ public class DebugHelper : MonoBehaviour {
                 m_isMinimized = false;
             }
         } else {
-            float width = Screen.width * 0.3f;
+            float width = Screen.width * 0.5f;
             float height = Screen.height;
             GUILayout.BeginVertical();
 
@@ -59,6 +68,20 @@ public class DebugHelper : MonoBehaviour {
                     PlayerPrefs.DeleteAll();
                     PlayerPrefs.Save();
                 }
+
+                // 增加金钱按钮
+                if (GUILayout.Button("AddMoneys", GUILayout.MinHeight(buttonSize))) {
+                    onAddMoneysEvent?.Invoke();
+                }
+            }
+            GUILayout.EndHorizontal();
+
+            GUILayout.BeginHorizontal();
+            {
+                // 是否解锁关卡单选框
+                m_isUnlockLevel = GUILayout.Toggle(m_isUnlockLevel, "UnlockLevel", GUILayout.MinHeight(buttonSize));
+                // 跟踪 Log 栈
+                m_isStackTrace = GUILayout.Toggle(m_isStackTrace, "StackTrace", GUILayout.MinHeight(buttonSize));
             }
             GUILayout.EndHorizontal();
 
@@ -68,8 +91,8 @@ public class DebugHelper : MonoBehaviour {
 
     private void LogHandler (string logString, string stackTrace, LogType type) {
         if (m_isPause) return;
-        m_output += logString + '\n';
-        if (isStackTrace) {
+        m_output += $"[{System.DateTime.Now.ToString("HH:mm:ss")}] {logString}\n";
+        if (m_isStackTrace) {
             m_output += stackTrace + '\n';
         }
     }

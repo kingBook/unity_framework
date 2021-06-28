@@ -920,7 +920,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1210826527
 Transform:
   m_ObjectHideFlags: 0
@@ -947,7 +947,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53b8348827b136e4ab2346627a4bf578, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isStackTrace: 0
+  m_isMinimized: 1
 --- !u!1 &1446530643
 GameObject:
   m_ObjectHideFlags: 0
@@ -1236,6 +1236,7 @@ MonoBehaviour:
   m_language: 0
   m_panelProgressbar: {fileID: 992276140}
   m_panelLogoScreen: {fileID: 478117834}
+  m_debugHelper: {fileID: 0}
   m_fileLoader: {fileID: 535276211}
   m_sceneLoader: {fileID: 1171199454}
   m_audioManager: {fileID: 750711445}

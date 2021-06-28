@@ -13,10 +13,11 @@ public sealed class App : MonoBehaviour {
     /// <summary> 应用程序的单例实例 </summary>
     public static App instance { get; private set; }
 
-
     public enum Language { AUTO, CN, EN }
+
     /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出 </summary>
     public event Action<bool> onPauseOrResumeEvent;
+
     /// <summary> 更改语言事件 </summary>
     public event Action<Language> onChangeLanguageEvent;
 
@@ -35,6 +36,9 @@ public sealed class App : MonoBehaviour {
 
     [Tooltip("开始Logo屏幕")]
     [SerializeField] private PanelLogoScreen m_panelLogoScreen;
+
+    [Tooltip("调试助手")]
+    [SerializeField] private DebugHelper m_debugHelper;
 
     [Tooltip("文件加载器")]
     [SerializeField] private FileLoader m_fileLoader;
@@ -65,6 +69,9 @@ public sealed class App : MonoBehaviour {
 
     /// <summary> 开始的 Logo 屏幕 </summary>
     public PanelLogoScreen panelLogoScreen => m_panelLogoScreen;
+
+    /// <summary> 调试助手 </summary>
+    public DebugHelper debugHelper => m_debugHelper;
 
     /// <summary> 文件加载器 </summary>
     public FileLoader fileLoader => m_fileLoader;
