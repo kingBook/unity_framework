@@ -85,7 +85,8 @@ inline void V_CW_TransformPoint(inout float4 vertex)
 
 	#elif defined(V_CW_BENDTYPE_PERSPECTIVE_2D)
 
-		float4 modelView = mul(UNITY_MATRIX_MV, vertex); 	
+		//float4 modelView = mul(UNITY_MATRIX_MV, vertex);
+		float4 modelView = UnityObjectToViewPos(vertex);
 
 		float2 xyOff = max(_zero2, abs(modelView.yx) - _V_CW_Bias.xy) * sign(modelView.yx);	
 		xyOff *= xyOff;

@@ -39,7 +39,9 @@ v2f leaves(appdata_tree v)
 	float4 tangent = float4(cross(v.normal, float3(0,0,1)), -1);
 	V_CW_TransformPointAndNormal(v.vertex, v.normal, tangent);
 	
-	float3 viewpos = mul(UNITY_MATRIX_MV, v.vertex);
+	//float3 viewpos = mul(UNITY_MATRIX_MV, v.vertex);
+	float3 viewpos = UnityObjectToViewPos(v.vertex);
+
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.uv = v.texcoord;
 	
@@ -87,7 +89,9 @@ v2f bark(appdata_tree v)
 	V_CW_TransformPointAndNormal(v.vertex, v.normal, v.tangent);
 
 	
-	float3 viewpos = mul(UNITY_MATRIX_MV, v.vertex);
+	//float3 viewpos = mul(UNITY_MATRIX_MV, v.vertex);
+	float3 viewpos = UnityObjectToViewPos(v.vertex);
+
 	o.pos = UnityObjectToClipPos(v.vertex);
 	o.uv = v.texcoord;
 	
