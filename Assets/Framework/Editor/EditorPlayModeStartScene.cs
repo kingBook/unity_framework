@@ -28,13 +28,9 @@ public class EditorPlayModeStartScene : Editor {
     // 加载 Unity 编辑器时运行
     [InitializeOnLoadMethod]
     private static void InitOnLoad () {
-
         Debug.Log("InitOnLoad");
         EditorApplication.playModeStateChanged -= OnPlayerModeStateChanged;
         EditorApplication.playModeStateChanged += OnPlayerModeStateChanged;
-
-        
-        
     }
 
 
