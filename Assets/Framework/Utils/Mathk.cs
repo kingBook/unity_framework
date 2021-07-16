@@ -7,6 +7,63 @@ using UnityEngine;
 public class Mathk {
 
     /// <summary>
+    /// 等差数列前 n 项的和
+    /// </summary>
+    /// <param name="a1"> 数列的最小项 </param>
+    /// <param name="n"> 有多少个项 </param>
+    /// <param name="d"> 数列差 </param>
+    /// <returns> 和 </returns>
+    public static float GetArithmeticSequenceSum (float a1, float n, float d) {
+        return n * a1 + n * (n - 1f) / 2f * d;
+    }
+
+    /// <summary>
+    /// 根据等差数列前 n 项的和计算 n，结果为x1,x2两个根，正的根就是n
+    /// </summary>
+    /// <param name="sum"> 等差数列前 n 项的和 </param>
+    /// <param name="a1"> 数列的最小项 </param>
+    /// <param name="d"> 数列差 </param>
+    /// <returns> 根的数量 </returns>
+    public static int GetArithmeticSequenceN (float sum, float a1, float d, out float x1, out float x2) {
+        int count = QuadraticEquation(d / 2f, a1 - d / 2f, -sum, out x1, out x2);
+        return count;
+    }
+
+    /// <summary>
+    /// 一元二次方程求根(ax^2+bx+c=0)
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <param name="c"></param>
+    /// <param name="x1"></param>
+    /// <param name="x2"></param>
+    /// <returns> 根的数量 </returns>
+    public static int QuadraticEquation (float a, float b, float c, out float x1, out float x2) {
+        float delta = b * b - 4 * a * c; // 根的判别式
+        int count;
+        if (delta > 0) {
+            // 有两个不相等的实数根
+            count = 2;
+        } else if (delta == 0f) {
+            // 有两个相等的实数根
+            count = 1;
+        } else {
+            // 无实数根
+            count = 0;
+        }
+
+        if (count > 0) {
+            // 求根公式
+            x1 = (-b + Mathf.Sqrt(delta)) / (2 * a);
+            x2 = (-b - Mathf.Sqrt(delta)) / (2 * a);
+        } else {
+            x1 = 0f;
+            x2 = 0f;
+        }
+        return count;
+    }
+
+    /// <summary>
     /// 将任意角度转换为[-180°,180°]，并返回转换后的角度
     /// </summary>
     /// <param name="rotation">需要转换的角度</param>
