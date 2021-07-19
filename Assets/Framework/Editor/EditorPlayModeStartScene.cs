@@ -1,5 +1,6 @@
 ﻿#if UNITY_EDITOR
 
+using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -70,13 +71,12 @@ public class EditorPlayModeStartScene : Editor {
     }
 
     private static void OnActiveSceneChanged (Scene current, Scene next) {
-        var editors = ActiveEditorTracker.sharedTracker.activeEditors;
-        // ActiveEditorTracker.sharedTracker.SetVisible(i, 0); //0是折叠, 1是展开
-        Debug.Log(editors.Length);
-        for (int i = 0, len = editors.Length; i < len; i++) {
-            Debug.Log(editors[i]);
-        }
+        Debug.Log("== OnActiveSceneChanged:");
+        Debug.Log(next.GetRootGameObjects()[2].name);
+
+        HierarchyUtil.SetExpandedRecursive(next.GetRootGameObjects()[2],true);
     }
+
 
     private static void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
         /*Debug.Log("== OnSceneLoaded");
