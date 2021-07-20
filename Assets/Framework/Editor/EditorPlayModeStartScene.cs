@@ -8,6 +8,8 @@ using UnityEngine.SceneManagement;
 
 public class EditorPlayModeStartScene : Editor {
 
+    private static int s_instanceID;
+
     [MenuItem("Tools/PlayModeUseStartScene", true)]
     private static bool ValidateMenuItem () {
         Menu.SetChecked("Tools/PlayModeUseStartScene", EditorSceneManager.playModeStartScene != null);
@@ -39,6 +41,7 @@ public class EditorPlayModeStartScene : Editor {
     private static void InitOnLoad2 () {
         Debug.Log("InitOnLoad2");
         //EditorSceneManager.sceneLoaded += OnSceneLoaded;
+        EditorSceneManager.activeSceneChanged -= OnActiveSceneChanged;
         EditorSceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
@@ -48,17 +51,9 @@ public class EditorPlayModeStartScene : Editor {
             case PlayModeStateChange.EnteredEditMode:
                 break;
             case PlayModeStateChange.ExitingEditMode:
-                /*Debug.Log("sceneCount:" + EditorSceneManager.sceneCount);
-                for (int i = 0; i < EditorSceneManager.sceneCount; i++) {
-                    Scene scene = EditorSceneManager.GetSceneAt(i);
-                    if (scene.IsValid() && scene.isLoaded) {
-                        Debug2.Log(scene.name);
-                        Debug.Log(scene.GetRootGameObjects()[0].name);
-                    }
-                }*/
-
-                
-
+                Scene editorActiveScene = EditorSceneManager.GetActiveScene();
+                s_instanceID = editorActiveScene.GetRootGameObjects()[0].GetInstanceID();
+                Debug.Log(s_instanceID);
                 break;
             case PlayModeStateChange.EnteredPlayMode:
                 //EditorApplication.playModeStateChanged -= OnPlayerModeStateChanged;
@@ -72,9 +67,12 @@ public class EditorPlayModeStartScene : Editor {
 
     private static void OnActiveSceneChanged (Scene current, Scene next) {
         Debug.Log("== OnActiveSceneChanged:");
-        Debug.Log(next.GetRootGameObjects()[2].name);
+        //Debug.Log(next.GetRootGameObjects()[2].name);
 
-        HierarchyUtil.SetExpandedRecursive(next.GetRootGameObjects()[2],true);
+        //HierarchyUtil.SetExpandedRecursive(next.GetRootGameObjects()[2],true);
+
+        Scene runtimeActiveScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        Debug2.Log(s_instanceID, runtimeActiveScene.GetRootGameObjects()[0].GetInstanceID());
     }
 
 
@@ -84,8 +82,6 @@ public class EditorPlayModeStartScene : Editor {
             Debug2.Log(scene.name);
             Debug.Log(scene.GetRootGameObjects()[0].name);
         }*/
-
-        
     }
 
 
