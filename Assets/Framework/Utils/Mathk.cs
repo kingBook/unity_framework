@@ -30,7 +30,7 @@ public class Mathk {
     }
 
     /// <summary>
-    /// 一元二次方程求根(ax^2+bx+c=0)
+    /// 一元二次方程求根(ax²+bx+c=0)
     /// </summary>
     /// <param name="a"></param>
     /// <param name="b"></param>

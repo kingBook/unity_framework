@@ -1,6 +1,5 @@
 ﻿#if UNITY_EDITOR
 
-using System.Threading.Tasks;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -8,7 +7,6 @@ using UnityEngine.SceneManagement;
 
 public class EditorPlayModeStartScene : Editor {
 
-    private static int s_instanceID;
 
     [MenuItem("Tools/PlayModeUseStartScene", true)]
     private static bool ValidateMenuItem () {
@@ -52,8 +50,9 @@ public class EditorPlayModeStartScene : Editor {
                 break;
             case PlayModeStateChange.ExitingEditMode:
                 Scene editorActiveScene = EditorSceneManager.GetActiveScene();
-                s_instanceID = editorActiveScene.GetRootGameObjects()[0].GetInstanceID();
-                Debug.Log(s_instanceID);
+                int instanceID = editorActiveScene.GetRootGameObjects()[0].GetInstanceID();
+                Debug2.Log(instanceID, HierarchyUtil.IsExpanded(editorActiveScene.GetRootGameObjects()[0]));
+                RecordSceneToLocal(editorActiveScene);
                 break;
             case PlayModeStateChange.EnteredPlayMode:
                 //EditorApplication.playModeStateChanged -= OnPlayerModeStateChanged;
@@ -72,7 +71,7 @@ public class EditorPlayModeStartScene : Editor {
         //HierarchyUtil.SetExpandedRecursive(next.GetRootGameObjects()[2],true);
 
         Scene runtimeActiveScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-        Debug2.Log(s_instanceID, runtimeActiveScene.GetRootGameObjects()[0].GetInstanceID());
+        Debug2.Log(runtimeActiveScene.GetRootGameObjects()[0].GetInstanceID());
     }
 
 
@@ -82,6 +81,13 @@ public class EditorPlayModeStartScene : Editor {
             Debug2.Log(scene.name);
             Debug.Log(scene.GetRootGameObjects()[0].name);
         }*/
+    }
+
+    private static void RecordSceneToLocal (Scene scene) {
+        GameObject[] rootGameObjects = scene.GetRootGameObjects();
+        for (int i = 0, len = rootGameObjects.Length; i < len; i++) {
+            //HierarchyUtil.GetExpandedGameObjects
+        }
     }
 
 

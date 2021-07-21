@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Text;
+
 /// <summary>
 /// 文件工具类
 /// </summary>
-public static class FileUtil {
+public static class FileUtil2 {
 
     /// <summary>
     /// 返回文件的所有行
