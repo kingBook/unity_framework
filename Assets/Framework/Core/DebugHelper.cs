@@ -18,6 +18,7 @@ public class DebugHelper : MonoBehaviour {
     private bool m_isPause;
     private bool m_isStackTrace;
     private bool m_isUnlockLevel;
+    private bool m_isSingleLine;
 
     public bool isUnlockLevel => m_isUnlockLevel;
 
@@ -26,7 +27,7 @@ public class DebugHelper : MonoBehaviour {
     }
 
     private void OnGUI () {
-        float buttonSize = Mathf.Min(Screen.width, Screen.height) * 0.1f;
+        float buttonSize = (Screen.width + Screen.height) * 0.05f;
         if (m_isMinimized) {
             if (GUILayout.Button(" > ", GUILayout.MinWidth(buttonSize), GUILayout.MinHeight(buttonSize))) {
                 m_isMinimized = false;
@@ -82,6 +83,8 @@ public class DebugHelper : MonoBehaviour {
                 m_isUnlockLevel = GUILayout.Toggle(m_isUnlockLevel, "UnlockLevel", GUILayout.MinHeight(buttonSize));
                 // 跟踪 Log 栈
                 m_isStackTrace = GUILayout.Toggle(m_isStackTrace, "StackTrace", GUILayout.MinHeight(buttonSize));
+                // 单行打印 Log信息
+                m_isSingleLine = GUILayout.Toggle(m_isSingleLine, "SingleLine", GUILayout.MinHeight(buttonSize));
             }
             GUILayout.EndHorizontal();
 
@@ -91,6 +94,12 @@ public class DebugHelper : MonoBehaviour {
 
     private void LogHandler (string logString, string stackTrace, LogType type) {
         if (m_isPause) return;
+
+        // 单行时，每次清空
+        if (m_isSingleLine) {
+            m_output = "";
+        }
+
         m_output += $"[{System.DateTime.Now.ToString("HH:mm:ss")}] {logString}\n";
         if (m_isStackTrace) {
             m_output += stackTrace + '\n';
