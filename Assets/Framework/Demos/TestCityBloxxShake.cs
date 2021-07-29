@@ -15,7 +15,9 @@ public class TestCityBloxxShake : MonoBehaviour {
         Transform parent = null;
         for(int i = 0; i < 20; i++) {
             var inst = Instantiate(m_blockPrefab);
-            
+            inst.name = "CityBloxxBlock " + i;
+
+
             if (parent) {
                 inst.transform.SetParent(parent);
             } else {
