@@ -69,7 +69,7 @@ public class AudioManager : MonoBehaviour {
     public AudioSource PlayMusic (AudioClip clip, Transform positionTransform, float volume) {
         GameObject gameObj = new GameObject("Play music (AudioManager)");
         if (positionTransform) {
-            gameObject.transform.parent = positionTransform;
+            gameObj.transform.parent = positionTransform;
         }
 
         AudioSource audioSource = gameObj.AddComponent<AudioSource>();
@@ -101,7 +101,7 @@ public class AudioManager : MonoBehaviour {
     /// <returns></returns>
     public AudioSource PlayMusic (AudioClip clip, Vector3 position, float volume) {
         GameObject gameObj = new GameObject("Play music at point (AudioManager)");
-        gameObject.transform.position = position;
+        gameObj.transform.position = position;
 
         AudioSource audioSource = gameObj.AddComponent<AudioSource>();
         audioSource.mute = musicMute;

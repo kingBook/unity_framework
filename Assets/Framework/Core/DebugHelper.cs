@@ -19,6 +19,8 @@ public class DebugHelper : MonoBehaviour {
     private bool m_isStackTrace;
     private bool m_isUnlockLevel;
     private bool m_isSingleLine;
+    private float m_time;
+    private string m_fpsString;
 
     public bool isUnlockLevel => m_isUnlockLevel;
 
@@ -26,12 +28,38 @@ public class DebugHelper : MonoBehaviour {
         Application.logMessageReceivedThreaded += LogHandler;
     }
 
+    private void Update () {
+        m_time += (Time.unscaledDeltaTime - m_time) * 0.1f;
+
+        float ms = m_time * 1000.0f;
+        float fps = 1.0f / m_time;
+
+        //ms 保留一位小数
+        ms = Mathf.Ceil(ms * 10f) / 10f;
+        //fps 只取整数
+        fps = Mathf.Floor(fps);
+
+        m_fpsString = $"{fps} FPS ({ms}ms)";
+    }
+
     private void OnGUI () {
-        float buttonSize = (Screen.width + Screen.height) * 0.05f;
+        float buttonSize = (Screen.width + Screen.height) / 2f * 0.1f;
+
+        
+
         if (m_isMinimized) {
-            if (GUILayout.Button(" > ", GUILayout.MinWidth(buttonSize), GUILayout.MinHeight(buttonSize))) {
-                m_isMinimized = false;
+            GUILayout.BeginHorizontal();
+            {
+                if (GUILayout.Button(" > ", GUILayout.MinWidth(buttonSize), GUILayout.MinHeight(buttonSize))) {
+                    m_isMinimized = false;
+                }
+                GUIStyle labelFontStyle = new GUIStyle();
+                labelFontStyle.fontSize = Mathf.CeilToInt((Screen.width + Screen.height) / 2f * 0.03f);
+                labelFontStyle.normal.textColor = Color.white;
+                labelFontStyle.alignment = TextAnchor.MiddleCenter;
+                GUILayout.Label(m_fpsString, labelFontStyle, GUILayout.MinHeight(buttonSize));
             }
+            GUILayout.EndHorizontal();
         } else {
             float width = Screen.width * 0.5f;
             float height = Screen.height;
