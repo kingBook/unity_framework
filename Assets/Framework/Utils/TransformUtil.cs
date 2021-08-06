@@ -1,9 +1,38 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 /// <summary>
-/// Transform工具类
+/// Transform 工具类
 /// </summary>
 public static class TransformUtil {
+
+    /// <summary>
+    /// 销毁所有的子级对象
+    /// </summary>
+    /// <param name="ignoreChildren"> 忽略销毁的子对象，不设置时传递 null </param>
+    /// <param name="transform"> 父级 Transform </param>
+    /// <param name="ignoreInActive"> 是否忽略不激活的对象 </param>
+    /// <param name="isImmediate"> 是否立即销毁 </param>
+    public static void DestroyAllChildren (Transform transform, Transform[] ignoreChildren, bool ignoreInActive = false, bool isImmediate = false) {
+        int i = transform.childCount;
+        while (--i >= 0) {
+            Transform child = transform.GetChild(i);
+
+            if (ignoreInActive && !child.gameObject.activeSelf) {
+                continue;
+            }
+
+            if (ignoreChildren != null && System.Array.IndexOf(ignoreChildren, child) > -1) {
+                continue;
+            }
+
+            if (isImmediate) {
+                Object.DestroyImmediate(child.gameObject);
+            } else {
+                Object.Destroy(child.gameObject);
+            }
+        }
+    }
 
     /// <summary>
     /// 返回一个Transform组件的子节点列表
