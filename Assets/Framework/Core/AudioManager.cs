@@ -160,7 +160,7 @@ public class AudioManager : MonoBehaviour {
         audioSource.playOnAwake = true;
         audioSource.Play();
 
-        StartCoroutine(DestroyAudioSourceOnComplete(audioSource));
+        StartCoroutine(nameof(DestroyAudioSourceOnComplete), audioSource);
 
         return audioSource;
     }
@@ -171,10 +171,12 @@ public class AudioManager : MonoBehaviour {
     }
 
     private IEnumerator DestroyAudioSourceOnComplete (AudioSource audioSource) {
-        while (audioSource.time < audioSource.clip.length) {
+        while (audioSource != null && audioSource.time < audioSource.clip.length) {
             yield return null;
         }
-        Destroy(audioSource.gameObject);
+        if (audioSource != null) {
+            Destroy(audioSource.gameObject);
+        }
     }
 
     private void Awake () {
