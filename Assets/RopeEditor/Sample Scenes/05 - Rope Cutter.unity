@@ -2326,7 +2326,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 560477948}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6320b7a61568fd4799427533fe4c8ac, type: 3}
+  m_Script: {fileID: 11500000, guid: 0f677c05b7f0f9d4ea85b6f2090b89ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   cameraMain: {fileID: 1021532875}
@@ -4312,7 +4312,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 994333765}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 056ef258aaae4ff47b91ef09b9d657f7, type: 3}
+  m_Script: {fileID: 11500000, guid: 19b0a0ab84ee3af43b74ae2dfd08ff8a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   minDistanceThreshold: 2
