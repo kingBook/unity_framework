@@ -1,5 +1,5 @@
 sceneSetups:
-- path: "Assets/Framework/Demos/TestCityBloxxShake(\u90FD\u5E02\u6469\u5929\u697C\u6447\u52A8).unity"
+- path: Assets/RopeEditor/Sample Scenes/05 - Rope Cutter.unity
   isLoaded: 1
   isActive: 1
   isSubScene: 0

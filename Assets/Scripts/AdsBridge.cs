@@ -16,7 +16,7 @@ public static class AdsBridge {
         /// <summary> 关卡失败（id：关卡编号） </summary>
         LevelFailure,
         /// <summary> 点击进入小游戏按钮 </summary>
-        OnClickEnterMiniGameButton
+        OnClickButtonEnterMiniGame
     }
 
     /// <summary>
@@ -32,8 +32,8 @@ public static class AdsBridge {
             case PointInfo.LevelStart:
                 //AnalyticsManager.LevelStart(id);
                 break;
-            case PointInfo.OnClickEnterMiniGameButton:
-                //AnalyticsManager.OnClickEnterMiniGameButton();
+            case PointInfo.OnClickButtonEnterMiniGame:
+                //AnalyticsManager.OnClickButtonEnterMiniGame();
                 break;
         }
 #elif UNITY_ANDROID

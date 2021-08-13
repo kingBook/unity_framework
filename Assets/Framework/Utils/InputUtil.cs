@@ -117,27 +117,29 @@ public static class InputUtil {
     }
 
     /// <summary>
-    /// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
-    /// </summary>
-    public static bool IsPointerOverUI (int fingerId) {
-        bool result = false;
-        if (Input.touchSupported) {
-            for (int i = 0, len = Input.touchCount; i < len; i++) {
-                Touch touch = Input.GetTouch(i);
-                if (touch.fingerId == fingerId) {
-                    if (EventSystem.current.IsPointerOverGameObject(fingerId)) {
-                        result = true;
-                        break;
+	/// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
+	/// </summary>
+	public static bool IsPointerOverUI(int fingerId){
+		bool result=false;
+        if (EventSystem.current) {
+            if (Input.touchSupported) {
+                for (int i = 0, len = Input.touchCount; i < len; i++) {
+                    Touch touch = Input.GetTouch(i);
+                    if (touch.fingerId == fingerId) {
+                        if (EventSystem.current.IsPointerOverGameObject(fingerId)) {
+                            result = true;
+                            break;
+                        }
                     }
                 }
-            }
-        } else {
-            if (EventSystem.current.IsPointerOverGameObject()) {
-                result = true;
+            } else {
+                if (EventSystem.current.IsPointerOverGameObject()) {
+                    result = true;
+                }
             }
         }
-        return result;
-    }
+		return result;
+	}
 
     /// <summary>
     /// 检测鼠标左键/指定fingerId的触摸是否释放
