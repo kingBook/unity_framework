@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class TrailLine : MonoBehaviour {
 
-    [Tooltip("决定显示的深度")]
+    [Tooltip("线的位置Z, 会影响粗细")]
     public float linePositionZ = 10f;
 
     private TrailRenderer m_trailRenderer;
