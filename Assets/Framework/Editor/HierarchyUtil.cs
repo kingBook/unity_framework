@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿#if UNITY_EDITOR
+
+using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
 using UnityEngine;
@@ -40,6 +42,16 @@ public class HierarchyUtil {
         methodInfo.Invoke(sceneHierarchy, new object[] { go.GetInstanceID(), expand });
     }
 
+    public static void SetExpanded (int instanceID, bool expand) {
+        object sceneHierarchy = GetSceneHierarchy();
+
+        MethodInfo methodInfo = sceneHierarchy
+            .GetType()
+            .GetMethod("ExpandTreeViewItem", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        methodInfo.Invoke(sceneHierarchy, new object[] { instanceID, expand });
+    }
+
     /// <summary>
     /// Set the target GameObject and all children as expanded (aka unfolded) in the Hierarchy view.
     /// </summary>
@@ -51,6 +63,16 @@ public class HierarchyUtil {
             .GetMethod("SetExpandedRecursive", BindingFlags.Public | BindingFlags.Instance);
 
         methodInfo.Invoke(sceneHierarchy, new object[] { go.GetInstanceID(), expand });
+    }
+
+    public static void SetExpandedRecursive (int instanceID, bool expand) {
+        object sceneHierarchy = GetSceneHierarchy();
+
+        MethodInfo methodInfo = sceneHierarchy
+            .GetType()
+            .GetMethod("SetExpandedRecursive", BindingFlags.Public | BindingFlags.Instance);
+
+        methodInfo.Invoke(sceneHierarchy, new object[] { instanceID, expand });
     }
 
     private static object GetSceneHierarchy () {
@@ -70,3 +92,5 @@ public class HierarchyUtil {
         return EditorWindow.focusedWindow;
     }
 }
+
+#endif
