@@ -27,9 +27,10 @@ public class GameObjectData {
 }
 
 
-
+/// <summary>
+/// 设置进入播放模式时默认启动的场景(选择菜单 Tools/PlayModeUseStartScene 更改，将启动 BuildSettings 界面中的 buildIndex 为 [0] 的场景)
+/// </summary>
 public class EditorPlayModeStartScene : Editor {
-
 
     [MenuItem("Tools/PlayModeUseStartScene", true)]
     private static bool ValidateMenuItem () {
@@ -48,64 +49,45 @@ public class EditorPlayModeStartScene : Editor {
     }
 
 
-
-    // 加载 Unity 编辑器时运行
+    // 第一次打开 Unity 编辑器运行一次，之后每次进入 Play 模式都运行一次
     [InitializeOnLoadMethod]
     private static void InitOnLoad () {
-        Debug.Log("InitOnLoad");
+        // 侦听播放模式改变事件
         EditorApplication.playModeStateChanged -= OnPlayerModeStateChanged;
         EditorApplication.playModeStateChanged += OnPlayerModeStateChanged;
-    }
 
-
-    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
-    private static void InitOnLoad2 () {
-        Debug.Log("InitOnLoad2");
-        EditorSceneManager.sceneLoaded -= OnSceneLoaded;
-        EditorSceneManager.sceneLoaded += OnSceneLoaded;
-
+        // 侦听激活的场景改变事件
         EditorSceneManager.activeSceneChanged -= OnActiveSceneChanged;
         EditorSceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
     private static void OnPlayerModeStateChanged (PlayModeStateChange playModeState) {
-        Debug.LogFormat("state:{0} will:{1} isPlaying:{2}", playModeState, EditorApplication.isPlayingOrWillChangePlaymode, EditorApplication.isPlaying);
         switch (playModeState) {
             case PlayModeStateChange.EnteredEditMode:
+                // 恢复编辑器模式下已选中的对象
                 ResumeEditModeSelections();
                 break;
             case PlayModeStateChange.ExitingEditMode:
                 Scene editorActiveScene = EditorSceneManager.GetActiveScene();
-                int instanceID = editorActiveScene.GetRootGameObjects()[0].GetInstanceID();
-                Debug2.Log("ExitingEditMode", instanceID, HierarchyUtil.IsExpanded(editorActiveScene.GetRootGameObjects()[0]));
+                // 保存编辑器模式下，展开节点的数据
                 RecordSceneToLocal(editorActiveScene);
                 break;
             case PlayModeStateChange.EnteredPlayMode:
-                //EditorApplication.playModeStateChanged -= OnPlayerModeStateChanged;
+
                 break;
             case PlayModeStateChange.ExitingPlayMode:
-                //EditorSceneManager.sceneLoaded -= OnSceneLoaded;
-                EditorSceneManager.activeSceneChanged -= OnActiveSceneChanged;
+
                 break;
         }
     }
 
     private static void OnActiveSceneChanged (Scene current, Scene next) {
-        Debug.Log("== OnActiveSceneChanged:");
-        //Debug.Log(next.GetRootGameObjects()[2].name);
-
-        //HierarchyUtil.SetExpandedRecursive(next.GetRootGameObjects()[2],true);
-
         Scene runtimeActiveScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-        //Debug2.Log("OnActiveSceneChanged", runtimeActiveScene.GetRootGameObjects()[3].name, runtimeActiveScene.GetRootGameObjects()[3].GetInstanceID());
-
-        //Debug2.Log(runtimeActiveScene.name, current.name, next.name);
-
-
-        List<Object> selections = new List<Object>();
 
         string path = System.Environment.CurrentDirectory + $"/Temp/{runtimeActiveScene.name + runtimeActiveScene.buildIndex}.sceneData";
         if (File.Exists(path)) {
+            List<Object> selections = new List<Object>();
+
             byte[] bytes = File.ReadAllBytes(path);
             MemoryStream memoryStream = new MemoryStream(bytes);
             BinaryFormatter binaryFormatter = new BinaryFormatter();
@@ -115,27 +97,13 @@ public class EditorPlayModeStartScene : Editor {
 
             HierarchyUtil.SetExpanded(runtimeActiveScene.GetHashCode(), true); // 展开激活的场景
             SetSceneWithExpandedData(runtimeActiveScene, sceneData, ref selections);
+
+            // 设置选中的 GameObject
+            Selection.objects = selections.ToArray();
         }
-
-        // 设置选中的 GameObject
-        Selection.objects = selections.ToArray();
-    }
-
-
-    private static void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
-        //Debug2.Log("OnSceneLoaded", scene.GetRootGameObjects()[3].name, scene.GetRootGameObjects()[3].GetInstanceID());
-        /*Debug.Log("== OnSceneLoaded");
-        if (scene.IsValid() && scene.isLoaded) {
-            Debug2.Log(scene.name);
-            Debug.Log(scene.GetRootGameObjects()[0].name);
-
-        }
-        */
     }
 
     private static void RecordSceneToLocal (Scene scene) {
-        Debug.Log("=== RecordSceneToLocal");
-
         SceneData sceneData = GetSceneExpandedData(scene);
 
         string path = System.Environment.CurrentDirectory + $"/Temp/{sceneData.name + sceneData.buildIndex}.sceneData";
@@ -203,8 +171,6 @@ public class EditorPlayModeStartScene : Editor {
     }
 
     private static void ResumeEditModeSelections () {
-        Debug.Log("=== ResumeEditModeSelections");
-
         Scene activeScene = EditorSceneManager.GetActiveScene();
 
         List<Object> selections = new List<Object>();
@@ -240,7 +206,6 @@ public class EditorPlayModeStartScene : Editor {
         if (gameObject.name != gameObjectData.name) return;
 
         if (gameObjectData.selection) {
-            Debug.Log(gameObject.name);
             selections.Add(gameObject);
         }
 
