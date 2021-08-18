@@ -95,6 +95,7 @@ public class EditorPlayModeStartScene : Editor {
             SceneData sceneData = (SceneData)binaryFormatter.Deserialize(memoryStream);
             memoryStream.Close();
 
+
             HierarchyUtil.SetExpanded(runtimeActiveScene.GetHashCode(), true); // 展开激活的场景
             SetSceneWithExpandedData(runtimeActiveScene, sceneData, ref selections);
 
@@ -127,7 +128,9 @@ public class EditorPlayModeStartScene : Editor {
     private static void SetGameObjectExpandedWithData (GameObject gameObject, GameObjectData gameObjectData, ref List<Object> selections) {
         if (gameObject.name != gameObjectData.name) return;
 
-        HierarchyUtil.SetExpanded(gameObject, gameObjectData.expanded);
+        if (gameObjectData.expanded) {
+            HierarchyUtil.SetExpanded(gameObject, true);
+        }
 
         if (gameObjectData.selection) {
             selections.Add(gameObject);
@@ -144,27 +147,29 @@ public class EditorPlayModeStartScene : Editor {
 
     /// <summary>  返回一个场景展开节点的数据，不会返回 null </summary>
     private static SceneData GetSceneExpandedData (Scene scene) {
+        GameObject[] expandedGameObjects = HierarchyUtil.GetExpandedGameObjects().ToArray();
+
         SceneData sceneData = new SceneData();
         sceneData.name = scene.name;
         sceneData.buildIndex = scene.buildIndex;
         GameObject[] rootGameObjects = scene.GetRootGameObjects();
         for (int i = 0, len = rootGameObjects.Length; i < len; i++) {
-            GameObjectData rootGameOjbectData = GetGameObjectExpandedData(rootGameObjects[i]);
+            GameObjectData rootGameOjbectData = GetGameObjectExpandedData(rootGameObjects[i], expandedGameObjects);
             sceneData.rootGameObjectDatas.Add(rootGameOjbectData);
         }
         return sceneData;
     }
 
     /// <summary> 返回一个 GameObject 的节点展开数据，不会返回 null </summary>
-    private static GameObjectData GetGameObjectExpandedData (GameObject gameObject) {
+    private static GameObjectData GetGameObjectExpandedData (GameObject gameObject, GameObject[] expandedGameObjects) {
         GameObjectData data = new GameObjectData();
         data.name = gameObject.name;
-        data.expanded = HierarchyUtil.IsExpanded(gameObject);
+        data.expanded = System.Array.IndexOf(expandedGameObjects, gameObject) > -1;
         data.selection = System.Array.IndexOf(Selection.gameObjects, gameObject) > -1;
         data.instanceID = gameObject.GetInstanceID();
         for (int i = 0, len = gameObject.transform.childCount; i < len; i++) {
             GameObject child = gameObject.transform.GetChild(i).gameObject;
-            GameObjectData childData = GetGameObjectExpandedData(child);
+            GameObjectData childData = GetGameObjectExpandedData(child, expandedGameObjects);
             data.children.Add(childData);
         }
         return data;

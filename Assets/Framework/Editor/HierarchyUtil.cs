@@ -25,7 +25,6 @@ public class HierarchyUtil {
             .GetMethod("GetExpandedGameObjects");
 
         object result = methodInfo.Invoke(sceneHierarchy, new object[0]);
-
         return (List<GameObject>)result;
     }
 

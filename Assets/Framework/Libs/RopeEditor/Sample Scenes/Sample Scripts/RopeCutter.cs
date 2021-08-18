@@ -11,6 +11,10 @@ public class RopeCutter : MonoBehaviour {
     public InputLine inputLine;
     public UltimateRope[] ropes;
 
+    /// <summary>
+    /// 切割绳子事件，切割到一条绳子发出此事件。格式: <code> void OnCuttingRope(UltimateRope rope, ConfigurableJoint joint) </code>
+    /// </summary>
+    public event System.Action<UltimateRope, ConfigurableJoint> onCuttingRopeEvent;
 
     private void CheckCutting () {
         // 不够两个点时不检测切割
@@ -18,6 +22,7 @@ public class RopeCutter : MonoBehaviour {
 
         for (int i = 0, len = ropes.Length; i < len; i++) {
             UltimateRope rope = ropes[i];
+            if (!rope.gameObject.activeSelf) continue;
             for (int j = 0, nodeCount = rope.RopeNodes.Count; j < nodeCount; j++) {
                 UltimateRope.RopeNode node = rope.RopeNodes[j];
                 int linkJointCount = node.linkJoints.Length;
@@ -33,6 +38,8 @@ public class RopeCutter : MonoBehaviour {
                             curLinkJointScreenPoint.z = 0f;
 
                             if (IsInsectInputLine(prevLinkJointScreenPoint, curLinkJointScreenPoint)) {
+                                // 派发切割事件
+                                onCuttingRopeEvent?.Invoke(rope, curLinkJoint);
                                 // 销毁 ConfigurableJoint 绳子便断了
                                 Destroy(curLinkJoint);
                             }
@@ -74,7 +81,7 @@ public class RopeCutter : MonoBehaviour {
         // 不能应用于 LinkJointBreakForce 和 LinkJointBreakTorque 都无穷大的绳子，切断会导致绳子的蒙皮网格出错
         for (int i = 0, len = ropes.Length; i < len; i++) {
             var rope = ropes[i];
-            if (rope.LinkJointBreakForce == Mathf.Infinity && rope.LinkJointBreakTorque == Mathf.Infinity) {
+            if (rope && rope.LinkJointBreakForce == Mathf.Infinity && rope.LinkJointBreakTorque == Mathf.Infinity) {
                 Debug.LogError("不能应用于 LinkJointBreakForce 和 LinkJointBreakTorque 都无穷大的绳子, rope.gameObject.name:" + rope.gameObject.name);
             }
         }
