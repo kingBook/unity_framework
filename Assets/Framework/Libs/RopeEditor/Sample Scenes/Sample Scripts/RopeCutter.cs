@@ -7,9 +7,10 @@ using UnityEngine;
 /// </summary>
 public class RopeCutter : MonoBehaviour {
 
-    public Camera cameraMain;
     public InputLine inputLine;
     public UltimateRope[] ropes;
+
+    private Camera m_cameraMain;
 
     /// <summary>
     /// 切割绳子事件，切割到一条绳子发出此事件。格式: <code> void OnCuttingRope(UltimateRope rope, ConfigurableJoint joint) </code>
@@ -20,20 +21,33 @@ public class RopeCutter : MonoBehaviour {
         // 不够两个点时不检测切割
         if (inputLine.points.Count < 2) return;
 
+        // 初始化相机
+        if (!m_cameraMain) {
+            m_cameraMain = Camera.main;
+            if (m_cameraMain.gameObject.scene != gameObject.scene) {
+                Debug.LogError("错误：Camera.main 与绑定 RopeCutter 的对象不在同一场景，请确保 Camera.main 得到的相机是否正确，此问题会导致坐标转换出错");
+            }
+        }
+
         for (int i = 0, len = ropes.Length; i < len; i++) {
             UltimateRope rope = ropes[i];
-            if (!rope.gameObject.activeSelf) continue;
+            if (!rope.gameObject.activeInHierarchy) continue;
+
             for (int j = 0, nodeCount = rope.RopeNodes.Count; j < nodeCount; j++) {
                 UltimateRope.RopeNode node = rope.RopeNodes[j];
                 int linkJointCount = node.linkJoints.Length;
+
                 if (linkJointCount > 1) {
                     for (int k = 1; k < linkJointCount; k++) {
                         var prevLinkJoint = node.linkJoints[k - 1];
                         var curLinkJoint = node.linkJoints[k];
-                        if (prevLinkJoint && curLinkJoint) {
-                            Vector3 prevLinkJointScreenPoint = cameraMain.WorldToScreenPoint(prevLinkJoint.transform.position);
-                            Vector3 curLinkJointScreenPoint = cameraMain.WorldToScreenPoint(curLinkJoint.transform.position);
 
+                        if (prevLinkJoint && curLinkJoint &&
+                            prevLinkJoint.gameObject.activeInHierarchy && curLinkJoint.gameObject.activeInHierarchy &&
+                            prevLinkJoint.transform.parent == rope.transform && curLinkJoint.transform.parent == rope.transform) {
+
+                            Vector3 prevLinkJointScreenPoint = m_cameraMain.WorldToScreenPoint(prevLinkJoint.transform.position);
+                            Vector3 curLinkJointScreenPoint = m_cameraMain.WorldToScreenPoint(curLinkJoint.transform.position);
                             prevLinkJointScreenPoint.z = 0f;
                             curLinkJointScreenPoint.z = 0f;
 
@@ -54,7 +68,8 @@ public class RopeCutter : MonoBehaviour {
         for (int i = 1, len = inputLine.points.Count; i < len; i++) {
             var prev = inputLine.points[i - 1];
             var current = inputLine.points[i];
-            bool insect = GeomUtil.GetTwoLineSegmentsIntersection(prevNodeScreenPoint, curNodeScreenPoint, prev, current, out _, out _, out _);
+
+            bool insect = GeomUtil.GetTwoLineSegmentsIntersection(prevNodeScreenPoint, curNodeScreenPoint, current, prev, out _, out _, out _);
             if (insect) {
                 return true;
             }
@@ -68,9 +83,6 @@ public class RopeCutter : MonoBehaviour {
 
 #if UNITY_EDITOR
     private void Reset () {
-        if (!cameraMain) {
-            cameraMain = GetComponent<Camera>();
-        }
         if (!inputLine) {
             inputLine = GetComponent<InputLine>();
         }
