@@ -681,6 +681,7 @@ public class UltimateRopeEditor : Editor
         }
 
         EditorGUILayout.Space();
+        
 
         EditorGUILayout.PropertyField(PropSendEvents, new GUIContent("Send Rope Events", "Send event messages?"), GUILayout.ExpandWidth(true));
 
@@ -735,42 +736,50 @@ public class UltimateRopeEditor : Editor
         if(bDeleteRope)
         {
             rope.DeleteRope();
+            rope.MarkSceneDirty();
         }
 
         if(bRegenerateRope)
         {
             rope.Regenerate(bResetNodePositions);
+            rope.MarkSceneDirty();
         }
         else
         {
             if(bChangeRopeDiameter)
             {
               rope.ChangeRopeDiameter(PropRopeDiameter.floatValue, PropRopeDiameterScaleX.floatValue, PropRopeDiameterScaleY.floatValue);
+                rope.MarkSceneDirty();
             }
 
             if(bChangeRopeSegmentSides)
             {
                 rope.ChangeRopeSegmentSides(PropRopeSegmentSides.intValue);
+                rope.MarkSceneDirty();
             }
 
             if(bSetupRopeLinks)
             {
                 rope.SetupRopeLinks();
+                rope.MarkSceneDirty();
             }
 
             if(bSetupRopeMaterials)
             {
                 rope.SetupRopeMaterials();
+                rope.MarkSceneDirty();
             }
 
             if(bSetupRopeJoints)
             {
                 rope.SetupRopeJoints();
+                rope.MarkSceneDirty();
             }
 
             if(bRecomputeCoil)
             {
                 rope.RecomputeCoil();
+                rope.MarkSceneDirty();
             }
         }
 
@@ -794,10 +803,11 @@ public class UltimateRopeEditor : Editor
                 {
                     UnityEditor.Selection.activeGameObject = newObject;
                 }
+
+                rope.MarkSceneDirty();
             }
         }
     }
 }
 
 #endif
-

@@ -513,6 +513,7 @@ public class UltimateRope : MonoBehaviour
     [RopePersistAttribute]  public float                LinkJointBreakTorque            = Mathf.Infinity;
     [RopePersistAttribute]  public bool                 LockStartEndInZAxis             = false;
 
+
     [RopePersistAttribute]  public bool                 SendEvents                      = false;
     [RopePersistAttribute]  public GameObject           EventsObjectReceiver;
     [RopePersistAttribute]  public string               OnBreakMethodName;
@@ -899,6 +900,13 @@ public class UltimateRope : MonoBehaviour
             }
         }
     }
+
+#if UNITY_EDITOR // Add By KingBook 2021-08-25
+    public void MarkSceneDirty () {
+        if (Application.isPlaying) return;
+        UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(gameObject.scene);
+    }
+#endif
 
     public void DeleteRope(bool bResetNodePositions = false, bool bDestroySkin = true)
     {
@@ -2049,7 +2057,6 @@ public class UltimateRope : MonoBehaviour
                                 capsule.direction = GetLinkAxisIndex();
                                 capsule.material  = RopePhysicsMaterial;
                                 capsule.enabled   = bColliderEnabled;
-
                                 break;
 
                             case EColliderType.Box:
@@ -2071,7 +2078,6 @@ public class UltimateRope : MonoBehaviour
                                 {
                                     box.enabled = false;
                                 }
-
                                 break;
                         }
                     }
