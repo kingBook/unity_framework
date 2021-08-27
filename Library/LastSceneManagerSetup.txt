@@ -1,5 +1,5 @@
 sceneSetups:
-- path: Assets/Framework/Libs/RopeEditor/Sample Scenes/06 - Rope Link Trigger.unity
+- path: "Assets/Framework/Demos/TestItemLight(\u7269\u54C1\u5C55\u793A\u7684\u5149\u6548).unity"
   isLoaded: 1
   isActive: 1
   isSubScene: 0
