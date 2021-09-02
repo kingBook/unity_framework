@@ -26,7 +26,7 @@ public static class AdsBridge {
     /// <param name="id"> 当多条相同的打点信息时用于区分的 Id，例如：MarkPoint(MarkInfo.LevelStart, 1/2/3...)，-1 时表示省略 </param>
     public static void MarkPoint (PointInfo info, int id = -1) {
         // 使用 info.ToString() 获取字符串 Key
-        Debug.Log($"== 标记打点 {{ info:{info.ToString()}, id:{id} }}");
+        Debug.Log($"== 标记打点: info:{info.ToString()}, id:{id} ");
 #if UNITY_IOS
         switch (info) {
             case PointInfo.LevelStart:
