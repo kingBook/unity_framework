@@ -1,41 +1,37 @@
 ﻿#pragma warning disable 0649
 using UnityEngine;
-using System.Collections;
-using DG.Tweening;
 using UnityEngine.UI;
+
 
 /// <summary>
 /// 获得钱币动画
-/// </summary>
 /// 
-/// <example>
 /// <code>
-/// 
 /// GameObject inst = Instantiate(m_prefab, m_prefab.transform.parent);
 /// inst.SetActive(true);
 ///
 /// GetCoinsEffect effect = inst.GetComponent<GetCoinsEffect>();
 /// effect.allowRaycast = false;
-/// effect.SetRealCount(m_game.goldCount, addGoldCount);
-/// effect.onCompleteEvent += (GetCoinsEffect getCoinsEffect, float progress, int realCount) => {
-///     m_game.SetGoldCount(realCount, progress >= 1f);
+/// effect.SetAddCount(100);
+/// effect.onCompleteEvent += (GetCoinsEffect getCoinsEffect, float progress, int addCount) => {
+///     m_game.goldCount += addCount;
 /// };
-/// 
 /// </code>
-/// </example>
+/// 
+/// </summary>
 public class GetCoinsEffect : MonoBehaviour {
 
-    /// <summary> 一个币创建完成（未开始收集动画之前），格式：void (GetCoinsEffect getCoinsEffect, float progress) </summary>
+    /// <summary> 一个币创建完成（未开始收集动画之前），格式：<code> void (GetCoinsEffect getCoinsEffect, float progress) </code> </summary>
     public event System.Action<GetCoinsEffect, float> onCreatedEvent;
 
-    /// <summary> 所有币都创建完成（未开始收集动画之前），格式：void (GetCoinsEffect getCoinsEffect) </summary>
+    /// <summary> 所有币都创建完成（未开始收集动画之前），格式：<code> void (GetCoinsEffect getCoinsEffect) </code> </summary>
     public event System.Action<GetCoinsEffect> onAllCreatedEvent;
 
-    /// <summary> 一个币收集动画完成（飞到目标点），格式：void (GetCoinsEffect getCoinsEffect, float progress, int realCount) </summary>
+    /// <summary> 一个币收集动画完成（飞到目标点），格式：<code> void (GetCoinsEffect getCoinsEffect, float progress, int addCount) </code> </summary>
     public event System.Action<GetCoinsEffect, float, int> onCompleteEvent;
 
-    /// <summary> 所胡币收集动画完成（飞到目标点），格式：void (GetCoinsEffect getCoinsEffect, int realCount) </summary>
-    public event System.Action<GetCoinsEffect, int> onAllCompleteEvent;
+    /// <summary> 所胡币收集动画完成（飞到目标点），格式：<code> void (GetCoinsEffect getCoinsEffect) </code> </summary>
+    public event System.Action<GetCoinsEffect> onAllCompleteEvent;
 
     [Tooltip("创建币的数量")]
     public int coinImageCount = 20;
@@ -64,24 +60,15 @@ public class GetCoinsEffect : MonoBehaviour {
     private int m_createdCount;
     private bool m_isAllCoinsCreated;
 
-    private int m_realSourceCount;
-    private int m_realAddCount;
-    private int m_realCount;
+    private int m_addCount;
+
 
     /// <summary> 是否所有币都创建完成（未开始收集动画之前） </summary>
     public bool isAllCoinsCreated => m_isAllCoinsCreated;
 
-
-    /// <summary>
-    /// 设置实际的数量（动画中的币数量与实际数量是不相同的）
-    /// </summary>
-    /// <param name="sourceCount"> 原数量（增加前的数量） </param>
-    /// <param name="addCount"> 增加的数量 </param>
-    public void SetRealCount (int sourceCount, int addCount) {
-        m_realSourceCount = sourceCount;
-        m_realCount = sourceCount;
-
-        m_realAddCount = addCount;
+    /// <summary> 设置增加金币的数量 </summary>
+    public void SetAddCount (int value) {
+        m_addCount = value;
     }
 
     /// <summary>
@@ -117,7 +104,7 @@ public class GetCoinsEffect : MonoBehaviour {
         }
 
         Image imageBackground = GetComponent<Image>();
-        imageBackground.enabled = !allowRaycast;
+        imageBackground.enabled = allowRaycast;
 
         CreateCoinImages();
     }
@@ -167,13 +154,16 @@ public class GetCoinsEffect : MonoBehaviour {
 
         float progress = (float)m_tweenCompleteCount / coinImageCount;
 
-        m_realCount = m_realSourceCount + (int)(m_realAddCount * progress);
+        // 计算一个金币收集完成时，实际所需要增加金币的数量
+        int average = m_addCount / coinImageCount;
+        int remainder = m_addCount % coinImageCount;
+        int addCount = progress >= 1f ? average + remainder : average;
 
-        onCompleteEvent?.Invoke(this, progress, m_realCount);
+        onCompleteEvent?.Invoke(this, progress, addCount);
 
         // 所有币收集动画完成
         if (progress >= 1f) {
-            onAllCompleteEvent?.Invoke(this, m_realCount);
+            onAllCompleteEvent?.Invoke(this);
             Destroy(gameObject);
         }
     }
@@ -187,4 +177,3 @@ public class GetCoinsEffect : MonoBehaviour {
     }
 
 }
-

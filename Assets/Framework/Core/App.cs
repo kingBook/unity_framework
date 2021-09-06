@@ -110,32 +110,6 @@ public sealed class App : MonoBehaviour {
     public int openCount { get; private set; }
 
 
-    private void Awake () {
-        instance = this;
-
-        AddOpenCount();
-
-        if (m_language == Language.AUTO) {
-            InitLanguage();
-        }
-    }
-
-    private void AddOpenCount () {
-        const string key = "ApplicationOpenCount";
-        openCount = PlayerPrefs.GetInt(key, 0) + 1;
-        PlayerPrefs.SetInt(key, openCount);
-        PlayerPrefs.Save();
-    }
-
-    private void InitLanguage () {
-        bool isCN = Application.systemLanguage == SystemLanguage.Chinese;
-        isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseSimplified;
-        isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseTraditional;
-        m_language = isCN ? Language.CN : Language.EN;
-        //改变语言事件
-        onChangeLanguageEvent?.Invoke(m_language);
-    }
-
     /// <summary>
     /// 设置暂停/恢复更新、物理模拟
     /// </summary>
@@ -157,6 +131,37 @@ public sealed class App : MonoBehaviour {
         }
         // 发出事件
         onPauseOrResumeEvent?.Invoke(isPause);
+    }
+
+    private void InitDOTween () {
+        DOTween.SetTweensCapacity(500, 500);
+    }
+
+    private void AddOpenCount () {
+        const string key = "ApplicationOpenCount";
+        openCount = PlayerPrefs.GetInt(key, 0) + 1;
+        PlayerPrefs.SetInt(key, openCount);
+        PlayerPrefs.Save();
+    }
+
+    private void InitLanguage () {
+        bool isCN = Application.systemLanguage == SystemLanguage.Chinese;
+        isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseSimplified;
+        isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseTraditional;
+        m_language = isCN ? Language.CN : Language.EN;
+        //改变语言事件
+        onChangeLanguageEvent?.Invoke(m_language);
+    }
+
+    private void Awake () {
+        instance = this;
+
+        InitDOTween();
+        AddOpenCount();
+
+        if (m_language == Language.AUTO) {
+            InitLanguage();
+        }
     }
 
     private void OnApplicationQuit () {

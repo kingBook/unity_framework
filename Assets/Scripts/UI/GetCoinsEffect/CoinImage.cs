@@ -104,6 +104,8 @@ public class CoinImage : MonoBehaviour {
     private void OnDisable () {
         DOTween.Kill(m_sequence);
         DOTween.Kill(m_sequence2);
+        DOTween.Kill(m_image);
+        DOTween.Kill(m_rectTransform);
     }
 
 
