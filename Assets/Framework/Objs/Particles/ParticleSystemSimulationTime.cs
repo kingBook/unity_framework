@@ -9,7 +9,7 @@ using UnityEngine;
 /// </summary>
 public class ParticleSystemSimulationTime : MonoBehaviour {
 
-    [Tooltip("模拟粒子的时间")] public float time = 5;
+    [Tooltip("模拟粒子的时间（秒）")] public float time = 5;
 
     private ParticleSystem m_particleSystem;
 

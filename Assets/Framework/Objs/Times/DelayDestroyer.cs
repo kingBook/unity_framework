@@ -6,18 +6,18 @@ using UnityEngine;
 /// </summary>
 public class DelayDestroyer : MonoBehaviour {
 
-    public float time = 5;
+    [Tooltip("时间（秒）")] public float time = 5;
 
-    private bool m_timerStarting;
+    private bool m_isDelaying;
 
     private void DestroySelf () {
         Destroy(gameObject);
     }
 
     private void Update () {
-        if (m_timerStarting) return;
+        if (m_isDelaying) return;
 
-        m_timerStarting = true;
+        m_isDelaying = true;
         Invoke(nameof(DestroySelf), time);
     }
 }
