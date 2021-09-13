@@ -15,7 +15,7 @@ public sealed class App : MonoBehaviour {
 
     public enum Language { AUTO, CN, EN }
 
-    /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出 </summary>
+    /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调格式：<code> void (bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
 
     /// <summary> 更改语言事件 </summary>
@@ -36,6 +36,9 @@ public sealed class App : MonoBehaviour {
 
     [Tooltip("开始Logo屏幕")]
     [SerializeField] private PanelLogoScreen m_panelLogoScreen;
+
+    [Tooltip("延迟器")]
+    [SerializeField] private Delayer m_delayer;
 
     [Tooltip("调试助手")]
     [SerializeField] private DebugHelper m_debugHelper;
@@ -109,6 +112,16 @@ public sealed class App : MonoBehaviour {
     /// <summary> 打开应用的次数 </summary>
     public int openCount { get; private set; }
 
+
+    /// <summary>
+    /// 延迟执行一个函数（只有 monoBehaviour 被销毁、<see cref="App"/>暂停时，才会中断执行, Disable 不会中断）
+    /// </summary>
+    /// <param name="time"> 延迟的时间 </param>
+    /// <param name="monoBehaviour"> 用于检测销毁的 MonoBehaviour，一般为 this </param>
+    /// <param name="onComplete"> 延迟完成时的回调 </param>
+    public void Delay (float time, MonoBehaviour monoBehaviour, System.Action onComplete) {
+        m_delayer.Delay(time, monoBehaviour, onComplete);
+    }
 
     /// <summary>
     /// 设置暂停/恢复更新、物理模拟

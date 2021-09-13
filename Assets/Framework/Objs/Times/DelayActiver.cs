@@ -1,23 +1,40 @@
-﻿using System.Collections;
+﻿using DG.Tweening;
+using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 延迟激活器
+/// 延迟激活器（应用的对象必须处于激活状态）
 /// </summary>
 public class DelayActiver : MonoBehaviour {
 
-    [Tooltip("时间（秒）")] public float time = 5;
+    public enum MethodType {
+        Start,
+        Update
+    }
 
-    private bool m_isDelaying;
+    [Tooltip("时间（秒）")] public float time = 5;
+    [Tooltip("在指定的方法执行 Disable 操作，对象必须处于激活状态")] public MethodType disableOnMethod = MethodType.Start;
+
+    private void DisableAndStartDelay () {
+        App.instance.Delay(time, this, ActiveSelf);
+
+        gameObject.SetActive(false);
+    }
 
     private void ActiveSelf () {
+        if (this == null) return;
         gameObject.SetActive(true);
     }
 
-    private void Update () {
-        if (m_isDelaying) return;
+    private void Start () {
+        if (disableOnMethod == MethodType.Start) {
+            DisableAndStartDelay();
+        }
+    }
 
-        m_isDelaying = true;
-        Invoke(nameof(ActiveSelf), time);
+    private void Update () {
+        if (disableOnMethod == MethodType.Update) {
+            DisableAndStartDelay();
+        }
     }
 }

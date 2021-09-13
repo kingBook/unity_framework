@@ -11,6 +11,7 @@ public class DelayDestroyer : MonoBehaviour {
     private bool m_isDelaying;
 
     private void DestroySelf () {
+        m_isDelaying = false;
         Destroy(gameObject);
     }
 
@@ -18,6 +19,6 @@ public class DelayDestroyer : MonoBehaviour {
         if (m_isDelaying) return;
 
         m_isDelaying = true;
-        Invoke(nameof(DestroySelf), time);
+        App.instance.Delay(time, this, DestroySelf);
     }
 }

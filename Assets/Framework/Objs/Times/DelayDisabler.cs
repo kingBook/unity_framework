@@ -11,6 +11,7 @@ public class DelayDisabler : MonoBehaviour {
     private bool m_isDelaying;
 
     private void DisableSelf () {
+        m_isDelaying = false;
         gameObject.SetActive(false);
     }
 
@@ -18,6 +19,6 @@ public class DelayDisabler : MonoBehaviour {
         if (m_isDelaying) return;
 
         m_isDelaying = true;
-        Invoke(nameof(DisableSelf), time);
+        App.instance.Delay(time, this, DisableSelf);
     }
 }
