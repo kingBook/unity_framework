@@ -28,12 +28,15 @@
 	},
 	"editor.autoClosingQuotes": "beforeWhitespace",
 	"editor.codeLens": false,
-	"editor.fontSize": 13.2,
+	"editor.fontSize": 11.5,
 	"editor.trimAutoWhitespace": false,
 	"workbench.sideBar.location": "right",
 	"editor.minimap.enabled": false,
 	"window.zoomLevel": 0,
 	"editor.insertSpaces": false,
-	"editor.fontFamily": "Menlo, 'Courier New', monospace"
+	"editor.fontFamily": "Menlo, 'Courier New', monospace",
+	"omnisharp.enableImportCompletion": true,
+	"omnisharp.organizeImportsOnFormat": true,
+	"csharp.format.enable": true
 	
 }

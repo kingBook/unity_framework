@@ -1280,7 +1280,8 @@ MonoBehaviour:
   m_language: 0
   m_panelProgressbar: {fileID: 992276140}
   m_panelLogoScreen: {fileID: 478117834}
-  m_debugHelper: {fileID: 0}
+  m_delayer: {fileID: 1399594915}
+  m_debugHelper: {fileID: 1210826528}
   m_fileLoader: {fileID: 535276211}
   m_sceneLoader: {fileID: 1171199454}
   m_audioManager: {fileID: 750711445}

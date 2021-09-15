@@ -55,12 +55,15 @@ public class Delayer : MonoBehaviour {
 
     private void Update () {
         if (App.instance.isPause) return;
+
         int i = m_delayObjects.Count;
         while (--i >= 0) {
             DelayObject delayObject = m_delayObjects[i];
-            if (!delayObject.monoBehaviour) m_delayObjects.RemoveAt(i);
-            if (Time.time - delayObject.timeOnInit >= delayObject.time + m_pauseTime) {
+            if (!delayObject.monoBehaviour) {
+                m_delayObjects.RemoveAt(i);
+            }else if (Time.time - delayObject.timeOnInit >= delayObject.time + m_pauseTime) {
                 delayObject.onComplete.Invoke();
+                m_delayObjects.RemoveAt(i);
             }
         }
 
