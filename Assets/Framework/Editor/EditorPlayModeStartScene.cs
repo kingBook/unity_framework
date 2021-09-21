@@ -101,6 +101,7 @@ public class EditorPlayModeStartScene : Editor {
 
             // 设置选中的 GameObject
             Selection.objects = selections.ToArray();
+
         }
     }
 

@@ -3,7 +3,10 @@
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.Experimental.GraphView;
+using UnityEditor.Rendering;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class HierarchyUtil {
 
@@ -86,9 +89,16 @@ public class HierarchyUtil {
     }
 
     private static EditorWindow GetHierarchyWindow () {
+        // old
         // For it to open, so that it the current focused window.
-        EditorApplication.ExecuteMenuItem("Window/General/Hierarchy");
-        return EditorWindow.focusedWindow;
+        // EditorApplication.ExecuteMenuItem("Window/General/Hierarchy");
+        // return EditorWindow.focusedWindow;
+
+        // new
+        Assembly editorAssembly = typeof(EditorWindow).Assembly;
+        System.Type HierarchyWindowType = editorAssembly.GetType("UnityEditor.SceneHierarchyWindow");
+        EditorWindow hierarchyWindow = EditorWindow.GetWindow(HierarchyWindowType);
+        return hierarchyWindow;
     }
 }
 
