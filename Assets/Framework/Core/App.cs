@@ -169,6 +169,7 @@ public sealed class App : MonoBehaviour {
     private void Awake () {
         instance = this;
 
+        Vibration.Init();
         InitDOTween();
         AddOpenCount();
 
