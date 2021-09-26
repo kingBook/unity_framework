@@ -1,4 +1,5 @@
-﻿#pragma warning disable 0649
+﻿#if UNITY_EDITOR
+#pragma warning disable 0649
 
 using UnityEditor;
 using UnityEngine;
@@ -35,3 +36,4 @@ public class RangeFloatDrawer : PropertyDrawer {
     }
 
 }
+#endif

@@ -1,4 +1,5 @@
-﻿#pragma warning disable 0649
+﻿#if UNITY_EDITOR
+#pragma warning disable 0649
 
 using UnityEditor;
 using UnityEngine;
@@ -33,3 +34,4 @@ public class RangeVector3Drawer : PropertyDrawer {
     }
 
 }
+#endif
