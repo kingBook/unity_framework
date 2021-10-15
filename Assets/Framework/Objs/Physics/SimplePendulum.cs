@@ -32,6 +32,13 @@ public class SimplePendulum : MonoBehaviour {
     public float w { get; private set; }
 
     public void Init () {
+        if (m_isInited) return;
+        m_isInited = true;
+
+        if (m_origin) {
+            m_originPosition = m_origin.position;
+        }
+
         m_deltaTime = Time.fixedDeltaTime;
 
         Vector2 relative = (Vector2)target.position - m_originPosition;
@@ -44,7 +51,7 @@ public class SimplePendulum : MonoBehaviour {
         w = 0f;
     }
 
-    /// <summary> 设置原点的位置（注意只在 <see cref="m_origin"/> 为 null时，才能使用此方法） </summary>
+    /// <summary> 设置原点的位置（注意只在 <see cref="m_origin"/> 为 null且在 Init 之前，才能使用此方法） </summary>
     public void SetOrigin (Vector2 value) {
         if (m_origin) {
             Debug.LogError("m_origin 非 null 时，不能使用此方法，请直接设置 m_origin 的位置");
@@ -53,19 +60,10 @@ public class SimplePendulum : MonoBehaviour {
         m_originPosition = value;
     }
 
-    /// <summary>
-    /// 用角度设置目标初始位置。
-    /// 调用此函数需要保证原点（<see cref="m_originPosition"/>）已正确设置，
-    /// 此函数以摆动目标到原点的距离作为摆长，再根据指定的角度计算目标的初始位置。
-    /// </summary>
-    /// <param name="angleRadian"></param>
-    public void SetTargetInitialPositionWithAngle (float angleRadian) {
-        float distance = Vector2.Distance(target.position, m_originPosition);
-
-        Vector3 targetPosition = target.position;
-        targetPosition.x = m_originPosition.x + Mathf.Cos(angleRadian) * distance;
-        targetPosition.y = m_originPosition.y + Mathf.Sin(angleRadian) * distance;
-        target.position = targetPosition;
+    public void SetCurrentAngle (float angleRadian) {
+        Init();
+        m_currentAngle = WorldAngleToLocal(angleRadian);
+        UpdateTargetPosition();
     }
 
     /// <summary>
@@ -101,37 +99,7 @@ public class SimplePendulum : MonoBehaviour {
         target.eulerAngles = eulerAngles;
     }
 
-#if UNITY_EDITOR
-    private void Reset () {
-        if (!target) {
-            target = transform;
-        }
-    }
-#endif
-
-    private void Awake () {
-        if (m_origin) {
-            m_originPosition = m_origin.position;
-        }
-    }
-
-    private void FixedUpdate () {
-        if (m_isPause) return;
-
-        if (!m_isInited) {
-            m_isInited = true;
-            Init();
-        }
-
-        // 实时更新 m_origin
-        if (m_origin) {
-            m_originPosition = m_origin.position;
-        }
-
-        if (isUpdateTargetRotation) {
-            UpdateTargetRotation();
-        }
-
+    private void UpdateTargetPosition () {
         float k1, k2, k3, k4;
         float l1, l2, l3, l4;
         {
@@ -162,6 +130,35 @@ public class SimplePendulum : MonoBehaviour {
         targetPos.y = newY;
         target.position = targetPos;
     }
+
+
+#if UNITY_EDITOR
+    private void Reset () {
+        if (!target) {
+            target = transform;
+        }
+    }
+#endif
+
+    private void FixedUpdate () {
+        if (m_isPause) return;
+
+        if (!m_isInited) {
+            Init();
+        }
+
+        UpdateTargetPosition();
+
+        // 实时更新 m_origin
+        if (m_origin) {
+            m_originPosition = m_origin.position;
+        }
+
+        if (isUpdateTargetRotation) {
+            UpdateTargetRotation();
+        }
+    }
+
 
     private void OnDisable () {
         m_isInited = false;
