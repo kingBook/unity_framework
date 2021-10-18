@@ -5,10 +5,15 @@ using UnityEngine;
 
 public class ClassTemplate : MonoBehaviour {
 
+    #region Static Methods
+
+    #endregion Static Methods
+
 
     #region Public Setters/Getters/Methods
 
     #endregion Public Setters/Getters/Methods
+
 
     #region Unity Messages
     private void Start () {
