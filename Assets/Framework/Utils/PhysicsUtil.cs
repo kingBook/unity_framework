@@ -1,12 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PhysicsUtil {
+public static class PhysicsUtil {
 
     public static readonly RaycastHit[] RaycastHits = new RaycastHit[30];
 
     /// <summary>
-    /// 返回离射线原点最近的RaycastHit,如果没有找到将返回new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器
+    /// 返回离射线原点最近的 RaycastHit,如果没有找到将返回 new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器
     /// </summary>
     /// <param name="ray">射线</param>
     /// <param name="ignoreBodies">忽略检测的刚体列表</param>
@@ -73,6 +73,57 @@ public class PhysicsUtil {
             }
         }
         return false;
+    }
+
+    /// <summary>
+    /// 获取由原点抛物运动至目标点所需要的线性速度（此方法未完善）
+    /// </summary>
+    /// <param name="targetPosition"> 目标点 </param>
+    /// <param name="source"> 原点 </param>
+    /// <param name="angle"> 抛物的角度 </param>
+    /// <returns></returns>
+    public static Vector3 GetBallisticVelocity (Vector3 targetPosition, Transform source, float angle) {
+        Quaternion rotationRecord = source.rotation;
+
+        // think of it as top-down view of vectors: 
+        //   we don't care about the y-component(height) of the initial and target position.
+        Vector3 projectileXZPos = new Vector3(source.position.x, 0.0f, source.position.z);
+        Vector3 targetXZPos = new Vector3(targetPosition.x, 0.0f, targetPosition.z);
+
+        // rotate the object to face the target
+        source.LookAt(targetXZPos);
+
+        // shorthands for the formula
+        float R = Vector3.Distance(projectileXZPos, targetXZPos);
+        float G = Physics.gravity.y;
+        float tanAlpha = Mathf.Tan(angle * Mathf.Deg2Rad);
+        float H = targetPosition.y - source.position.y;
+
+        // calculate the local space components of the velocity 
+        // required to land the projectile on the target object 
+        float Vz = Mathf.Sqrt(G * R * R / (2.0f * (H - R * tanAlpha)));
+        float Vy = tanAlpha * Vz;
+
+        // create the velocity vector in local space and get it in global space
+        Vector3 localVelocity = new Vector3(0f, Vy, Vz);
+        Vector3 globalVelocity = source.TransformDirection(localVelocity);
+
+        source.rotation = rotationRecord;
+
+        return globalVelocity;
+    }
+
+    /// <summary>
+    /// 忽略物理接触列表的所有碰撞，此方法适用于 OnCollisionEnter (Collision collision) 消息函数内
+    /// </summary>
+    /// <param name="contacts"> 物理接触列表 </param>
+    public static void IgnoreContactsCollision (ContactPoint[] contacts) {
+        for (int i = 0, len = contacts.Length; i < len; i++) {
+            ContactPoint contact = contacts[i];
+            Collider thisCollider = contact.thisCollider;
+            Collider otherCollider = contact.otherCollider;
+            Physics.IgnoreCollision(thisCollider, otherCollider, true);
+        }
     }
 
 }
