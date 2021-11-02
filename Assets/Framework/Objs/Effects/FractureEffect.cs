@@ -11,6 +11,7 @@ public class FractureEffect : MonoBehaviour {
 
     public RangeFloat explosionRadiusRange = new RangeFloat(3f, 10f);
     public RangeFloat explosionForceRange = new RangeFloat(100f, 300);
+    [Tooltip("爆炸中心, null时当前 Transfrom 的位置")] public Transform explosionCenterTransform;
     public Vector3 explosionCenterOffset = new Vector3(0f, -0.5f, 0f);
 
     private const uint FlagExplosioning = 1;
@@ -35,7 +36,7 @@ public class FractureEffect : MonoBehaviour {
             transform.SetParent(parent, true);
         }
 
-        Vector3 explosionPosition = transform.position;
+        Vector3 explosionPosition = explosionCenterTransform ? explosionCenterTransform.position : transform.position;
         explosionPosition += explosionCenterOffset;
         for (int i = 0; i < m_parts.Length; i++) {
             FracturePart part = m_parts[i];
