@@ -47,28 +47,32 @@ public static class AdsBridge {
     /// <summary>
     /// 展示激励视频广告
     /// </summary>
-    /// <param name="onComplete"> 播放完成时调用（给予奖励） </param>
-    /// <param name="onClose"> 中途关闭时调用（不给予奖励，可能为 null） </param>
-    public static void ShowRewardAd (System.Action onComplete, System.Action onClose = null) {
+    /// <param name="onUserEarnedReward"> 播放完成给予奖励时调用（不允许 null） </param>
+    /// <param name="OnAdClosed"> 中途关闭时调用（不给予奖励，可能为 null） </param>
+    /// <param name="OnAdOpening"> 成功加载并开始显示时调用（用于播放广告时需要暂停游戏，可能为 null） </param>
+    public static void ShowRewardAd (System.Action onUserEarnedReward, System.Action OnAdClosed = null, System.Action OnAdOpening = null) {
         // TODO: 视频广告接口
-        // onComplete.Invoke(); // 播放完成时调用（给予奖励 注意:勿重复调用多次）
-        // onClose?.Invoke();   // 中途关闭时调用（不给予奖励 注意:勿重复调用多次，此回调用可能为 null）
+        // onUserEarnedReward.Invoke(); // 注意:勿重复多次调用
+        // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调用可能为 null
+        // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调用可能为 null
 #if UNITY_IOS
-        //AdsManager.instance.ShowRewardAd(onComplete, onClose);
+        //AdsManager.instance.ShowRewardAd(onUserEarnedReward, OnAdClosed, OnAdOpening);
 #elif UNITY_ANDROID
         // 模拟测试代码
-        DelayComplete(onComplete);
+        OnAdOpening?.Invoke();
+        Delay(onUserEarnedReward);
 #else
         // 模拟测试代码
-        DelayComplete(onComplete);
+        OnAdOpening?.Invoke();
+        Delay(onComplete);
 #endif
     }
 
     /// <summary> 此方法仅用于测试 </summary>
-    private static async void DelayComplete (System.Action completeCallback) {
+    private static async void Delay (System.Action callback) {
         await Task.Delay(1000);
         Debug.Log("== 模拟展示激励视频广告完成");
-        completeCallback();
+        callback();
     }
 
 
