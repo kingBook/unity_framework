@@ -907,6 +907,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   directionInput: {fileID: 2832697816100491035}
   keyInput: {fileID: 2832697816190550564}
+  m_clickAudioClip: {fileID: 8300000, guid: fe3158873d6186744a41d20f4df0bac5, type: 3}
 --- !u!1 &8449355929401539421
 GameObject:
   m_ObjectHideFlags: 0

@@ -146,6 +146,16 @@ public sealed class App : MonoBehaviour {
         onPauseOrResumeEvent?.Invoke(isPause);
     }
 
+    /// <summary> 手机弱震动 </summary>
+    public void VibratePop () {
+#if UNITY_IOS
+        Vibration.VibratePop();
+#elif UNITY_ANDROID
+        Vibration.Vibrate(20);
+#endif
+    }
+
+
     private void InitDOTween () {
         DOTween.SetTweensCapacity(500, 500);
     }
