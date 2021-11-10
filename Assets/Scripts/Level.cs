@@ -40,12 +40,15 @@ public class Level : MonoBehaviour {
 
     private void Start () {
         m_game = App.instance.GetGame<Game>();
+        m_game.SetCurrentLevel(this);
 
         //InitRenderSettings();
     }
 
     private void OnDestroy () {
-
+        if (m_game) {
+            m_game.SetCurrentLevel(null);
+        }
     }
 
 }
