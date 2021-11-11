@@ -5,3 +5,5 @@ obj/
 Recordings/
 *.csproj
 *.sln
+*.zip
+*.rar
