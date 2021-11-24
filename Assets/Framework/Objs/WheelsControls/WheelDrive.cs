@@ -30,9 +30,9 @@ public class WheelDrive : MonoBehaviour {
     [Tooltip("The vehicle's drive type: rear-wheels drive, front-wheels drive or all-wheels drive.")]
     public DriveType driveType;//车辆的驱动类型：RearWheelDrive（后轮驱动）、FrontWheelDrive（前轮驱动）、AllWheelDrive（所有轮驱动）。
 
-    [Space, SerializeField] private WheelCollider[] m_frontWheels;//前轮列表
-
-    [Space, SerializeField] private WheelCollider[] m_rearWheels;//后轮列表
+    [Space]
+    public WheelCollider[] frontWheels;//前轮列表
+    public WheelCollider[] rearWheels;//后轮列表
 
     private float m_steerAngleNormalized = 0;
     private float m_motorTorqueNormalized = 0;
@@ -43,15 +43,15 @@ public class WheelDrive : MonoBehaviour {
         //每次进行固定更新时，车辆模拟将该固定增量时间拆分为较小的子步骤，并计算每个较小增量的悬架和轮胎力。然后，汇总所有计算得出的力和扭矩，将它们整合到一起并应用于车身。
         //利用该函数，您可以自定义在高于和低于速度阈值时模拟将执行的子步骤数。
         //对于每辆汽车，调用该函数一次即可，因为它实际上是向车辆而不是向某个车轮设置参数。
-        m_frontWheels[0].ConfigureVehicleSubsteps(criticalSpeed, stepsBelow, stepsAbove);
+        frontWheels[0].ConfigureVehicleSubsteps(criticalSpeed, stepsBelow, stepsAbove);
         //
         float steerAngle = m_steerAngleNormalized * maxAngle;
         float motorTorque = m_motorTorqueNormalized * maxTorque;
         float brakeTorqueValue = m_isBrake ? brakeTorque : 0;
         ////////////////////////////设置前轮//////////////////////////
-        int i = m_frontWheels.Length;
+        int i = frontWheels.Length;
         while (--i >= 0) {
-            WheelCollider wheel = m_frontWheels[i];
+            WheelCollider wheel = frontWheels[i];
             wheel.steerAngle = steerAngle;//前轮设置转向角
             if (driveType != DriveType.RearWheelDrive) {
                 wheel.motorTorque = motorTorque;
@@ -59,9 +59,9 @@ public class WheelDrive : MonoBehaviour {
             UpdateWheelSkin(wheel);
         }
         ////////////////////////////设置后轮//////////////////////////
-        i = m_rearWheels.Length;
+        i = rearWheels.Length;
         while (--i >= 0) {
-            WheelCollider wheel = m_rearWheels[i];
+            WheelCollider wheel = rearWheels[i];
             wheel.brakeTorque = brakeTorqueValue;//后轮设置刹车扭矩
             if (driveType != DriveType.FrontWheelDrive) {
                 wheel.motorTorque = motorTorque;
@@ -94,20 +94,20 @@ public class WheelDrive : MonoBehaviour {
     }
 
     /// <summary>当前轮轴转速（以每分钟转数为单位）</summary>
-    public float rpm => m_frontWheels[0].rpm;
+    public float rpm => frontWheels[0].rpm;
 
     /// <summary>指示车轮当前是否与某物发生碰撞</summary>
     public bool isGrounded {
         get {
-            int i = m_frontWheels.Length;
+            int i = frontWheels.Length;
             while (--i >= 0) {
-                if (m_frontWheels[i].isGrounded) {
+                if (frontWheels[i].isGrounded) {
                     return true;
                 }
             }
-            i = m_rearWheels.Length;
+            i = rearWheels.Length;
             while (--i >= 0) {
-                if (m_rearWheels[i].isGrounded) {
+                if (rearWheels[i].isGrounded) {
                     return true;
                 }
             }
