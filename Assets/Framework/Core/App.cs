@@ -21,9 +21,6 @@ public sealed class App : MonoBehaviour {
     /// <summary> 更改语言事件 </summary>
     public event Action<Language> onChangeLanguageEvent;
 
-    [Tooltip("标记为调试（不载入其他场景）")]
-    [SerializeField] private bool m_isDebug = false;
-
     [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
      "\nCN:中文 " +
      "\nEN:英文")
@@ -55,8 +52,6 @@ public sealed class App : MonoBehaviour {
     [Tooltip("游戏列表")]
     [SerializeField] private BaseGame[] m_games = new BaseGame[0];
 
-    /// <summary> 是否为调试模式，调试模式下不加载其他场景 </summary>
-    public bool isDebug => m_isDebug;
 
     /// <summary> 应用程序的语言 </summary>
     public Language language {

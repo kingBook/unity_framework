@@ -45,8 +45,6 @@ public class DebugHelper : MonoBehaviour {
     private void OnGUI () {
         float buttonSize = (Screen.width + Screen.height) / 2f * 0.1f;
 
-        
-
         if (m_isMinimized) {
             GUILayout.BeginHorizontal();
             {

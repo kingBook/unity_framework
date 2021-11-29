@@ -40,11 +40,8 @@ public sealed class Game : BaseGame {
     }
 
     private void Start () {
-        // 非调试时，才加载其它场景
-        if (!App.instance.isDebug) {
-            //GotoTitleScene();
-            GotoLevelScene(1);
-        }
+        //GotoTitleScene();
+        GotoLevelScene(1);
     }
 
     private void OnDestroy () {
