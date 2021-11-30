@@ -2,7 +2,7 @@
 using UnityEngine;
 
 /// <summary>
-/// 生成一个新的 RenderTexture，并管理其丢失重建、内存释放
+/// 生成一个新的 RenderTexture，并管理它的"丢失"重建、内存释放
 /// </summary>
 public class RenderTextureGetter : MonoBehaviour {
 

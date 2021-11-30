@@ -3,7 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 将创建一个 RenderTexture，并将其设置 Camera.targetTexture 和 RawImage.texture
+/// 将创建一个 RenderTexture，并将它设置到 Camera.targetTexture 和 RawImage.texture，且管理它的"丢失"重建、内存释放
 /// </summary>
 public class RenderTextureUISetter : MonoBehaviour {
 
