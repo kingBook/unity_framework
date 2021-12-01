@@ -53,7 +53,9 @@ public class RenderTextureRecreateAndGC : MonoBehaviour {
 
     private void OnDestroy () {
         m_inited = false;
-        m_renderTexture.Release();
+		if(m_renderTexture) {
+			m_renderTexture.Release();
+		}
     }
 
 }
