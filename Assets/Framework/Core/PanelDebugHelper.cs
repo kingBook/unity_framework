@@ -11,7 +11,7 @@ public class PanelDebugHelper : MonoBehaviour {
     public event System.Action onAddMoneysEvent;
 
     /// <summary>
-    /// 添加金钱事件，函数格式：<code> void onGotoLevel(int levelNumber) </code>
+    /// 进入指定关卡事件，函数格式：<code> void onGotoLevel(int levelNumber) </code>
     /// </summary>
     public event System.Action<int> onGotoLevelEvent;
 
