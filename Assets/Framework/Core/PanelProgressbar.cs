@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using TMPro;
+using UnityEngine;
 using UnityEngine.UI;
 #pragma warning disable 0649
 
@@ -8,7 +9,7 @@ public class PanelProgressbar : MonoBehaviour {
     private Image m_imageMid;
 
     [Tooltip("百分比文本框"), SerializeField]
-    private Text m_text;
+    private TMP_Text m_text;
 
     /// <summary>
     /// 设置显示的进度
