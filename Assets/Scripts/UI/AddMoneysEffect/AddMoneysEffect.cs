@@ -54,6 +54,11 @@ public class AddMoneysEffect : MonoBehaviour {
     /// <summary> 设置增加金币的数量 </summary>
     public void SetAddCount (int value) {
         m_addCount = value;
+
+        // 实际增加数不能小于实例数，否则会出现一个金币飞到目标点后增加的加+0的情况
+        if (m_addCount < coinImageCount) {
+            coinImageCount = m_addCount;
+        }
     }
 
     private void OnCreateTimer () {
@@ -66,6 +71,8 @@ public class AddMoneysEffect : MonoBehaviour {
         if (m_audioClip) {
             App.instance.audioManager.PlayEffect(m_audioClip, Camera.main.transform);
         }
+
+        App.instance.VibratePop();
 
         m_createdCount++;
         if (m_createdCount >= coinImageCount) {
@@ -85,7 +92,6 @@ public class AddMoneysEffect : MonoBehaviour {
         int average = m_addCount / coinImageCount;
         int remainder = m_addCount % coinImageCount;
         int addCount = progress >= 1f ? average + remainder : average;
-
         onCompleteEvent?.Invoke(this, progress, addCount);
 
         // 所有币收集动画完成
@@ -104,6 +110,13 @@ public class AddMoneysEffect : MonoBehaviour {
         Image imageBackground = GetComponent<Image>();
         imageBackground.enabled = !allowRaycast;
 
-        InvokeRepeating(nameof(OnCreateTimer), createIntervalTime, createIntervalTime);
+        if (m_addCount > 0) {
+            InvokeRepeating(nameof(OnCreateTimer), createIntervalTime, createIntervalTime);
+        } else {
+            // <=0时，直接完成
+            onCompleteEvent?.Invoke(this, 1f, m_addCount);
+            onAllCompleteEvent?.Invoke(this);
+            Destroy(gameObject);
+        }
     }
 }
