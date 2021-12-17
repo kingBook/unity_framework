@@ -3,7 +3,7 @@ using System.Collections;
 
 public static class PhysicsUtil {
 
-    public static readonly RaycastHit[] RaycastHits = new RaycastHit[30];
+    public static readonly RaycastHit[] RaycastHits = new RaycastHit[32];
 
     /// <summary>
     /// 返回离射线原点最近的 RaycastHit,如果没有找到将返回 new RaycastHit()，使用 RaycastHit.collider==null 来判断是否查询到碰撞器

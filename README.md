@@ -11,3 +11,6 @@ Unity Framework
 
 待完成：
 * AnimationCallbacks.cs
+
+待实现的功能: 
+* PhysicsUtil.IsTouching(Collider collider1, Collider collider2);
