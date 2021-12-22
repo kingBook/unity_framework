@@ -28,13 +28,14 @@ public class TestTouching : MonoBehaviour {
         if (collider1 is BoxCollider) {
             BoxCollider boxCollider = (BoxCollider)collider1;
             Vector3 center = transform1.TransformPoint(boxCollider.center);
-            Vector3 halfExtents = transform1.TransformVector(boxCollider.size) * 0.5f;
+            Vector3 halfExtents = boxCollider.size * 0.5f;
+            halfExtents.Scale(transform1.lossyScale);
             Quaternion orientation = transform1.rotation;
             count = Physics.OverlapBoxNonAlloc(center, halfExtents, TempColliders, orientation);
         } else if (collider1 is SphereCollider) {
             SphereCollider sphereCollider = (SphereCollider)collider1;
             Vector3 position = transform1.TransformPoint(sphereCollider.center);
-            float radius = transform1.TransformVector(new Vector3(sphereCollider.radius, 0f, 0f)).x;
+            float radius = sphereCollider.radius*Mathf.Max(transform1.lossyScale.x, transform1.lossyScale.y, transform1.lossyScale.z);
             count = Physics.OverlapSphereNonAlloc(position, radius, TempColliders);
         } else if (collider1 is CapsuleCollider) {
             CapsuleCollider capsuleCollider = (CapsuleCollider)collider1;
