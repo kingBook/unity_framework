@@ -8,10 +8,10 @@ public class LogicRopeWithCoil : MonoBehaviour
 
     float m_fRopeExtension;
 
-	void Start()
+    void Start()
     {
-	    m_fRopeExtension = Rope != null ? Rope.m_fCurrentExtension : 0.0f;
-	}
+        m_fRopeExtension = Rope != null ? Rope.m_fCurrentExtension : 0.0f;
+    }
 
     void OnGUI()
     {
@@ -20,7 +20,7 @@ public class LogicRopeWithCoil : MonoBehaviour
         GUILayout.Label("Use the keys i and o to extend the rope");
     }
 
-	void Update()
+    void Update()
     {
         if(Input.GetKey(KeyCode.O)) m_fRopeExtension += Time.deltaTime * RopeExtensionSpeed;
         if(Input.GetKey(KeyCode.I)) m_fRopeExtension -= Time.deltaTime * RopeExtensionSpeed;
@@ -30,5 +30,5 @@ public class LogicRopeWithCoil : MonoBehaviour
             m_fRopeExtension = Mathf.Clamp(m_fRopeExtension, 0.0f, Rope.ExtensibleLength);
             Rope.ExtendRope(UltimateRope.ERopeExtensionMode.LinearExtensionIncrement, m_fRopeExtension - Rope.m_fCurrentExtension);
         }
-	}
+    }
 }

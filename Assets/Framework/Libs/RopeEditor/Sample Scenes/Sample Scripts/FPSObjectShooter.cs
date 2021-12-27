@@ -13,12 +13,12 @@ public class FPSObjectShooter : MonoBehaviour
 
     private Vector3          m_v3MousePosition;
 
-	void Start()
+    void Start()
     {
-	    m_v3MousePosition = Input.mousePosition;
-	}
-	
-	void Update()
+        m_v3MousePosition = Input.mousePosition;
+    }
+    
+    void Update()
     {
         if(Element != null)
         {
@@ -43,5 +43,5 @@ public class FPSObjectShooter : MonoBehaviour
         }
 
         m_v3MousePosition = Input.mousePosition;
-	}
+    }
 }

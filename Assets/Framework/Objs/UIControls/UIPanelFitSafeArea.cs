@@ -45,12 +45,12 @@ public class UIPanelFitSafeArea : MonoBehaviour {
             else safeArea.width *= 0.95f;
         }
 #elif UNITY_IOS || UNITY_ANDROID
-		//根据屏幕旋转重新设置正确的 screenWidth 和 screenHeight，长的为 screenWidth ，短的为 screenHeight。
-		bool isPortrait=Screen.orientation==ScreenOrientation.Portrait||Screen.orientation==ScreenOrientation.PortraitUpsideDown;
-		float minScreenValue=Mathf.Min(screenWidth,screenHeight);
-		float maxScreenValue=Mathf.Max(screenWidth,screenHeight);
-		screenWidth=isPortrait?minScreenValue:maxScreenValue;
-		screenHeight=isPortrait?maxScreenValue:minScreenValue;
+        //根据屏幕旋转重新设置正确的 screenWidth 和 screenHeight，长的为 screenWidth ，短的为 screenHeight。
+        bool isPortrait=Screen.orientation==ScreenOrientation.Portrait||Screen.orientation==ScreenOrientation.PortraitUpsideDown;
+        float minScreenValue=Mathf.Min(screenWidth,screenHeight);
+        float maxScreenValue=Mathf.Max(screenWidth,screenHeight);
+        screenWidth=isPortrait?minScreenValue:maxScreenValue;
+        screenHeight=isPortrait?maxScreenValue:minScreenValue;
 #endif
         //计算 anchorMin、anchorMax
         Vector2 anchorMin = safeArea.position;

@@ -117,10 +117,10 @@ public static class InputUtil {
     }
 
     /// <summary>
-	/// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
-	/// </summary>
-	public static bool IsPointerOverUI(int fingerId){
-		bool result=false;
+    /// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
+    /// </summary>
+    public static bool IsPointerOverUI(int fingerId){
+        bool result=false;
         if (EventSystem.current) {
             if (Input.touchSupported) {
                 for (int i = 0, len = Input.touchCount; i < len; i++) {
@@ -138,8 +138,8 @@ public static class InputUtil {
                 }
             }
         }
-		return result;
-	}
+        return result;
+    }
 
     /// <summary>
     /// 检测鼠标左键/指定fingerId的触摸是否释放

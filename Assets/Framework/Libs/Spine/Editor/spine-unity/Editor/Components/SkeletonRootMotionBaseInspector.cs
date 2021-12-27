@@ -31,73 +31,73 @@ using UnityEditor;
 using UnityEngine;
 
 namespace Spine.Unity.Editor {
-	[CustomEditor(typeof(SkeletonRootMotionBase))]
-	[CanEditMultipleObjects]
-	public class SkeletonRootMotionBaseInspector : UnityEditor.Editor {
-		protected SerializedProperty rootMotionBoneName;
-		protected SerializedProperty transformPositionX;
-		protected SerializedProperty transformPositionY;
-		protected SerializedProperty rootMotionScaleX;
-		protected SerializedProperty rootMotionScaleY;
-		protected SerializedProperty rigidBody2D;
-		protected SerializedProperty rigidBody;
+    [CustomEditor(typeof(SkeletonRootMotionBase))]
+    [CanEditMultipleObjects]
+    public class SkeletonRootMotionBaseInspector : UnityEditor.Editor {
+        protected SerializedProperty rootMotionBoneName;
+        protected SerializedProperty transformPositionX;
+        protected SerializedProperty transformPositionY;
+        protected SerializedProperty rootMotionScaleX;
+        protected SerializedProperty rootMotionScaleY;
+        protected SerializedProperty rigidBody2D;
+        protected SerializedProperty rigidBody;
 
-		protected GUIContent rootMotionBoneNameLabel;
-		protected GUIContent transformPositionXLabel;
-		protected GUIContent transformPositionYLabel;
-		protected GUIContent rootMotionScaleXLabel;
-		protected GUIContent rootMotionScaleYLabel;
-		protected GUIContent rigidBody2DLabel;
-		protected GUIContent rigidBodyLabel;
+        protected GUIContent rootMotionBoneNameLabel;
+        protected GUIContent transformPositionXLabel;
+        protected GUIContent transformPositionYLabel;
+        protected GUIContent rootMotionScaleXLabel;
+        protected GUIContent rootMotionScaleYLabel;
+        protected GUIContent rigidBody2DLabel;
+        protected GUIContent rigidBodyLabel;
 
-		protected virtual void OnEnable () {
+        protected virtual void OnEnable () {
 
-			rootMotionBoneName = serializedObject.FindProperty("rootMotionBoneName");
-			transformPositionX = serializedObject.FindProperty("transformPositionX");
-			transformPositionY = serializedObject.FindProperty("transformPositionY");
-			rootMotionScaleX = serializedObject.FindProperty("rootMotionScaleX");
-			rootMotionScaleY = serializedObject.FindProperty("rootMotionScaleY");
-			rigidBody2D = serializedObject.FindProperty("rigidBody2D");
-			rigidBody = serializedObject.FindProperty("rigidBody");
+            rootMotionBoneName = serializedObject.FindProperty("rootMotionBoneName");
+            transformPositionX = serializedObject.FindProperty("transformPositionX");
+            transformPositionY = serializedObject.FindProperty("transformPositionY");
+            rootMotionScaleX = serializedObject.FindProperty("rootMotionScaleX");
+            rootMotionScaleY = serializedObject.FindProperty("rootMotionScaleY");
+            rigidBody2D = serializedObject.FindProperty("rigidBody2D");
+            rigidBody = serializedObject.FindProperty("rigidBody");
 
-			rootMotionBoneNameLabel = new UnityEngine.GUIContent("Root Motion Bone", "The bone to take the motion from.");
-			transformPositionXLabel = new UnityEngine.GUIContent("X", "Root transform position (X)");
-			transformPositionYLabel = new UnityEngine.GUIContent("Y", "Use the Y-movement of the bone.");
-			rootMotionScaleXLabel = new UnityEngine.GUIContent("Root Motion Scale (X)", "Scale applied to the horizontal root motion delta. Can be used for delta compensation to e.g. stretch a jump to the desired distance.");
-			rootMotionScaleYLabel = new UnityEngine.GUIContent("Root Motion Scale (Y)", "Scale applied to the vertical root motion delta. Can be used for delta compensation to e.g. stretch a jump to the desired distance.");
-			rigidBody2DLabel = new UnityEngine.GUIContent("Rigidbody2D",
-				"Optional Rigidbody2D: Assign a Rigidbody2D here if you want " +
-				" to apply the root motion to the rigidbody instead of the Transform." +
-				"\n\n" +
-				"Note that animation and physics updates are not always in sync." +
-				"Some jitter may result at certain framerates.");
-			rigidBodyLabel = new UnityEngine.GUIContent("Rigidbody",
-				"Optional Rigidbody: Assign a Rigidbody here if you want " +
-				" to apply the root motion to the rigidbody instead of the Transform." +
-				"\n\n" +
-				"Note that animation and physics updates are not always in sync." +
-				"Some jitter may result at certain framerates.");
-		}
+            rootMotionBoneNameLabel = new UnityEngine.GUIContent("Root Motion Bone", "The bone to take the motion from.");
+            transformPositionXLabel = new UnityEngine.GUIContent("X", "Root transform position (X)");
+            transformPositionYLabel = new UnityEngine.GUIContent("Y", "Use the Y-movement of the bone.");
+            rootMotionScaleXLabel = new UnityEngine.GUIContent("Root Motion Scale (X)", "Scale applied to the horizontal root motion delta. Can be used for delta compensation to e.g. stretch a jump to the desired distance.");
+            rootMotionScaleYLabel = new UnityEngine.GUIContent("Root Motion Scale (Y)", "Scale applied to the vertical root motion delta. Can be used for delta compensation to e.g. stretch a jump to the desired distance.");
+            rigidBody2DLabel = new UnityEngine.GUIContent("Rigidbody2D",
+                "Optional Rigidbody2D: Assign a Rigidbody2D here if you want " +
+                " to apply the root motion to the rigidbody instead of the Transform." +
+                "\n\n" +
+                "Note that animation and physics updates are not always in sync." +
+                "Some jitter may result at certain framerates.");
+            rigidBodyLabel = new UnityEngine.GUIContent("Rigidbody",
+                "Optional Rigidbody: Assign a Rigidbody here if you want " +
+                " to apply the root motion to the rigidbody instead of the Transform." +
+                "\n\n" +
+                "Note that animation and physics updates are not always in sync." +
+                "Some jitter may result at certain framerates.");
+        }
 
-		public override void OnInspectorGUI () {
-			MainPropertyFields();
-			OptionalPropertyFields();
-			serializedObject.ApplyModifiedProperties();
-		}
+        public override void OnInspectorGUI () {
+            MainPropertyFields();
+            OptionalPropertyFields();
+            serializedObject.ApplyModifiedProperties();
+        }
 
-		protected virtual void MainPropertyFields () {
-			EditorGUILayout.PropertyField(rootMotionBoneName, rootMotionBoneNameLabel);
-			EditorGUILayout.PropertyField(transformPositionX, transformPositionXLabel);
-			EditorGUILayout.PropertyField(transformPositionY, transformPositionYLabel);
+        protected virtual void MainPropertyFields () {
+            EditorGUILayout.PropertyField(rootMotionBoneName, rootMotionBoneNameLabel);
+            EditorGUILayout.PropertyField(transformPositionX, transformPositionXLabel);
+            EditorGUILayout.PropertyField(transformPositionY, transformPositionYLabel);
 
-			EditorGUILayout.PropertyField(rootMotionScaleX, rootMotionScaleXLabel);
-			EditorGUILayout.PropertyField(rootMotionScaleY, rootMotionScaleYLabel);
-		}
+            EditorGUILayout.PropertyField(rootMotionScaleX, rootMotionScaleXLabel);
+            EditorGUILayout.PropertyField(rootMotionScaleY, rootMotionScaleYLabel);
+        }
 
-		protected virtual void OptionalPropertyFields () {
-			//EditorGUILayout.LabelField("Optional", EditorStyles.boldLabel);
-			EditorGUILayout.PropertyField(rigidBody2D, rigidBody2DLabel);
-			EditorGUILayout.PropertyField(rigidBody, rigidBodyLabel);
-		}
-	}
+        protected virtual void OptionalPropertyFields () {
+            //EditorGUILayout.LabelField("Optional", EditorStyles.boldLabel);
+            EditorGUILayout.PropertyField(rigidBody2D, rigidBody2DLabel);
+            EditorGUILayout.PropertyField(rigidBody, rigidBodyLabel);
+        }
+    }
 }

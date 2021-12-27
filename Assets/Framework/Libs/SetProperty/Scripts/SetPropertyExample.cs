@@ -5,68 +5,68 @@ using System.Collections;
 
 public class SetPropertyExample : MonoBehaviour 
 {
-	[System.Serializable]
-	public class VanillaClass
-	{
-		public enum ExtraType
-		{
-			None,
-			HotFudge,
-			Mint,
-		}
+    [System.Serializable]
+    public class VanillaClass
+    {
+        public enum ExtraType
+        {
+            None,
+            HotFudge,
+            Mint,
+        }
 
-		[SerializeField, SetProperty("Extra")]
-		private ExtraType extra;
-		public ExtraType Extra
-		{
-			get
-			{
-				return extra;
-			}
-			set
-			{
-				extra = value;
+        [SerializeField, SetProperty("Extra")]
+        private ExtraType extra;
+        public ExtraType Extra
+        {
+            get
+            {
+                return extra;
+            }
+            set
+            {
+                extra = value;
 
-				// For illustrative purposes
-				if (value == ExtraType.None)
-				{
-					Debug.Log("Simple!");
-				}
-				else
-				{
-					Debug.Log ("Yummy!");
-				}
-			}
-		}
-	}
+                // For illustrative purposes
+                if (value == ExtraType.None)
+                {
+                    Debug.Log("Simple!");
+                }
+                else
+                {
+                    Debug.Log ("Yummy!");
+                }
+            }
+        }
+    }
 
-	[SerializeField, SetProperty("Number")]
-	private float number;
-	public float Number
-	{
-		get
-		{
-			return number;
-		}
-		private set
-		{
-			number = Mathf.Clamp01(value);
-		}
-	}
+    [SerializeField, SetProperty("Number")]
+    private float number;
+    public float Number
+    {
+        get
+        {
+            return number;
+        }
+        private set
+        {
+            number = Mathf.Clamp01(value);
+        }
+    }
 
-	[SerializeField, SetProperty("Text")]
-	private string text;
-	public string Text
-	{
-		get
-		{
-			return text;
-		}
-		set
-		{
-			text = value.ToUpper();
-		}
-	}
+    [SerializeField, SetProperty("Text")]
+    private string text;
+    public string Text
+    {
+        get
+        {
+            return text;
+        }
+        set
+        {
+            text = value.ToUpper();
+        }
+    }
 
-	public VanillaClass vanilla;
+    public VanillaClass vanilla;
 }

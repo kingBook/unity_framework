@@ -31,7 +31,7 @@ public class RopeCutter : MonoBehaviour {
 
         for (int i = 0, len = ropes.Length; i < len; i++) {
             UltimateRope rope = ropes[i];
-			if (!rope) continue;
+            if (!rope) continue;
             if (!rope.gameObject.activeInHierarchy) continue;
 
             for (int j = 0, nodeCount = rope.RopeNodes.Count; j < nodeCount; j++) {

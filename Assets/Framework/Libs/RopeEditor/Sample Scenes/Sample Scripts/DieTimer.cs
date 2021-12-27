@@ -7,18 +7,18 @@ public class DieTimer : MonoBehaviour
 
     float m_fTimer = 0.0f;
 
-	void Start()
+    void Start()
     {
-	    m_fTimer = 0.0f;
-	}
-	
-	void Update()
+        m_fTimer = 0.0f;
+    }
+    
+    void Update()
     {
         m_fTimer += Time.deltaTime;
 
-	    if(m_fTimer > SecondsToDie)
+        if(m_fTimer > SecondsToDie)
         {
             Destroy(gameObject);
         }
-	}
+    }
 }

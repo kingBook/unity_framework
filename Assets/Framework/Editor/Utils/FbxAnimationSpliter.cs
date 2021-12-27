@@ -68,23 +68,23 @@ public class FbxAnimationSpliter : Editor {
     }
 
     /*
-	 //AssetPostprocessor时，使用此方法
-	 private void OnPreprocessAnimation(){
-		//去除后缀的资源相对路径，如：Assets/Models/testFBX
-		string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
-		//.txt绝对路径，如：D:/projects/unity_test/Assets/Models/testFBX.txt
-		string txtPath=projectPath+'/'+assetNamePath+".txt";
-		
-		if(File.Exists(txtPath)){
-			StreamReader streamReader =File.OpenText(txtPath);
-			string sAnimList=streamReader.ReadToEnd();
-			streamReader.Close();
-			
-			var clipAnimations=ParseAnimFile(sAnimList);
-			ModelImporter modelImporter=assetImporter as ModelImporter;
-			modelImporter.clipAnimations=clipAnimations;
-		}
-	}*/
+     //AssetPostprocessor时，使用此方法
+     private void OnPreprocessAnimation(){
+        //去除后缀的资源相对路径，如：Assets/Models/testFBX
+        string assetNamePath=assetPath.Substring(0,assetPath.LastIndexOf('.'));
+        //.txt绝对路径，如：D:/projects/unity_test/Assets/Models/testFBX.txt
+        string txtPath=projectPath+'/'+assetNamePath+".txt";
+        
+        if(File.Exists(txtPath)){
+            StreamReader streamReader =File.OpenText(txtPath);
+            string sAnimList=streamReader.ReadToEnd();
+            streamReader.Close();
+            
+            var clipAnimations=ParseAnimFile(sAnimList);
+            ModelImporter modelImporter=assetImporter as ModelImporter;
+            modelImporter.clipAnimations=clipAnimations;
+        }
+    }*/
 
     /// <summary>
     /// 解析动画

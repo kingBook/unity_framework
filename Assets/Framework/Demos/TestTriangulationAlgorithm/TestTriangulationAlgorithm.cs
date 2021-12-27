@@ -23,12 +23,12 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
         indices.Reverse();//反转列表，逆时针变顺时针
 
         /*Vector3[] vertices2=new Vector3[indices.Count];
-		for(int i=0;i<indices.Count;i++){
-			Vector3 vertex=vertices[indices[i]];
-			vertex.z=0;
-			vertices2[i]=vertex;
-		}
-		indices=TriangulationAlgorithm.WidelyTriangleIndex(vertices2);*/
+        for(int i=0;i<indices.Count;i++){
+            Vector3 vertex=vertices[indices[i]];
+            vertex.z=0;
+            vertices2[i]=vertex;
+        }
+        indices=TriangulationAlgorithm.WidelyTriangleIndex(vertices2);*/
 
         TriangulationAlgorithm.WidelyTriangleIndex(vertices, ref indices, plane);
 
@@ -51,21 +51,21 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
 
             //查看三角顶点顺序
             /*UnityEditor.Handles.Label(s_points[i],"A");
-			UnityEditor.Handles.Label(s_points[i+1],"B");
-			UnityEditor.Handles.Label(s_points[i+2],"C");
-			break;*/
+            UnityEditor.Handles.Label(s_points[i+1],"B");
+            UnityEditor.Handles.Label(s_points[i+2],"C");
+            break;*/
         }
 
         /*
-		 //画线
-		 for(int i=0;i<s_points.Count;i++){
-			GizmosUtil.DrawPoint(s_points[i]);
-			UnityEditor.Handles.Label(s_points[i],string.Format("{0}",i));
-			if(i>0){
-				Gizmos.DrawLine(s_points[i-1],s_points[i]);
-				
-			}
-		}*/
+         //画线
+         for(int i=0;i<s_points.Count;i++){
+            GizmosUtil.DrawPoint(s_points[i]);
+            UnityEditor.Handles.Label(s_points[i],string.Format("{0}",i));
+            if(i>0){
+                Gizmos.DrawLine(s_points[i-1],s_points[i]);
+                
+            }
+        }*/
 
     }
 }

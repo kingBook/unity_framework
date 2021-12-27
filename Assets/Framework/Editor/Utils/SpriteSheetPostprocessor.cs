@@ -143,14 +143,14 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
             float frameY = float.Parse(frameYStr);
 
             /*string frameWidthStr=ele.GetAttribute("frameWidth");
-			if(string.IsNullOrEmpty(frameWidthStr))frameWidthStr="0";
-			float frameWidth=float.Parse(frameWidthStr);
-			string frameHeightStr=ele.GetAttribute("frameHeight");
-			if(string.IsNullOrEmpty(frameHeightStr))frameHeightStr="0";
-			float frameHeight=float.Parse(frameHeightStr);
+            if(string.IsNullOrEmpty(frameWidthStr))frameWidthStr="0";
+            float frameWidth=float.Parse(frameWidthStr);
+            string frameHeightStr=ele.GetAttribute("frameHeight");
+            if(string.IsNullOrEmpty(frameHeightStr))frameHeightStr="0";
+            float frameHeight=float.Parse(frameHeightStr);
 
-			if(frameWidth>0)width=frameWidth;
-			if(frameHeight>0)height=frameHeight;*/
+            if(frameWidth>0)width=frameWidth;
+            if(frameHeight>0)height=frameHeight;*/
 
             float poX = (pivot.x + frameX) / width;
             float poY = (height - pivot.y - frameY) / height;

@@ -28,7 +28,7 @@
             Cull Back                                         
             SetTexture [_FrontTex] {                             
                 Combine Primary * Texture
-			}
-		}
-	}
+            }
+        }
+    }
 }

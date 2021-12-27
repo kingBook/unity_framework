@@ -14,7 +14,7 @@ public class EditorReplaceDDSTextures : Editor {
     private static readonly string[] s_propertyNames = { "_MainTex", "_BumpMap" };
     private static readonly List<string> s_ddsTexturePaths = new List<string>();
 
-    [MenuItem("Tools/Replace DDS Textures")]
+    [MenuItem("Assets/Replace DDS Textures")]
     public static void ReplaceDDSTextures () {
         string[] paths = AssetDatabase.GetAllAssetPaths();
         for (int i = 0; i < paths.Length; i++) {
@@ -40,6 +40,19 @@ public class EditorReplaceDDSTextures : Editor {
         AssetDatabase.Refresh();
 
         Debug.Log("Replace DDS textures complete");
+    }
+
+    [MenuItem("Assets/Delete All Replaced DDS")]
+    public static void DeleteAllReplacedDDS () {
+        for (int i = 0; i < s_ddsTexturePaths.Count; i++) {
+            AssetDatabase.DeleteAsset(s_ddsTexturePaths[i]);
+        }
+        s_ddsTexturePaths.Clear();
+        //保存并刷新资源
+        AssetDatabase.SaveAssets();
+        AssetDatabase.Refresh();
+
+        Debug.Log("Delete all replaced DDS textures complete");
     }
 
     private static bool GetFBXReferenceDDS (string fbxPath) {
@@ -102,17 +115,6 @@ public class EditorReplaceDDSTextures : Editor {
         }
     }
 
-    [MenuItem("Tools/Delete All Replaced DDS")]
-    public static void DeleteAllReplacedDDS () {
-        for (int i = 0; i < s_ddsTexturePaths.Count; i++) {
-            AssetDatabase.DeleteAsset(s_ddsTexturePaths[i]);
-        }
-        s_ddsTexturePaths.Clear();
-        //保存并刷新资源
-        AssetDatabase.SaveAssets();
-        AssetDatabase.Refresh();
-
-        Debug.Log("Delete all replaced DDS textures complete");
-    }
+    
 }
 #endif

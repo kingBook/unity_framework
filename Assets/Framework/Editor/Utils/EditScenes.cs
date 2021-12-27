@@ -37,16 +37,16 @@ public class EditScenes : Editor {
 
             //遍历查看属性
             /*var prop=so.GetIterator();
-			while(prop.Next(true)){
-				Debug.Log(prop.name);
-			}*/
+            while(prop.Next(true)){
+                Debug.Log(prop.name);
+            }*/
 
             //Revert GameObject or Component
             //PrefabUtility.RevertObjectOverride(rt,InteractionMode.AutomatedAction);
 
             //Revert a property
             /*SerializedProperty propAnchoredPos=so.FindProperty("m_AnchoredPosition");
-			PrefabUtility.RevertPropertyOverride(propAnchoredPos,InteractionMode.AutomatedAction);*/
+            PrefabUtility.RevertPropertyOverride(propAnchoredPos,InteractionMode.AutomatedAction);*/
 
             //修改后，必须标记'已编辑'，否则保存场景无效
             //EditorSceneManager.MarkSceneDirty(scene);

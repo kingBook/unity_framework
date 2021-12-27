@@ -33,182 +33,182 @@ using Spine.Unity.AnimationTools;
 
 namespace Spine.Unity {
 
-	/// <summary>
-	/// Base class for skeleton root motion components.
-	/// </summary>
-	abstract public class SkeletonRootMotionBase : MonoBehaviour {
+    /// <summary>
+    /// Base class for skeleton root motion components.
+    /// </summary>
+    abstract public class SkeletonRootMotionBase : MonoBehaviour {
 
-		#region Inspector
-		[SpineBone]
-		[SerializeField]
-		protected string rootMotionBoneName = "root";
-		public bool transformPositionX = true;
-		public bool transformPositionY = true;
+        #region Inspector
+        [SpineBone]
+        [SerializeField]
+        protected string rootMotionBoneName = "root";
+        public bool transformPositionX = true;
+        public bool transformPositionY = true;
 
-		public float rootMotionScaleX = 1;
-		public float rootMotionScaleY = 1;
+        public float rootMotionScaleX = 1;
+        public float rootMotionScaleY = 1;
 
-		[Header("Optional")]
-		public Rigidbody2D rigidBody2D;
-		public Rigidbody rigidBody;
+        [Header("Optional")]
+        public Rigidbody2D rigidBody2D;
+        public Rigidbody rigidBody;
 
-		public bool UsesRigidbody {
-			get { return rigidBody != null || rigidBody2D != null; }
-		}
-		#endregion
+        public bool UsesRigidbody {
+            get { return rigidBody != null || rigidBody2D != null; }
+        }
+        #endregion
 
-		protected ISkeletonComponent skeletonComponent;
-		protected Bone rootMotionBone;
-		protected int rootMotionBoneIndex;
-		protected List<Bone> topLevelBones = new List<Bone>();
-		protected Vector2 rigidbodyDisplacement;
+        protected ISkeletonComponent skeletonComponent;
+        protected Bone rootMotionBone;
+        protected int rootMotionBoneIndex;
+        protected List<Bone> topLevelBones = new List<Bone>();
+        protected Vector2 rigidbodyDisplacement;
 
-		protected virtual void Reset () {
-			FindRigidbodyComponent();
-		}
+        protected virtual void Reset () {
+            FindRigidbodyComponent();
+        }
 
-		protected virtual void Start () {
-			skeletonComponent = GetComponent<ISkeletonComponent>();
-			GatherTopLevelBones();
-			SetRootMotionBone(rootMotionBoneName);
+        protected virtual void Start () {
+            skeletonComponent = GetComponent<ISkeletonComponent>();
+            GatherTopLevelBones();
+            SetRootMotionBone(rootMotionBoneName);
 
-			var skeletonAnimation = skeletonComponent as ISkeletonAnimation;
-			if (skeletonAnimation != null)
-				skeletonAnimation.UpdateLocal += HandleUpdateLocal;
-		}
+            var skeletonAnimation = skeletonComponent as ISkeletonAnimation;
+            if (skeletonAnimation != null)
+                skeletonAnimation.UpdateLocal += HandleUpdateLocal;
+        }
 
-		protected virtual void FixedUpdate () {
-			if (!this.isActiveAndEnabled)
-				return; // Root motion is only applied when component is enabled.
+        protected virtual void FixedUpdate () {
+            if (!this.isActiveAndEnabled)
+                return; // Root motion is only applied when component is enabled.
 
-			if (rigidBody2D != null) {
-				rigidBody2D.MovePosition(new Vector2(transform.position.x, transform.position.y)
-					+ rigidbodyDisplacement);
-			}
-			if (rigidBody != null) {
-				rigidBody.MovePosition(transform.position
-					+ new Vector3(rigidbodyDisplacement.x, rigidbodyDisplacement.y, 0));
-			}
-			rigidbodyDisplacement = Vector2.zero;
-		}
+            if (rigidBody2D != null) {
+                rigidBody2D.MovePosition(new Vector2(transform.position.x, transform.position.y)
+                    + rigidbodyDisplacement);
+            }
+            if (rigidBody != null) {
+                rigidBody.MovePosition(transform.position
+                    + new Vector3(rigidbodyDisplacement.x, rigidbodyDisplacement.y, 0));
+            }
+            rigidbodyDisplacement = Vector2.zero;
+        }
 
-		protected virtual void OnDisable () {
-			rigidbodyDisplacement = Vector2.zero;
-		}
+        protected virtual void OnDisable () {
+            rigidbodyDisplacement = Vector2.zero;
+        }
 
-		protected void FindRigidbodyComponent () {
-			rigidBody2D = this.GetComponent<Rigidbody2D>();
-			if (!rigidBody2D)
-				rigidBody = this.GetComponent<Rigidbody>();
+        protected void FindRigidbodyComponent () {
+            rigidBody2D = this.GetComponent<Rigidbody2D>();
+            if (!rigidBody2D)
+                rigidBody = this.GetComponent<Rigidbody>();
 
-			if (!rigidBody2D && !rigidBody) {
-				rigidBody2D = this.GetComponentInParent<Rigidbody2D>();
-				if (!rigidBody2D)
-					rigidBody = this.GetComponentInParent<Rigidbody>();
-			}
-		}
+            if (!rigidBody2D && !rigidBody) {
+                rigidBody2D = this.GetComponentInParent<Rigidbody2D>();
+                if (!rigidBody2D)
+                    rigidBody = this.GetComponentInParent<Rigidbody>();
+            }
+        }
 
-		protected virtual float AdditionalScale { get { return 1.0f; } }
-		abstract protected Vector2 CalculateAnimationsMovementDelta ();
-		abstract public Vector2 GetRemainingRootMotion (int trackIndex = 0);
+        protected virtual float AdditionalScale { get { return 1.0f; } }
+        abstract protected Vector2 CalculateAnimationsMovementDelta ();
+        abstract public Vector2 GetRemainingRootMotion (int trackIndex = 0);
 
-		public void SetRootMotionBone (string name) {
-			var skeleton = skeletonComponent.Skeleton;
-			int index = skeleton.FindBoneIndex(name);
-			if (index >= 0) {
-				this.rootMotionBoneIndex = index;
-				this.rootMotionBone = skeleton.bones.Items[index];
-			}
-			else {
-				Debug.Log("Bone named \"" + name + "\" could not be found.");
-				this.rootMotionBoneIndex = 0;
-				this.rootMotionBone = skeleton.RootBone;
-			}
-		}
+        public void SetRootMotionBone (string name) {
+            var skeleton = skeletonComponent.Skeleton;
+            int index = skeleton.FindBoneIndex(name);
+            if (index >= 0) {
+                this.rootMotionBoneIndex = index;
+                this.rootMotionBone = skeleton.bones.Items[index];
+            }
+            else {
+                Debug.Log("Bone named \"" + name + "\" could not be found.");
+                this.rootMotionBoneIndex = 0;
+                this.rootMotionBone = skeleton.RootBone;
+            }
+        }
 
-		public void AdjustRootMotionToDistance (Vector2 distanceToTarget, int trackIndex = 0) {
-			Vector2 remainingRootMotion = GetRemainingRootMotion(trackIndex);
-			if (remainingRootMotion.x == 0)
-				remainingRootMotion.x = 0.0001f;
-			if (remainingRootMotion.y == 0)
-				remainingRootMotion.y = 0.0001f;
-			rootMotionScaleX = distanceToTarget.x / remainingRootMotion.x;
-			rootMotionScaleY = distanceToTarget.y / remainingRootMotion.y;
-		}
+        public void AdjustRootMotionToDistance (Vector2 distanceToTarget, int trackIndex = 0) {
+            Vector2 remainingRootMotion = GetRemainingRootMotion(trackIndex);
+            if (remainingRootMotion.x == 0)
+                remainingRootMotion.x = 0.0001f;
+            if (remainingRootMotion.y == 0)
+                remainingRootMotion.y = 0.0001f;
+            rootMotionScaleX = distanceToTarget.x / remainingRootMotion.x;
+            rootMotionScaleY = distanceToTarget.y / remainingRootMotion.y;
+        }
 
-		public Vector2 GetAnimationRootMotion (Animation animation) {
-			return GetAnimationRootMotion(0, animation.duration, animation);
-		}
+        public Vector2 GetAnimationRootMotion (Animation animation) {
+            return GetAnimationRootMotion(0, animation.duration, animation);
+        }
 
-		public Vector2 GetAnimationRootMotion (float startTime, float endTime,
-			Animation animation) {
+        public Vector2 GetAnimationRootMotion (float startTime, float endTime,
+            Animation animation) {
 
-			var timeline = animation.FindTranslateTimelineForBone(rootMotionBoneIndex);
-			if (timeline != null) {
-				return GetTimelineMovementDelta(startTime, endTime, timeline, animation);
-			}
-			return Vector2.zero;
-		}
+            var timeline = animation.FindTranslateTimelineForBone(rootMotionBoneIndex);
+            if (timeline != null) {
+                return GetTimelineMovementDelta(startTime, endTime, timeline, animation);
+            }
+            return Vector2.zero;
+        }
 
-		Vector2 GetTimelineMovementDelta (float startTime, float endTime,
-			TranslateTimeline timeline, Animation animation) {
+        Vector2 GetTimelineMovementDelta (float startTime, float endTime,
+            TranslateTimeline timeline, Animation animation) {
 
-			Vector2 currentDelta;
-			if (startTime > endTime) // Looped
-				currentDelta = (timeline.Evaluate(animation.duration) - timeline.Evaluate(startTime))
-					+ (timeline.Evaluate(endTime) - timeline.Evaluate(0));
-			else if (startTime != endTime) // Non-looped
-				currentDelta = timeline.Evaluate(endTime) - timeline.Evaluate(startTime);
-			else
-				currentDelta = Vector2.zero;
-			return currentDelta;
-		}
+            Vector2 currentDelta;
+            if (startTime > endTime) // Looped
+                currentDelta = (timeline.Evaluate(animation.duration) - timeline.Evaluate(startTime))
+                    + (timeline.Evaluate(endTime) - timeline.Evaluate(0));
+            else if (startTime != endTime) // Non-looped
+                currentDelta = timeline.Evaluate(endTime) - timeline.Evaluate(startTime);
+            else
+                currentDelta = Vector2.zero;
+            return currentDelta;
+        }
 
-		void GatherTopLevelBones () {
-			topLevelBones.Clear();
-			var skeleton = skeletonComponent.Skeleton;
-			foreach (var bone in skeleton.Bones) {
-				if (bone.Parent == null)
-					topLevelBones.Add(bone);
-			}
-		}
+        void GatherTopLevelBones () {
+            topLevelBones.Clear();
+            var skeleton = skeletonComponent.Skeleton;
+            foreach (var bone in skeleton.Bones) {
+                if (bone.Parent == null)
+                    topLevelBones.Add(bone);
+            }
+        }
 
-		void HandleUpdateLocal (ISkeletonAnimation animatedSkeletonComponent) {
-			if (!this.isActiveAndEnabled)
-				return; // Root motion is only applied when component is enabled.
+        void HandleUpdateLocal (ISkeletonAnimation animatedSkeletonComponent) {
+            if (!this.isActiveAndEnabled)
+                return; // Root motion is only applied when component is enabled.
 
-			var movementDelta = CalculateAnimationsMovementDelta();
-			AdjustMovementDeltaToConfiguration(ref movementDelta, animatedSkeletonComponent.Skeleton);
-			ApplyRootMotion(movementDelta);
-		}
+            var movementDelta = CalculateAnimationsMovementDelta();
+            AdjustMovementDeltaToConfiguration(ref movementDelta, animatedSkeletonComponent.Skeleton);
+            ApplyRootMotion(movementDelta);
+        }
 
-		void AdjustMovementDeltaToConfiguration (ref Vector2 localDelta, Skeleton skeleton) {
-			if (skeleton.ScaleX < 0) localDelta.x = -localDelta.x;
-			if (skeleton.ScaleY < 0) localDelta.y = -localDelta.y;
-			if (!transformPositionX) localDelta.x = 0f;
-			if (!transformPositionY) localDelta.y = 0f;
-		}
+        void AdjustMovementDeltaToConfiguration (ref Vector2 localDelta, Skeleton skeleton) {
+            if (skeleton.ScaleX < 0) localDelta.x = -localDelta.x;
+            if (skeleton.ScaleY < 0) localDelta.y = -localDelta.y;
+            if (!transformPositionX) localDelta.x = 0f;
+            if (!transformPositionY) localDelta.y = 0f;
+        }
 
-		void ApplyRootMotion (Vector2 localDelta) {
-			localDelta *= AdditionalScale;
-			localDelta.x *= rootMotionScaleX;
-			localDelta.y *= rootMotionScaleY;
+        void ApplyRootMotion (Vector2 localDelta) {
+            localDelta *= AdditionalScale;
+            localDelta.x *= rootMotionScaleX;
+            localDelta.y *= rootMotionScaleY;
 
-			// Apply root motion to Transform or RigidBody;
-			if (UsesRigidbody) {
-				rigidbodyDisplacement += (Vector2)transform.TransformVector(localDelta);
-				// Accumulated displacement is applied on the next Physics update (FixedUpdate)
-			}
-			else {
+            // Apply root motion to Transform or RigidBody;
+            if (UsesRigidbody) {
+                rigidbodyDisplacement += (Vector2)transform.TransformVector(localDelta);
+                // Accumulated displacement is applied on the next Physics update (FixedUpdate)
+            }
+            else {
 
-				transform.position += transform.TransformVector(localDelta);
-			}
+                transform.position += transform.TransformVector(localDelta);
+            }
 
-			// Move top level bones in opposite direction of the root motion bone
-			foreach (var topLevelBone in topLevelBones) {
-				if (transformPositionX) topLevelBone.x -= rootMotionBone.x;
-				if (transformPositionY) topLevelBone.y -= rootMotionBone.y;
-			}
-		}
-	}
+            // Move top level bones in opposite direction of the root motion bone
+            foreach (var topLevelBone in topLevelBones) {
+                if (transformPositionX) topLevelBone.x -= rootMotionBone.x;
+                if (transformPositionY) topLevelBone.y -= rootMotionBone.y;
+            }
+        }
+    }
 }
