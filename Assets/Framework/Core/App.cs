@@ -15,10 +15,10 @@ public sealed class App : MonoBehaviour {
 
     public enum Language { AUTO, CN, EN }
 
-    /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调格式：<code> void (bool isPause) </code> </summary>
+    /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResume(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
 
-    /// <summary> 更改语言事件 </summary>
+    /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangeLanguage(App.Language language) </code> </summary>
     public event Action<Language> onChangeLanguageEvent;
 
     [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
