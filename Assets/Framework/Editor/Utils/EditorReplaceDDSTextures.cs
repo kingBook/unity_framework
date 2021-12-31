@@ -20,7 +20,7 @@ public class EditorReplaceDDSTextures : Editor {
         for (int i = 0; i < paths.Length; i++) {
             string path = paths[i];
             if (string.IsNullOrEmpty(path)) continue;
-            if (path.IndexOf("Assets/") < 0) continue;
+            if (path.IndexOf("Assets\\") < 0) continue;
             string extension = Path.GetExtension(path).ToLower();
 
             if (extension == ".fbx") {
