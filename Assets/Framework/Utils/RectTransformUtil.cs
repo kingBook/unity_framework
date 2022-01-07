@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
+
 /// <summary>
 /// RectTransform工具类
 /// </summary>
 public class RectTransformUtil {
+
     /// <summary>
     /// 移动一个 RectTransform 到指定的屏幕坐标位置（此方法需要 Anchor 在左下角 AnchorMin 和 AnchorMax 都为0）
     /// </summary>
@@ -15,7 +17,7 @@ public class RectTransformUtil {
         float scaleFactor = canvas.scaleFactor;
         Vector2 screenSize = new Vector2(Screen.width, Screen.height);
 
-        screenPoint /= scaleFactor;//计算屏幕在Canvas实际大小中的位置
+        screenPoint /= scaleFactor;//计算屏幕坐标在Canvas实际大小中的位置
 
         //计算枢轴
         anchor.x = Mathf.Clamp01(anchor.x);
@@ -37,4 +39,18 @@ public class RectTransformUtil {
         rectTransform.offsetMin += offset;
         rectTransform.offsetMax += offset;
     }
+
+    /// <summary>
+    /// 根据屏幕速度向量移动 RectTransform
+    /// </summary>
+    /// <param name="rectTransform"> 要移动的 RectTransform </param>
+    /// <param name="velocity"> 屏幕速度向量 </param>
+    /// <param name="canvas"> Canvas </param>
+    public static void Move (RectTransform rectTransform, Vector2 velocity, Canvas canvas) {
+        velocity /= canvas.scaleFactor;
+
+        rectTransform.offsetMin += velocity;
+        rectTransform.offsetMax += velocity;
+    }
+
 }
