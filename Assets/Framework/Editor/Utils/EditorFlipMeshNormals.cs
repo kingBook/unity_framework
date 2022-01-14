@@ -40,7 +40,7 @@ public class EditorFlipMeshNormals : Editor {
             if (mesh) {
                 string path = AssetDatabase.GetAssetPath(mesh);
                 // 是否为 Assets 文件夹下的资源（Assets 文件夹下的资源才能编辑，避免编辑到 Unity 的内置资源的网格）
-                bool isAssetFolder = path.IndexOf("Assets/") > -1;
+                bool isAssetFolder = path.IndexOf("Assets") == 0;
                 if (isAssetFolder) {
                     FlipMeshNormals(mesh);
                 }
@@ -69,7 +69,7 @@ public class EditorFlipMeshNormals : Editor {
             if (mesh) {
                 string path = AssetDatabase.GetAssetPath(mesh);
                 // 是否为 Assets 文件夹下的资源（Assets 文件夹下的资源才能编辑，避免编辑到 Unity 的内置资源的网格）
-                bool isAssetFolder = path.IndexOf("Assets/") > -1;
+                bool isAssetFolder = path.IndexOf("Assets") == 0;
                 if (isAssetFolder) {
                     isEnableMenuItem = true;
                     break;

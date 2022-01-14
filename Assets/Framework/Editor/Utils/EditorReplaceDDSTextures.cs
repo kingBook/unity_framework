@@ -20,17 +20,18 @@ public class EditorReplaceDDSTextures : Editor {
         for (int i = 0; i < paths.Length; i++) {
             string path = paths[i];
             if (string.IsNullOrEmpty(path)) continue;
-            if (path.IndexOf("Assets\\") < 0) continue;
-            string extension = Path.GetExtension(path).ToLower();
+            if (path.IndexOf("Assets") == 0) {
+                string extension = Path.GetExtension(path).ToLower();
 
-            if (extension == ".fbx") {
-                if (GetFBXReferenceDDS(path)) {
-                    Debug.LogWarning($"{path} 引用了.dds纹理，需要将材质解压后才能替换");
-                }
-            } else {
-                Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
-                if (material) {
-                    ReplaceMaterialDDS(material);
+                if (extension == ".fbx") {
+                    if (GetFBXReferenceDDS(path)) {
+                        Debug.LogWarning($"{path} 引用了.dds纹理，需要将材质解压后才能替换");
+                    }
+                } else {
+                    Material material = AssetDatabase.LoadAssetAtPath<Material>(path);
+                    if (material) {
+                        ReplaceMaterialDDS(material);
+                    }
                 }
             }
         }
@@ -115,6 +116,6 @@ public class EditorReplaceDDSTextures : Editor {
         }
     }
 
-    
+
 }
 #endif

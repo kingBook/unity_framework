@@ -216,7 +216,7 @@ namespace PresetImportPerFolder {
                 var path = Path.GetDirectoryName(assetPath);
                 if (!string.IsNullOrEmpty(path)) {
                     // 是否为 Assets 文件夹下的资源
-                    bool isAssetFolder = path.IndexOf("Assets\\") > -1;
+                    bool isAssetFolder = path.IndexOf("Assets") == 0;
                     if (isAssetFolder) {
                         while (!string.IsNullOrEmpty(path)) {
                             // 查找此文件夹中的所有预设资源。
