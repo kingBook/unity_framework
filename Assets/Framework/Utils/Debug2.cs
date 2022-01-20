@@ -8,6 +8,21 @@ using UnityEngine;
 /// 
 public static class Debug2 {
 
+    /// <summary>
+    /// 画多点线
+    /// </summary>
+    /// <param name="points"></param>
+    /// <param name="color"></param>
+    /// <param name="duration"></param>
+    /// <param name="depthTest"> 该线是否应被靠近摄影机的对象遮挡？ </param>
+    public static void DrawPoints (Vector3[] points, Color color, float duration = 0f, bool depthTest = true) {
+        for (int i = 0, length = points.Length; i < length; i++) {
+            if (i < length - 1) {
+                Debug.DrawLine(points[i], points[i + 1], color, duration, depthTest);
+            }
+        }
+    }
+
     public static void Log (params object[] args) {
         int len = args.Length;
         string str = "";
@@ -40,4 +55,5 @@ public static class Debug2 {
         }
         return (obj == null) ? "Null" : obj.ToString();
     }
+
 }
