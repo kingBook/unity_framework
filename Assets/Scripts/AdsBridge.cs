@@ -64,7 +64,7 @@ public static class AdsBridge {
 #else
         // 模拟测试代码
         OnAdOpening?.Invoke();
-        Delay(onComplete);
+        Delay(onUserEarnedReward);
 #endif
     }
 
