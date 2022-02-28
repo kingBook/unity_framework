@@ -11,10 +11,12 @@ public class TestCinemachineFindClosestPoint : MonoBehaviour {
 
     void Update () {
         // 查找 CinemachinePath 路径上距离玩家最近的点
-        float playerPosUnits = smoothPath.FindClosestPoint(player.position, 0, -1, 0);
+        float playerPathUnits = smoothPath.FindClosestPoint(player.position, 0, -1, 0);
+        // 将 PathUnits 转换为 DistanceUnits
+        float playerDistanceUnits = smoothPath.FromPathNativeUnits(playerPathUnits,CinemachinePathBase.PositionUnits.Distance);
 
-        Debug.Log($"playerPosUnits:{playerPosUnits}");
-        Vector3 playerPosOnPath = smoothPath.EvaluatePosition(playerPosUnits); // 玩家在路径上的世界坐标
+        Debug.Log($"playerPathUnits:{playerPathUnits}, playerDistanceUnits:{playerDistanceUnits}");
+        Vector3 playerPosOnPath = smoothPath.EvaluatePosition(playerPathUnits); // 玩家在路径上的世界坐标
 
         redPoint.position = playerPosOnPath;
     }
