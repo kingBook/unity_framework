@@ -2,6 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.Profiling;
 
 public class PanelDebugHelper : MonoBehaviour {
 
@@ -65,13 +66,13 @@ public class PanelDebugHelper : MonoBehaviour {
     }
 
     public void OnClickButtonGo () {
-        if(int.TryParse(m_inputFieldLevelNumber.text,out int levelNumber)) {
+        if (int.TryParse(m_inputFieldLevelNumber.text, out int levelNumber)) {
             onGotoLevelEvent?.Invoke(levelNumber);
         } else {
             m_inputFieldLevelNumber.text = "";
             Debug.Log("请输入正确的关卡数字");
         }
-       
+
     }
 
     public void OnToggleUnlockLevel () {
@@ -105,7 +106,9 @@ public class PanelDebugHelper : MonoBehaviour {
         //fps 只取整数
         fps = Mathf.Floor(fps);
 
-        m_textFPS.text = $"{fps} FPS ({ms}ms)";
+        float mem = Mathf.CeilToInt(Profiler.GetTotalAllocatedMemoryLong() / 1024f / 1024f * 10f) / 10f;
+        float memTotal = Mathf.CeilToInt(Profiler.GetTotalReservedMemoryLong() / 1024f / 1024f * 10f) / 10f;
+        m_textFPS.text = $"{fps} FPS ({ms}ms) {mem}/{memTotal}MB";
     }
 
     private void LogHandler (string logString, string stackTrace, LogType type) {
