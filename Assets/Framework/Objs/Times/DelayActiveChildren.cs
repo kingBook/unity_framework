@@ -3,7 +3,7 @@ using System.Collections;
 using UnityEngine;
 
 /// <summary>
-/// 延迟激活激活所有子对象（应用的父级对象必须一直处于激活）
+/// 延迟激活激活所有子对象（挂载此脚本的父级对象必须一直处于激活）
 /// </summary>
 public class DelayActiveChildren : MonoBehaviour {
 

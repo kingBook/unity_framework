@@ -72,7 +72,7 @@ public class AddMoneysEffect : MonoBehaviour {
             App.instance.audioManager.PlayEffect(m_audioClip, Camera.main.transform);
         }
 
-        App.instance.VibratePop();
+        App.instance.vibrator.VibratePop();
 
         m_createdCount++;
         if (m_createdCount >= coinImageCount) {

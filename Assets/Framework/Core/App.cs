@@ -17,9 +17,9 @@ public sealed class App : MonoBehaviour {
 
     /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResume(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
-
     /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangeLanguage(App.Language language) </code> </summary>
     public event Action<Language> onChangeLanguageEvent;
+
 
     [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
      "\nCN:中文 " +
@@ -27,28 +27,20 @@ public sealed class App : MonoBehaviour {
     ]
     [SerializeField, SetProperty(nameof(language))] // 此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
     private Language m_language = Language.AUTO;
-
     [Tooltip("进度条")]
     [SerializeField] private PanelProgressbar m_panelProgressbar;
-
     [Tooltip("开始Logo屏幕")]
     [SerializeField] private PanelLogoScreen m_panelLogoScreen;
-
-    [Tooltip("延迟器")]
-    [SerializeField] private Delayer m_delayer;
-
     [Tooltip("调试助手面板")]
     [SerializeField] private PanelDebugHelper m_panelDebugHelper;
-
     [Tooltip("文件加载器")]
     [SerializeField] private FileLoader m_fileLoader;
-
     [Tooltip("场景加载器")]
     [SerializeField] private SceneLoader m_sceneLoader;
-
     [Tooltip("音频管理器")]
     [SerializeField] private AudioManager m_audioManager;
-
+    [Tooltip("移动设备震动器")]
+    [SerializeField] private Vibrator m_vibrator;
     [Tooltip("游戏列表")]
     [SerializeField] private BaseGame[] m_games = new BaseGame[0];
 
@@ -80,6 +72,8 @@ public sealed class App : MonoBehaviour {
     /// <summary> 音频管理器 </summary>
     public AudioManager audioManager => m_audioManager;
 
+    /// <summary> 设备震动器 </summary>
+    public Vibrator vibrator => m_vibrator;
 
     /// <summary>
     /// 返回 <see cref="m_games"/>[0]
@@ -109,24 +103,13 @@ public sealed class App : MonoBehaviour {
 
 
     /// <summary>
-    /// 延迟执行一个函数（只有 monoBehaviour 被销毁、<see cref="App"/>暂停时，才会中断执行, Disable 不会中断）
-    /// </summary>
-    /// <param name="time"> 延迟的时间 </param>
-    /// <param name="monoBehaviour"> 用于检测销毁的 MonoBehaviour，一般为 this </param>
-    /// <param name="onComplete"> 延迟完成时的回调 </param>
-    public void Delay (float time, MonoBehaviour monoBehaviour, System.Action onComplete) {
-        m_delayer.Delay(time, monoBehaviour, onComplete);
-    }
-
-    /// <summary>
     /// 设置暂停/恢复更新、物理模拟
     /// </summary>
     /// <param name="isPause"> 是否暂停 </param>
     /// <param name="isSetPhysics"> 是否设置物理引擎 </param>
     /// <param name="isSetVolume"> 是否设置音量 </param>
     public void SetPause (bool isPause, bool isSetPhysics = true, bool isSetVolume = true) {
-        if (this.isPause == isPause)
-            return;
+        if (this.isPause == isPause) return;
         this.isPause = isPause;
         if (isSetPhysics) {
             // 暂停或恢复3D物理模拟
@@ -140,16 +123,6 @@ public sealed class App : MonoBehaviour {
         // 发出事件
         onPauseOrResumeEvent?.Invoke(isPause);
     }
-
-    /// <summary> 手机弱震动 </summary>
-    public void VibratePop () {
-#if UNITY_IOS
-        Vibration.VibratePop();
-#elif UNITY_ANDROID
-        Vibration.Vibrate(20);
-#endif
-    }
-
 
     private void InitDOTween () {
         DOTween.SetTweensCapacity(500, 500);
@@ -173,11 +146,11 @@ public sealed class App : MonoBehaviour {
 
     private void Awake () {
         instance = this;
-
-        Vibration.Init();
+        // 初始化 DOTween
         InitDOTween();
+        // 增加应用打开的次数 
         AddOpenCount();
-
+        // 初始化语言
         if (m_language == Language.AUTO) {
             InitLanguage();
         }
