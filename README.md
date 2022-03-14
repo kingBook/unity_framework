@@ -2,11 +2,12 @@ Unity Framework
 
 
 待完善的功能: 
-* 场景加载器实现后台加载，进度条美化
-* 物理投射盒添加
 * 扩展 Export Package 功能，使其能导出 Project Settings
-* EditorReplaceDDSTextures.cs 现在需要解压 .fbx 的材质才能替换成功
 * 解压 .fbx 材质时， 场景中引用此 .fbx 的对象被 "Unpack Prefab" 时，材质、网格等会失去关联
+* 物理投射盒添加
+* 场景加载器实现后台加载，进度条美化
+
+* EditorReplaceDDSTextures.cs 现在需要解压 .fbx 的材质才能替换成功
 * 在 Hierarchy 与 Project 面板中，按数字或字母时像 Windows 系统那样快速定位文件或对象
 * PhysicsUtil.IsTouching(Collider collider1, Collider collider2);
 * 人物刚体限制旋转角度

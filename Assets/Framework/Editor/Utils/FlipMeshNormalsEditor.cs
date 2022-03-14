@@ -6,7 +6,7 @@ using UnityEngine;
 /// <summary>
 /// 在 Hierarchy 视图对象的快捷菜单中增加 Flip Mesh Normals（反转网格法线）项
 /// </summary>
-public class EditorFlipMeshNormals : Editor {
+public class FlipMeshNormalsEditor : Editor {
 
     /// <summary> 翻转网格的法线 </summary>
     private static void FlipMeshNormals (Mesh mesh) {

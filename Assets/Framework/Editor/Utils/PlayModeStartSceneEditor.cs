@@ -30,7 +30,7 @@ public class GameObjectData {
 /// <summary>
 /// 设置进入播放模式时默认启动的场景(选择菜单 Tools/PlayModeUseStartScene 更改，将启动 BuildSettings 界面中的 buildIndex 为 [0] 的场景)
 /// </summary>
-public class EditorPlayModeStartScene : Editor {
+public class PlayModeStartSceneEditor : Editor {
 
     [MenuItem("Tools/PlayModeUseStartScene", true)]
     private static bool ValidateMenuItem () {

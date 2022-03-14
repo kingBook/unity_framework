@@ -7,7 +7,7 @@ using System.Collections;
 using System.IO;
 using System.Collections.Generic;
 
-public static class EditorLevelSequence {
+public static class LevelSequenceEditor {
 
     /// <summary> 查找的最大关卡数 </summary>
     public const int MaxLevelCount = 500;

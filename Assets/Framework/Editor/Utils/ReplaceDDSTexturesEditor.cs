@@ -9,7 +9,7 @@ using UnityEngine;
 /// * .jpg或.png需与.dds同名，同位置
 /// * .fbx文件引用的.dds需将材质解压
 /// </summary>
-public class EditorReplaceDDSTextures : Editor {
+public class ReplaceDDSTexturesEditor : Editor {
 
     private static readonly string[] s_propertyNames = { "_MainTex", "_BumpMap" };
     private static readonly List<string> s_ddsTexturePaths = new List<string>();
