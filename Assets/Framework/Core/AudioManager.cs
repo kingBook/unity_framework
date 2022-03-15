@@ -173,7 +173,7 @@ public class AudioManager : MonoBehaviour {
     private IEnumerator DestroyAudioSourceOnComplete (AudioSource audioSource) {
         while (audioSource != null && audioSource.time < audioSource.clip.length) {
             // 在连续播放很短的音效时，偶尔会出现不进入播放的情况，audioSource.time　始终为 0 导致无法销毁对象，因此未进入播放时，再调用一次 Play。
-            if (!audioSource.isPlaying) {
+            if (!audioSource.isPlaying && audioSource.isActiveAndEnabled) {
                 audioSource.Play();
             }
             yield return null;
