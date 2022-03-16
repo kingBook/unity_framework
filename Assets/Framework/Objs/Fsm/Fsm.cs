@@ -1,39 +1,45 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.SceneManagement;
+﻿using UnityEngine;
 
-public class Fsm : MonoBehaviour {
+/// <summary> 有限状态机 </summary>
+public class Fsm {
 
-    public StateBase defaultState;
-    /// <summary> 状态发生改变后事件，回调函数格式：<code> void OnStateChangedHandler(StateBase old, StateBase current) </code> </summary>
-    public UnityAction<StateBase, StateBase> onStateChangedEvent;
-
-    protected StateBase m_currentState;
+    /// <summary> 状态发生改变后的回调函数，格式：<code> void OnStateChangedHandler(IState old, IState current) </code> </summary>
+    private System.Action<IState, IState> m_onStateChangedHandler;
 
 
-    public StateBase currentState => m_currentState;
+    public IState currentState { get; protected set; }
 
-    public void SwitchTo (StateBase state) {
-        if (m_currentState == state) return;
-        var old = m_currentState;
+
+    public Fsm (IState defaultState) {
+        ChangeStateTo(defaultState);
+    }
+
+    public Fsm (IState defaultState, System.Action<IState, IState> onStateChanged) {
+        m_onStateChangedHandler = onStateChanged;
+        ChangeStateTo(defaultState);
+    }
+
+    public void ChangeStateTo (IState state) {
+        if (currentState == state) return;
+        var old = currentState;
+        // 状态退出
         old.OnStateExit(this);
-        m_currentState = state;
-        onStateChangedEvent?.Invoke(old, state);
-        m_currentState.OnStateEnter(this);
+        // 
+        currentState = state;
+        // 改变状态时的回调
+        m_onStateChangedHandler?.Invoke(old, state);
+        // 状态进入
+        currentState.OnStateEnter(this);
     }
 
-    private void Start () {
-        SwitchTo(defaultState);
+    public void Update () {
+        // 状态更新
+        currentState.OnStateUpdate(this);
     }
 
-    private void Update () {
-        m_currentState.OnStateUpdate(this);
-    }
-
-    private void OnDestroy () {
-        m_currentState = null;
+    public void OnDestroy () {
+        currentState = null;
+        m_onStateChangedHandler = null;
     }
 
 

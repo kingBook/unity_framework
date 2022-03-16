@@ -17,8 +17,8 @@ public sealed class App : MonoBehaviour {
 
     /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResume(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
-    /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangeLanguage(App.Language language) </code> </summary>
-    public event Action<Language> onChangeLanguageEvent;
+    /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangedLanguage(App.Language language) </code> </summary>
+    public event Action<Language> onChangedLanguageEvent;
 
 
     [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
@@ -29,7 +29,7 @@ public sealed class App : MonoBehaviour {
     private Language m_language = Language.AUTO;
     [Tooltip("进度条")]
     [SerializeField] private PanelProgressbar m_panelProgressbar;
-    [Tooltip("开始Logo屏幕")]
+    [Tooltip("开始的 Logo 屏幕")]
     [SerializeField] private PanelLogoScreen m_panelLogoScreen;
     [Tooltip("调试助手面板")]
     [SerializeField] private PanelDebugHelper m_panelDebugHelper;
@@ -50,7 +50,7 @@ public sealed class App : MonoBehaviour {
         get => m_language;
         set {
             m_language = value;
-            onChangeLanguageEvent?.Invoke(m_language);
+            onChangedLanguageEvent?.Invoke(m_language);
         }
     }
 
@@ -72,7 +72,7 @@ public sealed class App : MonoBehaviour {
     /// <summary> 音频管理器 </summary>
     public AudioManager audioManager => m_audioManager;
 
-    /// <summary> 设备震动器 </summary>
+    /// <summary> 移动设备震动器 </summary>
     public Vibrator vibrator => m_vibrator;
 
     /// <summary>
@@ -141,7 +141,7 @@ public sealed class App : MonoBehaviour {
         isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseTraditional;
         m_language = isCN ? Language.CN : Language.EN;
         //改变语言事件
-        onChangeLanguageEvent?.Invoke(m_language);
+        onChangedLanguageEvent?.Invoke(m_language);
     }
 
     private void Awake () {

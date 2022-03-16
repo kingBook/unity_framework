@@ -33,7 +33,7 @@ public class LanguageSwapTextString : MonoBehaviour {
 
     private void Start () {
         SwapStringToLanguage(App.instance.language);
-        App.instance.onChangeLanguageEvent += OnChangeLanguage;
+        App.instance.onChangedLanguageEvent += OnChangeLanguage;
     }
 
     private void SwapStringToLanguage (App.Language language) {
@@ -45,6 +45,6 @@ public class LanguageSwapTextString : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        App.instance.onChangeLanguageEvent -= OnChangeLanguage;
+        App.instance.onChangedLanguageEvent -= OnChangeLanguage;
     }
 }

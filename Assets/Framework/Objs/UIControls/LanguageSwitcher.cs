@@ -17,7 +17,7 @@ public class LanguageSwitcher : MonoBehaviour {
 
     private void Start () {
         ActiveWithLanguage(App.instance.language);
-        App.instance.onChangeLanguageEvent += OnChangeLanguage;
+        App.instance.onChangedLanguageEvent += OnChangeLanguage;
     }
 
     private void ActiveWithLanguage (App.Language language) {
@@ -48,6 +48,6 @@ public class LanguageSwitcher : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        App.instance.onChangeLanguageEvent -= OnChangeLanguage;
+        App.instance.onChangedLanguageEvent -= OnChangeLanguage;
     }
 }

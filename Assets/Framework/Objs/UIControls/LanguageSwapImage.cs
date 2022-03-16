@@ -45,7 +45,7 @@ public class LanguageSwapImage : MonoBehaviour {
 
     private void Start () {
         SwapImageToLanguage(App.instance.language);
-        App.instance.onChangeLanguageEvent += OnChangeLanguage;
+        App.instance.onChangedLanguageEvent += OnChangeLanguage;
     }
 
     private void OnChangeLanguage (App.Language language) {
@@ -68,6 +68,6 @@ public class LanguageSwapImage : MonoBehaviour {
     }
 
     private void OnDestroy () {
-        App.instance.onChangeLanguageEvent -= OnChangeLanguage;
+        App.instance.onChangedLanguageEvent -= OnChangeLanguage;
     }
 }
