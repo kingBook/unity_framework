@@ -28,8 +28,7 @@ public class CastBoxTool : CastShapeTool<CastBox> {
 }
 
 
-[CustomEditor(typeof(CastBox))]
-[CanEditMultipleObjects]
+[CustomEditor(typeof(CastBox)), CanEditMultipleObjects]
 public class CastBoxEditor : Editor {
 
     private SerializedProperty m_script;
