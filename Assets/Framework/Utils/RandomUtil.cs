@@ -7,10 +7,11 @@ using System.Collections.Generic;
 /// </summary>
 public static class RandomUtil {
 
-    /// <summary>
-    /// 随机返回 1.0f 或 -1.0f
-    /// </summary>
+    /// <summary> 随机返回浮点数 1.0f 或 -1.0f </summary>
     public static float sign => Random.value > 0.5f ? 1f : -1f;
+
+    /// <summary> 随机返回整数 1 或 -1 </summary>
+    public static int signInteger => Random.value > 0.5f ? 1 : -1;
 
     /// <summary>
     /// 返回一个指定长度的随机int数组，数组元素范围是在[min,max)区间内(包括min,排除max)不重复的整数。
