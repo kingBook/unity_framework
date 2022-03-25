@@ -14,6 +14,12 @@ public class Level : MonoBehaviour {
 
     protected Game m_game;
 
+
+    public EffectsFactory effectsFactory { get; private set; }
+
+    public CanvasLevel canvasLevel { get; private set; }
+
+
     public void Victory () {
 
     }
@@ -35,7 +41,8 @@ public class Level : MonoBehaviour {
     }
 
     private void Awake () {
-
+        effectsFactory = GetComponent<EffectsFactory>();
+        canvasLevel = GameObject.Find("CanvasLevel").GetComponent<CanvasLevel>();
     }
 
     private void Start () {

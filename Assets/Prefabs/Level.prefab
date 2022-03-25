@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 458933817210160979}
+  - component: {fileID: 1133906712519444480}
   - component: {fileID: 458933817210160976}
   m_Layer: 0
   m_Name: Level
@@ -31,6 +32,20 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1133906712519444480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458933817210160977}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be48242da43445e40995666c5e8050a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_itemDestroyEffectPrefab: {fileID: 2396513392495786279, guid: e5cb9cf830c6e814ca80950fea587bc4,
+    type: 3}
 --- !u!114 &458933817210160976
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -43,3 +58,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b34222b11223f9d44baa94e9dd071ac0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  m_skyboxMaterial: {fileID: 0}
