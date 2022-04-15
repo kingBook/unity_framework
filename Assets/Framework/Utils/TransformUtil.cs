@@ -13,7 +13,7 @@ public static class TransformUtil {
     /// <param name="transform"> 父级 Transform </param>
     /// <param name="ignoreInActive"> 是否忽略不激活的对象 </param>
     /// <param name="isImmediate"> 是否立即销毁 </param>
-    public static void DestroyAllChildren (Transform transform, Transform[] ignoreChildren, bool ignoreInActive = false, bool isImmediate = false) {
+    public static void DestroyAllChildren(Transform transform, Transform[] ignoreChildren, bool ignoreInActive = false, bool isImmediate = false) {
         int i = transform.childCount;
         while (--i >= 0) {
             Transform child = transform.GetChild(i);
@@ -39,7 +39,7 @@ public static class TransformUtil {
     /// </summary>
     /// <param name="transform"></param>
     /// <returns></returns>
-    public static Transform[] GetTransformChildren (Transform transform) {
+    public static Transform[] GetTransformChildren(Transform transform) {
         int childCount = transform.childCount;
         Transform[] children = new Transform[childCount];
         for (int i = 0; i < childCount; i++) {
@@ -49,7 +49,7 @@ public static class TransformUtil {
     }
 
     /// <summary> 转换一个 Transform 数组到顶点数组 </summary>
-    public static Vector3[] CovertTransformsToVertices (Transform[] transforms, Space space = Space.World) {
+    public static Vector3[] CovertTransformsToVertices(Transform[] transforms, Space space = Space.World) {
         int len = transforms.Length;
         Vector3[] vertices = new Vector3[len];
         for (int i = 0; i < len; i++) {

@@ -9,19 +9,19 @@ public class TriangulationAlgorithm {
 
     public static readonly float Epsilon = 1e-7f;
 
-    private static bool FloatLess (float value, float other) {
+    private static bool FloatLess(float value, float other) {
         return (other - value) > Epsilon;
     }
 
-    private static bool FloatGreat (float value, float other) {
+    private static bool FloatGreat(float value, float other) {
         return (value - other) > Epsilon;
     }
 
-    private static bool FloatEqual (float value, float other) {
+    private static bool FloatEqual(float value, float other) {
         return Mathf.Abs(value - other) < Epsilon;
     }
 
-    private static bool Vector3Equal (Vector3 a, Vector3 b) {
+    private static bool Vector3Equal(Vector3 a, Vector3 b) {
         return FloatEqual(a.x, b.x) && FloatEqual(a.y, b.y) && FloatEqual(a.z, b.z);
     }
 
@@ -34,7 +34,7 @@ public class TriangulationAlgorithm {
     /// <param name="verts">顺时针排列的顶点列表</param>
     /// <param name="indexes">顶点索引列表</param>
     /// <returns>三角形列表</returns>
-    private static List<int> ConvexTriangleIndex (List<Vector3> verts, List<int> indexes) {
+    private static List<int> ConvexTriangleIndex(List<Vector3> verts, List<int> indexes) {
         int len = verts.Count;
         // 若是闭环去除最后一点
         if (len > 1 && Vector3Equal(verts[0], verts[len - 1])) {
@@ -56,7 +56,7 @@ public class TriangulationAlgorithm {
     /// <param name="vertices">顶点列表</param>
     /// <param name="indexes">顺时针索引列表，执行后将更改，存储所有三角形索引列表</param>
     /// <param name="plane">坐标系平面</param>
-    public static void WidelyTriangleIndex (Vector3[] vertices, ref List<int> indexes, Plane plane) {
+    public static void WidelyTriangleIndex(Vector3[] vertices, ref List<int> indexes, Plane plane) {
         int len = indexes.Count;
 
         // 转换到平面坐标系
@@ -89,7 +89,7 @@ public class TriangulationAlgorithm {
     /// </summary>
     /// <param name="vertices">顶点列表</param>
     /// <returns></returns>
-    public static List<int> WidelyTriangleIndex (Vector3[] vertices) {
+    public static List<int> WidelyTriangleIndex(Vector3[] vertices) {
         List<int> indices = new List<int>();
         int len = vertices.Length;
         for (int i = 0; i < len; i++) {
@@ -111,7 +111,7 @@ public class TriangulationAlgorithm {
     /// <param name="points">顺时针排列的顶点列表</param>
     /// <param name="indexes">顶点索引列表</param>
     /// <returns>三角形列表</returns>
-    public static List<int> WidelyTriangleIndex (List<Vector3> verts, List<int> indexes) {
+    public static List<int> WidelyTriangleIndex(List<Vector3> verts, List<int> indexes) {
         int len = verts.Count;
         if (len <= 3) return ConvexTriangleIndex(verts, indexes);
 
@@ -175,7 +175,7 @@ public class TriangulationAlgorithm {
     /// <summary>
     /// 是否是可划分顶点:新的多边形没有顶点在分割的三角形内
     /// </summary>
-    private static bool IsFragementIndex (int index, List<Vector3> verts) {
+    private static bool IsFragementIndex(int index, List<Vector3> verts) {
         int len = verts.Count;
         List<Vector3> triangleVert = new List<Vector3>();
         int next = (index == len - 1) ? 0 : index + 1;
@@ -200,7 +200,7 @@ public class TriangulationAlgorithm {
     /// <param name="p1">线段头</param>
     /// <param name="p2">线段尾</param>
     /// <returns></returns>
-    private static bool IsDetectIntersect (Ray2D ray, Vector3 p1, Vector3 p2) {
+    private static bool IsDetectIntersect(Ray2D ray, Vector3 p1, Vector3 p2) {
         float pointY; // 交点Y坐标，x固定值
         if (FloatEqual(p1.x, p2.x)) {
             return false;
@@ -236,7 +236,7 @@ public class TriangulationAlgorithm {
     /// <param name="point">判定点</param>
     /// <param name="polygonVerts">剩余顶点按顺序排列的多边形</param>
     /// <returns>true:点在多边形之内，false:相反</returns>
-    private static bool IsPointInsidePolygon (Vector3 point, List<Vector3> polygonVerts) {
+    private static bool IsPointInsidePolygon(Vector3 point, List<Vector3> polygonVerts) {
         int len = polygonVerts.Count;
         Ray2D ray = new Ray2D(point, new Vector3(0, 1)); // y方向射线
         int interNum = 0;

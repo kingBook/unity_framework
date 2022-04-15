@@ -15,11 +15,11 @@ public class NumberImageText : MonoBehaviour {
 
     private float m_time = 0;
 
-    private void Start () {
+    private void Start() {
         UpdateText();
     }
 
-    private void Update () {
+    private void Update() {
         if (Time.time - m_time > 0.4f) {//间隔指定的秒数更新
             m_time = Time.time;
             UpdateText();
@@ -29,7 +29,7 @@ public class NumberImageText : MonoBehaviour {
     /// <summary>
     /// 更新显示与number变量一致,一般不需要手动调用，默认会在Update函数按照指定的间隔更新
     /// </summary>
-    public void UpdateText () {
+    public void UpdateText() {
         string countStr = number.ToString();
         int i = images.Length;
         int bitCount = countStr.Length;//表示：个、十、百、千、万

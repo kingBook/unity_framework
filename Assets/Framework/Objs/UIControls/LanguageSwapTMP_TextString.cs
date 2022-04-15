@@ -14,30 +14,30 @@ public class LanguageSwapTMP_TextString : MonoBehaviour {
     public string stringCN;
     public TMP_Text text;
 
-    private void OnChangeLanguage (App.Language language) {
+    private void OnChangeLanguage(App.Language language) {
         SwapStringToLanguage(language);
     }
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         if (!text) {
             text = GetComponent<TMP_Text>();
         }
     }
 #endif
 
-    private void Awake () {
+    private void Awake() {
         if (App.instance != null) {
             SwapStringToLanguage(App.instance.language);
         }
     }
 
-    private void Start () {
+    private void Start() {
         SwapStringToLanguage(App.instance.language);
         App.instance.onChangedLanguageEvent += OnChangeLanguage;
     }
 
-    private void SwapStringToLanguage (App.Language language) {
+    private void SwapStringToLanguage(App.Language language) {
         if (language == App.Language.EN) {
             if (text != null) text.text = stringEN;
         } else if (language == App.Language.CN) {
@@ -45,7 +45,7 @@ public class LanguageSwapTMP_TextString : MonoBehaviour {
         }
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         App.instance.onChangedLanguageEvent -= OnChangeLanguage;
     }
 }

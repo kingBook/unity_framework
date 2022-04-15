@@ -21,7 +21,7 @@ public class CoinImage : MonoBehaviour {
     public float stayTime = 0.5f;
 
     [Tooltip("收集动画持续时间 <秒>")]
-    public float tweenDuration=1f;
+    public float tweenDuration = 1f;
 
     [System.NonSerialized] public bool isStopOnCreated;
     [System.NonSerialized] public float delayOnCreatedTime;
@@ -32,7 +32,7 @@ public class CoinImage : MonoBehaviour {
     private Sequence m_sequence;
     private Sequence m_sequence2;
 
-    public void StartMoveToTargetAnimation () {
+    public void StartMoveToTargetAnimation() {
         Sequence sequence = DOTween.Sequence();
 
         // 3.移动到结束点
@@ -57,12 +57,12 @@ public class CoinImage : MonoBehaviour {
     }
 
 
-    private void Awake () {
+    private void Awake() {
         m_rectTransform = (RectTransform)transform;
         m_image = GetComponent<Image>();
     }
 
-    private void Start () {
+    private void Start() {
         // 初始位置
         Vector2 randomDirection = new Vector2(Random.Range(-1f, 1f), Random.Range(-1f, 1f));
         float randomDistanceFirst = Random.Range(radiusFirst.min, radiusFirst.max);
@@ -88,7 +88,7 @@ public class CoinImage : MonoBehaviour {
 
         sequence.AppendInterval(stayTime);
 
-        sequence.AppendCallback(()=> {
+        sequence.AppendCallback(() => {
             onCreatedEvent?.Invoke();
         });
 
@@ -101,7 +101,7 @@ public class CoinImage : MonoBehaviour {
         m_sequence = sequence;
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         DOTween.Kill(m_sequence);
         DOTween.Kill(m_sequence2);
         DOTween.Kill(m_image);

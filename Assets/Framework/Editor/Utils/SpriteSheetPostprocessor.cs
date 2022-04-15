@@ -20,13 +20,13 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <summary>是否创建AnimatorContrller文件</summary>
     private static bool s_isCreateAnimatorController = false;
     /// <summary>单帧是否创建动画</summary>
-    private const bool IsSingleFrameCreateAnim = true;
+    private const bool IS_SINGLE_FRAME_CREATE_ANIM = true;
     /// <summary>帧频</summary>
-    private const int FrameRate = 24;
+    private const int FRAME_RATE = 24;
     /// <summary>动画类型</summary>
     private enum AnimationType { Sprite, Image }
 
-    private void OnPreprocessTexture () {
+    private void OnPreprocessTexture() {
         //去除后缀的资源相对路径，如：Assets/Textures/idle
         string assetNamePath = assetPath.Substring(0, assetPath.LastIndexOf('.'));
         //资源文件无后缀的名称
@@ -49,11 +49,11 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
         }
     }
 
-    private void OnPostprocessTexture (Texture2D texture) {
+    private void OnPostprocessTexture(Texture2D texture) {
         //在此方法内创建动画，删除.xml会出现不能读取问题
     }
 
-    private static void OnPostprocessAllAssets (string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths) {
+    private static void OnPostprocessAllAssets(string[] importedAssets, string[] deletedAssets, string[] movedAssets, string[] movedFromAssetPaths) {
         int len = importedAssets.Length;
         int i;
         //排序.multipleImageAnim路径放在前
@@ -114,7 +114,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <param name="assetName"></param>
     /// <param name="xmlPath"></param>
     /// <returns></returns>
-    private SpriteMetaData[] GetSpritesheetData (int textureHeight, string assetName, string xmlPath) {
+    private SpriteMetaData[] GetSpritesheetData(int textureHeight, string assetName, string xmlPath) {
         XmlDocument doc = new XmlDocument();
         doc.Load(xmlPath);
 
@@ -170,7 +170,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// </summary>
     /// <param name="delay">延时的毫秒数</param>
     /// <param name="path">资源文件相对于项目文件夹的路径</param>
-    private static async void DelayDeleteAsset (int delay, string path) {
+    private static async void DelayDeleteAsset(int delay, string path) {
         await Task.Delay(delay);
         AssetDatabase.DeleteAsset(path);
     }
@@ -183,7 +183,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <param name="multipleImageFolderPath">如：Assets/Textures</param>
     /// <param name="multipleImageAnimNamePath">如：Assets/Textures/idle</param>
 
-    private static async void DelayCreateAnimationFileWithMultipleImage (int delay, string multipleImageAnimPath, string multipleImageFolderPath, string multipleImageAnimNamePath) {
+    private static async void DelayCreateAnimationFileWithMultipleImage(int delay, string multipleImageAnimPath, string multipleImageFolderPath, string multipleImageAnimNamePath) {
         await Task.Delay(delay);
         XmlDocument doc = new XmlDocument();
         doc.Load(multipleImageAnimPath);
@@ -210,7 +210,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <param name="delay">延时的毫秒数</param>
     /// <param name="textureAssetPath">如：Assets/Textures/idle.png</param>
     /// <param name="textureAssetNamePath">如：Assets/Textures/idle</param>
-    private static async void DelayCreateAnimationFile (int delay, string textureAssetPath, string textureAssetNamePath) {
+    private static async void DelayCreateAnimationFile(int delay, string textureAssetPath, string textureAssetNamePath) {
         await Task.Delay(delay);
         //获取切分后的图片
         UnityEngine.Object[] objects = AssetDatabase.LoadAllAssetsAtPath(textureAssetPath);
@@ -223,7 +223,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
         }
         Sprite[] sprites = spriteList.ToArray();
 
-        if (!IsSingleFrameCreateAnim && sprites.Length <= 1) return;//单帧不创建动画
+        if (!IS_SINGLE_FRAME_CREATE_ANIM && sprites.Length <= 1) return;//单帧不创建动画
 
         //创建动画文件
         CreateAnimationFile(AnimationType.Sprite, sprites, textureAssetNamePath);
@@ -238,11 +238,11 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <param name="type">动画的类型，用于标记是Sprite或Image</param>
     /// <param name="sprites">Sprite帧列表</param>
     /// <param name="textureAssetNamePath">如：Assets/Textures/idle</param>
-    private static void CreateAnimationFile (AnimationType type, Sprite[] sprites, string textureAssetNamePath) {
+    private static void CreateAnimationFile(AnimationType type, Sprite[] sprites, string textureAssetNamePath) {
         int len = sprites.Length;
         AnimationClip animationClip = new AnimationClip();
         //帧频
-        animationClip.frameRate = FrameRate;
+        animationClip.frameRate = FRAME_RATE;
         //设置循环
         SerializedObject serializedClip = new SerializedObject(animationClip);
         SerializedProperty clipSettings = serializedClip.FindProperty("m_AnimationClipSettings");
@@ -260,7 +260,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
         curveBinding.propertyName = "m_Sprite";
         //添加帧
         ObjectReferenceKeyframe[] keyframes = new ObjectReferenceKeyframe[len];
-        const float frameTime = 1f / FrameRate;
+        const float frameTime = 1f / FRAME_RATE;
         for (int i = 0; i < len; i++) {
             Sprite sprite = sprites[i];
             ObjectReferenceKeyframe keyframe = new ObjectReferenceKeyframe();

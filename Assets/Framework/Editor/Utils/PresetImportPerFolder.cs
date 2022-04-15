@@ -9,6 +9,7 @@ using UnityEditor.Experimental;
 using UnityEngine;
 
 namespace PresetImportPerFolder {
+
 #if UNITY_2020_1_OR_NEWER
     /// <summary>
     /// 此示例类将预设自动应用于包含预设的文件夹以及任何子文件夹中的资源。
@@ -21,7 +22,7 @@ namespace PresetImportPerFolder {
     /// 如果进行应用，则该方法会向每个预设添加直接依赖关系，以便可以在更改预设值时重新导入资源。
     /// </summary>
     public class EnforcePresetPostProcessor : AssetPostprocessor {
-        void OnPreprocessAsset () {
+        void OnPreprocessAsset() {
             // if(assetPath....) 行可确保资源路径以"Assets/"开头，以便 AssetPostprocessor 不会应用于包中的资源。
             // 资源扩展名不能以 .cs 结尾，以避免在每次创建或移除预设时触发代码编译。
             // 资源扩展名不能以 .preset 结尾，以便预设不依赖于自己（这会导致无限的导入循环）。
@@ -32,7 +33,7 @@ namespace PresetImportPerFolder {
             }
         }
 
-        void ApplyPresetsFromFolderRecursively (string folder) {
+        void ApplyPresetsFromFolderRecursively(string folder) {
             // 按照从父文件夹开始到资源的顺序来应用预设，以便距离资源最近的预设最后进行应用。
             var parentFolder = Path.GetDirectoryName(folder);
             if (!string.IsNullOrEmpty(parentFolder))
@@ -89,7 +90,7 @@ namespace PresetImportPerFolder {
         /// CustomDependencies 不会在会话之间保存，需要每次重新构建。
         /// </summary>
         [InitializeOnLoadMethod]
-        static void InitPresetDependencies () {
+        static void InitPresetDependencies() {
             // AssetDatabase.FindAssets 使用 glob 过滤器避免导入项目中的所有对象。
             // 此 glob 搜索仅查找 .preset 文件。
             var allPaths = AssetDatabase.FindAssets("glob:\"**.preset\"")
@@ -136,7 +137,7 @@ namespace PresetImportPerFolder {
         /// 此方法确定是否添加、移除或移动了任何预设
         /// 并更新与更改的文件夹相关的 CustomDependency。
         /// </summary>
-        protected override void OnAssetsModified (string[] changedAssets, string[] addedAssets, string[] deletedAssets, AssetMoveInfo[] movedAssets) {
+        protected override void OnAssetsModified(string[] changedAssets, string[] addedAssets, string[] deletedAssets, AssetMoveInfo[] movedAssets) {
             HashSet<string> folders = new HashSet<string>();
             foreach (var asset in changedAssets) {
                 // 预设已更改，因此必须更新此文件夹的依赖关系，以防更改了预设类型。
@@ -184,7 +185,7 @@ namespace PresetImportPerFolder {
         /// 此方法会加载每个给定文件夹路径中的所有预设
         /// 并基于该文件夹中的当前预设更新 CustomDependency 哈希。
         /// </summary>
-        static void DelayedDependencyRegistration (HashSet<string> folders) {
+        static void DelayedDependencyRegistration(HashSet<string> folders) {
             foreach (var folder in folders) {
                 var presetPaths =
                     AssetDatabase.FindAssets("glob:\"**.preset\"", new[] { folder })
@@ -209,7 +210,7 @@ namespace PresetImportPerFolder {
     }
 #else
     public class EnforcePresetPostProcessor : AssetPostprocessor {
-        void OnPreprocessAsset () {
+        void OnPreprocessAsset() {
             // 确保我们在第一次导入资源时应用预设。
             if (assetImporter.importSettingsMissing) {
                 // 获取当前导入的资源文件夹。

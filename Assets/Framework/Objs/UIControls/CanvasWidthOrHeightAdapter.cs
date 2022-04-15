@@ -10,18 +10,18 @@ public class CanvasWidthOrHeightAdapter : MonoBehaviour {
     private float m_referenceScaleFactor;
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         if (!m_canvasScaler) {
             m_canvasScaler = GetComponent<CanvasScaler>();
         }
     }
 #endif
 
-    private void Start () {
+    private void Start() {
         m_referenceScaleFactor = m_canvasScaler.referenceResolution.x / m_canvasScaler.referenceResolution.y;
     }
 
-    private void Update () {
+    private void Update() {
         float scaleFactor = (float)Screen.width / Screen.height;
         if (scaleFactor > m_referenceScaleFactor) {
             //匹配高度

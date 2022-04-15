@@ -8,11 +8,11 @@ public class DelayDisabler : MonoBehaviour {
 
     [Tooltip("时间（秒）")] public float time = 5;
 
-    private void DisableSelf () {
+    private void DisableSelf() {
         gameObject.SetActive(false);
     }
 
-    private IEnumerator Start () {
+    private IEnumerator Start() {
         yield return null;
         Invoke(nameof(DisableSelf), time);
     }

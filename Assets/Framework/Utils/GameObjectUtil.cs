@@ -11,7 +11,7 @@ public static class GameObjectUtil {
     /// <param name="gameObject">游戏对象</param>
     /// <param name="filterChildren">需要过滤的子级对象</param>
     /// <returns></returns>
-    public static Bounds GetGameObjectRenderersBounds (GameObject gameObject, params GameObject[] filterChildren) {
+    public static Bounds GetGameObjectRenderersBounds(GameObject gameObject, params GameObject[] filterChildren) {
         int filterChildCount = filterChildren.Length;
         Renderer[] filterChildRenderers = new Renderer[filterChildCount];
         for (int i = 0; i < filterChildCount; i++) {

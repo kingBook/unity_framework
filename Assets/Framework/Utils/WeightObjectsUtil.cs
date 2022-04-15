@@ -10,7 +10,7 @@ public static class WeightObjectsUtil {
     /// <param name="weightObjects"> 权重对象列表 </param>
     /// <param name="defaultType"> 默认返回的枚举类型 </param>
     /// <returns></returns>
-    public static T GetLandTypeWithWeightList<T> ((T type, int weight)[] weightObjects, T defaultType) where T : System.Enum {
+    public static T GetLandTypeWithWeightList<T>((T type, int weight)[] weightObjects, T defaultType) where T : System.Enum {
         // 总权重
         int sumWeight = 0;
         for (int i = 0, len = weightObjects.Length; i < len; i++) {

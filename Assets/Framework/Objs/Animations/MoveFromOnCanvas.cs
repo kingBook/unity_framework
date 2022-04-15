@@ -20,22 +20,22 @@ public class MoveFromOnCanvas : MonoBehaviour {
     private RectTransform m_rectTransform;
     private Vector2 m_posRecord;
 
-    private void Awake () {
+    private void Awake() {
         m_rectTransform = GetComponent<RectTransform>();
         m_posRecord = m_rectTransform.anchoredPosition;
     }
 
-    private void OnEnable () {
+    private void OnEnable() {
         m_rectTransform.anchoredPosition = from;
         m_rectTransform.DOAnchorPos(m_posRecord, duration).onComplete = OnComplete;
     }
 
-    private void OnComplete () {
+    private void OnComplete() {
         m_rectTransform.DOKill();
         onCompleteEvent?.Invoke(this);
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         m_rectTransform.DOKill();
     }
 

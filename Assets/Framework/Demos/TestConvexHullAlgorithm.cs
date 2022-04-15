@@ -5,7 +5,7 @@ using UnityEngine;
 public class TestConvexHullAlgorithm : MonoBehaviour {
     public Transform pointsParent;
 
-    private void Start () {
+    private void Start() {
 
 
         Vector3[] vertices = new Vector3[pointsParent.childCount];
@@ -25,7 +25,7 @@ public class TestConvexHullAlgorithm : MonoBehaviour {
     }
 
     private static List<Vector3> s_points = new List<Vector3>();
-    private void OnDrawGizmos () {
+    private void OnDrawGizmos() {
 #if UNITY_EDITOR
         for (int i = 0; i < s_points.Count; i++) {
             GizmosUtil.DrawPoint(s_points[i]);

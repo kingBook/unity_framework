@@ -35,39 +35,39 @@ public class RenderTextureGetter : MonoBehaviour {
         }
     }
 
-    public void Init () {
+    public void Init() {
         if (m_isInited) return;
         m_isInited = true;
 
         m_renderTexture = RenderTexture.GetTemporary(renderTextureSize.x, renderTextureSize.y, depthBuffer, renderTextureFormat);
     }
 
-    public void Release () {
+    public void Release() {
         if (!m_isInited) return;
         m_isInited = false;
 
         m_renderTexture.Release();
     }
 
-    private void Awake () {
+    private void Awake() {
         if (initMethod == InitMethod.Awake) {
             Init();
         }
     }
 
-    private void OnEnable () {
+    private void OnEnable() {
         if (initMethod == InitMethod.OnEnable) {
             Init();
         }
     }
 
-    private void Start () {
+    private void Start() {
         if (initMethod == InitMethod.Start) {
             Init();
         }
     }
 
-    private void Update () {
+    private void Update() {
         if (initMethod == InitMethod.Update) {
             Init();
         }
@@ -79,13 +79,13 @@ public class RenderTextureGetter : MonoBehaviour {
         }
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         if (initMethod == InitMethod.OnEnable) {
             Release();
         }
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         if (initMethod != InitMethod.OnEnable) {
             Release();
         }

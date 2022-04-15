@@ -12,16 +12,16 @@ public class PanelLogoScreen : MonoBehaviour {
     [SerializeField]
     private CanvasGroup m_canvasGroup;
 
-    private void OnEnable () {
+    private void OnEnable() {
         m_canvasGroup.alpha = 1f;
         SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         SceneManager.sceneLoaded -= OnSceneLoaded;
     }
 
-    private void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (scene.path != gameObject.scene.path) {
             if (gameObject.activeInHierarchy) {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
@@ -30,16 +30,16 @@ public class PanelLogoScreen : MonoBehaviour {
         }
     }
 
-    private void StartFadeOut () {
+    private void StartFadeOut() {
         m_canvasGroup.DOFade(0.0f, 1f).OnComplete(OnFadeOut);
     }
 
-    private void OnFadeOut () {
+    private void OnFadeOut() {
         gameObject.SetActive(false);
         onFadeOutEvent?.Invoke();
     }
 
-    public void Active () {
+    public void Active() {
         gameObject.SetActive(true);
     }
 }

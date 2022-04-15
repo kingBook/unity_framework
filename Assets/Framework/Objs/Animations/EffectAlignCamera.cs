@@ -22,11 +22,11 @@ public class EffectAlignCamera : MonoBehaviour {
     private Vector3 m_eulerAnglesInit;
 
     /// <summary> 记录初始的欧拉角 </summary>
-    public void RecordInitEulerAngles () {
+    public void RecordInitEulerAngles() {
         m_eulerAnglesInit = m_transform.eulerAngles;
     }
 
-    private void Init () {
+    private void Init() {
         m_isInited = true;
 
         RecordInitEulerAngles();
@@ -34,12 +34,12 @@ public class EffectAlignCamera : MonoBehaviour {
         m_distanceCamera = Vector3.Distance(m_camera.transform.position, m_transform.position) + zValue;
     }
 
-    private void Start () {
+    private void Start() {
         m_transform = transform;
         m_camera = Camera.main;
     }
 
-    private void Update () {
+    private void Update() {
         if (!m_isInited) Init();
 
         AlignRotation();
@@ -47,11 +47,11 @@ public class EffectAlignCamera : MonoBehaviour {
 
     }
 
-    private void AlignRotation () {
+    private void AlignRotation() {
         m_transform.eulerAngles = m_camera.transform.eulerAngles + m_eulerAnglesInit;
     }
 
-    private void AlignOrderAndScale () {
+    private void AlignOrderAndScale() {
         Vector3 cameraOrigin = m_camera.transform.position;
         Vector3 position = m_transform.position;
         float distanceOld = Vector3.Distance(cameraOrigin, position);

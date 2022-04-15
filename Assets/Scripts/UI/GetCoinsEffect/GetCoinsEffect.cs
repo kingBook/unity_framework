@@ -67,14 +67,14 @@ public class GetCoinsEffect : MonoBehaviour {
     public bool isAllCoinsCreated => m_isAllCoinsCreated;
 
     /// <summary> 设置增加金币的数量 </summary>
-    public void SetAddCount (int value) {
+    public void SetAddCount(int value) {
         m_addCount = value;
     }
 
     /// <summary>
     /// 开始移动到目标点动画（必须 <see cref="stopOnCreated"/> 和 <see cref="m_isAllCoinsCreated"/> 为 true 时才能调用此方法）
     /// </summary>
-    public void StartMoveToTargetAnimation () {
+    public void StartMoveToTargetAnimation() {
         if (!stopOnCreated) return;
         if (!m_isAllCoinsCreated) {
             Debug.LogError("必须所有币创建完成才能调用此方法");
@@ -91,12 +91,12 @@ public class GetCoinsEffect : MonoBehaviour {
         }
     }
 
-    private void Awake () {
+    private void Awake() {
         m_tweenCompleteCount = 0;
         coinImagePrefab.SetActive(false);
     }
 
-    private void Start () {
+    private void Start() {
         if (!stopOnCreated) {
             if (m_audioClip) {
                 App.instance.audioManager.PlayEffect(m_audioClip, Camera.main.transform);
@@ -109,7 +109,7 @@ public class GetCoinsEffect : MonoBehaviour {
         CreateCoinImages();
     }
 
-    private void CreateCoinImages () {
+    private void CreateCoinImages() {
         m_coinImageInstances = new CoinImage[coinImageCount];
         Transform parent = coinImagePrefab.transform.parent;
 
@@ -132,7 +132,7 @@ public class GetCoinsEffect : MonoBehaviour {
     /// <summary>
     /// 一个币创建完成（未开始收集动画之前）
     /// </summary>
-    private void OnCoinCreated () {
+    private void OnCoinCreated() {
         m_createdCount++;
 
         float progress = (float)m_createdCount / coinImageCount;
@@ -149,7 +149,7 @@ public class GetCoinsEffect : MonoBehaviour {
     /// <summary>
     /// 一个币收集动画完成
     /// </summary>
-    private void OnCoinTweenComplete () {
+    private void OnCoinTweenComplete() {
         m_tweenCompleteCount++;
 
         float progress = (float)m_tweenCompleteCount / coinImageCount;
@@ -168,7 +168,7 @@ public class GetCoinsEffect : MonoBehaviour {
         }
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         for (int i = 0; i < coinImageCount; i++) {
             CoinImage coinImage = m_coinImageInstances[i];
             if (!coinImage) continue;

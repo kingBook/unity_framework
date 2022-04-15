@@ -10,11 +10,11 @@ public class CityBloxxBlock : MonoBehaviour {
     private Transform m_transform;
     private int m_id; // 楼层ID, 0 开始
 
-    public void SetId (int value) {
+    public void SetId(int value) {
         m_id = value;
     }
 
-    private void Start () {
+    private void Start() {
         m_transform = transform;
     }
 
@@ -37,7 +37,7 @@ public class CityBloxxBlock : MonoBehaviour {
     private bool m_isPressScreen;
     private bool m_isSpeedup;
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (m_isSpeedup) {
             // 加速旋转
             m_time += Time.deltaTime * 3f;
@@ -56,7 +56,7 @@ public class CityBloxxBlock : MonoBehaviour {
         m_transform.localEulerAngles = new Vector3(0, 0, x);
     }
 
-    private void Update () {
+    private void Update() {
         m_isPressScreen = Input.GetMouseButton(0);
         if (Input.GetMouseButtonDown(0)) {
             float tempTime = m_time % 4f;

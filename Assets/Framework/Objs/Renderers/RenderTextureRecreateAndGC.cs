@@ -12,12 +12,12 @@ public class RenderTextureRecreateAndGC : MonoBehaviour {
     private bool m_inited;
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         Init();
     }
 #endif
 
-    private void Init () {
+    private void Init() {
         if (!m_renderTexture) {
             Camera camera = GetComponent<Camera>();
             if (camera) {
@@ -37,7 +37,7 @@ public class RenderTextureRecreateAndGC : MonoBehaviour {
         }
     }
 
-    private void Update () {
+    private void Update() {
         if (!m_inited) {
             Init();
             m_inited = true;
@@ -47,13 +47,13 @@ public class RenderTextureRecreateAndGC : MonoBehaviour {
         }
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         m_inited = false;
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         m_inited = false;
-        if(m_renderTexture) {
+        if (m_renderTexture) {
             m_renderTexture.Release();
         }
     }

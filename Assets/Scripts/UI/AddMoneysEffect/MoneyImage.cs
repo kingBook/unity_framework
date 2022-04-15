@@ -11,16 +11,16 @@ public class MoneyImage : MonoBehaviour {
 
     [System.NonSerialized] public RectTransform targetPointRectTransform;
 
-    private void OnTweenComplete () {
+    private void OnTweenComplete() {
         onCompleteEvent?.Invoke();
         Destroy(gameObject);
     }
 
-    private void Start () {
+    private void Start() {
         transform.DOMove(targetPointRectTransform.position, duration).OnComplete(OnTweenComplete);
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         DOTween.Kill(transform);
     }
 }

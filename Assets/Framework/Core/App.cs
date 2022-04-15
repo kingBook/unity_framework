@@ -15,9 +15,9 @@ public sealed class App : MonoBehaviour {
 
     public enum Language { AUTO, CN, EN }
 
-    /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResume(bool isPause) </code> </summary>
+    /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResumeHandler(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
-    /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangedLanguage(App.Language language) </code> </summary>
+    /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangedLanguageHandler(App.Language language) </code> </summary>
     public event Action<Language> onChangedLanguageEvent;
 
 
@@ -80,7 +80,7 @@ public sealed class App : MonoBehaviour {
     /// </summary>
     /// <typeparam name="T"> <see cref="BaseGame"/> </typeparam>
     /// <returns></returns>
-    public T GetGame<T> () where T : BaseGame => (T)m_games[0];
+    public T GetGame<T>() where T : BaseGame => (T)m_games[0];
 
     /// <summary>
     /// 返回 <see cref="m_games"/>[index]
@@ -88,7 +88,7 @@ public sealed class App : MonoBehaviour {
     /// <typeparam name="T"> <see cref="BaseGame"/> </typeparam>
     /// <param name="index"> 索引 </param>
     /// <returns></returns>
-    public T GetGame<T> (int index) where T : BaseGame => (T)m_games[index];
+    public T GetGame<T>(int index) where T : BaseGame => (T)m_games[index];
 
     /// <summary>
     /// 返回 <see cref="m_games"/>.Length
@@ -108,7 +108,7 @@ public sealed class App : MonoBehaviour {
     /// <param name="isPause"> 是否暂停 </param>
     /// <param name="isSetPhysics"> 是否设置物理引擎 </param>
     /// <param name="isSetVolume"> 是否设置音量 </param>
-    public void SetPause (bool isPause, bool isSetPhysics = true, bool isSetVolume = true) {
+    public void SetPause(bool isPause, bool isSetPhysics = true, bool isSetVolume = true) {
         if (this.isPause == isPause) return;
         this.isPause = isPause;
         if (isSetPhysics) {
@@ -124,18 +124,18 @@ public sealed class App : MonoBehaviour {
         onPauseOrResumeEvent?.Invoke(isPause);
     }
 
-    private void InitDOTween () {
+    private void InitDOTween() {
         DOTween.SetTweensCapacity(500, 500);
     }
 
-    private void AddOpenCount () {
+    private void AddOpenCount() {
         const string key = "ApplicationOpenCount";
         openCount = PlayerPrefs.GetInt(key, 0) + 1;
         PlayerPrefs.SetInt(key, openCount);
         PlayerPrefs.Save();
     }
 
-    private void InitLanguage () {
+    private void InitLanguage() {
         bool isCN = Application.systemLanguage == SystemLanguage.Chinese;
         isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseSimplified;
         isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseTraditional;
@@ -144,7 +144,7 @@ public sealed class App : MonoBehaviour {
         onChangedLanguageEvent?.Invoke(m_language);
     }
 
-    private void Awake () {
+    private void Awake() {
         instance = this;
         // 初始化 DOTween
         InitDOTween();
@@ -156,7 +156,7 @@ public sealed class App : MonoBehaviour {
         }
     }
 
-    private void OnApplicationQuit () {
+    private void OnApplicationQuit() {
 #if UNITY_EDITOR // 自定义进入播放模式（不重新加载域时），销毁 DOTween.instance
         if (DOTween.instance != null) {
             DOTween.Clear(true);
@@ -168,7 +168,7 @@ public sealed class App : MonoBehaviour {
 #endif
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         // 不需要销毁instance
         //instance=null;
     }

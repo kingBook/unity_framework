@@ -6,19 +6,19 @@ using UnityEngine;
 /// </summary>
 public class AudioManager : MonoBehaviour {
 
-    private static bool GetLocalMusicMute () {
+    private static bool GetLocalMusicMute() {
         return PlayerPrefs.GetInt("AudioManager_musicMute", 0) > 0;
     }
 
-    private static void SetLocalMusicMute (bool value) {
+    private static void SetLocalMusicMute(bool value) {
         PlayerPrefs.SetInt("AudioManager_musicMute", value ? 1 : 0);
     }
 
-    private static bool GetLocalEffectsMute () {
+    private static bool GetLocalEffectsMute() {
         return PlayerPrefs.GetInt("AudioManager_EffectsMute", 0) > 0;
     }
 
-    private static void SetLocalEffectsMute (bool value) {
+    private static void SetLocalEffectsMute(bool value) {
         PlayerPrefs.SetInt("AudioManager_EffectsMute", value ? 1 : 0);
     }
 
@@ -31,7 +31,7 @@ public class AudioManager : MonoBehaviour {
     /// 设置循环播放的音乐的静音状态
     /// </summary>
     /// <param name="value"></param>
-    public void SetMusicMute (bool value) {
+    public void SetMusicMute(bool value) {
         musicMute = value;
         SetLocalMusicMute(value);
 
@@ -47,7 +47,7 @@ public class AudioManager : MonoBehaviour {
     /// 设置音效的静音状态
     /// </summary>
     /// <param name="value"></param>
-    public void SetEffectsMute (bool value) {
+    public void SetEffectsMute(bool value) {
         effectsMute = value;
         SetLocalEffectsMute(value);
 
@@ -66,7 +66,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="positionTransform"> 用于绑定位置的 Transform </param>
     /// <param name="volume"> 音量 </param>
     /// <returns></returns>
-    public AudioSource PlayMusic (AudioClip clip, Transform positionTransform, float volume) {
+    public AudioSource PlayMusic(AudioClip clip, Transform positionTransform, float volume) {
         GameObject gameObj = new GameObject("Play music (AudioManager)");
         if (positionTransform) {
             gameObj.transform.parent = positionTransform;
@@ -88,7 +88,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="clip"> 音频剪辑 </param>
     /// <param name="positionTransform"> 用于绑定位置的 Transform </param>
     /// <returns></returns>
-    public AudioSource PlayMusic (AudioClip clip, Transform positionTransform) {
+    public AudioSource PlayMusic(AudioClip clip, Transform positionTransform) {
         return PlayMusic(clip, positionTransform, 1f);
     }
 
@@ -99,7 +99,7 @@ public class AudioManager : MonoBehaviour {
     /// <param name="position"> 播放音乐的位置 </param>
     /// <param name="volume"> 音量 </param>
     /// <returns></returns>
-    public AudioSource PlayMusic (AudioClip clip, Vector3 position, float volume) {
+    public AudioSource PlayMusic(AudioClip clip, Vector3 position, float volume) {
         GameObject gameObj = new GameObject("Play music at point (AudioManager)");
         gameObj.transform.position = position;
 
@@ -118,12 +118,12 @@ public class AudioManager : MonoBehaviour {
     /// </summary>
     /// <param name="clip"> 音频剪辑 </param>
     /// <param name="position"> 播放音乐的位置 </param>
-    public AudioSource PlayMusic (AudioClip clip, Vector3 position) {
+    public AudioSource PlayMusic(AudioClip clip, Vector3 position) {
         return PlayMusic(clip, position, 1f);
     }
 
     /// <summary> 一次性播放音效 </summary>
-    public AudioSource PlayEffect (AudioClip clip, Transform positionTransform, float volume) {
+    public AudioSource PlayEffect(AudioClip clip, Transform positionTransform, float volume) {
         GameObject gameObj = new GameObject("Play effect (AudioManager)");
         if (positionTransform) {
             gameObj.transform.parent = positionTransform;
@@ -143,12 +143,12 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary> 一次性播放音效 </summary>
-    public AudioSource PlayEffect (AudioClip clip, Transform positionTransform) {
+    public AudioSource PlayEffect(AudioClip clip, Transform positionTransform) {
         return PlayEffect(clip, positionTransform, 1f);
     }
 
     /// <summary> 一次性播放音效 </summary>
-    public AudioSource PlayEffect (AudioClip clip, Vector3 position, float volume) {
+    public AudioSource PlayEffect(AudioClip clip, Vector3 position, float volume) {
         GameObject gameObj = new GameObject("Play effect at point (AudioManager)");
         gameObj.transform.position = position;
 
@@ -166,13 +166,13 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary> 一次性播放音效 </summary>
-    public AudioSource PlayEffect (AudioClip clip, Vector3 position) {
+    public AudioSource PlayEffect(AudioClip clip, Vector3 position) {
         return PlayEffect(clip, position, 1f);
     }
 
-    private IEnumerator DestroyAudioSourceOnComplete (AudioSource audioSource) {
+    private IEnumerator DestroyAudioSourceOnComplete(AudioSource audioSource) {
         // 必须判断 audioSource.isPlaying, 在连续播放很短的音效时，偶尔会出现不进入播放的情况, 因此判断 audioSource.isPlaying 如果未进入播放则直接销毁
-        while(audioSource != null && audioSource.isPlaying) {
+        while (audioSource != null && audioSource.isPlaying) {
             yield return null;
         }
         if (audioSource != null) {
@@ -180,7 +180,7 @@ public class AudioManager : MonoBehaviour {
         }
     }
 
-    private void Awake () {
+    private void Awake() {
         SetMusicMute(GetLocalMusicMute());
         SetEffectsMute(GetLocalEffectsMute());
     }

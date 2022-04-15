@@ -16,24 +16,24 @@ public class UIPanelFitSafeArea : MonoBehaviour {
     private RectTransform m_panel;
     private float m_time;
 
-    private void Awake () {
+    private void Awake() {
         m_panel = GetComponent<RectTransform>();
         m_time = Time.time;
         MatchSafeArea();
     }
 
-    private void Start () {
+    private void Start() {
         MatchSafeArea();
     }
 
-    private void Update () {
+    private void Update() {
         if (Time.time - m_time > 0.3f) {//限制刷新频率
             m_time = Time.time;
             MatchSafeArea();
         }
     }
 
-    private void MatchSafeArea () {
+    private void MatchSafeArea() {
         Rect safeArea = Screen.safeArea;
         float screenWidth = Screen.width;
         float screenHeight = Screen.height;

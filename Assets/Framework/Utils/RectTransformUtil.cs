@@ -13,7 +13,7 @@ public class RectTransformUtil {
     /// <param name="screenPoint">屏幕坐标位置</param>
     /// <param name="canvas">Canvas</param>
     /// <param name="anchor">锚点，x,y范围区间[0,1]</param>
-    public static void MoveToScreenPoint (RectTransform rectTransform, Vector2 screenPoint, Canvas canvas, Vector2 anchor) {
+    public static void MoveToScreenPoint(RectTransform rectTransform, Vector2 screenPoint, Canvas canvas, Vector2 anchor) {
         float scaleFactor = canvas.scaleFactor;
         Vector2 screenSize = new Vector2(Screen.width, Screen.height);
 
@@ -47,7 +47,7 @@ public class RectTransformUtil {
     /// <param name="velocity"> 屏幕速度向量 </param>
     /// <param name="canvas"> Canvas </param>
     /// <param name="range"> 移动范围（RectTransform 的矩形） </param>
-    public static void Move (RectTransform rectTransform, Vector2 velocity, Canvas canvas, RangeFloat movableRangeX, RangeFloat movableRangeY) {
+    public static void Move(RectTransform rectTransform, Vector2 velocity, Canvas canvas, RangeFloat movableRangeX, RangeFloat movableRangeY) {
         velocity /= canvas.scaleFactor;
 
         rectTransform.anchoredPosition += velocity;
@@ -100,7 +100,7 @@ public class RectTransformUtil {
     /// <param name="scaleValue"></param>
     /// <param name="canvas"></param>
     /// /// <param name="range"> 移动范围（RectTransform 的矩形） </param>
-    public static void ScaleAroundPoint (RectTransform rectTransform, Vector2 screenPoint, float scaleValue, Canvas canvas, RangeFloat movableRangeX, RangeFloat movableRangeY) {
+    public static void ScaleAroundPoint(RectTransform rectTransform, Vector2 screenPoint, float scaleValue, Canvas canvas, RangeFloat movableRangeX, RangeFloat movableRangeY) {
         // 缩放前，在屏幕坐标系的矩形
         Rect rect = GetScreenRect(rectTransform, canvas);
         // 缩放前，围绕缩放点在矩形中的单位化位置
@@ -125,7 +125,7 @@ public class RectTransformUtil {
     /// <param name="rectTransform"></param>
     /// <param name="canvas"></param>
     /// <returns></returns>
-    public static Rect GetScreenRect (RectTransform rectTransform, Canvas canvas, bool isScale = true) {
+    public static Rect GetScreenRect(RectTransform rectTransform, Canvas canvas, bool isScale = true) {
         Rect rect = rectTransform.rect;
 
         if (isScale) {
@@ -150,7 +150,7 @@ public class RectTransformUtil {
     /// Canvas.RenderMode 为 Screen Space-Overlay 时，rectTransform.position 就是屏幕坐标
     /// </summary>
     /// <param name="rectTransform"></param>
-    public static Vector2 GetScreenPoint (RectTransform rectTransform) {
+    public static Vector2 GetScreenPoint(RectTransform rectTransform) {
         return rectTransform.position;
     }
 

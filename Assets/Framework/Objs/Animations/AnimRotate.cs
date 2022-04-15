@@ -8,7 +8,7 @@ public class AnimRotate : MonoBehaviour {
     private Transform m_transform;
     private Vector3 m_eulers;
 
-    private void Awake () {
+    private void Awake() {
         m_transform = GetComponent<Transform>();
 
         m_eulers = new Vector3(Random.Range(m_eulersVelocity.min.x, m_eulersVelocity.max.x),
@@ -16,7 +16,7 @@ public class AnimRotate : MonoBehaviour {
                                Random.Range(m_eulersVelocity.min.z, m_eulersVelocity.max.z));
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         m_transform.Rotate(m_eulers);
     }
 }

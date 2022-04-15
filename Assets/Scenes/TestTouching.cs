@@ -13,16 +13,16 @@ public class TestTouching : MonoBehaviour {
     public static readonly Collider[] TempColliders = new Collider[32];
 
     // Start is called before the first frame update
-    void Start () {
-        
+    void Start() {
+
     }
 
     // Update is called once per frame
-    void Update () {
+    void Update() {
         Debug.Log(IsTouching(collider1, collider2));
     }
 
-    public bool IsTouching (Collider collider1, Collider collider2) {
+    public bool IsTouching(Collider collider1, Collider collider2) {
         int count = 0;
         Transform transform1 = collider1.transform;
         if (collider1 is BoxCollider) {
@@ -35,7 +35,7 @@ public class TestTouching : MonoBehaviour {
         } else if (collider1 is SphereCollider) {
             SphereCollider sphereCollider = (SphereCollider)collider1;
             Vector3 position = transform1.TransformPoint(sphereCollider.center);
-            float radius = sphereCollider.radius*Mathf.Max(transform1.lossyScale.x, transform1.lossyScale.y, transform1.lossyScale.z);
+            float radius = sphereCollider.radius * Mathf.Max(transform1.lossyScale.x, transform1.lossyScale.y, transform1.lossyScale.z);
             count = Physics.OverlapSphereNonAlloc(position, radius, TempColliders);
         } else if (collider1 is CapsuleCollider) {
             CapsuleCollider capsuleCollider = (CapsuleCollider)collider1;
@@ -53,8 +53,8 @@ public class TestTouching : MonoBehaviour {
                     break;
             }
 
-            Vector3 localPoint0 = capsuleCollider.center - direction * (capsuleCollider.height * 0.5f- capsuleCollider.radius);
-            Vector3 localPoint1 = capsuleCollider.center + direction * (capsuleCollider.height * 0.5f- capsuleCollider.radius);
+            Vector3 localPoint0 = capsuleCollider.center - direction * (capsuleCollider.height * 0.5f - capsuleCollider.radius);
+            Vector3 localPoint1 = capsuleCollider.center + direction * (capsuleCollider.height * 0.5f - capsuleCollider.radius);
 
             Vector3 point0 = transform1.TransformPoint(localPoint0);
             Vector3 point1 = transform1.TransformPoint(localPoint1);

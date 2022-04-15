@@ -7,7 +7,7 @@ public class Polygon : MeshDrawBase {
     int index = 0;
     Color[] colors;
 
-    void Start () {
+    void Start() {
         /*points.Add(new Vector3(0, 0, 0));
         points.Add(new Vector3(0, 1, 0));
         points.Add(new Vector3(1, 1, 0));
@@ -24,13 +24,13 @@ public class Polygon : MeshDrawBase {
         indexes.Add(6);*/
     }
 
-    protected override void DrawMesh () {
+    protected override void DrawMesh() {
         if (Input.GetKeyDown(KeyCode.D)) {
             DrawPolygon();
         }
     }
 
-    private void DrawPolygon () {
+    private void DrawPolygon() {
         mesh = new Mesh();
         mesh.name = "Polygon";
         mesh.vertices = points.ToArray();
@@ -52,7 +52,7 @@ public class Polygon : MeshDrawBase {
         targetFilter.mesh = mesh;
     }
 
-    protected override void Update () {
+    protected override void Update() {
         base.Update();
         if (Input.GetMouseButtonDown(0)) {
             Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
@@ -71,14 +71,14 @@ public class Polygon : MeshDrawBase {
         }
     }
 
-    private void Reset () {
+    private void Reset() {
         points.Clear();
 
         targetFilter.mesh = null;
         Destroy(mesh);
     }
 
-    private void OnGUI () {
+    private void OnGUI() {
         if (points.Count == 0) return;
 
         GUI.color = Color.red;
@@ -92,7 +92,7 @@ public class Polygon : MeshDrawBase {
         }
     }
 
-    private void OnDrawGizmos () {
+    private void OnDrawGizmos() {
         if (points.Count == 0) return;
 
         Gizmos.color = Color.cyan;

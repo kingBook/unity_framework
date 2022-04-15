@@ -17,12 +17,12 @@ public class EllipseMotion : MonoBehaviour {
 
     private float m_deg;
 
-    private void Awake () {
+    private void Awake() {
         Vector3 relative = transform.position - center.position;
         m_deg = Mathf.Atan2(relative.y, relative.x) * Mathf.Rad2Deg;
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (isPause) return;
         Vector3 position = transform.position;
         int sign = isCCW ? 1 : -1;

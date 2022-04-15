@@ -7,7 +7,7 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(RangeFloat))]
 public class RangeFloatDrawer : PropertyDrawer {
 
-    public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         EditorGUI.BeginProperty(position, label, property);
         {
             float x, w;

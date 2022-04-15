@@ -27,7 +27,7 @@ public class KeyInput : MonoBehaviour {
     /// <summary> 是否按下按钮/键盘上的 <see cref="m_keyCode"/> </summary>
     public bool isPressed { get; private set; }
 
-    private void Awake () {
+    private void Awake() {
         m_buttonHandleImage = m_buttonHandle.GetComponent<Image>();
         //根据模式设置 m_enableHandle
         if (m_mode == Mode.Automatic) {
@@ -61,7 +61,7 @@ public class KeyInput : MonoBehaviour {
         }
     }
 
-    private void Update () {
+    private void Update() {
         //未启用UI按钮时，侦听键盘输入
         if (!m_enableHandle) {
             if (Input.GetKeyDown(m_keyCode)) {
@@ -72,7 +72,7 @@ public class KeyInput : MonoBehaviour {
         }
     }
 
-    private void OnKeyDown () {
+    private void OnKeyDown() {
         isPressed = true;
         //设置未激活状态透明度
         Color color = m_buttonHandleImage.color;
@@ -82,7 +82,7 @@ public class KeyInput : MonoBehaviour {
         onKeyDownEvent?.Invoke();
     }
 
-    private void OnKeyUp () {
+    private void OnKeyUp() {
         isPressed = false;
         //设置激活状态透明度
         Color color = m_buttonHandleImage.color;

@@ -16,7 +16,7 @@ public static class GeomUtil {
     /// <param name="intersection1"> 输出的交点1 </param>
     /// <param name="intersection2"> 输出的交点2 </param>
     /// <returns> 返回交点的数量，0：不相交；1：有1个交点；2：有2个交点 </returns>
-    public static int LineSegmentIntersectCircle (Vector2 lineStart, Vector2 lineEnd, Vector2 circleCenter, float radius, out Vector2 intersection1, out Vector2 intersection2) {
+    public static int LineSegmentIntersectCircle(Vector2 lineStart, Vector2 lineEnd, Vector2 circleCenter, float radius, out Vector2 intersection1, out Vector2 intersection2) {
         int intersectCount = 0;
         bool intersect = Ray2DIntersectCircle(lineStart, lineEnd - lineStart, circleCenter, radius, out intersection1, out intersection2);
         if (intersect) {
@@ -42,7 +42,7 @@ public static class GeomUtil {
     /// <param name="intersection1"> 输出的交点1 </param>
     /// <param name="intersection2"> 输出的交点2 </param>
     /// <returns> 是否相交 </returns>
-    public static bool Ray2DIntersectCircle (Ray2D ray, Vector2 circleCenter, float radius, out Vector2 intersection1, out Vector2 intersection2) {
+    public static bool Ray2DIntersectCircle(Ray2D ray, Vector2 circleCenter, float radius, out Vector2 intersection1, out Vector2 intersection2) {
         intersection1 = Vector2.zero;
         intersection2 = Vector2.zero;
 
@@ -71,13 +71,13 @@ public static class GeomUtil {
     /// <param name="intersection1"> 输出的交点1 </param>
     /// <param name="intersection2"> 输出的交点2 </param>
     /// <returns> 是否相交 </returns>
-    public static bool Ray2DIntersectCircle (Vector2 origin, Vector2 direction, Vector2 circleCenter, float radius, out Vector2 intersection1, out Vector2 intersection2) {
+    public static bool Ray2DIntersectCircle(Vector2 origin, Vector2 direction, Vector2 circleCenter, float radius, out Vector2 intersection1, out Vector2 intersection2) {
         Ray2D ray = new Ray2D(origin, direction);
         return Ray2DIntersectCircle(ray, circleCenter, radius, out intersection1, out intersection2);
     }
 
     /// <summary> 获取点在直线的垂足（垂足会超出线段） </summary>
-    public static Vector3 GetPerpendicularOnLine (Vector3 point, Vector3 lineStart, Vector3 lineEnd, out float t) {
+    public static Vector3 GetPerpendicularOnLine(Vector3 point, Vector3 lineStart, Vector3 lineEnd, out float t) {
         Vector3 rhs = point - lineStart;
         Vector3 vector = lineEnd - lineStart;
         float magnitude = vector.magnitude;
@@ -86,12 +86,12 @@ public static class GeomUtil {
             vector2 /= magnitude;
         }
         float value = Vector3.Dot(vector2, rhs);
-        t = value/ magnitude;
+        t = value / magnitude;
         return lineStart + vector2 * value;
     }
 
     /// <summary> 获取点在线段的垂足（垂足不会超出线段） </summary>
-    public static Vector3 GetPerpendicularOnLineSegment (Vector3 point, Vector3 lineStart, Vector3 lineEnd, out float t) {
+    public static Vector3 GetPerpendicularOnLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd, out float t) {
         Vector3 rhs = point - lineStart;
         Vector3 vector = lineEnd - lineStart;
         float magnitude = vector.magnitude;
@@ -106,7 +106,7 @@ public static class GeomUtil {
     }
 
     /// <summary> 点到线段的最小距离（垂足不超出线段，超出后返回目标点到最近线段端点的距离） </summary>
-    public static float DistancePointLineSegment (Vector3 point, Vector3 lineStart, Vector3 lineEnd) {
+    public static float DistancePointLineSegment(Vector3 point, Vector3 lineStart, Vector3 lineEnd) {
         return Vector3.Magnitude(GetPerpendicularOnLineSegment(point, lineStart, lineEnd, out _) - point);
     }
 
@@ -123,7 +123,7 @@ public static class GeomUtil {
     /// <param name="vertices">顶点列表（顺时针方向）</param>
     /// <param name="isClosed">顶点列表是否闭合</param>
     /// <returns></returns>
-    public static (int startIndex, int endIndex) GetClosestPolyLineToPoint (Vector3 point, Vector3[] vertices, bool isClosed) {
+    public static (int startIndex, int endIndex) GetClosestPolyLineToPoint(Vector3 point, Vector3[] vertices, bool isClosed) {
         var result = (-1, -1);
         float minDistance = float.MaxValue;
         for (int i = 0, len = vertices.Length; i < len; i++) {
@@ -151,7 +151,7 @@ public static class GeomUtil {
     /// <param name="vertices">顶点列表（顺时针方向）</param>
     /// <param name="isClosed">顶点列表是否闭合</param>
     /// <returns></returns>
-    public static (int startIndex, int endIndex) GetClosestPolyLineToRayOrigin (Vector3 rayOrigin, Vector3 rayDirection, Vector3[] vertices, bool isClosed) {
+    public static (int startIndex, int endIndex) GetClosestPolyLineToRayOrigin(Vector3 rayOrigin, Vector3 rayDirection, Vector3[] vertices, bool isClosed) {
         Vector3 rayEnd = rayOrigin + rayDirection.normalized * 10;//随意定一个射线的结束点
         var result = (-1, -1);
         float minDistance = float.MaxValue;
@@ -189,7 +189,7 @@ public static class GeomUtil {
     /// <param name="t1"> 线1的插值（在线1两个端点内时值范围：[0,1]） </param>
     /// <param name="t2"> 线2的插值（在线2两个端点内时值范围：[0,1]）</param>
     /// <returns></returns>
-    public static bool GetTwoLineIntersection (Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 intersection, out float t1, out float t2) {
+    public static bool GetTwoLineIntersection(Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 intersection, out float t1, out float t2) {
         t1 = -1;
         t2 = -1;
 
@@ -221,7 +221,7 @@ public static class GeomUtil {
     /// 获取两条线段的交点。如果线段相交，则返回true，否则返回false。
     /// 注意：使用此方法必须两线段都在同一个平面上（3D线段请使用<see cref="GetClosestPointsOnTwo3DLineSegments" />），交点不会超出线段范围，只有交点同时处于两条线段内时才返回true
     /// </summary>
-    public static bool GetTwoLineSegmentsIntersection (Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 intersection, out float t1, out float t2) {
+    public static bool GetTwoLineSegmentsIntersection(Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 intersection, out float t1, out float t2) {
         bool intersect = GetTwoLineIntersection(lineStart1, lineEnd1, lineStart2, lineEnd2, out intersection, out t1, out t2);
         if (intersect) {
             bool intersectLineSegment1 = t1 >= 0f && t1 <= 1f;
@@ -241,7 +241,7 @@ public static class GeomUtil {
     /// <param name="closestPointLine2"></param>
     /// <returns></returns>
     /// </summary>
-    public static bool GetClosestPointsOnTwo3DLines (Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 closestPointLine1, out Vector3 closestPointLine2) {
+    public static bool GetClosestPointsOnTwo3DLines(Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 closestPointLine1, out Vector3 closestPointLine2) {
         closestPointLine1 = Vector3.zero;
         closestPointLine2 = Vector3.zero;
 
@@ -280,7 +280,7 @@ public static class GeomUtil {
     /// <param name="closestPointLine2"></param>
     /// <returns></returns>
     /// </summary>
-    public static bool GetClosestPointsOnTwo3DLineSegments (Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 closestPointLine1, out Vector3 closestPointLine2) {
+    public static bool GetClosestPointsOnTwo3DLineSegments(Vector3 lineStart1, Vector3 lineEnd1, Vector3 lineStart2, Vector3 lineEnd2, out Vector3 closestPointLine1, out Vector3 closestPointLine2) {
         closestPointLine1 = Vector3.zero;
         closestPointLine2 = Vector3.zero;
 
@@ -320,7 +320,7 @@ public static class GeomUtil {
     /// 如果点在线段之外且位于 linePoint1 的一侧，则返回1。
     /// 如果点在线段之外且位于 linePoint2 的一侧，则返回2。
     /// </summary>
-    public static int PointOnWhichSideOfLineSegment (Vector3 point, Vector3 linePoint1, Vector3 linePoint2) {
+    public static int PointOnWhichSideOfLineSegment(Vector3 point, Vector3 linePoint1, Vector3 linePoint2) {
         Vector3 lineVec = linePoint2 - linePoint1;
         Vector3 pointVec = point - linePoint1;
 

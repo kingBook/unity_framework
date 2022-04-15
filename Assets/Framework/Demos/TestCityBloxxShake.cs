@@ -9,11 +9,11 @@ public class TestCityBloxxShake : MonoBehaviour {
 
     [SerializeField] private GameObject m_blockPrefab;
 
-    private void Start () {
+    private void Start() {
         m_blockPrefab.SetActive(false);
 
         Transform parent = null;
-        for(int i = 0; i < 20; i++) {
+        for (int i = 0; i < 20; i++) {
             var inst = Instantiate(m_blockPrefab);
             inst.name = "CityBloxxBlock " + i;
 
@@ -24,7 +24,7 @@ public class TestCityBloxxShake : MonoBehaviour {
                 inst.transform.SetParent(transform);
             }
 
-            var block=inst.GetComponent<CityBloxxBlock>();
+            var block = inst.GetComponent<CityBloxxBlock>();
             block.SetId(i);
 
             inst.transform.localPosition = new Vector3(0f, 1f, 0f);
@@ -34,8 +34,8 @@ public class TestCityBloxxShake : MonoBehaviour {
         }
     }
 
-    
-    private void Update () {
-        
+
+    private void Update() {
+
     }
 }

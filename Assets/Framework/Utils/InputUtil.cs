@@ -13,7 +13,7 @@ public static class InputUtil {
     /// <param name="phase">触摸的阶段</param>
     /// <param name="ignorePointerOverUI">是否过滤触摸UI的触摸点</param>
     /// <returns>返回指定TouchPhase的第一个触摸点</returns>
-    public static Touch GetFirstTouch (TouchPhase phase, bool ignorePointerOverUI) {
+    public static Touch GetFirstTouch(TouchPhase phase, bool ignorePointerOverUI) {
         Touch touch;
         for (int i = 0, len = Input.touchCount; i < len; i++) {
             touch = Input.GetTouch(i);
@@ -33,7 +33,7 @@ public static class InputUtil {
     /// <param name="isIgnorePointerOverUI">当手指ID指定的 Touch 位置在UI上时是否跳过</param>
     /// <param name="phases">触摸阶段</param>
     /// <returns></returns>
-    public static Touch GetTouchWithFingerId (int fingerId, bool isIgnorePointerOverUI, params TouchPhase[] phases) {
+    public static Touch GetTouchWithFingerId(int fingerId, bool isIgnorePointerOverUI, params TouchPhase[] phases) {
         Touch touch;
         for (int i = 0, len = Input.touchCount; i < len; i++) {
             touch = Input.GetTouch(i);
@@ -60,7 +60,7 @@ public static class InputUtil {
     /// <param name="screenPoint">输出鼠标/第一个处于  TouchPhase.Began 阶段的触摸点的屏幕坐标</param>
     /// <param name="fingerId">鼠标模式输出0，触摸模式输出手指 id，鼠标左键未按下/没有触摸处于 TouchPhase.Began 阶段输出 -1</param>
     /// <returns></returns>
-    public static bool GetTouchBeganScreenPoint (bool isIgnorePointerOverUI, out Vector3 screenPoint, out int fingerId) {
+    public static bool GetTouchBeganScreenPoint(bool isIgnorePointerOverUI, out Vector3 screenPoint, out int fingerId) {
         fingerId = -1;
         screenPoint = new Vector3();
         if (isIgnorePointerOverUI && IsPointerOverUI(0)) {
@@ -92,7 +92,7 @@ public static class InputUtil {
     /// <param name="screenPoint">输出鼠标/第一个处于按住的触摸的屏幕坐标</param>
     /// <param name="fingerId">鼠标模式输出0，触摸模式输出手指 id，鼠标左键未按下/没有触摸处于按下状态则输出 -1</param>
     /// <returns></returns>
-    public static bool GetPressScreenPoint (bool isIgnorePointerOverUI, out Vector3 screenPoint, out int fingerId) {
+    public static bool GetPressScreenPoint(bool isIgnorePointerOverUI, out Vector3 screenPoint, out int fingerId) {
         fingerId = -1;
         screenPoint = new Vector3();
         if (isIgnorePointerOverUI && IsPointerOverUI(0)) {
@@ -119,8 +119,8 @@ public static class InputUtil {
     /// <summary>
     /// 检测鼠标位置/指定手指Id的触摸点是否在UI上方（不管鼠标处于按下或松开，不管触摸处于任何阶段）
     /// </summary>
-    public static bool IsPointerOverUI(int fingerId){
-        bool result=false;
+    public static bool IsPointerOverUI(int fingerId) {
+        bool result = false;
         if (EventSystem.current) {
             if (Input.touchSupported) {
                 for (int i = 0, len = Input.touchCount; i < len; i++) {
@@ -146,7 +146,7 @@ public static class InputUtil {
     /// </summary>
     /// <param name="fingerId"></param>
     /// <returns></returns>
-    public static bool IsTouchUp (int fingerId) {
+    public static bool IsTouchUp(int fingerId) {
         bool result = true;
         if (Input.touchSupported) {
             Touch touch = GetTouchWithFingerId(fingerId, false);
@@ -166,7 +166,7 @@ public static class InputUtil {
     /// <summary>
     /// 返回滑屏增量位置
     /// </summary>
-    public static Vector2 GetSlideScreenDeltaPosition () {
+    public static Vector2 GetSlideScreenDeltaPosition() {
         Vector2 deltaPosition = new Vector2();
         if (Input.touchSupported || Input.GetMouseButton(0)) {
             //支持触摸时，如果 Input.simulateMouseWithTouches 为 true 时，可以使用 "Mouse X" 和 "Mouse Y"

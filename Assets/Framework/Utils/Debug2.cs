@@ -15,7 +15,7 @@ public static class Debug2 {
     /// <param name="color"></param>
     /// <param name="duration"></param>
     /// <param name="depthTest"> 该线是否应被靠近摄影机的对象遮挡？ </param>
-    public static void DrawPoints (Vector3[] points, Color color, float duration = 0f, bool depthTest = true) {
+    public static void DrawPoints(Vector3[] points, Color color, float duration = 0f, bool depthTest = true) {
         for (int i = 0, length = points.Length; i < length; i++) {
             if (i < length - 1) {
                 Debug.DrawLine(points[i], points[i + 1], color, duration, depthTest);
@@ -23,7 +23,7 @@ public static class Debug2 {
         }
     }
 
-    public static void Log (params object[] args) {
+    public static void Log(params object[] args) {
         int len = args.Length;
         string str = "";
         for (int i = 0; i < len; i++) {
@@ -33,7 +33,7 @@ public static class Debug2 {
         Debug.Log(str);
     }
 
-    private static string GetListString (IList list) {
+    private static string GetListString(IList list) {
         int len = list.Count;
         string str = "";
         for (int i = 0; i < len; i++) {
@@ -43,7 +43,7 @@ public static class Debug2 {
         return str;
     }
 
-    private static string GetObjectString (object obj) {
+    private static string GetObjectString(object obj) {
         if (obj is Vector3 v3) {
             return string.Format("({0},{1},{2})", v3.x, v3.y, v3.z);
         } else if (obj is Vector2 v2) {

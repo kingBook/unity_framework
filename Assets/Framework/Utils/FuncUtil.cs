@@ -11,7 +11,7 @@ public static class FuncUtil {
     /// <param name="boundsCenter">包围盒的中心</param>
     /// <param name="boundsExtents">Bounds.extents</param>
     /// <returns></returns>
-    public static Vector3[] GetBoundsCorners (Vector3 boundsCenter, Vector3 boundsExtents) {
+    public static Vector3[] GetBoundsCorners(Vector3 boundsCenter, Vector3 boundsExtents) {
         Vector3[] vertices = new Vector3[8];
         //左下后
         vertices[0] = boundsCenter + Vector3.Scale(boundsExtents, new Vector3(-1, -1, -1));
@@ -40,7 +40,7 @@ public static class FuncUtil {
     /// <param name="pointCount">坐标点数量</param>
     /// <param name="planeNormal">平面法线</param>
     /// <returns></returns>
-    public static Vector3[] WorldPointsToPlane (Vector3[] points, int pointCount, Vector3 planeNormal) {
+    public static Vector3[] WorldPointsToPlane(Vector3[] points, int pointCount, Vector3 planeNormal) {
         for (int i = 0; i < pointCount; i++) {
             var vertex = points[i];
             points[i] = Vector3.ProjectOnPlane(vertex, planeNormal);
@@ -55,7 +55,7 @@ public static class FuncUtil {
     /// <param name="pointCount">坐标点数量</param>
     /// <param name="camera">用于转换的相机</param>
     /// <returns></returns>
-    public static Vector3[] WorldPointsToScreen (Vector3[] points, int pointCount, Camera camera) {
+    public static Vector3[] WorldPointsToScreen(Vector3[] points, int pointCount, Camera camera) {
         for (int i = 0; i < pointCount; i++) {
             var vertex = points[i];
             points[i] = camera.WorldToScreenPoint(vertex);
@@ -69,7 +69,7 @@ public static class FuncUtil {
     /// <param name="secondCount">秒数</param>
     /// <param name="isHour">如果true那么转换为xx:xx:xx形式否则xx:xx形式</param>
     /// <returns></returns>
-    public static string GetClockString (int secondCount, bool isHour = false) {
+    public static string GetClockString(int secondCount, bool isHour = false) {
         string result = "";
         if (isHour) {
             int hour = (int)(secondCount / 60.0f / 60.0f);

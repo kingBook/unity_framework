@@ -13,38 +13,38 @@ public sealed class Game : BaseGame {
     public Level currentLevel { get; private set; }
 
 
-    public void SetCurrentLevel (Level level) {
+    public void SetCurrentLevel(Level level) {
         currentLevel = level;
     }
 
-    public void GotoTitleScene () {
+    public void GotoTitleScene() {
         App.instance.sceneLoader.Load("Scenes/Title");
     }
 
-    public void GotoLevelScene (int levelNum) {
+    public void GotoLevelScene(int levelNum) {
         levelNumber = levelNum;
 
         App.instance.sceneLoader.LoadAsync("Scenes/Level_0");
     }
 
     /// <summary> 重新开始当前关 </summary>
-    public void RestartCurrentLevel (Scene sceneUnload) {
+    public void RestartCurrentLevel(Scene sceneUnload) {
         SceneManager.UnloadSceneAsync(sceneUnload);
         GotoLevelScene(levelNumber);
     }
 
     /// <summary> 下一关 </summary>
-    public void NextLevel (Scene sceneUnload) {
+    public void NextLevel(Scene sceneUnload) {
         SceneManager.UnloadSceneAsync(sceneUnload);
         GotoLevelScene(levelNumber + 1);
     }
 
-    private void Start () {
+    private void Start() {
         //GotoTitleScene();
         GotoLevelScene(1);
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         currentLevel = null;
     }
 

@@ -12,7 +12,7 @@ public class ButtonImageSwitcher : ImageSwitcher {
     private Button m_button;
 
 #if UNITY_EDITOR
-    protected override void InitImageOnReset () {
+    protected override void InitImageOnReset() {
         if (!image) {
             Button btn = GetComponent<Button>();
             if (btn) {
@@ -24,7 +24,7 @@ public class ButtonImageSwitcher : ImageSwitcher {
     }
 #endif
 
-    protected override void Awake () {
+    protected override void Awake() {
         base.Awake();
 
         m_button = GetComponent<Button>();
@@ -33,11 +33,11 @@ public class ButtonImageSwitcher : ImageSwitcher {
         }
     }
 
-    private void OnClick () {
+    private void OnClick() {
         AutoSwap();
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         if (isSwapOnClick) {
             m_button.onClick.RemoveListener(OnClick);
         }

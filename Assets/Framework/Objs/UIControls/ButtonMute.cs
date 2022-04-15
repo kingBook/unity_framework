@@ -9,7 +9,7 @@
 [RequireComponent(typeof(ButtonImageSwitcher))]
 public class ButtonMute : MonoBehaviour {
 
-    private void Start () {
+    private void Start() {
         ButtonImageSwitcher buttonImageSwitcher = GetComponent<ButtonImageSwitcher>();
         buttonImageSwitcher.SwapTo(AudioListener.volume <= 0 ? 1 : 0);
     }

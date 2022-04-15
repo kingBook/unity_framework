@@ -9,7 +9,7 @@ using UnityEngine;
 public class FlipMeshNormalsEditor : Editor {
 
     /// <summary> 翻转网格的法线 </summary>
-    private static void FlipMeshNormals (Mesh mesh) {
+    private static void FlipMeshNormals(Mesh mesh) {
         int[] triangles = mesh.triangles;
         for (int i = 0, len = triangles.Length; i < len; i += 3) {
             // 交换三角形的首尾索引
@@ -22,7 +22,7 @@ public class FlipMeshNormalsEditor : Editor {
     }
 
     /// <summary> 翻转多个游戏对象网格的法线 </summary>
-    private static void FlipMeshNormals (GameObject[] gameObjects) {
+    private static void FlipMeshNormals(GameObject[] gameObjects) {
         for (int i = 0, len = gameObjects.Length; i < len; i++) {
             GameObject go = gameObjects[i];
 
@@ -50,7 +50,7 @@ public class FlipMeshNormalsEditor : Editor {
 
     /// <summary> 验证所选择的游戏对象有网格时菜单才可用(不计算子级) </summary>
     [MenuItem("GameObject/Flip Mesh Normals", true)]
-    private static bool ValidateFlipMeshNormalsOnGameObject () {
+    private static bool ValidateFlipMeshNormalsOnGameObject() {
         bool isEnableMenuItem = false;
         GameObject[] gameObjects = Selection.gameObjects;
         for (int i = 0, len = gameObjects.Length; i < len; i++) {
@@ -80,7 +80,7 @@ public class FlipMeshNormalsEditor : Editor {
     }
 
     [MenuItem("GameObject/Flip Mesh Normals", false, 11)]
-    private static void FlipMeshNormalsOnGameObject () {
+    private static void FlipMeshNormalsOnGameObject() {
         FlipMeshNormals(Selection.gameObjects);
     }
 

@@ -17,31 +17,31 @@ public class ButtonChildrenSelectable : MonoBehaviour, IPointerEnterHandler, IPo
 
     private Selectable[] m_selectables;
 
-    void IPointerEnterHandler.OnPointerEnter (PointerEventData eventData) {
+    void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
         for (int i = 0, length = m_selectables.Length; i < length; i++) {
             m_selectables[i].OnPointerEnter(eventData);
         }
     }
 
-    void IPointerExitHandler.OnPointerExit (PointerEventData eventData) {
+    void IPointerExitHandler.OnPointerExit(PointerEventData eventData) {
         for (int i = 0, length = m_selectables.Length; i < length; i++) {
             m_selectables[i].OnPointerExit(eventData);
         }
     }
 
-    void IPointerDownHandler.OnPointerDown (PointerEventData eventData) {
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
         for (int i = 0, length = m_selectables.Length; i < length; i++) {
             m_selectables[i].OnPointerDown(eventData);
         }
     }
 
-    void IPointerUpHandler.OnPointerUp (PointerEventData eventData) {
+    void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
         for (int i = 0, length = m_selectables.Length; i < length; i++) {
             m_selectables[i].OnPointerUp(eventData);
         }
     }
 
-    private void Start () {
+    private void Start() {
         List<Selectable> selectables = new List<Selectable>();
         MaskableGraphic[] maskableGraphics = GetComponentsInChildren<MaskableGraphic>();
         for (int i = 0, length = maskableGraphics.Length; i < length; i++) {

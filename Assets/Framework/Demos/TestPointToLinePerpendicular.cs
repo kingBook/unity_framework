@@ -9,11 +9,11 @@ public class TestPointToLinePerpendicular : MonoBehaviour {
     public Transform target;
     public Transform perpendicular;
 
-    void Start () {
+    void Start() {
 
     }
 
-    void Update () {
+    void Update() {
         // 1. 垂足会超出线段
         perpendicular.position = GeomUtil.GetPerpendicularOnLine(target.position, lineStart.position, lineEnd.position, out float t);
         // 2. 垂足不会超出线段

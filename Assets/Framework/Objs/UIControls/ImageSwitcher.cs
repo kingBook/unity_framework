@@ -13,24 +13,24 @@ public class ImageSwitcher : MonoBehaviour {
     public Sprite[] sprites;
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         InitImageOnReset();
     }
 
-    protected virtual void InitImageOnReset () {
+    protected virtual void InitImageOnReset() {
         if (!image) {
             image = GetComponent<Image>();
         }
     }
 #endif
 
-    protected virtual void Awake () {
+    protected virtual void Awake() {
         if (!image) {
             image = GetComponent<Image>();
         }
     }
 
-    public void AutoSwap () {
+    public void AutoSwap() {
         if (image.sprite == sprites[0]) {
             SwapTo(1);
         } else {
@@ -38,7 +38,7 @@ public class ImageSwitcher : MonoBehaviour {
         }
     }
 
-    public void SwapTo (int spriteId) {
+    public void SwapTo(int spriteId) {
         image.sprite = sprites[spriteId];
     }
 

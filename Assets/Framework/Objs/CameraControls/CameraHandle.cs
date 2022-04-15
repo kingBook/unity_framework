@@ -54,15 +54,15 @@ public class CameraHandle : MonoBehaviour {
 
 
 
-    private void Awake () {
+    private void Awake() {
         m_camera = GetComponent<Camera>();
     }
 
-    private void Start () {
+    private void Start() {
 
     }
 
-    private void Update () {
+    private void Update() {
         if (Input.touchSupported) {
             if (Input.touchCount == 1) {
                 TouchOneHandler();
@@ -77,7 +77,7 @@ public class CameraHandle : MonoBehaviour {
         }
     }
 
-    private void TouchOneHandler () {
+    private void TouchOneHandler() {
         Touch touch0 = Input.GetTouch(0);
         //接触开始时，触摸点0是否接触UI
         if (touch0.phase == TouchPhase.Began) {
@@ -96,7 +96,7 @@ public class CameraHandle : MonoBehaviour {
         }
     }
 
-    private void TouchTwoHandler () {
+    private void TouchTwoHandler() {
         Touch touch0 = Input.GetTouch(0);
         Touch touch1 = Input.GetTouch(1);
         //接触开始时，触摸点0是否接触UI
@@ -123,7 +123,7 @@ public class CameraHandle : MonoBehaviour {
         }
     }
 
-    private void MouseHandler () {
+    private void MouseHandler() {
         //按下鼠标左键时，鼠标是否接触UI
         if (Input.GetMouseButtonDown(0)) {
             m_isPointerOverUIOnBegan0 = EventSystem.current.IsPointerOverGameObject();
@@ -169,7 +169,7 @@ public class CameraHandle : MonoBehaviour {
     /// <summary>
     /// 旋转
     /// </summary>
-    private void Rotate (float h, float v) {
+    private void Rotate(float h, float v) {
         Transform camTransform = m_camera.transform;
         //绕着pivot旋转Y轴，实现左右旋转
         camTransform.RotateAround(pivotTransform.position, Vector3.up, h);
@@ -197,7 +197,7 @@ public class CameraHandle : MonoBehaviour {
     /// 缩放视野
     /// </summary>
     /// <param name="velocity">缩放视野速度向量</param>
-    private void ZoomFieldOfView (float velocity) {
+    private void ZoomFieldOfView(float velocity) {
         if (velocity == 0) return;
         onZoomEvent?.Invoke(velocity);
         m_camera.fieldOfView = Mathf.Clamp(m_camera.fieldOfView + velocity, fieldOfViewMin, fieldOfViewMax);
@@ -207,7 +207,7 @@ public class CameraHandle : MonoBehaviour {
     /// 平移
     /// </summary>
     /// <param name="velocity">平移速度向量</param>
-    private void Translate (Vector3 velocity) {
+    private void Translate(Vector3 velocity) {
         onTranslateEvent?.Invoke(velocity);
         m_camera.transform.Translate(velocity);
     }

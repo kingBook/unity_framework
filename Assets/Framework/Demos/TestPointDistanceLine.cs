@@ -9,7 +9,7 @@ public class TestPointDistanceLine : MonoBehaviour {
     public Transform lineEnd;
     public Transform perpendicular;
 
-    private void Update () {
+    private void Update() {
         // ===========此方法计算距离不正确(计算的是向量a在向量b上投影的长度)，待修正============
         Vector3 a = point.position - lineStart.position;
         Vector3 b = lineEnd.position - lineStart.position;

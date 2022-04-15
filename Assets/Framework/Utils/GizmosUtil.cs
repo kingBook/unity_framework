@@ -9,7 +9,7 @@ public static class GizmosUtil {
     /// 根据路径点数组画线
     /// </summary>
     /// <param name="vertices">路径点数组</param>
-    public static void DrawPath (Vector3[] vertices) {
+    public static void DrawPath(Vector3[] vertices) {
         int len = vertices.Length;
         for (int i = 0; i < len; i++) {
             int nexti = (i + 1) % len;
@@ -22,7 +22,7 @@ public static class GizmosUtil {
     /// </summary>
     /// <param name="point">点位置</param>
     /// <param name="radius">球体线框半径</param>
-    public static void DrawPoint (Vector3 point, float radius = 0.02f) {
+    public static void DrawPoint(Vector3 point, float radius = 0.02f) {
         Gizmos.DrawWireSphere(point, radius);
     }
 
@@ -30,7 +30,7 @@ public static class GizmosUtil {
     /// 画包围盒
     /// </summary>
     /// <param name="bounds">包围盒</param>
-    public static void DrawBounds (Bounds bounds) {
+    public static void DrawBounds(Bounds bounds) {
         Gizmos.DrawWireCube(bounds.center, bounds.size);
     }
 }

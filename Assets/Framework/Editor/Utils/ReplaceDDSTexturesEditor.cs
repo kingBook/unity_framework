@@ -15,7 +15,7 @@ public class ReplaceDDSTexturesEditor : Editor {
     private static readonly List<string> s_ddsTexturePaths = new List<string>();
 
     [MenuItem("Assets/Replace DDS Textures")]
-    public static void ReplaceDDSTextures () {
+    public static void ReplaceDDSTextures() {
         string[] paths = AssetDatabase.GetAllAssetPaths();
         for (int i = 0; i < paths.Length; i++) {
             string path = paths[i];
@@ -44,7 +44,7 @@ public class ReplaceDDSTexturesEditor : Editor {
     }
 
     [MenuItem("Assets/Delete All Replaced DDS")]
-    public static void DeleteAllReplacedDDS () {
+    public static void DeleteAllReplacedDDS() {
         for (int i = 0; i < s_ddsTexturePaths.Count; i++) {
             AssetDatabase.DeleteAsset(s_ddsTexturePaths[i]);
         }
@@ -56,7 +56,7 @@ public class ReplaceDDSTexturesEditor : Editor {
         Debug.Log("Delete all replaced DDS textures complete");
     }
 
-    private static bool GetFBXReferenceDDS (string fbxPath) {
+    private static bool GetFBXReferenceDDS(string fbxPath) {
         Object[] objects = AssetDatabase.LoadAllAssetRepresentationsAtPath(fbxPath);
         for (int j = 0; j < objects.Length; j++) {
             Object obj = objects[j];
@@ -69,7 +69,7 @@ public class ReplaceDDSTexturesEditor : Editor {
         return false;
     }
 
-    private static bool GetMaterialReferenceDDS (Material material) {
+    private static bool GetMaterialReferenceDDS(Material material) {
         for (int i = 0; i < s_propertyNames.Length; i++) {
             string propertyName = s_propertyNames[i];
             if (material.HasProperty(propertyName)) {
@@ -86,7 +86,7 @@ public class ReplaceDDSTexturesEditor : Editor {
         return false;
     }
 
-    private static void ReplaceMaterialDDS (Material material) {
+    private static void ReplaceMaterialDDS(Material material) {
         for (int i = 0; i < s_propertyNames.Length; i++) {
             string propertyName = s_propertyNames[i];
             if (material.HasProperty(propertyName)) {

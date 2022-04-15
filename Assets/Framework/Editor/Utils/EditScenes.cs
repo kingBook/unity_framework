@@ -13,12 +13,12 @@ public class EditScenes : Editor {
     private static System.Action<Scene> s_onOpendCallback;
 
     [MenuItem("Tools/EditScenes", true)]
-    private static bool ValidateMenuItem () {
+    private static bool ValidateMenuItem() {
         return !EditorApplication.isPlaying;
     }
 
     [MenuItem("Tools/EditScenes")]
-    public static void Main () {
+    public static void Main() {
         if (EditorApplication.isPlaying) return;
         Debug.Log("== Tools/EditScenes ==");
 
@@ -53,7 +53,7 @@ public class EditScenes : Editor {
         });
     }
 
-    private static void OpenScenesOneByOne (string[] scenePaths, System.Action<Scene> onOpend) {
+    private static void OpenScenesOneByOne(string[] scenePaths, System.Action<Scene> onOpend) {
         s_scenePaths = scenePaths;
         s_currentIndex = 0;
         s_onOpendCallback = onOpend;
@@ -63,7 +63,7 @@ public class EditScenes : Editor {
 
     }
 
-    private static void OnSceneOpened (Scene scene, OpenSceneMode mode) {
+    private static void OnSceneOpened(Scene scene, OpenSceneMode mode) {
 
         s_onOpendCallback.Invoke(scene);
 

@@ -20,12 +20,12 @@ public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
     private bool m_isPointerDowning = false;
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         m_scrollRect = GetComponent<ScrollRect>();
     }
 #endif
 
-    private void Awake () {
+    private void Awake() {
         m_pageCount = m_scrollRect.content.childCount;
         if (m_scrollRect.horizontal) {
             m_scrollbar = m_scrollRect.horizontalScrollbar;
@@ -35,7 +35,7 @@ public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
         m_scrollBarTargetValue = m_scrollbar.value;
     }
 
-    private void Update () {
+    private void Update() {
         if (!m_isPointerDowning) {
             if (m_scrollBarTargetValue < 0) {
                 float speedLength = m_scrollRect.velocity.magnitude;
@@ -50,7 +50,7 @@ public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
         }
     }
 
-    private int GetClosestPageIndex () {
+    private int GetClosestPageIndex() {
         int pageIndex = 0;
         float minDistance = float.MaxValue;
         for (int i = 0; i < m_pageCount; i++) {
@@ -64,12 +64,12 @@ public class PageScroll : MonoBehaviour, IPointerDownHandler, IPointerUpHandler 
         return pageIndex;
     }
 
-    void IPointerDownHandler.OnPointerDown (PointerEventData eventData) {
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
         m_isPointerDowning = true;
         m_scrollBarTargetValue = -1f;
     }
 
-    void IPointerUpHandler.OnPointerUp (PointerEventData eventData) {
+    void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
         m_isPointerDowning = false;
     }
 

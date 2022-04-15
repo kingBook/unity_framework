@@ -7,7 +7,7 @@ using UnityEngine;
 [CustomPropertyDrawer(typeof(RangeVector2))]
 public class RangeVector2Drawer : PropertyDrawer {
 
-    public override void OnGUI (Rect position, SerializedProperty property, GUIContent label) {
+    public override void OnGUI(Rect position, SerializedProperty property, GUIContent label) {
         var minProperty = property.FindPropertyRelative("min");
         var maxProperty = property.FindPropertyRelative("max");
         EditorGUI.BeginProperty(position, label, property);

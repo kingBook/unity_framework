@@ -30,7 +30,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
     }
 
 
-    private void UpdateLayout () {
+    private void UpdateLayout() {
         RectTransform content = (RectTransform)transform;
         Rect contentRect = content.rect;
 
@@ -68,7 +68,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         content.sizeDelta = contentSizeDelta;
     }
 
-    private void MoveEndChildToStart (int count) {
+    private void MoveEndChildToStart(int count) {
         if (childrenOrder.Count > 0) {
             RectTransform lastChild = childrenOrder[childrenOrder.Count - 1];
             childrenOrder.RemoveAt(childrenOrder.Count - 1);
@@ -85,7 +85,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    private void MoveStartChildToEnd (int count) {
+    private void MoveStartChildToEnd(int count) {
         if (childrenOrder.Count > 0) {
             RectTransform firstChild = childrenOrder[0];
             childrenOrder.RemoveAt(0);
@@ -102,7 +102,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    private void UpdateScaleAndSibling () {
+    private void UpdateScaleAndSibling() {
         if (!m_scrollRect || !m_scrollRect.viewport || !m_scrollRect.content) return;
 
         Rect viewportRect = m_scrollRect.viewport.rect;
@@ -129,7 +129,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    private void OnScrollRectValueChangedHandler (Vector2 scrollValue) {
+    private void OnScrollRectValueChangedHandler(Vector2 scrollValue) {
         if (!m_scrollRect || !m_scrollRect.viewport) return;
         if (childrenOrder.Count <= 0) return;
 
@@ -172,7 +172,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    protected override void OnEnable () {
+    protected override void OnEnable() {
         if (Application.isPlaying) {
             if (m_scrollRect) {
                 m_scrollRect.onValueChanged.AddListener(OnScrollRectValueChangedHandler);
@@ -180,7 +180,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    protected override void Update () {
+    protected override void Update() {
         if (Application.isPlaying) {
             UpdateScaleAndSibling();
         } else {
@@ -188,7 +188,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    protected override void OnTransformChildrenChanged () {
+    protected override void OnTransformChildrenChanged() {
         for (int i = 0, len = transform.childCount; i < len; i++) {
             RectTransform child = transform.GetChild(i) as RectTransform;
             if (!child) continue;
@@ -198,7 +198,7 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         }
     }
 
-    protected override void OnDisable () {
+    protected override void OnDisable() {
         if (Application.isPlaying) {
             if (m_scrollRect) {
                 m_scrollRect.onValueChanged.RemoveListener(OnScrollRectValueChangedHandler);
@@ -207,13 +207,13 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
     }
 
 #if UNITY_EDITOR
-    protected override void Reset () {
+    protected override void Reset() {
         if (!m_scrollRect) {
             m_scrollRect = GetComponentInParent<ScrollRect>();
         }
     }
 
-    protected override void OnValidate () {
+    protected override void OnValidate() {
         m_offsetBeyondViewport = Mathf.Max(0f, m_offsetBeyondViewport);
     }
 #endif

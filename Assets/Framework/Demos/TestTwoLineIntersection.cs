@@ -12,13 +12,13 @@ public class TestTwoLineIntersection : MonoBehaviour {
     [Space]
     public Transform intersection;
 
-    void Start () {
+    void Start() {
 
     }
 
-    void Update () {
+    void Update() {
         //bool intersect = GeomUtil.GetTwoLineIntersection(lineStart1.position,lineEnd1.position, lineStart2.position, lineEnd2.position, out Vector3 intersectionPoint, out float t1, out float t2);
-        bool intersect = GeomUtil.GetTwoLineSegmentsIntersection(lineStart1.position,lineEnd1.position, lineStart2.position, lineEnd2.position, out Vector3 intersectionPoint, out float t1, out float t2);
+        bool intersect = GeomUtil.GetTwoLineSegmentsIntersection(lineStart1.position, lineEnd1.position, lineStart2.position, lineEnd2.position, out Vector3 intersectionPoint, out float t1, out float t2);
         if (intersect) {
             intersection.position = intersectionPoint;
             Debug.Log($"t1:{t1}, t2:{t2}");

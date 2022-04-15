@@ -25,7 +25,7 @@ public class TopViewCar : MonoBehaviour {
     private Vector3 m_velocity = Vector3.zero;//当前的移动速度
     public Vector3 velocity => m_velocity;
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         //轮子的旋转角<弧度>
         float wheelRadian = m_wheelRotation * Mathf.Deg2Rad;
         //当前移动速度在当前轮子方向上的分量（x：用于计算车向前的位移 y：用于计算车的旋转）。
@@ -72,7 +72,7 @@ public class TopViewCar : MonoBehaviour {
     /// <param name="vNormalized">单位化的移动方向(y：表示前后方向，x:表示左右旋转方向)</param>
     /// <param name="moveDelta">移动速度增量</param>
     /// <param name="wheelRotateDelta">轮子旋转增量</param>
-    public void Drive (Vector2 vNormalized, float moveDelta = 1f, float wheelRotateDelta = 1f) {
+    public void Drive(Vector2 vNormalized, float moveDelta = 1f, float wheelRotateDelta = 1f) {
         m_isDriveing = true;
         m_isResetWheeling = false;
         float speedDirection = vNormalized.y > 0 ? 1 : vNormalized.y < 0 ? -1 : 0;
@@ -86,7 +86,7 @@ public class TopViewCar : MonoBehaviour {
     }
 
     /// <summary> 停止驱动 </summary>
-    public void StopDrive () {
+    public void StopDrive() {
         m_isDriveing = false;
         m_isResetWheeling = isResetWheelRotation;
     }

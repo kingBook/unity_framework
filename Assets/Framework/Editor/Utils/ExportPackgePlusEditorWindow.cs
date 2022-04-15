@@ -15,7 +15,7 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
     //TreeView 不可序列化，因此应该通过树数据对其进行重建。
     private SimpleTreeView m_simpleTreeView;
 
-    private void OnEnable () {
+    private void OnEnable() {
         //检查是否已存在序列化视图状态（在程序集重新加载后
         // 仍然存在的状态）
         if (m_treeViewState == null) {
@@ -24,7 +24,7 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
         m_simpleTreeView = new SimpleTreeView(m_treeViewState);
     }
 
-    private void OnGUI () {
+    private void OnGUI() {
         EditorGUILayout.BeginVertical();
         {
             Rect contentRect = new Rect(0, 0, position.width, position.height);
@@ -48,7 +48,7 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
 
 
     [MenuItem("Assets/Export Package Plus...", false, 20)]
-    private static void DisplayWindow () {
+    private static void DisplayWindow() {
         var window = GetWindow<ExportPackgePlusEditorWindow>(true);
         window.titleContent = new GUIContent("Exporting Package");
         window.Show();
@@ -80,11 +80,11 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
 }
 
 internal class SimpleTreeView : TreeView {
-    public SimpleTreeView (TreeViewState treeViewState) : base(treeViewState) {
+    public SimpleTreeView(TreeViewState treeViewState) : base(treeViewState) {
         Reload();
     }
 
-    protected override TreeViewItem BuildRoot () {
+    protected override TreeViewItem BuildRoot() {
         List<string> assetPathNames = new List<string>();
         string[] paths = AssetDatabase.GetAllAssetPaths();
         for (int i = 0, length = paths.Length; i < length; i++) {
@@ -120,7 +120,7 @@ internal class SimpleTreeView : TreeView {
         return root;
     }
 
-    protected override void RowGUI (RowGUIArgs args) {
+    protected override void RowGUI(RowGUIArgs args) {
         var item = args.item;
 
         Rect toggleRect = args.rowRect;

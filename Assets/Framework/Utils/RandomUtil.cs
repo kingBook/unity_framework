@@ -21,7 +21,7 @@ public static class RandomUtil {
     /// GetRandomUniqueIntList(0,10,10); //返回元素在[0,10)之间，长度为10的数组
     /// </code>
     /// </summary>
-    public static int[] GetRandomUniqueIntList (int min, int max, int length) {
+    public static int[] GetRandomUniqueIntList(int min, int max, int length) {
         int sourceLength = max - min;
         length = Mathf.Clamp(length, 1, sourceLength);
 
@@ -50,7 +50,7 @@ public static class RandomUtil {
     /// <param name="min"></param>
     /// <param name="max"></param>
     /// <returns></returns>
-    public static T[] GetRandomElements<T> (T[] collection, int min, int max) {
+    public static T[] GetRandomElements<T>(T[] collection, int min, int max) {
         int count = Random.Range(min, max);
         T[] results = new T[count];
         List<T> tempList = new List<T>(collection);

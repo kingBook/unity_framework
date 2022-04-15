@@ -28,7 +28,7 @@ public class LanguageSwapImage : MonoBehaviour {
         }
     }
 
-    private void Awake () {
+    private void Awake() {
         m_image = GetComponent<Image>();
         if (App.instance != null) {
             if (useFitSwitcher) {
@@ -43,16 +43,16 @@ public class LanguageSwapImage : MonoBehaviour {
         }
     }
 
-    private void Start () {
+    private void Start() {
         SwapImageToLanguage(App.instance.language);
         App.instance.onChangedLanguageEvent += OnChangeLanguage;
     }
 
-    private void OnChangeLanguage (App.Language language) {
+    private void OnChangeLanguage(App.Language language) {
         SwapImageToLanguage(language);
     }
 
-    private void SwapImageToLanguage (App.Language language) {
+    private void SwapImageToLanguage(App.Language language) {
         Sprite targetSprite = spriteEN;
         if (language == App.Language.CN) {
             targetSprite = spriteCN;
@@ -67,7 +67,7 @@ public class LanguageSwapImage : MonoBehaviour {
         }
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         App.instance.onChangedLanguageEvent -= OnChangeLanguage;
     }
 }

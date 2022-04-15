@@ -9,7 +9,7 @@ public static class PointsUtil {
     /// <param name="points"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public static Vector3 GetClosestPointXZ (Vector3[] points, Vector3 target) {
+    public static Vector3 GetClosestPointXZ(Vector3[] points, Vector3 target) {
         Vector3 closestPoint = Vector3.zero;
         float minDistance = float.MaxValue;
         for (int i = 0, length = points.Length; i < length; i++) {
@@ -30,7 +30,7 @@ public static class PointsUtil {
     /// <param name="points"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public static Vector3 GetClosestPointXY (Vector3[] points, Vector3 target) {
+    public static Vector3 GetClosestPointXY(Vector3[] points, Vector3 target) {
         Vector3 closestPoint = Vector3.zero;
         float minDistance = float.MaxValue;
         for (int i = 0, length = points.Length; i < length; i++) {
@@ -51,7 +51,7 @@ public static class PointsUtil {
     /// <param name="points"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public static Vector3 GetClosestPoint (Vector3[] points, Vector3 target) {
+    public static Vector3 GetClosestPoint(Vector3[] points, Vector3 target) {
         Vector3 closestPoint = Vector3.zero;
         float minDistance = float.MaxValue;
         for (int i = 0, length = points.Length; i < length; i++) {
@@ -71,7 +71,7 @@ public static class PointsUtil {
     /// <param name="points"></param>
     /// <param name="target"></param>
     /// <returns></returns>
-    public static Vector2 GetClosestPoint (Vector2[] points, Vector2 target) {
+    public static Vector2 GetClosestPoint(Vector2[] points, Vector2 target) {
         Vector2 closestPoint = Vector2.zero;
         float minDistance = float.MaxValue;
         for (int i = 0, length = points.Length; i < length; i++) {
@@ -85,7 +85,7 @@ public static class PointsUtil {
         return closestPoint;
     }
 
-    public static float GetPointsDistanceXZ (Vector3[] points) {
+    public static float GetPointsDistanceXZ(Vector3[] points) {
         float distance = 0f;
         for (int i = 0, length = points.Length; i < length; i++) {
             if (i < length - 1) {
@@ -98,7 +98,7 @@ public static class PointsUtil {
         return distance;
     }
 
-    public static float GetPointsDistanceXY (Vector3[] points) {
+    public static float GetPointsDistanceXY(Vector3[] points) {
         float distance = 0f;
         for (int i = 0, length = points.Length; i < length; i++) {
             if (i < length - 1) {
@@ -111,7 +111,7 @@ public static class PointsUtil {
         return distance;
     }
 
-    public static float GetPointsDistance (Vector3[] points) {
+    public static float GetPointsDistance(Vector3[] points) {
         float distance = 0f;
         for (int i = 0, length = points.Length; i < length; i++) {
             if (i < length - 1) {
@@ -123,7 +123,7 @@ public static class PointsUtil {
         return distance;
     }
 
-    public static float GetPointsDistance (Vector2[] points) {
+    public static float GetPointsDistance(Vector2[] points) {
         float distance = 0f;
         for (int i = 0, length = points.Length; i < length; i++) {
             if (i < length - 1) {

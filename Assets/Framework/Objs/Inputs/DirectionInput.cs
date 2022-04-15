@@ -29,7 +29,7 @@ public class DirectionInput : MonoBehaviour {
     /// <summary> 输入的方向单位化向量，值区间[-1,1]，表示输入的方向，不表示大小 </summary>
     public Vector2 directionNormalized => m_directionSize.normalized;
 
-    private void Awake () {
+    private void Awake() {
         m_canvas = GetComponentInParent<Canvas>();
         m_canvasGroupSliginArea = m_slidingArea.GetComponent<CanvasGroup>();
         //隐藏可触摸区域 Image
@@ -50,13 +50,13 @@ public class DirectionInput : MonoBehaviour {
         m_canvasGroupSliginArea.gameObject.SetActive(m_enableHandle);
     }
 
-    private void Start () {
+    private void Start() {
         m_screenScaleFactorOnStart = m_canvas.scaleFactor;
         //记录可滑动的半径(必须在 Awake 之后记录，否则 Canvas 未计算适配会出错)
         m_slidingRadiusOnStart = m_slidingArea.sizeDelta.x * 0.5f * m_canvas.scaleFactor;
     }
 
-    private void Update () {
+    private void Update() {
         if (m_enableHandle) {
             //屏幕大小发生变化时
             if (m_canvas.scaleFactor != m_screenScaleFactorOnStart) {
@@ -77,7 +77,7 @@ public class DirectionInput : MonoBehaviour {
 
     #region UI Handle
 
-    private void MoveHandleToScreenPoint (Vector3 screenPoint) {
+    private void MoveHandleToScreenPoint(Vector3 screenPoint) {
         Vector3 relative = screenPoint - m_slidingArea.position;
         relative = Vector3.ClampMagnitude(relative, m_slidingRadiusOnStart);
         relative.z = 0f;
@@ -86,14 +86,14 @@ public class DirectionInput : MonoBehaviour {
         m_directionSize = relative / m_slidingRadiusOnStart;
     }
 
-    private void OnScreenSizeChanged () {
+    private void OnScreenSizeChanged() {
         //重新计算并记录可滑动半径范围
         float scale = m_canvas.scaleFactor / m_screenScaleFactorOnStart;
         m_screenScaleFactorOnStart = m_canvas.scaleFactor;
         m_slidingRadiusOnStart *= scale;
     }
 
-    private void CheckUiHandleInput () {
+    private void CheckUiHandleInput() {
         if (Input.touchSupported) {
             if (m_inTouchableAreaTouchDown) {
                 //触摸按下过程中...
@@ -137,13 +137,13 @@ public class DirectionInput : MonoBehaviour {
         }
     }
 
-    private void OnUiInputTouchBegan (Vector2 screenPoint) {
+    private void OnUiInputTouchBegan(Vector2 screenPoint) {
         m_inTouchableAreaTouchDown = true;
         m_canvasGroupSliginArea.alpha = m_enableAlpha;
         MoveHandleToScreenPoint(screenPoint);
     }
 
-    private void OnUiInputTouchMoved (Vector2 screenPoint) {
+    private void OnUiInputTouchMoved(Vector2 screenPoint) {
         bool inTouchableArea = RectTransformUtility.RectangleContainsScreenPoint(m_touchableArea, screenPoint);
         if (inTouchableArea) {
             MoveHandleToScreenPoint(screenPoint);
@@ -153,7 +153,7 @@ public class DirectionInput : MonoBehaviour {
         }
     }
 
-    private void OnUiInputTouchEnded (Vector2 screenPoint) {
+    private void OnUiInputTouchEnded(Vector2 screenPoint) {
         m_inTouchableAreaTouchDown = false;
         m_fingerIdRecord = -1;
         m_canvasGroupSliginArea.alpha = m_disableAlpha;
@@ -161,7 +161,7 @@ public class DirectionInput : MonoBehaviour {
 
     #endregion
 
-    private void CheckAxisInput () {
+    private void CheckAxisInput() {
         m_directionSize.x = Input.GetAxis("Horizontal");
         m_directionSize.y = Input.GetAxis("Vertical");
     }

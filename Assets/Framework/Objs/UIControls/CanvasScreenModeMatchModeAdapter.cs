@@ -23,7 +23,7 @@ public class CanvasScreenModeMatchModeAdapter : MonoBehaviour {
     }
 
     private void OnDisable() {
-        if(this && m_canvasScaler) {
+        if (this && m_canvasScaler) {
             m_canvasScaler.matchWidthOrHeight = m_matchWidthOrHeightRecord;
         }
     }

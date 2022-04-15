@@ -22,7 +22,7 @@ public class YoyoMove : MonoBehaviour {
     private Transform m_transform;
     private Vector3 m_origin;
 
-    private void Awake () {
+    private void Awake() {
         m_transform = transform;
         if (isDoLocalPosition) {
             m_origin = m_transform.localPosition;
@@ -31,7 +31,7 @@ public class YoyoMove : MonoBehaviour {
         }
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         //m_deg:[0,360]
         eulerAngle = (eulerAngle + speed) % 360;
         //[-1,1]

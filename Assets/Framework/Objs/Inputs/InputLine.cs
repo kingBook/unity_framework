@@ -33,14 +33,14 @@ public class InputLine : MonoBehaviour {
     public List<Vector3> points => m_points;
 
 
-    private void CheckInputAndAddPoints () {
-        
-       
+    private void CheckInputAndAddPoints() {
+
+
         // 方法1：当有多个触摸点时，取所有点的中心
         if (Input.GetMouseButton(0)) {
             Vector3 inputScreenPoint = Input.mousePosition;
-        // 方法2：此过程只个侦听第一个触摸点
-        //if (InputUtil.GetPressScreenPoint(true, out Vector3 inputScreenPoint, out int inputFingerId)) {
+            // 方法2：此过程只个侦听第一个触摸点
+            //if (InputUtil.GetPressScreenPoint(true, out Vector3 inputScreenPoint, out int inputFingerId)) {
 
             inputScreenPoint.z = 0f;
 
@@ -77,7 +77,7 @@ public class InputLine : MonoBehaviour {
         }
     }
 
-    private void CreateLineMaterial () {
+    private void CreateLineMaterial() {
         //如果材质球不存在
         if (!m_lineMaterial) {
             //用代码的方式实例一个材质球
@@ -94,11 +94,11 @@ public class InputLine : MonoBehaviour {
         }
     }
 
-    private void Update () {
+    private void Update() {
         CheckInputAndAddPoints();
     }
 
-    private void OnRenderObject () {
+    private void OnRenderObject() {
         // 不显示时返回
         if (!isDisplayLineOnEditorMode) return;
 

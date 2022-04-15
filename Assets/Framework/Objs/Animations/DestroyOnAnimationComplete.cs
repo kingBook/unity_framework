@@ -14,18 +14,18 @@ public class DestroyOnAnimationComplete : MonoBehaviour {
 
     private Animator m_animator;
 
-    private void OnComplete (UnityEngine.Object objectReference) {
+    private void OnComplete(UnityEngine.Object objectReference) {
         if (objectReference != this) return;
         if (m_destroyOnComplete) {
             Destroy(m_destroyOnComplete);
         }
     }
 
-    private void Awake () {
+    private void Awake() {
         m_animator = GetComponent<Animator>();
     }
 
-    private void Start () {
+    private void Start() {
         AnimatorClipInfo[] animatorClipInfos = m_animator.GetCurrentAnimatorClipInfo(0);
         AnimationClip animationClip = animatorClipInfos[0].clip;
         AnimationEvent animationEvent = new AnimationEvent {
@@ -37,7 +37,7 @@ public class DestroyOnAnimationComplete : MonoBehaviour {
     }
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         if (m_destroyOnComplete == null) {
             m_destroyOnComplete = gameObject;
         }

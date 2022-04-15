@@ -36,12 +36,12 @@ public class ManualRotateCameraY : MonoBehaviour {
     private bool m_isMouseOverUIOnBegan;
     private int m_touchFingerId = -1;
 
-    private void Start () {
+    private void Start() {
         m_camera = GetComponent<Camera>();
         m_cameraFollow = GetComponent<CameraFollow>();
     }
 
-    private void Update () {
+    private void Update() {
         if (Input.touchSupported) {
             TouchHandler();
         } else {
@@ -49,7 +49,7 @@ public class ManualRotateCameraY : MonoBehaviour {
         }
     }
 
-    private void TouchHandler () {
+    private void TouchHandler() {
         Touch touch;
         //返回一个在触摸开始阶段时非触摸UI的触摸点
         if (m_touchFingerId > -1) {
@@ -72,7 +72,7 @@ public class ManualRotateCameraY : MonoBehaviour {
         }
     }
 
-    private void MouseHandler () {
+    private void MouseHandler() {
         //按下鼠标左键时，鼠标是否接触UI
         if (Input.GetMouseButtonDown(0)) {
             m_isMouseOverUIOnBegan = EventSystem.current.IsPointerOverGameObject();
@@ -101,7 +101,7 @@ public class ManualRotateCameraY : MonoBehaviour {
     /// <summary>
     /// 旋转
     /// </summary>
-    private void Rotate (float h) {
+    private void Rotate(float h) {
         //应用到DriftCamera
         if (advancedOptions.isApplyToDriftCamera) {
             if (m_cameraFollow != null) {
@@ -120,7 +120,7 @@ public class ManualRotateCameraY : MonoBehaviour {
     }
 
     /// <summary>返回指定的位置是否在活动区域</summary>
-    private bool GetPositionOnActiveArea (Vector2 position, ActiveArea activeArea) {
+    private bool GetPositionOnActiveArea(Vector2 position, ActiveArea activeArea) {
         bool result = true;
         if (activeArea == ActiveArea.RightScreen) {
             result = position.x > Screen.width * 0.5f;
@@ -130,7 +130,7 @@ public class ManualRotateCameraY : MonoBehaviour {
         return result;
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
 
     }
 

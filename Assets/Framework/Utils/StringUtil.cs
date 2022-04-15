@@ -10,7 +10,7 @@ public class StringUtil {
     /// <summary>
     /// 比较两个字符串的尾部是否相等
     /// </summary>
-    public static bool EndsWith (string a, string b) {
+    public static bool EndsWith(string a, string b) {
         int ap = a.Length - 1;
         int bp = b.Length - 1;
 
@@ -23,7 +23,7 @@ public class StringUtil {
     /// <summary>
     /// 比较两个字符串的开头是否相等
     /// </summary>
-    public static bool StartsWith (string a, string b) {
+    public static bool StartsWith(string a, string b) {
         int aLen = a.Length;
         int bLen = b.Length;
         int ap = 0; int bp = 0;
@@ -39,7 +39,7 @@ public class StringUtil {
     /// </summary>
     /// <param name="text"></param>
     /// <returns></returns>
-    public static string GetEndNumberString (string text) {
+    public static string GetEndNumberString(string text) {
         var regex = new Regex(@"\d", RegexOptions.RightToLeft);
 
         string numberString = "";

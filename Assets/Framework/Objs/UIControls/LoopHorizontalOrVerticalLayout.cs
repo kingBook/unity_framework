@@ -6,7 +6,7 @@ using UnityEngine;
 public abstract class LoopHorizontalOrVerticalLayout : MonoBehaviour {
 
     protected class ScaleValueComparer : IComparer {
-        int IComparer.Compare (object x, object y) {
+        int IComparer.Compare(object x, object y) {
             var a = ((RectTransform rectTransform, float scaleValue))x;
             var b = ((RectTransform rectTransform, float scaleValue))y;
             return (int)Mathf.Sign(a.scaleValue - b.scaleValue);
@@ -18,32 +18,32 @@ public abstract class LoopHorizontalOrVerticalLayout : MonoBehaviour {
 
     protected readonly ScaleValueComparer m_scaleValueComparer = new ScaleValueComparer();
 
-    protected virtual void Awake () {
+    protected virtual void Awake() {
 
     }
 
-    protected virtual void OnEnable () {
+    protected virtual void OnEnable() {
 
     }
 
-    protected virtual void Update () {
+    protected virtual void Update() {
 
     }
 
-    protected virtual void OnDisable () {
+    protected virtual void OnDisable() {
 
     }
 
-    protected virtual void OnTransformChildrenChanged () {
+    protected virtual void OnTransformChildrenChanged() {
 
     }
 
 #if UNITY_EDITOR
-    protected virtual void Reset () {
+    protected virtual void Reset() {
 
     }
 
-    protected virtual void OnValidate () {
+    protected virtual void OnValidate() {
 
     }
 #endif

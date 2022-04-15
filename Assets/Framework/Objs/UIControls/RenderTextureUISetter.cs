@@ -17,7 +17,7 @@ public class RenderTextureUISetter : MonoBehaviour {
 
     private RenderTexture m_renderTexture;
 
-    private void OnEnable () {
+    private void OnEnable() {
         m_renderTexture = RenderTexture.GetTemporary(renderTextureSize.x, renderTextureSize.y, depthBuffer, renderTextureFormat);
 
         rawImage.texture = m_renderTexture;
@@ -31,13 +31,13 @@ public class RenderTextureUISetter : MonoBehaviour {
         cam.backgroundColor = color;
     }
 
-    private void Update () {
+    private void Update() {
         if (!m_renderTexture.IsCreated()) {
             m_renderTexture.Create();
         }
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         m_renderTexture.Release();
     }
 }

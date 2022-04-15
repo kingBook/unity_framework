@@ -34,7 +34,7 @@ public class FileLoader : MonoBehaviour {
     /// </summary>
     /// <param name="progressbarVisible">是否显示进度条</param>
     /// <param name="filePaths">可变长度文件路径列表，如: @"C:\Users\Administrator\Desktop\views0.xml"</param>
-    public async void LoadAsync (bool progressbarVisible, params string[] filePaths) {
+    public async void LoadAsync(bool progressbarVisible, params string[] filePaths) {
         OnLoadStart(progressbarVisible);
 
         byte[][] outBytesList = new byte[filePaths.Length][];
@@ -65,7 +65,7 @@ public class FileLoader : MonoBehaviour {
         }
     }
 
-    private void OnLoadStart (bool progressbarVisible) {
+    private void OnLoadStart(bool progressbarVisible) {
         m_isLoading = true;
         m_progressValue = 0.0f;
         if (m_panelProgressbar != null) {
@@ -76,7 +76,7 @@ public class FileLoader : MonoBehaviour {
         gameObject.SetActive(true);
     }
 
-    private void OnLoadCompleteAll (byte[][] outBytesList) {
+    private void OnLoadCompleteAll(byte[][] outBytesList) {
         m_isLoading = false;
         m_progressValue = 1.0f;
         if (m_panelProgressbar != null) {
@@ -89,7 +89,7 @@ public class FileLoader : MonoBehaviour {
         onCompleteEvent?.Invoke(outBytesList);
     }
 
-    private void Update () {
+    private void Update() {
         if (m_isLoading) {
             //模拟假的加载进度
             m_progressValue = Mathf.Min(m_progressValue + 0.1f, 0.9f);
@@ -99,7 +99,7 @@ public class FileLoader : MonoBehaviour {
         }
     }
 
-    private void Dispose () {
+    private void Dispose() {
         if (m_fileStream != null) {
             m_fileStream.Dispose();
             m_fileStream.Close();
@@ -107,7 +107,7 @@ public class FileLoader : MonoBehaviour {
         }
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         Dispose();
     }
 

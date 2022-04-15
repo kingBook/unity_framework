@@ -16,7 +16,7 @@ public class FracturePart : MonoBehaviour {
     public bool isExplosioning { get; private set; }
 
 
-    public void ApplyExplosionForce (float explosionForce, Vector3 explosionPosition, float explosionRadius, float scaleDuration = -1f, float endLocalScaleMultiplier = -1f) {
+    public void ApplyExplosionForce(float explosionForce, Vector3 explosionPosition, float explosionRadius, float scaleDuration = -1f, float endLocalScaleMultiplier = -1f) {
         if (isExplosioning) return;
         isExplosioning = true;
 
@@ -37,7 +37,7 @@ public class FracturePart : MonoBehaviour {
         }
     }
 
-    private void Init () {
+    private void Init() {
         if (m_isInited) return;
         m_isInited = true;
 
@@ -53,11 +53,11 @@ public class FracturePart : MonoBehaviour {
         m_localScaleXOnAwake = transform.localScale.x;
     }
 
-    private void Awake () {
+    private void Awake() {
         Init();
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (isExplosioning) {
             m_rigidBody.AddForce(gravity, ForceMode.Acceleration);
         }

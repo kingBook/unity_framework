@@ -6,7 +6,7 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
 
     public Transform pointsParent;
 
-    private void Start () {
+    private void Start() {
 
 
         Vector3[] vertices = new Vector3[pointsParent.childCount];
@@ -42,7 +42,7 @@ public class TestTriangulationAlgorithm : MonoBehaviour {
     }
 
     private static List<Vector3> s_points = new List<Vector3>();
-    private void OnDrawGizmos () {
+    private void OnDrawGizmos() {
         //画三角形
         for (int i = 0; i < s_points.Count; i += 3) {
             Gizmos.DrawLine(s_points[i], s_points[i + 1]);

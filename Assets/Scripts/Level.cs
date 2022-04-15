@@ -20,15 +20,15 @@ public class Level : MonoBehaviour {
     public CanvasLevel canvasLevel { get; private set; }
 
 
-    public void Victory () {
+    public void Victory() {
 
     }
 
-    public void Failure () {
+    public void Failure() {
 
     }
 
-    private void InitRenderSettings () {
+    private void InitRenderSettings() {
         RenderSettings.skybox = m_skyboxMaterial; // 天空盒
 
         RenderSettings.ambientMode = AmbientMode.Flat; // 平面环境光照
@@ -40,19 +40,19 @@ public class Level : MonoBehaviour {
         RenderSettings.fogDensity = 0.002f; // 雾密度
     }
 
-    private void Awake () {
+    private void Awake() {
         effectsFactory = GetComponent<EffectsFactory>();
         canvasLevel = GameObject.Find("CanvasLevel").GetComponent<CanvasLevel>();
     }
 
-    private void Start () {
+    private void Start() {
         m_game = App.instance.GetGame<Game>();
         m_game.SetCurrentLevel(this);
 
         //InitRenderSettings();
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         if (m_game) {
             m_game.SetCurrentLevel(null);
         }

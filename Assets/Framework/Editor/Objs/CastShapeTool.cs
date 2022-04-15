@@ -20,18 +20,18 @@ public abstract class CastShapeTool<T> : EditorTool where T : CastShapeBase {
 
     protected abstract PrimitiveBoundsHandle boundsHandle { get; }
 
-    protected abstract void CopyColliderPropertiesToHandle (T castShape);
+    protected abstract void CopyColliderPropertiesToHandle(T castShape);
 
-    protected abstract void CopyHandlePropertiesToCollider (T castShape);
+    protected abstract void CopyHandlePropertiesToCollider(T castShape);
 
-    protected Vector3 InvertScaleVector (Vector3 scaleVector) {
+    protected Vector3 InvertScaleVector(Vector3 scaleVector) {
         for (int axis = 0; axis < 3; ++axis)
             scaleVector[axis] = scaleVector[axis] == 0f ? 0f : 1f / scaleVector[axis];
 
         return scaleVector;
     }
 
-    public override void OnToolGUI (EditorWindow window) {
+    public override void OnToolGUI(EditorWindow window) {
         foreach (var obj in targets) {
             if (!(obj is T castShape) || Mathf.Approximately(castShape.transform.lossyScale.sqrMagnitude, 0f))
                 continue;
@@ -54,11 +54,11 @@ public abstract class CastShapeTool<T> : EditorTool where T : CastShapeBase {
         }
     }
 
-    protected static Vector3 TransformColliderCenterToHandleSpace (Transform colliderTransform, Vector3 colliderCenter) {
+    protected static Vector3 TransformColliderCenterToHandleSpace(Transform colliderTransform, Vector3 colliderCenter) {
         return Handles.inverseMatrix * (colliderTransform.localToWorldMatrix * colliderCenter);
     }
 
-    protected static Vector3 TransformHandleCenterToColliderSpace (Transform colliderTransform, Vector3 handleCenter) {
+    protected static Vector3 TransformHandleCenterToColliderSpace(Transform colliderTransform, Vector3 handleCenter) {
         return colliderTransform.localToWorldMatrix.inverse * (Handles.matrix * handleCenter);
     }
 }

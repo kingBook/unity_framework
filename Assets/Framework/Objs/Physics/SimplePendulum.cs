@@ -31,7 +31,7 @@ public class SimplePendulum : MonoBehaviour {
     /// <summary> 角速度 </summary>
     public float w { get; private set; }
 
-    public void Init () {
+    public void Init() {
         if (m_isInited) return;
         m_isInited = true;
 
@@ -52,7 +52,7 @@ public class SimplePendulum : MonoBehaviour {
     }
 
     /// <summary> 设置原点的位置（注意只在 <see cref="m_origin"/> 为 null且在 Init 之前，才能使用此方法） </summary>
-    public void SetOrigin (Vector2 value) {
+    public void SetOrigin(Vector2 value) {
         if (m_origin) {
             Debug.LogError("m_origin 非 null 时，不能使用此方法，请直接设置 m_origin 的位置");
             return;
@@ -60,7 +60,7 @@ public class SimplePendulum : MonoBehaviour {
         m_originPosition = value;
     }
 
-    public void SetCurrentAngle (float angleRadian) {
+    public void SetCurrentAngle(float angleRadian) {
         Init();
         m_currentAngle = WorldAngleToLocal(angleRadian);
         UpdateTargetPosition();
@@ -70,7 +70,7 @@ public class SimplePendulum : MonoBehaviour {
     /// 设置暂停/取消暂停
     /// </summary>
     /// <param name="value"></param>
-    public void SetPause (bool value) {
+    public void SetPause(bool value) {
         m_isPause = value;
     }
 
@@ -78,20 +78,20 @@ public class SimplePendulum : MonoBehaviour {
     /// 立即反向运动（用于摆动到某个角度时立即反向摆动）
     /// </summary>
     /// <param name="damping">区间[0,1]，角速度的阻尼</param>
-    public void Reverse (float damping) {
+    public void Reverse(float damping) {
         damping = Mathf.Clamp01(damping);
         w = -w * damping;
     }
 
-    private float WorldAngleToLocal (float worldAngle) {
+    private float WorldAngleToLocal(float worldAngle) {
         return worldAngle + Mathf.PI * 0.5f;
     }
 
-    private float LocalAngleToWorld (float localAngle) {
+    private float LocalAngleToWorld(float localAngle) {
         return localAngle - Mathf.PI * 0.5f;
     }
 
-    private void UpdateTargetRotation () {
+    private void UpdateTargetRotation() {
         Vector2 relative = (Vector2)target.position - m_originPosition;
 
         Vector3 eulerAngles = target.eulerAngles;
@@ -99,7 +99,7 @@ public class SimplePendulum : MonoBehaviour {
         target.eulerAngles = eulerAngles;
     }
 
-    private void UpdateTargetPosition () {
+    private void UpdateTargetPosition() {
         float k1, k2, k3, k4;
         float l1, l2, l3, l4;
         {
@@ -133,14 +133,14 @@ public class SimplePendulum : MonoBehaviour {
 
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         if (!target) {
             target = transform;
         }
     }
 #endif
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (m_isPause) return;
 
         if (!m_isInited) {
@@ -160,7 +160,7 @@ public class SimplePendulum : MonoBehaviour {
     }
 
 
-    private void OnDisable () {
+    private void OnDisable() {
         m_isInited = false;
     }
 }

@@ -10,11 +10,11 @@ public class TestJumpToTarget : MonoBehaviour {
     [SerializeField] private Rigidbody m_playerBody;
     [SerializeField] private Transform m_target;
 
-    private void Start () {
+    private void Start() {
 
     }
 
-    private void Update () {
+    private void Update() {
         if (Input.GetMouseButtonDown(0)) {
             // 方法1：
             //m_playerBody.DOJump(m_target.position, 5f, 1, 2f);
@@ -23,12 +23,12 @@ public class TestJumpToTarget : MonoBehaviour {
             //m_playerBody.velocity = BallisticVel(m_target, m_playerBody.transform, 60);
 
             // 方法3：
-            m_playerBody.velocity = GetBallisticVelocity(m_target.position,m_playerBody.transform,60);
+            m_playerBody.velocity = GetBallisticVelocity(m_target.position, m_playerBody.transform, 60);
         }
 
     }
 
-    private Vector3 BallisticVel (Transform target, Transform source, float angle) {
+    private Vector3 BallisticVel(Transform target, Transform source, float angle) {
         Vector3 dir = target.position - source.position;  // get target direction
         float h = dir.y;  // get height difference
         dir.y = 0;  // retain only the horizontal direction
@@ -41,7 +41,7 @@ public class TestJumpToTarget : MonoBehaviour {
         return vel * dir.normalized;
     }
 
-    private Vector3 GetBallisticVelocity (Vector3 targetPosition, Transform source, float angle) {
+    private Vector3 GetBallisticVelocity(Vector3 targetPosition, Transform source, float angle) {
         Quaternion rotationRecord = source.rotation;
 
         // think of it as top-down view of vectors: 

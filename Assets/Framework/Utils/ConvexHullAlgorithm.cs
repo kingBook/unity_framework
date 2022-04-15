@@ -20,7 +20,7 @@ public class ConvexHullAlgorithm {
     /// <param name="indices">引用的索引列表</param>
     /// <param name="vertices">顶点列表</param>
     /// <param name="planeNormal">坐标系平面（从平面上方看向平面）</param>
-    public static void Execute (ref List<int> indices, Vector3[] vertices, Vector3 planeNormal) {
+    public static void Execute(ref List<int> indices, Vector3[] vertices, Vector3 planeNormal) {
         Quaternion rotation = Quaternion.FromToRotation(planeNormal, Vector3.back);
 
         int indexCount = indices.Count;

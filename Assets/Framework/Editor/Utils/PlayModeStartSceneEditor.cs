@@ -33,13 +33,13 @@ public class GameObjectData {
 public class PlayModeStartSceneEditor : Editor {
 
     [MenuItem("Tools/PlayModeUseStartScene", true)]
-    private static bool ValidateMenuItem () {
+    private static bool ValidateMenuItem() {
         Menu.SetChecked("Tools/PlayModeUseStartScene", EditorSceneManager.playModeStartScene != null);
         return !EditorApplication.isPlaying;
     }
 
     [MenuItem("Tools/PlayModeUseStartScene")]
-    private static void SetPlayModeStartScene () {
+    private static void SetPlayModeStartScene() {
         if (Menu.GetChecked("Tools/PlayModeUseStartScene")) {
             EditorSceneManager.playModeStartScene = null;
         } else {
@@ -51,7 +51,7 @@ public class PlayModeStartSceneEditor : Editor {
 
     // 第一次打开 Unity 编辑器运行一次，之后每次进入 Play 模式都运行一次
     [InitializeOnLoadMethod]
-    private static void InitOnLoad () {
+    private static void InitOnLoad() {
         // 侦听播放模式改变事件
         EditorApplication.playModeStateChanged -= OnPlayerModeStateChanged;
         EditorApplication.playModeStateChanged += OnPlayerModeStateChanged;
@@ -61,7 +61,7 @@ public class PlayModeStartSceneEditor : Editor {
         EditorSceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
 
-    private static void OnPlayerModeStateChanged (PlayModeStateChange playModeState) {
+    private static void OnPlayerModeStateChanged(PlayModeStateChange playModeState) {
         switch (playModeState) {
             case PlayModeStateChange.EnteredEditMode:
                 // 恢复编辑器模式下已选中的对象
@@ -81,7 +81,7 @@ public class PlayModeStartSceneEditor : Editor {
         }
     }
 
-    private static void OnActiveSceneChanged (Scene current, Scene next) {
+    private static void OnActiveSceneChanged(Scene current, Scene next) {
         Scene runtimeActiveScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
 
         string path = System.Environment.CurrentDirectory + $"/Temp/{runtimeActiveScene.name + runtimeActiveScene.buildIndex}.sceneData";
@@ -105,7 +105,7 @@ public class PlayModeStartSceneEditor : Editor {
         }
     }
 
-    private static void RecordSceneToLocal (Scene scene) {
+    private static void RecordSceneToLocal(Scene scene) {
         SceneData sceneData = GetSceneExpandedData(scene);
 
         string path = System.Environment.CurrentDirectory + $"/Temp/{sceneData.name + sceneData.buildIndex}.sceneData";
@@ -115,7 +115,7 @@ public class PlayModeStartSceneEditor : Editor {
         fileStream.Close();
     }
 
-    private static void SetSceneWithExpandedData (Scene scene, SceneData sceneData, ref List<Object> selections) {
+    private static void SetSceneWithExpandedData(Scene scene, SceneData sceneData, ref List<Object> selections) {
         GameObject[] rootGameObjects = scene.GetRootGameObjects();
         int rootCount = rootGameObjects.Length;
         for (int i = 0, len = sceneData.rootGameObjectDatas.Count; i < len; i++) {
@@ -126,7 +126,7 @@ public class PlayModeStartSceneEditor : Editor {
         }
     }
 
-    private static void SetGameObjectExpandedWithData (GameObject gameObject, GameObjectData gameObjectData, ref List<Object> selections) {
+    private static void SetGameObjectExpandedWithData(GameObject gameObject, GameObjectData gameObjectData, ref List<Object> selections) {
         if (gameObject.name != gameObjectData.name) return;
 
         if (gameObjectData.expanded) {
@@ -147,7 +147,7 @@ public class PlayModeStartSceneEditor : Editor {
     }
 
     /// <summary>  返回一个场景展开节点的数据，不会返回 null </summary>
-    private static SceneData GetSceneExpandedData (Scene scene) {
+    private static SceneData GetSceneExpandedData(Scene scene) {
         GameObject[] expandedGameObjects = HierarchyUtil.GetExpandedGameObjects().ToArray();
 
         SceneData sceneData = new SceneData();
@@ -162,7 +162,7 @@ public class PlayModeStartSceneEditor : Editor {
     }
 
     /// <summary> 返回一个 GameObject 的节点展开数据，不会返回 null </summary>
-    private static GameObjectData GetGameObjectExpandedData (GameObject gameObject, GameObject[] expandedGameObjects) {
+    private static GameObjectData GetGameObjectExpandedData(GameObject gameObject, GameObject[] expandedGameObjects) {
         GameObjectData data = new GameObjectData();
         data.name = gameObject.name;
         data.expanded = System.Array.IndexOf(expandedGameObjects, gameObject) > -1;
@@ -176,7 +176,7 @@ public class PlayModeStartSceneEditor : Editor {
         return data;
     }
 
-    private static void ResumeEditModeSelections () {
+    private static void ResumeEditModeSelections() {
         Scene activeScene = EditorSceneManager.GetActiveScene();
 
         List<Object> selections = new List<Object>();
@@ -197,7 +197,7 @@ public class PlayModeStartSceneEditor : Editor {
         Selection.objects = selections.ToArray();
     }
 
-    private static void GetSelections (Scene scene, SceneData sceneData, ref List<Object> selections) {
+    private static void GetSelections(Scene scene, SceneData sceneData, ref List<Object> selections) {
         GameObject[] rootGameObjects = scene.GetRootGameObjects();
         int rootCount = rootGameObjects.Length;
         for (int i = 0, len = sceneData.rootGameObjectDatas.Count; i < len; i++) {
@@ -208,7 +208,7 @@ public class PlayModeStartSceneEditor : Editor {
         }
     }
 
-    private static void GetSelections (GameObject gameObject, GameObjectData gameObjectData, ref List<Object> selections) {
+    private static void GetSelections(GameObject gameObject, GameObjectData gameObjectData, ref List<Object> selections) {
         if (gameObject.name != gameObjectData.name) return;
 
         if (gameObjectData.selection) {

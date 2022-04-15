@@ -30,17 +30,17 @@ public class TwoPointsMotion : MonoBehaviour {
     /// <summary>
     /// 设置反转运动
     /// </summary>
-    public void SetReverseGotoTarget () {
+    public void SetReverseGotoTarget() {
         m_currentGotoTarget = (m_currentGotoTarget == m_positionRecord) ? m_targetRecord : m_positionRecord;
         //如果在等待中，则停止计时
         StopWaitTimer();
     }
-    
+
     /// <summary>
     /// 添加自己到同步反转的对象
     /// </summary>
     /// <param name="syncObj"></param>
-    private void AddSelfToSyncReversesObject (TwoPointsMotion syncObj) {
+    private void AddSelfToSyncReversesObject(TwoPointsMotion syncObj) {
         bool isOtherListNull = syncObj.syncReversesObjects == null;
         if (isOtherListNull || System.Array.IndexOf(syncObj.syncReversesObjects, this) < 0) {
             if (isOtherListNull) {
@@ -59,13 +59,13 @@ public class TwoPointsMotion : MonoBehaviour {
         }
     }
 
-    private bool GotoTarget (Vector3 current, Vector3 target, float maxDistanceDelta) {
+    private bool GotoTarget(Vector3 current, Vector3 target, float maxDistanceDelta) {
         transform.position = Vector3.MoveTowards(current, target, maxDistanceDelta);
         float distance = Vector3.Distance(current, target);
         return distance <= 0.01f;
     }
 
-    private void ReverseSyncObjects () {
+    private void ReverseSyncObjects() {
         if (syncReversesObjects != null) {
             for (int i = 0, len = syncReversesObjects.Length; i < len; i++) {
                 TwoPointsMotion syncObj = syncReversesObjects[i];
@@ -76,26 +76,26 @@ public class TwoPointsMotion : MonoBehaviour {
         }
     }
 
-    private void StartWaitTimer () {
+    private void StartWaitTimer() {
         Invoke(nameof(OnWaitTimeEnd), waitTime);
     }
 
-    private void StopWaitTimer () {
+    private void StopWaitTimer() {
         CancelInvoke(nameof(OnWaitTimeEnd));
     }
 
-    private void OnWaitTimeEnd () {
+    private void OnWaitTimeEnd() {
         SetReverseGotoTarget();
         ReverseSyncObjects();
     }
 
-    private void Start () {
+    private void Start() {
         //把自身添加到所有同步反转的对象的同步列表
         for (int i = 0, len = syncReversesObjects.Length; i < len; i++) {
             TwoPointsMotion syncObj = syncReversesObjects[i];
             if (syncObj) AddSelfToSyncReversesObject(syncObj);
         }
-        
+
         //记录起始点
         if (startTransform) {
             m_positionRecord = startTransform.position;
@@ -117,7 +117,7 @@ public class TwoPointsMotion : MonoBehaviour {
         m_lastPosition = transform.position;
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (m_isWaiting) return;
 
         Vector3 position = transform.position;

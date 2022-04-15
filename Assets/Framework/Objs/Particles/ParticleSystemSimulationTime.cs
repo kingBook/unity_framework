@@ -13,11 +13,11 @@ public class ParticleSystemSimulationTime : MonoBehaviour {
 
     private ParticleSystem m_particleSystem;
 
-    private void Awake () {
+    private void Awake() {
         m_particleSystem = GetComponent<ParticleSystem>();
     }
 
-    private void Start () {
+    private void Start() {
         m_particleSystem.Simulate(time, true, true);
         m_particleSystem.Play();
     }

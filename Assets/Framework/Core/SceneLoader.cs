@@ -20,11 +20,11 @@ public sealed class SceneLoader : MonoBehaviour {
 
     private AsyncOperation m_asyncOperation;
 
-    private void Awake () {
+    private void Awake() {
 
     }
 
-    private void OnEnable () {
+    private void OnEnable() {
         SceneManager.sceneLoaded += OnSceneLoaded;
         SceneManager.activeSceneChanged += OnActiveSceneChanged;
     }
@@ -33,7 +33,7 @@ public sealed class SceneLoader : MonoBehaviour {
     /// Additive模式同步加载场景
     /// </summary>
     /// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
-    public void Load (string sceneName) {
+    public void Load(string sceneName) {
         Load(sceneName, LoadSceneMode.Additive);
     }
 
@@ -43,7 +43,7 @@ public sealed class SceneLoader : MonoBehaviour {
     /// </summary>
     /// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
     /// <param name="mode">加载模式</param>
-    public void Load (string sceneName, LoadSceneMode mode) {
+    public void Load(string sceneName, LoadSceneMode mode) {
         SceneManager.LoadScene(sceneName, mode);
         //为了能够侦听场景加载完成时设置为激活场景,所以激活
         gameObject.SetActive(true);
@@ -56,7 +56,7 @@ public sealed class SceneLoader : MonoBehaviour {
     /// （注意：LoadSceneMode.Additive 模式加载场景时，被加载场景里的对象不能在 Awake() 或 OnEnable() 里访问 Camera.main, 会访问到 Main 场景的主相机）
     /// </summary>
     /// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
-    public void LoadAsync (string sceneName) {
+    public void LoadAsync(string sceneName) {
         LoadAsync(sceneName, LoadSceneMode.Additive);
     }
 
@@ -66,7 +66,7 @@ public sealed class SceneLoader : MonoBehaviour {
     /// </summary>
     /// <param name="sceneName">场景在BuildSettings窗口的路径或名称</param>
     /// <param name="mode">加载模式,默认为：LoadSceneMode.Additive</param>
-    public void LoadAsync (string sceneName, LoadSceneMode mode) {
+    public void LoadAsync(string sceneName, LoadSceneMode mode) {
         gameObject.SetActive(true);
         m_panelProgressbar.gameObject.SetActive(true);
         m_panelProgressbar.SetProgress(0.0f);
@@ -74,7 +74,7 @@ public sealed class SceneLoader : MonoBehaviour {
         StartCoroutine(LoadSceneAsync(sceneName, mode));
     }
 
-    IEnumerator LoadSceneAsync (string sceneName, LoadSceneMode mode) {
+    IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode) {
         m_asyncOperation = SceneManager.LoadSceneAsync(sceneName, mode);
         m_asyncOperation.completed += OnAsyncComplete;
         m_asyncOperation.allowSceneActivation = false;
@@ -92,14 +92,14 @@ public sealed class SceneLoader : MonoBehaviour {
         }
     }
 
-    private void OnAsyncComplete (AsyncOperation asyncOperation) {
+    private void OnAsyncComplete(AsyncOperation asyncOperation) {
         gameObject.SetActive(false);
         m_panelProgressbar.gameObject.SetActive(false);
         m_asyncOperation.completed -= OnAsyncComplete;
         m_asyncOperation = null;
     }
 
-    private void OnSceneLoaded (Scene scene, LoadSceneMode mode) {
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         if (isActiveSceneOnLoaded) {
             SceneManager.SetActiveScene(scene);
         }
@@ -107,16 +107,16 @@ public sealed class SceneLoader : MonoBehaviour {
         m_panelProgressbar.gameObject.SetActive(false);
     }
 
-    private void OnActiveSceneChanged (Scene current, Scene next) {
+    private void OnActiveSceneChanged(Scene current, Scene next) {
         m_cameraStart.gameObject.SetActive(next.buildIndex == m_cameraStart.gameObject.scene.buildIndex);
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         SceneManager.sceneLoaded -= OnSceneLoaded;
         SceneManager.activeSceneChanged -= OnActiveSceneChanged;
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         if (m_asyncOperation != null) {
             m_asyncOperation.completed -= OnAsyncComplete;
         }

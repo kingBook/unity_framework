@@ -7,12 +7,12 @@ using UnityEngine;
 /// </summary>
 public class Vibrator : MonoBehaviour {
 
-    private void Awake () {
+    private void Awake() {
         Vibration.Init();
     }
 
     /// <summary> 手机弱震动 </summary>
-    public void VibratePop () {
+    public void VibratePop() {
 #if UNITY_IOS
         Vibration.VibratePop();
 #elif UNITY_ANDROID

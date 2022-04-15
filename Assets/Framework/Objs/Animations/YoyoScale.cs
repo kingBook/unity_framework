@@ -15,11 +15,11 @@ public class YoyoScale : MonoBehaviour {
 
     private Transform m_transform;
 
-    private void Awake () {
+    private void Awake() {
         m_transform = transform;
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         //m_deg:[0,180]
         eulerAngle = (eulerAngle + speed) % 180;
         //[0,1]

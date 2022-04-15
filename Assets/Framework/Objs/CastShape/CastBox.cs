@@ -14,14 +14,14 @@ public class CastBox : CastShapeBase {
             return halfExtents;
         }
     }
-    
+
 #if UNITY_EDITOR
-    protected override void Reset () {
+    protected override void Reset() {
         center = Vector3.zero;
         size = Vector3.one;
     }
 
-    protected override void OnDrawGizmosSelected () {
+    protected override void OnDrawGizmosSelected() {
         Matrix4x4 gizmosMatrixRecord = Gizmos.matrix;
         Color gizmosColorRecord = Gizmos.color;
         Gizmos.color = m_gizomsColor;

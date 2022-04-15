@@ -23,7 +23,7 @@ public class FbxAnimationSpliter : Editor {
     private static readonly string s_projectPath = Environment.CurrentDirectory.Replace("\\", "/");
 
     [MenuItem("Assets/Split FBX Animation", true)]
-    private static bool ValidateSplitFbxAnimation () {
+    private static bool ValidateSplitFbxAnimation() {
         string[] guids = Selection.assetGUIDs;
         int i = guids.Length;
         while (--i >= 0) {
@@ -38,7 +38,7 @@ public class FbxAnimationSpliter : Editor {
     }
 
     [MenuItem("Assets/Split FBX Animation")]
-    private static void SplitFbxAnimation () {
+    private static void SplitFbxAnimation() {
         string[] guids = Selection.assetGUIDs;
         int i = guids.Length;
         while (--i >= 0) {
@@ -96,7 +96,7 @@ public class FbxAnimationSpliter : Editor {
     /// </summary>
     /// <param name="sAnimList"></param>
     /// <returns></returns>
-    private static ModelImporterClipAnimation[] ParseAnimFile (string sAnimList) {
+    private static ModelImporterClipAnimation[] ParseAnimFile(string sAnimList) {
         List<ModelImporterClipAnimation> list = new List<ModelImporterClipAnimation>();
 
         Regex regexString = new Regex(" *(?<firstFrame>[0-9]+) *- *(?<lastFrame>[0-9]+) *(?<loop>(loop|noloop| )) *(?<name>[^\r^\n]*[^\r^\n^ ])", RegexOptions.Compiled | RegexOptions.ExplicitCapture);

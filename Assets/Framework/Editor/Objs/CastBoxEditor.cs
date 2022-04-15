@@ -14,12 +14,12 @@ public class CastBoxTool : CastShapeTool<CastBox> {
         get { return m_boundsHandle; }
     }
 
-    protected override void CopyColliderPropertiesToHandle (CastBox castShape) {
+    protected override void CopyColliderPropertiesToHandle(CastBox castShape) {
         m_boundsHandle.center = TransformColliderCenterToHandleSpace(castShape.transform, castShape.center);
         m_boundsHandle.size = Vector3.Scale(castShape.size, castShape.transform.lossyScale);
     }
 
-    protected override void CopyHandlePropertiesToCollider (CastBox castShape) {
+    protected override void CopyHandlePropertiesToCollider(CastBox castShape) {
         castShape.center = TransformHandleCenterToColliderSpace(castShape.transform, m_boundsHandle.center);
         Vector3 size = Vector3.Scale(m_boundsHandle.size, InvertScaleVector(castShape.transform.lossyScale));
         size = new Vector3(Mathf.Abs(size.x), Mathf.Abs(size.y), Mathf.Abs(size.z));
@@ -35,13 +35,13 @@ public class CastBoxEditor : Editor {
     private SerializedProperty m_center;
     private SerializedProperty m_size;
 
-    private void OnEnable () {
+    private void OnEnable() {
         m_script = serializedObject.FindProperty("m_Script");
         m_center = serializedObject.FindProperty("center");
         m_size = serializedObject.FindProperty("size");
     }
 
-    public override void OnInspectorGUI () {
+    public override void OnInspectorGUI() {
         serializedObject.Update();
 
         GUI.enabled = false;

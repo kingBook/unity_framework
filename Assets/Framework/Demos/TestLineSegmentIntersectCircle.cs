@@ -15,7 +15,7 @@ public class TestLineSegmentIntersectCircle : MonoBehaviour {
     private Vector2 m_intersection2;
 
 
-    private void DrawGizmosCircle (Vector3 circleCenter, float radius, float thetaStep = 0.1f) {
+    private void DrawGizmosCircle(Vector3 circleCenter, float radius, float thetaStep = 0.1f) {
         thetaStep = Mathf.Max(thetaStep, 1e-4f);
         Vector3 firstPoint = Vector3.zero;
         Vector3 lastPoint = Vector3.zero;
@@ -35,16 +35,16 @@ public class TestLineSegmentIntersectCircle : MonoBehaviour {
         Gizmos.DrawLine(firstPoint + circleCenter, lastPoint + circleCenter); // 绘制最后一条线段
     }
 
-    private void Update () {
+    private void Update() {
         Vector2 direction = lineEnd.position - lineStart.position;
 
         //GeomUtil.Ray2DIntersectCircle(lineStart.position, direction, circleCenter.position, radius, out m_intersection1, out m_intersection2);
 
         int intersectionCount = GeomUtil.LineSegmentIntersectCircle(lineStart.position, lineEnd.position, circleCenter.position, radius, out m_intersection1, out m_intersection2);
-        Debug.Log("线段与圆交点的数量："+intersectionCount);
+        Debug.Log("线段与圆交点的数量：" + intersectionCount);
     }
 
-    private void OnDrawGizmos () {
+    private void OnDrawGizmos() {
         if (!Application.isPlaying) return;
         // 画圆
         DrawGizmosCircle(circleCenter.position, radius);

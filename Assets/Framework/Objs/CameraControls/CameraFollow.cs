@@ -9,7 +9,7 @@ public class CameraFollow : MonoBehaviour {
     public class RangeFloat {
         public Vector3 min;
         public Vector3 max;
-        public RangeFloat (Vector3 minValue, Vector3 maxValue) {
+        public RangeFloat(Vector3 minValue, Vector3 maxValue) {
             min = minValue;
             max = maxValue;
         }
@@ -71,32 +71,32 @@ public class CameraFollow : MonoBehaviour {
     public float distance = 4.0f;
     public AdvancedOptions advancedOptions;
 
-    private void Start () {
+    private void Start() {
         if (advancedOptions.isLookToTargetOnStart) {
             //立即移动相机并且并旋转朝向目标
             UpdateCamera(false, false);
         }
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (advancedOptions.updateCameraInFixedUpdate) {
             UpdateCamera(advancedOptions.isCheckCrossObs, true);
         }
     }
 
-    private void Update () {
+    private void Update() {
         if (advancedOptions.updateCameraInUpdate) {
             UpdateCamera(advancedOptions.isCheckCrossObs, true);
         }
     }
 
-    private void LateUpdate () {
+    private void LateUpdate() {
         if (advancedOptions.updateCameraInLateUpdate) {
             UpdateCamera(advancedOptions.isCheckCrossObs, true);
         }
     }
 
-    private void UpdateCamera (bool isCheckCrossObs, bool isLearp) {
+    private void UpdateCamera(bool isCheckCrossObs, bool isLearp) {
         if (targetTransform == null) return;
         Vector3 positionTarget = GetPositionTarget();
         //遮挡检测
@@ -123,7 +123,7 @@ public class CameraFollow : MonoBehaviour {
         transform.eulerAngles = eulerAngles;
     }
 
-    private Vector3 GetPositionTarget () {
+    private Vector3 GetPositionTarget() {
         Vector3 offset = originPositionNormalized * distance;
         if (advancedOptions.isLookTargetRotation) {
             offset = targetTransform.rotation * offset;
@@ -135,7 +135,7 @@ public class CameraFollow : MonoBehaviour {
     /// <summary>
     /// 检测遮挡并处理
     /// </summary>
-    private void CheckCrossObsViewField (ref Vector3 positionTarget) {
+    private void CheckCrossObsViewField(ref Vector3 positionTarget) {
         if (!IsCrossObs(positionTarget)) return;
         for (int i = 0; i < 17; i++) {
             //取一个相机测试点检测是否遮挡
@@ -161,7 +161,7 @@ public class CameraFollow : MonoBehaviour {
     /// <summary>
     /// 是否被遮挡
     /// </summary>
-    private bool IsCrossObs (Vector3 positionTarget) {
+    private bool IsCrossObs(Vector3 positionTarget) {
         Vector3 position = targetTransform.position;
         Ray ray = new Ray(positionTarget, position - positionTarget);
         float maxDistance = Vector3.Distance(position, positionTarget);

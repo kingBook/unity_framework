@@ -65,30 +65,30 @@ public class WheelDrive : MonoBehaviour {
 
 
     /// <summary> 设置刹车扭矩插值 [0,1] </summary>
-    public void SetBrakeTorqueInterpolation (float t) {
+    public void SetBrakeTorqueInterpolation(float t) {
         t = Mathf.Clamp01(t);
         m_brakeTorqueInterpolation = t;
     }
 
     /// <summary> 设置单位化的转向角度 [-1,1] </summary>
-    public void SetSteerAngleNormalized (float value) {
+    public void SetSteerAngleNormalized(float value) {
         m_steerAngleNormalized = value;
     }
 
     /// <summary> 设置单位化的车轮轴电机扭矩 [-1,1] </summary>
-    public void SetMotorTorqueNormalized (float value) {
+    public void SetMotorTorqueNormalized(float value) {
         m_motorTorqueNormalized = value;
     }
 
     /// <summary> 更新车轮外观 </summary>
-    private void UpdateWheelSkin (WheelCollider wheel) {
+    private void UpdateWheelSkin(WheelCollider wheel) {
         wheel.GetWorldPose(out Vector3 p, out Quaternion q);
         Transform skinTransform = wheel.transform.GetChild(0);
         skinTransform.position = p;
         skinTransform.rotation = q;
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         // 配置车辆子步进参数
         // 每次进行固定更新时，车辆模拟将该固定增量时间拆分为较小的子步骤，并计算每个较小增量的悬架和轮胎力。然后，汇总所有计算得出的力和扭矩，将它们整合到一起并应用于车身。
         // 利用该函数，您可以自定义在高于和低于速度阈值时模拟将执行的子步骤数。

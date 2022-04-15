@@ -10,7 +10,7 @@ using System.Collections.Generic;
 public static class LevelSequenceEditor {
 
     /// <summary> 查找的最大关卡数 </summary>
-    public const int MaxLevelCount = 500;
+    public const int MAX_LEVEL_COUNT = 500;
 
     /// <summary>
     /// 检查关卡序列中是否有某一关缺失，并在控制台输出结果
@@ -19,7 +19,7 @@ public static class LevelSequenceEditor {
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_” </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
     /// <param name="maxLevelNumber"> 最大的关卡数 </param>
-    public static void CheckLevelSequenceRight (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int maxLevelNumber) {
+    public static void CheckLevelSequenceRight(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int maxLevelNumber) {
         // 如果目录尾部有 "/" 则删除
         if (levelFilesDirectory[levelFilesDirectory.Length - 1] == '/') {
             levelFilesDirectory = levelFilesDirectory.Remove(levelFilesDirectory.Length - 1, 1);
@@ -39,12 +39,12 @@ public static class LevelSequenceEditor {
     }
 
     /// <summary>
-    /// 查找 [1, <see cref="MaxLevelCount"/>] 之间，如果有缺失关则缺失关后的所有关向前移
+    /// 查找 [1, <see cref="MAX_LEVEL_COUNT"/>] 之间，如果有缺失关则缺失关后的所有关向前移
     /// </summary>
     /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_” </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
-    public static void MergeGap (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension) {
+    public static void MergeGap(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension) {
         // 如果目录尾部有 "/" 则删除
         if (levelFilesDirectory[levelFilesDirectory.Length - 1] == '/') {
             levelFilesDirectory = levelFilesDirectory.Remove(levelFilesDirectory.Length - 1, 1);
@@ -54,7 +54,7 @@ public static class LevelSequenceEditor {
         // 查找缺失的所有关卡
         List<int> missLevelNumbers = new List<int>(); // 缺失的关卡列表
 
-        for (int i = 1; i <= MaxLevelCount; i++) {
+        for (int i = 1; i <= MAX_LEVEL_COUNT; i++) {
             string path = $"{levelFilesDirectory}/{levelFileNamesPrefix}{i}{levelFileNamesExtension}";
             if (!File.Exists(path)) {
                 missLevelNumbers.Add(i); // 添加缺失的关卡数
@@ -64,7 +64,7 @@ public static class LevelSequenceEditor {
         if (missLevelNumbers.Count > 0) {
             while (true) {
                 int levelNumber = missLevelNumbers[missLevelNumbers.Count - 1] + 1; // 缺失关的下一关
-                for (int i = levelNumber; i <= MaxLevelCount; i++) {
+                for (int i = levelNumber; i <= MAX_LEVEL_COUNT; i++) {
                     string fileName = $"{levelFileNamesPrefix}{i}"; // 无后缀
                     int prevLevelNumber = i - 1;
                     RenameAndInsertIntoTarget(levelFilesDirectory, levelFileNamesPrefix, levelFileNamesExtension, fileName, prevLevelNumber);
@@ -85,7 +85,7 @@ public static class LevelSequenceEditor {
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_” </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
     /// <param name="levelNumbers"> 多组需要交换的关卡数字，每两个为一组，如：“1,2, 3,4, 5,6” </param>
-    public static void SwapLevelFile (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, params int[] levelNumbers) {
+    public static void SwapLevelFile(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, params int[] levelNumbers) {
         if (levelNumbers.Length < 2 || levelNumbers.Length % 2 > 0) {
             Debug.LogError("参数 levelNumbers 长度必须大于0，且是2的倍数");
             return;
@@ -104,7 +104,7 @@ public static class LevelSequenceEditor {
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
     /// <param name="levelNumberA"> 关卡数字 A </param>
     /// <param name="levelNumberB"> 关卡数字 B </param>
-    public static void SwapLevelFile (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int levelNumberA, int levelNumberB) {
+    public static void SwapLevelFile(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int levelNumberA, int levelNumberB) {
         // 如果目录尾部有 "/" 则删除
         if (levelFilesDirectory[levelFilesDirectory.Length - 1] == '/') {
             levelFilesDirectory = levelFilesDirectory.Remove(levelFilesDirectory.Length - 1, 1);
@@ -136,9 +136,9 @@ public static class LevelSequenceEditor {
     /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_” </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
-    public static void InsertAllLevelFile (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension) {
-        for (int i = MaxLevelCount; i >= 1; i--) {
-            for (int j = MaxLevelCount; j >= 1; j--) {
+    public static void InsertAllLevelFile(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension) {
+        for (int i = MAX_LEVEL_COUNT; i >= 1; i--) {
+            for (int j = MAX_LEVEL_COUNT; j >= 1; j--) {
                 string fileName = $"{levelFileNamesPrefix}{i}-{j}";
                 RenameAndInsertIntoTarget(levelFilesDirectory, levelFileNamesPrefix, levelFileNamesExtension, fileName, i + 1);
             }
@@ -146,14 +146,14 @@ public static class LevelSequenceEditor {
     }
 
     /// <summary>
-    /// 重命名一个文件并插入到指定的目标关卡，目标关卡及之后的关卡将会后移，插入的文件和其它关卡序列文件目录必须一致（注意：关卡数量超过500需要调整最大关卡数（<see cref="MaxLevelCount"/>）常量），示例代码：RenameFileIntoSequence("Assets/Scenes", "Level_", ".unity", "Level_20-4", 21);
+    /// 重命名一个文件并插入到指定的目标关卡，目标关卡及之后的关卡将会后移，插入的文件和其它关卡序列文件目录必须一致（注意：关卡数量超过500需要调整最大关卡数（<see cref="MAX_LEVEL_COUNT"/>）常量），示例代码：RenameFileIntoSequence("Assets/Scenes", "Level_", ".unity", "Level_20-4", 21);
     /// </summary>
     /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_” </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
     /// <param name="fileName"> 即将要插入到关卡序列场景名称不包含后缀，如：“Level_temp” </param>
     /// <param name="insertLevelNumber"> 插入到的关卡数字（原有的关卡将后移） </param>
-    public static void RenameAndInsertIntoTarget (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, string fileName, int insertLevelNumber) {
+    public static void RenameAndInsertIntoTarget(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, string fileName, int insertLevelNumber) {
         //检查要重命名的文件是否存在
         string filePath = $"{levelFilesDirectory}/{fileName}{levelFileNamesExtension}";
         if (!File.Exists(filePath)) {
@@ -170,7 +170,7 @@ public static class LevelSequenceEditor {
 
         // 如果目标路径存在，插入数字及之后都后移
         if (File.Exists(targetPath)) {
-            for (int i = MaxLevelCount; i >= insertLevelNumber; i--) {
+            for (int i = MAX_LEVEL_COUNT; i >= insertLevelNumber; i--) {
                 string tempPath = $"{levelFilesDirectory}/{levelFileNamesPrefix}{i}{levelFileNamesExtension}";
                 if (File.Exists(tempPath)) {
                     string newName = $"{levelFileNamesPrefix}{i + 1}{levelFileNamesExtension}";
@@ -188,14 +188,14 @@ public static class LevelSequenceEditor {
     }
 
     /// <summary>
-    /// 将某一关插入到目标关，目标关卡及之后的关卡会后移（注意：1.调整后可能会产生间隙。2.关卡数量超过500需要调整最大关卡数（<see cref="MaxLevelCount"/>）常量。）
+    /// 将某一关插入到目标关，目标关卡及之后的关卡会后移（注意：1.调整后可能会产生间隙。2.关卡数量超过500需要调整最大关卡数（<see cref="MAX_LEVEL_COUNT"/>）常量。）
     /// </summary>
     /// <param name="levelFilesDirectory"> 包含所有关卡文件的目录，如：“Assets/Scenes” </param>
     /// <param name="levelFileNamesPrefix"> 关卡文件名称前缀，如：“Level_” </param>
     /// <param name="levelFileNamesExtension"> 关卡名称后缀，如：“.jpg”、“.unity” </param>
     /// <param name="currentLevelNumber"> 当前关卡 </param>
     /// <param name="targetLevelNumber"> 目标关卡 </param>
-    public static void InsertIntoTarget (string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int currentLevelNumber, int targetLevelNumber) {
+    public static void InsertIntoTarget(string levelFilesDirectory, string levelFileNamesPrefix, string levelFileNamesExtension, int currentLevelNumber, int targetLevelNumber) {
         if (currentLevelNumber == targetLevelNumber) {
             return;
         }
@@ -216,7 +216,7 @@ public static class LevelSequenceEditor {
     /// <param name="fileExtension"> 文件的后缀，如：“.unity” </param>
     /// <param name="fileName"> 原来的文件名（不包含后缀），如：“Level_1”</param>
     /// <param name="newFileName"> 新的文件名（不包含后缀），如：“Level_2” </param>
-    public static void RenameFile (string directory, string fileExtension, string fileName, string newFileName) {
+    public static void RenameFile(string directory, string fileExtension, string fileName, string newFileName) {
         // 如果目录尾部有 "/" 则删除
         if (directory[directory.Length - 1] == '/') {
             directory = directory.Remove(directory.Length - 1, 1);

@@ -19,12 +19,12 @@ public class EasySuspension : MonoBehaviour {
 
     private Rigidbody m_rigidbody;
 
-    void Start () {
+    void Start() {
         m_rigidbody = GetComponent<Rigidbody>();
         //m_Rigidbody.mass=2500;
     }
 
-    void Update () {
+    void Update() {
         // Work out the stiffness and damper parameters based on the better spring model.
         foreach (WheelCollider wc in GetComponentsInChildren<WheelCollider>()) {
             JointSpring spring = wc.suspensionSpring;

@@ -34,7 +34,7 @@ public class PoseTextureRenderer : MonoBehaviour {
     private bool m_targetCameraActiveRecord;
     private bool m_targetRendererActiveRecord;
 
-    private void Start () {
+    private void Start() {
         if (isLookToTargetOnStart) {
             SetCameraLookToTarget();
         }
@@ -44,7 +44,7 @@ public class PoseTextureRenderer : MonoBehaviour {
     /// 将对目标拍照渲染
     /// </summary>
     /// <returns></returns>
-    public void Render () {
+    public void Render() {
         //记录激活状态
         m_targetCameraActiveRecord = targetCamera.gameObject.activeSelf;
         m_targetRendererActiveRecord = target.activeSelf;
@@ -64,7 +64,7 @@ public class PoseTextureRenderer : MonoBehaviour {
     /// <summary>
     /// 设置相机的参数看向目标包围盒
     /// </summary>
-    public void SetCameraLookToTarget () {
+    public void SetCameraLookToTarget() {
         //相机旋转朝向目标对象
         Bounds bounds = targetBoundsCollider ? targetBoundsCollider.bounds : GetGameObjectBounds(target);
         Vector3 boundsCenter = bounds.center;
@@ -91,7 +91,7 @@ public class PoseTextureRenderer : MonoBehaviour {
     /// <param name="pointCount">点数量</param>
     /// <param name="planeCenter">平面中心</param>
     /// <returns></returns>
-    private float GetMaxDistanceToPlaneCenter (Vector3[] points, int pointCount, Vector3 planeCenter) {
+    private float GetMaxDistanceToPlaneCenter(Vector3[] points, int pointCount, Vector3 planeCenter) {
         float maxDistance = float.MinValue;
         for (int i = 0; i < pointCount; i++) {
             var vertex = points[i];
@@ -101,7 +101,7 @@ public class PoseTextureRenderer : MonoBehaviour {
         return maxDistance;
     }
 
-    private Bounds GetGameObjectBounds (GameObject gameObj) {
+    private Bounds GetGameObjectBounds(GameObject gameObj) {
         Renderer[] renderers = gameObj.GetComponentsInChildren<Renderer>();
         int len = renderers.Length;
         if (len <= 0) return new Bounds();

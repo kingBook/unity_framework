@@ -10,7 +10,7 @@ public static class CameraUtil {
     /// <param name="plane">平面</param>
     /// <returns>返回射线与平面的交点</returns>
     /// <exception cref="Exception">射线没有穿过平面，即射线与平面平行或射线方向与平面相反</exception>
-    public static Vector3 GetScreenRayCastToPlanePoint (Vector3 screenPoint, Camera camera, Plane plane) {
+    public static Vector3 GetScreenRayCastToPlanePoint(Vector3 screenPoint, Camera camera, Plane plane) {
         Vector3 result = Vector3.zero;
         Ray ray = camera.ScreenPointToRay(screenPoint);
         if (plane.Raycast(ray, out float enter)) {

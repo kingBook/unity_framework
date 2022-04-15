@@ -13,7 +13,7 @@ public class Mathk {
     /// <param name="n"> 有多少个项 </param>
     /// <param name="d"> 数列差 </param>
     /// <returns> 和 </returns>
-    public static float GetArithmeticSequenceSum (float a1, float n, float d) {
+    public static float GetArithmeticSequenceSum(float a1, float n, float d) {
         return n * a1 + n * (n - 1f) / 2f * d;
     }
 
@@ -24,7 +24,7 @@ public class Mathk {
     /// <param name="a1"> 数列的最小项 </param>
     /// <param name="d"> 数列差 </param>
     /// <returns> 根的数量 </returns>
-    public static int GetArithmeticSequenceN (float sum, float a1, float d, out float x1, out float x2) {
+    public static int GetArithmeticSequenceN(float sum, float a1, float d, out float x1, out float x2) {
         int count = QuadraticEquation(d / 2f, a1 - d / 2f, -sum, out x1, out x2);
         return count;
     }
@@ -38,7 +38,7 @@ public class Mathk {
     /// <param name="x1"></param>
     /// <param name="x2"></param>
     /// <returns> 根的数量 </returns>
-    public static int QuadraticEquation (float a, float b, float c, out float x1, out float x2) {
+    public static int QuadraticEquation(float a, float b, float c, out float x1, out float x2) {
         float delta = b * b - 4 * a * c; // 根的判别式
         int count;
         if (delta > 0) {
@@ -68,7 +68,7 @@ public class Mathk {
     /// </summary>
     /// <param name="rotation">需要转换的角度</param>
     /// <returns></returns>
-    public static float GetRotationTo180 (float rotation) {
+    public static float GetRotationTo180(float rotation) {
         rotation %= 360.0f;
         if (rotation > 180.0f) rotation -= 360.0f;
         else if (rotation < -180.0f) rotation += 360.0f;
@@ -81,7 +81,7 @@ public class Mathk {
     /// <param name="rotation">当前角度</param>
     /// <param name="targetRotation">目标角度</param>
     /// <returns></returns>
-    public static float GetRotationDifference (float rotation, float targetRotation) {
+    public static float GetRotationDifference(float rotation, float targetRotation) {
         rotation = GetRotationTo360(rotation);
         targetRotation = GetRotationTo360(targetRotation);
         float offset = targetRotation - rotation;
@@ -97,7 +97,7 @@ public class Mathk {
     /// </summary>
     /// <param name="rotation">需要转换的角度</param>
     /// <returns></returns>
-    public static float GetRotationTo360 (float rotation) {
+    public static float GetRotationTo360(float rotation) {
         rotation = GetRotationTo180(rotation);
         if (rotation < 0) rotation += 360f;
         return rotation;

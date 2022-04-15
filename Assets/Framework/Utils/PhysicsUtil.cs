@@ -13,7 +13,7 @@ public static class PhysicsUtil {
     /// <param name="layerMask">用于射线计算的LayerMask，如：LayerMask.GetMask("ItemModel")。</param>
     /// <param name="queryTriggerInteraction">定义是否查询isTrigger的碰撞器</param>
     /// <returns></returns>
-    public static RaycastHit GetClosestRayCastHitNonAlloc (Ray ray, Rigidbody[] ignoreBodies = null, int layerMask = -1, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
+    public static RaycastHit GetClosestRayCastHitNonAlloc(Ray ray, Rigidbody[] ignoreBodies = null, int layerMask = -1, QueryTriggerInteraction queryTriggerInteraction = QueryTriggerInteraction.UseGlobal) {
         RaycastHit result = new RaycastHit();
         int count = Physics.RaycastNonAlloc(ray, RaycastHits, Mathf.Infinity, layerMask, queryTriggerInteraction);
         if (count > 0) {
@@ -37,7 +37,7 @@ public static class PhysicsUtil {
     /// <param name="ray">射线</param>
     /// <param name="worldBounds">世界坐标包围盒</param>
     /// <returns></returns>
-    public static RaycastHit GetRaycastBounds (Ray ray, Bounds worldBounds) {
+    public static RaycastHit GetRaycastBounds(Ray ray, Bounds worldBounds) {
         var gameObject = new GameObject();
         gameObject.transform.position = worldBounds.center;
         var boxCollider = gameObject.AddComponent<BoxCollider>();
@@ -54,7 +54,7 @@ public static class PhysicsUtil {
     /// <param name="bounds">包围盒</param>
     /// <param name="collider">碰撞器</param>
     /// <returns></returns>
-    public static bool GetBoundsIntersectsCollider<T> (Bounds bounds, T collider) where T : Collider {
+    public static bool GetBoundsIntersectsCollider<T>(Bounds bounds, T collider) where T : Collider {
         return bounds.Intersects(collider.bounds);
     }
 
@@ -65,7 +65,7 @@ public static class PhysicsUtil {
     /// <param name="bounds">包围盒</param>
     /// <param name="colliders">碰撞器列表</param>
     /// <returns></returns>
-    public static bool GetBoundsIntersectsColliders<T> (Bounds bounds, T[] colliders) where T : Collider {
+    public static bool GetBoundsIntersectsColliders<T>(Bounds bounds, T[] colliders) where T : Collider {
         int len = colliders.Length;
         for (int i = 0; i < len; i++) {
             if (GetBoundsIntersectsCollider(bounds, colliders[i])) {
@@ -82,7 +82,7 @@ public static class PhysicsUtil {
     /// <param name="source"> 原点 </param>
     /// <param name="angle"> 抛物的角度 </param>
     /// <returns></returns>
-    public static Vector3 GetBallisticVelocity (Vector3 targetPosition, Transform source, float angle) {
+    public static Vector3 GetBallisticVelocity(Vector3 targetPosition, Transform source, float angle) {
         Quaternion rotationRecord = source.rotation;
 
         // think of it as top-down view of vectors: 
@@ -117,7 +117,7 @@ public static class PhysicsUtil {
     /// 忽略物理接触列表的所有碰撞，此方法适用于 OnCollisionEnter (Collision collision) 消息函数内
     /// </summary>
     /// <param name="contacts"> 物理接触列表 </param>
-    public static void IgnoreContactsCollision (ContactPoint[] contacts) {
+    public static void IgnoreContactsCollision(ContactPoint[] contacts) {
         for (int i = 0, len = contacts.Length; i < len; i++) {
             ContactPoint contact = contacts[i];
             Collider thisCollider = contact.thisCollider;

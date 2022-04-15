@@ -14,13 +14,13 @@ public class MoveToOnCanvas : MonoBehaviour {
     private CanvasScaler m_cavansScaler;
     private RectTransform m_rectTransform;
 
-    private void Awake () {
+    private void Awake() {
         m_cavans = GetComponentInParent<Canvas>();
         m_cavansScaler = GetComponentInParent<CanvasScaler>();
         m_rectTransform = GetComponent<RectTransform>();
     }
 
-    private void Start () {
+    private void Start() {
         if (delayOnStart > 0) {
             Invoke(nameof(StartTween), delayOnStart);
         } else {
@@ -28,7 +28,7 @@ public class MoveToOnCanvas : MonoBehaviour {
         }
     }
 
-    private void StartTween () {
+    private void StartTween() {
         float scaleFactor = m_cavans.scaleFactor;
         Vector2 screenSize = new Vector2(Screen.width, Screen.height);
 
@@ -41,7 +41,7 @@ public class MoveToOnCanvas : MonoBehaviour {
     }
 
 
-    private void OnComplete () {
+    private void OnComplete() {
         if (isDestroyOnComplete) {
             Destroy(gameObject);
         }

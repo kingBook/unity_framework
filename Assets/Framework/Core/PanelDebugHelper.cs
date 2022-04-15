@@ -34,38 +34,38 @@ public class PanelDebugHelper : MonoBehaviour {
 
 
     #region Editor Reference
-    public void OnClickButtonExpand () {
+    public void OnClickButtonExpand() {
         ActiveGroup(1);
     }
 
-    public void OnClickButtonCollapse () {
+    public void OnClickButtonCollapse() {
         ActiveGroup(0);
     }
 
-    public void OnClickButtonClose () {
+    public void OnClickButtonClose() {
         ActiveGroup(-1);
     }
 
-    public void OnClickButtonClearLocalData () {
+    public void OnClickButtonClearLocalData() {
         // 清除本地数据
         PlayerPrefs.DeleteAll();
         PlayerPrefs.Save();
     }
 
-    public void OnClickButtonAddMoneys () {
+    public void OnClickButtonAddMoneys() {
         onAddMoneysEvent?.Invoke();
     }
 
-    public void OnClickButtonPauseOrResume () {
+    public void OnClickButtonPauseOrResume() {
         m_isPause = !m_isPause;
         m_textPauseOrResume.text = m_isPause ? "Resume" : "Pause";
     }
 
-    public void OnClickButtonClear () {
+    public void OnClickButtonClear() {
         m_inputFieldOutput.text = "";
     }
 
-    public void OnClickButtonGo () {
+    public void OnClickButtonGo() {
         if (int.TryParse(m_inputFieldLevelNumber.text, out int levelNumber)) {
             onGotoLevelEvent?.Invoke(levelNumber);
         } else {
@@ -75,27 +75,27 @@ public class PanelDebugHelper : MonoBehaviour {
 
     }
 
-    public void OnToggleUnlockLevel () {
+    public void OnToggleUnlockLevel() {
         m_isUnlockLevel = !m_isUnlockLevel;
     }
 
-    public void OnToggleStackTrace () {
+    public void OnToggleStackTrace() {
         m_isStackTrace = !m_isStackTrace;
     }
 
-    public void OnToggleSingleLine () {
+    public void OnToggleSingleLine() {
         m_isSingleLine = !m_isSingleLine;
     }
     #endregion
 
-    private void ActiveGroup (int index) {
+    private void ActiveGroup(int index) {
         m_groupIndex = index;
         for (int i = 0; i < m_groups.Length; i++) {
             m_groups[i].SetActive(m_groupIndex == i);
         }
     }
 
-    private void UpdateFPS () {
+    private void UpdateFPS() {
         m_time += (Time.unscaledDeltaTime - m_time) * 0.1f;
 
         float ms = m_time * 1000.0f;
@@ -111,7 +111,7 @@ public class PanelDebugHelper : MonoBehaviour {
         m_textFPS.text = $"{fps} FPS ({ms}ms) {mem}/{memTotal}MB";
     }
 
-    private void LogHandler (string logString, string stackTrace, LogType type) {
+    private void LogHandler(string logString, string stackTrace, LogType type) {
         if (m_isPause) return;
 
         // 单行时，每次清空
@@ -126,19 +126,19 @@ public class PanelDebugHelper : MonoBehaviour {
     }
 
 
-    private void Awake () {
+    private void Awake() {
         ActiveGroup(0);
     }
 
-    private void OnEnable () {
+    private void OnEnable() {
         Application.logMessageReceivedThreaded += LogHandler;
     }
 
-    private void Update () {
+    private void Update() {
         UpdateFPS();
     }
 
-    private void OnDisable () {
+    private void OnDisable() {
         Application.logMessageReceivedThreaded -= LogHandler;
     }
 }

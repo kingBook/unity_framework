@@ -13,7 +13,7 @@ public class ImageHitTestMinAlpha : MonoBehaviour {
     public float alphaHitTestMinimumThreshold = 0.01f;
     private Image m_image;
 
-    private void Awake () {
+    private void Awake() {
         m_image = GetComponent<Image>();
         m_image.alphaHitTestMinimumThreshold = alphaHitTestMinimumThreshold;
     }

@@ -8,12 +8,12 @@ public class DelayDestroyer : MonoBehaviour {
 
     [Tooltip("时间（秒）")] public float time = 5;
 
-    private void DestroySelf () {
+    private void DestroySelf() {
         Destroy(gameObject);
     }
 
-    private IEnumerator Start () {
+    private IEnumerator Start() {
         yield return null;
-        Invoke(nameof(DestroySelf),time);
+        Invoke(nameof(DestroySelf), time);
     }
 }

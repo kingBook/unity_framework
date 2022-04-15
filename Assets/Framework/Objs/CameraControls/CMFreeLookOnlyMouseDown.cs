@@ -17,14 +17,14 @@ public class CMFreeLookOnlyMouseDown : MonoBehaviour {
 
     private CinemachineFreeLook m_cinemachineFreeLook;
 
-    private void Awake () {
+    private void Awake() {
         m_cinemachineFreeLook = GetComponent<CinemachineFreeLook>();
 
         m_cinemachineFreeLook.m_XAxis.m_InputAxisName = "";
         m_cinemachineFreeLook.m_YAxis.m_InputAxisName = "";
     }
 
-    private void Update () {
+    private void Update() {
         if (Input.GetMouseButton(0)) {
             if (!Input.touchSupported) {
                 // PC

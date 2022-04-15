@@ -15,22 +15,22 @@ public class CameraMatchRect : MonoBehaviour {
     public FitMode fitMode = FitMode.Auto;
 
 #if UNITY_EDITOR
-    private void Reset () {
+    private void Reset() {
         if (!viewCamera) {
             viewCamera = GetComponent<Camera>();
         }
     }
 #endif
 
-    private void Start () {
+    private void Start() {
         Fit();
     }
 
-    private void LateUpdate () {
+    private void LateUpdate() {
         if (isUpdate) Fit();
     }
 
-    private void Fit () {
+    private void Fit() {
         Vector3 rectCenter = (min.position + max.position) * 0.5f;
         Vector3 rectExtents = (max.position - min.position) * 0.5f;
         float referenceScaleFactor = rectExtents.x / rectExtents.y;

@@ -13,14 +13,14 @@ public class HierarchyUtil {
     /// <summary>
     /// Check if the target GameObject is expanded (aka unfolded) in the Hierarchy view.
     /// </summary>
-    public static bool IsExpanded (GameObject go) {
+    public static bool IsExpanded(GameObject go) {
         return GetExpandedGameObjects().Contains(go);
     }
 
     /// <summary>
     /// Get a list of all GameObjects which are expanded (aka unfolded) in the Hierarchy view.
     /// </summary>
-    public static List<GameObject> GetExpandedGameObjects () {
+    public static List<GameObject> GetExpandedGameObjects() {
         object sceneHierarchy = GetSceneHierarchy();
 
         MethodInfo methodInfo = sceneHierarchy
@@ -34,7 +34,7 @@ public class HierarchyUtil {
     /// <summary>
     /// Set the target GameObject as expanded (aka unfolded) in the Hierarchy view.
     /// </summary>
-    public static void SetExpanded (GameObject go, bool expand) {
+    public static void SetExpanded(GameObject go, bool expand) {
         object sceneHierarchy = GetSceneHierarchy();
 
         MethodInfo methodInfo = sceneHierarchy
@@ -44,7 +44,7 @@ public class HierarchyUtil {
         methodInfo.Invoke(sceneHierarchy, new object[] { go.GetInstanceID(), expand });
     }
 
-    public static void SetExpanded (int instanceID, bool expand) {
+    public static void SetExpanded(int instanceID, bool expand) {
         object sceneHierarchy = GetSceneHierarchy();
 
         MethodInfo methodInfo = sceneHierarchy
@@ -57,7 +57,7 @@ public class HierarchyUtil {
     /// <summary>
     /// Set the target GameObject and all children as expanded (aka unfolded) in the Hierarchy view.
     /// </summary>
-    public static void SetExpandedRecursive (GameObject go, bool expand) {
+    public static void SetExpandedRecursive(GameObject go, bool expand) {
         object sceneHierarchy = GetSceneHierarchy();
 
         MethodInfo methodInfo = sceneHierarchy
@@ -67,7 +67,7 @@ public class HierarchyUtil {
         methodInfo.Invoke(sceneHierarchy, new object[] { go.GetInstanceID(), expand });
     }
 
-    public static void SetExpandedRecursive (int instanceID, bool expand) {
+    public static void SetExpandedRecursive(int instanceID, bool expand) {
         object sceneHierarchy = GetSceneHierarchy();
 
         MethodInfo methodInfo = sceneHierarchy
@@ -77,7 +77,7 @@ public class HierarchyUtil {
         methodInfo.Invoke(sceneHierarchy, new object[] { instanceID, expand });
     }
 
-    private static object GetSceneHierarchy () {
+    private static object GetSceneHierarchy() {
         EditorWindow window = GetHierarchyWindow();
 
         object sceneHierarchy = typeof(EditorWindow).Assembly
@@ -88,7 +88,7 @@ public class HierarchyUtil {
         return sceneHierarchy;
     }
 
-    private static EditorWindow GetHierarchyWindow () {
+    private static EditorWindow GetHierarchyWindow() {
         // old
         // For it to open, so that it the current focused window.
         // EditorApplication.ExecuteMenuItem("Window/General/Hierarchy");

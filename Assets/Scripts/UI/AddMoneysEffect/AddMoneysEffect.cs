@@ -52,7 +52,7 @@ public class AddMoneysEffect : MonoBehaviour {
     private int m_addCount;
 
     /// <summary> 设置增加金币的数量 </summary>
-    public void SetAddCount (int value) {
+    public void SetAddCount(int value) {
         m_addCount = value;
 
         // 实际增加数不能小于实例数，否则会出现一个金币飞到目标点后增加的加+0的情况
@@ -61,7 +61,7 @@ public class AddMoneysEffect : MonoBehaviour {
         }
     }
 
-    private void OnCreateTimer () {
+    private void OnCreateTimer() {
         GameObject inst = Instantiate(coinImagePrefab, coinImagePrefab.transform.parent);
         MoneyImage moneyImage = inst.GetComponent<MoneyImage>();
         moneyImage.targetPointRectTransform = targetPointRectTransform;
@@ -83,7 +83,7 @@ public class AddMoneysEffect : MonoBehaviour {
     /// <summary>
     /// 一个币收集动画完成
     /// </summary>
-    private void OnCoinTweenComplete () {
+    private void OnCoinTweenComplete() {
         m_tweenCompleteCount++;
 
         float progress = (float)m_tweenCompleteCount / coinImageCount;
@@ -101,12 +101,12 @@ public class AddMoneysEffect : MonoBehaviour {
         }
     }
 
-    private void Awake () {
+    private void Awake() {
         m_tweenCompleteCount = 0;
         coinImagePrefab.SetActive(false);
     }
 
-    private void Start () {
+    private void Start() {
         Image imageBackground = GetComponent<Image>();
         imageBackground.enabled = !allowRaycast;
 

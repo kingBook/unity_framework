@@ -16,7 +16,7 @@ public class LoopVerticalLayoutEditor : Editor {
 
     private ReorderableList m_reorderableList;
 
-    private void OnEnable () {
+    private void OnEnable() {
         m_script = serializedObject.FindProperty("m_Script");
         m_childrenOrder = serializedObject.FindProperty("childrenOrder");
         m_spacing = serializedObject.FindProperty("spacing");
@@ -35,7 +35,7 @@ public class LoopVerticalLayoutEditor : Editor {
         };
     }
 
-    public override void OnInspectorGUI () {
+    public override void OnInspectorGUI() {
         serializedObject.Update();
 
         GUI.enabled = false;

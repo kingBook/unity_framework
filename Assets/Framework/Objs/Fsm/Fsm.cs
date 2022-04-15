@@ -10,16 +10,16 @@ public class Fsm {
     public IState currentState { get; protected set; }
 
 
-    public Fsm (IState defaultState) {
+    public Fsm(IState defaultState) {
         ChangeStateTo(defaultState);
     }
 
-    public Fsm (IState defaultState, System.Action<IState, IState> onStateChanged) {
+    public Fsm(IState defaultState, System.Action<IState, IState> onStateChanged) {
         m_onStateChangedHandler = onStateChanged;
         ChangeStateTo(defaultState);
     }
 
-    public void ChangeStateTo (IState state) {
+    public void ChangeStateTo(IState state) {
         if (currentState == state) return;
         var old = currentState;
         // 状态退出
@@ -32,12 +32,12 @@ public class Fsm {
         currentState.OnStateEnter(this);
     }
 
-    public void Update () {
+    public void Update() {
         // 状态更新
         currentState.OnStateUpdate(this);
     }
 
-    public void OnDestroy () {
+    public void OnDestroy() {
         currentState = null;
         m_onStateChangedHandler = null;
     }

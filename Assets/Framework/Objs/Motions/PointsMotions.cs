@@ -26,17 +26,17 @@ public class PointsMotion : MonoBehaviour {
     public bool isPause { get; set; }
 
 
-    private void Awake () {
+    private void Awake() {
         isPause = m_pauseOnAwake;
     }
 
-    private void Start () {
+    private void Start() {
         m_motionDirectionSign = m_isReverseOnStart ? -1 : 1;
 
         m_targetPointIndex = GetClosestPointIndex();
     }
 
-    private void FixedUpdate () {
+    private void FixedUpdate() {
         if (isPause) return;
         if (m_targetPointIndex < 0) return;
         if (GotoTarget(transform.position, m_points[m_targetPointIndex].position, speed * Time.deltaTime)) {
@@ -44,14 +44,14 @@ public class PointsMotion : MonoBehaviour {
         }
     }
 
-    private bool GotoTarget (Vector3 current, Vector3 target, float maxDistanceDelta) {
+    private bool GotoTarget(Vector3 current, Vector3 target, float maxDistanceDelta) {
         transform.position = Vector3.MoveTowards(current, target, maxDistanceDelta);
         float distance = Vector3.Distance(current, target);
         return distance <= 0.01f;
     }
 
     /// <summary> 获取最近点的索引，如果点列表长度为0时，则返回-1。 </summary>
-    private int GetClosestPointIndex () {
+    private int GetClosestPointIndex() {
         int closestIndex = -1;
         Vector3[] vertices = TransformUtil.CovertTransformsToVertices(m_points);
         var polyLine = GeomUtil.GetClosestPolyLineToPoint(transform.position, vertices, m_isClosed);//获取距离当前点最近的边
@@ -61,7 +61,7 @@ public class PointsMotion : MonoBehaviour {
         return closestIndex;
     }
 
-    private int GetNextPointIndex (int currentIndex) {
+    private int GetNextPointIndex(int currentIndex) {
         int len = m_points.Length;
         int i = currentIndex;
         if (m_isClosed) {

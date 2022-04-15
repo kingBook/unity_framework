@@ -24,7 +24,7 @@ public class FractureEffect : MonoBehaviour {
     public bool isExplosioning { get; private set; }
 
 
-    public void Explosion (Transform parent = null, float destroySelfDuration = 3f, float scaleDuration = -1f, float fragmentEndLocalScaleMultiplier = 0.1f) {
+    public void Explosion(Transform parent = null, float destroySelfDuration = 3f, float scaleDuration = -1f, float fragmentEndLocalScaleMultiplier = 0.1f) {
         if (isExplosioning) return;
         isExplosioning = true;
 
@@ -48,7 +48,7 @@ public class FractureEffect : MonoBehaviour {
         Invoke(nameof(DestroySelf), destroySelfDuration);
     }
 
-    public void ExplosionLittle (Transform parent = null) {
+    public void ExplosionLittle(Transform parent = null) {
         Init();
 
         gameObject.SetActive(true);
@@ -86,7 +86,7 @@ public class FractureEffect : MonoBehaviour {
         StartCoroutine(DisableLittleFragments(littleParts));
     }
 
-    IEnumerator DisableLittleFragments (FracturePart[] littleParts) {
+    IEnumerator DisableLittleFragments(FracturePart[] littleParts) {
         yield return new WaitForSeconds(3f);
         int i = littleParts.Length;
         while (--i >= 0) {
@@ -106,18 +106,18 @@ public class FractureEffect : MonoBehaviour {
         }
     }
 
-    private void DestroySelf () {
+    private void DestroySelf() {
         Destroy(gameObject);
     }
 
-    private void Init () {
+    private void Init() {
         if (m_isInited) return;
         m_isInited = true;
 
         m_parts = GetComponentsInChildren<FracturePart>();
     }
 
-    private void Awake () {
+    private void Awake() {
         Init();
     }
 }

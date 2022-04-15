@@ -9,18 +9,18 @@ public class LanguageSwitcher : MonoBehaviour {
     [Tooltip("中文时，需要激活的GameObject列表")]
     public GameObject[] cnList;
 
-    private void Awake () {
+    private void Awake() {
         if (App.instance) {
             ActiveWithLanguage(App.instance.language);
         }
     }
 
-    private void Start () {
+    private void Start() {
         ActiveWithLanguage(App.instance.language);
         App.instance.onChangedLanguageEvent += OnChangeLanguage;
     }
 
-    private void ActiveWithLanguage (App.Language language) {
+    private void ActiveWithLanguage(App.Language language) {
         if (language == App.Language.AUTO) return;
         GameObject[] activeList = null;
         GameObject[] deactiveList = null;
@@ -43,11 +43,11 @@ public class LanguageSwitcher : MonoBehaviour {
         }
     }
 
-    private void OnChangeLanguage (App.Language language) {
+    private void OnChangeLanguage(App.Language language) {
         ActiveWithLanguage(language);
     }
 
-    private void OnDestroy () {
+    private void OnDestroy() {
         App.instance.onChangedLanguageEvent -= OnChangeLanguage;
     }
 }
