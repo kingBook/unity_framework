@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
+using UnityEngine.Events;
 
 /// <summary> 有限状态机 </summary>
 public class Fsm {
 
     /// <summary> 状态发生改变后的回调函数，格式：<code> void OnStateChangedHandler(IState old, IState current) </code> </summary>
-    private System.Action<IState, IState> m_onStateChangedHandler;
+    private UnityAction<IState, IState> m_onStateChangedHandler;
 
 
     public IState currentState { get; protected set; }
@@ -14,7 +15,7 @@ public class Fsm {
         ChangeStateTo(defaultState);
     }
 
-    public Fsm(IState defaultState, System.Action<IState, IState> onStateChanged) {
+    public Fsm(IState defaultState, UnityAction<IState, IState> onStateChanged) {
         m_onStateChangedHandler = onStateChanged;
         ChangeStateTo(defaultState);
     }

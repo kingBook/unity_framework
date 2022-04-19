@@ -2,14 +2,26 @@
 public class State : IState {
 
     void IState.OnStateEnter(Fsm fsm) {
-
-    }
-
-    void IState.OnStateExit(Fsm fsm) {
-
+        OnStateEnter(fsm);
     }
 
     void IState.OnStateUpdate(Fsm fsm) {
-
+        OnStateUpdate(fsm);
     }
+
+    void IState.OnStateExit(Fsm fsm) {
+        OnStateExit(fsm);
+    }
+
+
+    protected virtual void OnStateEnter(Fsm fsm) {
+    }
+
+    protected virtual void OnStateUpdate(Fsm fsm) {
+    }
+
+    protected virtual void OnStateExit(Fsm fsm) {
+    }
+
+
 }
