@@ -24,7 +24,9 @@ public class Fsm {
         if (currentState == state) return;
         var old = currentState;
         // 状态退出
-        old.OnStateExit(this);
+        if (old != null) {
+            old.OnStateExit(this);
+        }
         // 
         currentState = state;
         // 改变状态时的回调
@@ -33,9 +35,16 @@ public class Fsm {
         currentState.OnStateEnter(this);
     }
 
+    public void FixedUpdate() {
+        currentState.OnStateFixedUpdate(this);
+    }
+
     public void Update() {
-        // 状态更新
         currentState.OnStateUpdate(this);
+    }
+
+    public void LateUpdate() {
+        currentState.OnStateLateUpdate(this);
     }
 
     public void OnDestroy() {

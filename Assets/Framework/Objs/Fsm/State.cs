@@ -5,8 +5,16 @@ public class State : IState {
         OnStateEnter(fsm);
     }
 
+    void IState.OnStateFixedUpdate(Fsm fsm) {
+        OnStateFixedUpdate(fsm);
+    }
+
     void IState.OnStateUpdate(Fsm fsm) {
         OnStateUpdate(fsm);
+    }
+
+    void IState.OnStateLateUpdate(Fsm fsm) {
+        OnStateLateUpdate(fsm);
     }
 
     void IState.OnStateExit(Fsm fsm) {
@@ -17,7 +25,13 @@ public class State : IState {
     protected virtual void OnStateEnter(Fsm fsm) {
     }
 
+    protected virtual void OnStateFixedUpdate(Fsm fsm) {
+    }
+
     protected virtual void OnStateUpdate(Fsm fsm) {
+    }
+
+    protected virtual void OnStateLateUpdate(Fsm fsm) {
     }
 
     protected virtual void OnStateExit(Fsm fsm) {
