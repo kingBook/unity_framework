@@ -240,6 +240,6 @@ namespace PresetImportPerFolder {
             }
         }
     }
-}
 #endif
+}
 #endif
