@@ -1,4 +1,5 @@
-﻿using UnityEditor;
+﻿#if UNITY_EDITOR
+using UnityEditor;
 using UnityEngine;
 
 public class TestHierarchyPopupMenuEditor : ScriptableObject {
@@ -28,3 +29,4 @@ public class TestHierarchyPopupMenuEditor : ScriptableObject {
 
 
 }
+#endif
