@@ -1,5 +1,7 @@
 Unity Framework
 
+SpineSharderURP导入警告：
+Shader warning in 'Universal Render Pipeline/2D/Spine/Sprite': Keyword PIXELSNAP_ON declared as global and local. It will be treated as local keyword.
 
 待完善的功能: 
 * 扩展 Export Package 功能，使其能导出 Project Settings
@@ -16,3 +18,10 @@ Unity Framework
 * jsfl导出的UI的Image动画图片大小不一样播放会出错
 * jsfl导出是MaxRects无效与及在图集大于2048x2048时的MaxRects如何设置
 * FbxAnimationSpliter 已切分的动画如果有被引用，再次切分时会丢失
+
+
+Spine运行库修改记录：
+Spine\Runtime\spine-csharp\SkeletonJson.cs
+Spine\Runtime\spine-csharp\SkeletonBinary.cs
+
+在Spine中使用Linear颜色空间会出现不不兼容的情况，所以使用Gamma颜色空间（Player Settings->Player->Other Settings）

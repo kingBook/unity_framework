@@ -15,6 +15,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Level_0.unity
     guid: cbf208bd1450f2a4398015192bea9455
   - enabled: 0
-    path: Assets/Framework/Demos/Test.unity
+    path: Packages/com.library.framework/Demos/Test.unity
     guid: 6c3e9cde1846ae043aa4db7c0e876d16
   m_configObjects: {}

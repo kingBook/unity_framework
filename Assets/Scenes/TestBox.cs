@@ -8,7 +8,6 @@ public class TestBox : MonoBehaviour {
     public BoxCollider viewBoxCollider;
 
     void Start() {
-
     }
 
     void Update() {
