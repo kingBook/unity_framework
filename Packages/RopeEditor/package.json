@@ -1,7 +1,6 @@
 {
   "name": "com.library.rope-editor",
   "displayName": "RopeEditor",
-  "description": "",
   "version": "1.18.0",
   "unity": "2019.1",
   "license": "MIT",
@@ -14,10 +13,7 @@
     "email": "",
     "url": ""
   },
-  "dependencies": {},
-  "keywords": [
-  ],
-   "samples": [
-   ],
-   "hideInEditor": false
+  "keywords": [],
+  "samples": [],
+  "hideInEditor": false
 }
