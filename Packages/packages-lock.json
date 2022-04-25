@@ -12,12 +12,6 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.demigiant.do-tween": {
-      "version": "file:DOTween",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.esotericsoftware.spine.spine-unity": {
       "version": "file:Spine",
       "depth": 0,
@@ -32,32 +26,8 @@
         "com.unity.render-pipelines.universal": "7.1.5"
       }
     },
-    "com.library.framework": {
-      "version": "file:Framework",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
     "com.library.highlighting-system": {
       "version": "file:HighlightingSystem",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.library.rope-editor": {
-      "version": "file:RopeEditor",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.library.set-property": {
-      "version": "file:SetProperty",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {}
-    },
-    "com.library.vibration": {
-      "version": "file:Vibration",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
