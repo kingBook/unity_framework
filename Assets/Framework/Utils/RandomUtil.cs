@@ -14,9 +14,9 @@ public static class RandomUtil {
     public static int signInteger => Random.value > 0.5f ? 1 : -1;
 
     /// <summary>
-    /// 返回一个指定长度的随机int数组，数组元素范围是在[min,max)区间内(包括min,排除max)不重复的整数。
-    /// 注意：参数length的取值范围必须在[1,max-min]区间内，length小于1时取值：1，length大于max-min时取值：max-min。
-    /// 例：
+    /// 返回一个随机不重复的int数组，元素范围是在[min,max)区间内(包括min,排除max)。
+    /// <para> 注意：参数length的取值范围必须在[1,max-min]区间内，length小于1时取值：1，length大于max-min时取值：max-min。</para>
+    /// <para> 例：</para>
     /// <code>
     /// GetRandomUniqueIntList(0,10,10); //返回元素在[0,10)之间，长度为10的数组
     /// </code>
