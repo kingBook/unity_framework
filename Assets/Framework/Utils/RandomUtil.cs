@@ -43,15 +43,18 @@ public static class RandomUtil {
     }
 
     /// <summary>
-    /// 从一个数组中获取 [min, max) 个元素
+    /// 从一个数组中随机获取 [min, max) 个元素
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="collection"></param>
-    /// <param name="min"></param>
-    /// <param name="max"></param>
-    /// <returns></returns>
     public static T[] GetRandomElements<T>(T[] collection, int min, int max) {
         int count = Random.Range(min, max);
+        return GetRandomElements(collection, count);
+    }
+
+    /// <summary>
+    /// 从一个数组中随机获取 count 个元素
+    /// </summary>
+    public static T[] GetRandomElements<T>(T[] collection, int count) {
+        count = Mathf.Clamp(count, 0, collection.Length);
         T[] results = new T[count];
         List<T> tempList = new List<T>(collection);
         for (int i = 0; i < count; i++) {
@@ -62,6 +65,19 @@ public static class RandomUtil {
         return results;
     }
 
-
+    /// <summary>
+    /// 获取随机化后的数组
+    /// </summary>
+    public static T[] GetRandomizedArray<T>(T[] collection) {
+        int count = collection.Length;
+        T[] results = new T[count];
+        List<T> tempList = new List<T>(collection);
+        for (int i = 0; i < count; i++) {
+            int index = Random.Range(0, tempList.Count);
+            results[i] = tempList[index];
+            tempList.RemoveAt(index);
+        }
+        return results;
+    }
 
 }
