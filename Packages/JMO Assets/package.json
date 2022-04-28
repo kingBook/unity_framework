@@ -1,0 +1,23 @@
+{
+  "name": "com.library.jmo-assets",
+  "displayName": "JMO Assets",
+  "description": "",
+  "version": "1.0.0",
+  "unity": "2019.1",
+  "license": "MIT",
+  "repository": {
+    "type": "",
+    "url": ""
+  },
+  "author": {
+    "name": "",
+    "email": "",
+    "url": ""
+  },
+  "dependencies": {},
+  "keywords": [
+  ],
+   "samples": [
+   ],
+   "hideInEditor": false
+}
