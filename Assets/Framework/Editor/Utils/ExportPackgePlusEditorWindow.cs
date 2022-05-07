@@ -35,13 +35,24 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
             Rect treeViewRect = GUILayoutUtility.GetRect(0f, 1e5f, 0f, 1e5f);
             m_simpleTreeView.OnGUI(treeViewRect);
 
-            EditorGUILayout.BeginHorizontal();
-            GUILayout.Button("All");
-            GUILayout.Button("None");
-            GUILayout.Toggle(true, "Include dependencies");
-            GUILayout.FlexibleSpace();
-            GUILayout.Button("Export...");
-            EditorGUILayout.EndHorizontal();
+            EditorGUILayout.BeginVertical();
+            {
+                GUILayout.Space(7);
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.Toggle(true, "Include dependencies");
+                GUILayout.Toggle(true, "Include ProjectSettings");
+                GUILayout.Toggle(true, "Include Packages");
+                EditorGUILayout.EndHorizontal();
+                GUILayout.Space(7);
+                EditorGUILayout.BeginHorizontal();
+                GUILayout.Button("All");
+                GUILayout.Button("None");
+                GUILayout.FlexibleSpace();
+                GUILayout.Button("Export...");
+                EditorGUILayout.EndHorizontal();
+                GUILayout.Space(7);
+            }
+            EditorGUILayout.EndVertical();
         }
         EditorGUILayout.EndVertical();
     }
@@ -50,6 +61,7 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
     [MenuItem("Assets/Export Package Plus...", false, 20)]
     private static void DisplayWindow() {
         var window = GetWindow<ExportPackgePlusEditorWindow>(true);
+        window.minSize = new Vector2(450, 350);
         window.titleContent = new GUIContent("Exporting Package");
         window.Show();
     }
