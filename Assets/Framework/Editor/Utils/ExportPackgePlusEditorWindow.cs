@@ -14,8 +14,14 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
 
     //TreeView 不可序列化，因此应该通过树数据对其进行重建。
     private SimpleTreeView m_simpleTreeView;
+    private bool m_includeDependencies = true;
+    private bool m_includeProjectSettings;
+    private bool m_includePackages;
+    private TreeViewItem[] m_fileTreeViewItems;
 
     private void OnEnable() {
+        UpdateFilesTreeViewItems();
+
         //检查是否已存在序列化视图状态（在程序集重新加载后
         // 仍然存在的状态）
         if (m_treeViewState == null) {
@@ -39,9 +45,21 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
             {
                 GUILayout.Space(7);
                 EditorGUILayout.BeginHorizontal();
-                GUILayout.Toggle(true, "Include dependencies");
-                GUILayout.Toggle(true, "Include ProjectSettings");
-                GUILayout.Toggle(true, "Include Packages");
+                bool includeDependencies = GUILayout.Toggle(m_includeDependencies, "Include dependencies");
+                if (includeDependencies != m_includeDependencies) {
+                    m_includeDependencies = includeDependencies;
+                    UpdateFilesTreeViewItems();
+                }
+                bool includeProjectSettings = GUILayout.Toggle(m_includeProjectSettings, "Include ProjectSettings");
+                if (includeProjectSettings != m_includeProjectSettings) {
+                    m_includeProjectSettings = includeProjectSettings;
+
+                }
+                bool includePackages = GUILayout.Toggle(m_includePackages, "Include Packages");
+                if (includePackages != m_includePackages) {
+                    m_includePackages = includePackages;
+
+                }
                 EditorGUILayout.EndHorizontal();
                 GUILayout.Space(7);
                 EditorGUILayout.BeginHorizontal();
@@ -89,7 +107,27 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
         }
         AssetDatabase.ExportPackage(assetPathNames.ToArray(), "Assets.unitypackage", ExportPackageOptions.Interactive);
     }*/
+
+    private void UpdateFilesTreeViewItems() {
+        string[] assetGUIDs = Selection.assetGUIDs;
+        for (int i = 0, len = assetGUIDs.Length; i < len; i++) {
+            string assetGUID = assetGUIDs[i];
+            string assetPath = AssetDatabase.GUIDToAssetPath(assetGUID);
+            Debug.Log($"assetPath:{assetPath}");
+            string[] dependencies = AssetDatabase.GetDependencies(assetPath);
+            for (int j = 0,lenJ=dependencies.Length; j < lenJ; j++) {
+                Debug.Log($"dependencies[j]:{dependencies[j]}");
+                //Object obj = AssetDatabase.LoadAssetAtPath<Object>(dependencies[j]);
+            }
+        }
+    }
 }
+
+
+
+
+
+
 
 internal class SimpleTreeView : TreeView {
     public SimpleTreeView(TreeViewState treeViewState) : base(treeViewState) {
@@ -97,26 +135,26 @@ internal class SimpleTreeView : TreeView {
     }
 
     protected override TreeViewItem BuildRoot() {
-        List<string> assetPathNames = new List<string>();
-        string[] paths = AssetDatabase.GetAllAssetPaths();
-        for (int i = 0, length = paths.Length; i < length; i++) {
-            string path = paths[i];
-            if (path.IndexOf("ProjectSettings") == 0) {
-                assetPathNames.Add(path);
-            } else if (path.IndexOf("Assets") == 0) {
-                assetPathNames.Add(path);
-                Debug.Log(path);
-            } else if (path.IndexOf("Packages") == 0) {
+        /* List<string> assetPathNames = new List<string>();
+         string[] paths = AssetDatabase.GetAllAssetPaths();
+         for (int i = 0, length = paths.Length; i < length; i++) {
+             string path = paths[i];
+             if (path.IndexOf("ProjectSettings") == 0) {
+                 assetPathNames.Add(path);
+             } else if (path.IndexOf("Assets") == 0) {
+                 assetPathNames.Add(path);
+                 Debug.Log(path);
+             } else if (path.IndexOf("Packages") == 0) {
 
-            } else if (path.IndexOf("Library") == 0) {
+             } else if (path.IndexOf("Library") == 0) {
 
-            } else {
+             } else {
 
-            }
-        }
+             }
+         }
+         */
 
-
-        var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" };
+        var root = new TreeViewItem { id = 0, depth = -1, displayName = "Root" }; // depeth 必须为-1，不可见
         var allItems = new List<TreeViewItem> {
                 new TreeViewItem {id = 1, depth = 0, displayName = "Animals"},
                 new TreeViewItem {id = 2, depth = 1, displayName = "Mammals"},

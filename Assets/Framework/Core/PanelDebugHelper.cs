@@ -4,6 +4,10 @@ using UnityEngine.UI;
 using TMPro;
 using UnityEngine.Profiling;
 
+#if UNITY_EDITOR
+using UnityEditor;
+#endif
+
 public class PanelDebugHelper : MonoBehaviour {
 
     /// <summary>
@@ -110,12 +114,13 @@ public class PanelDebugHelper : MonoBehaviour {
         float memTotal = Mathf.CeilToInt(Profiler.GetTotalReservedMemoryLong() / 1024f / 1024f * 10f) / 10f;
 
 #if UNITY_EDITOR
-        int savedDynamicBatches = UnityEditor.UnityStats.dynamicBatchedDrawCalls - UnityEditor.UnityStats.dynamicBatches;
-        int savedStaticBatches = UnityEditor.UnityStats.staticBatchedDrawCalls - UnityEditor.UnityStats.staticBatches;
-        int savedInstancedBatches = UnityEditor.UnityStats.instancedBatchedDrawCalls - UnityEditor.UnityStats.instancedBatches;
+        int savedDynamicBatches = UnityStats.dynamicBatchedDrawCalls - UnityStats.dynamicBatches;
+        int savedStaticBatches = UnityStats.staticBatchedDrawCalls - UnityStats.staticBatches;
+        int savedInstancedBatches = UnityStats.instancedBatchedDrawCalls - UnityStats.instancedBatches;
+        int savedByBatching = savedDynamicBatches + savedStaticBatches + savedInstancedBatches;
 
         m_textInfo.text = $"{fps} FPS ({ms}ms)  {mem}/{memTotal}MB\n" +
-                          $"batches:{UnityEditor.UnityStats.batches}({savedDynamicBatches + savedStaticBatches + savedInstancedBatches})  shadowCasters:{UnityEditor.UnityStats.shadowCasters}";
+                          $"batches:{UnityStats.batches}({savedByBatching})  shadowCasters:{UnityStats.shadowCasters}";
 #else
         m_textInfo.text = $"{fps} FPS ({ms}ms) {mem}/{memTotal}MB";
 #endif
