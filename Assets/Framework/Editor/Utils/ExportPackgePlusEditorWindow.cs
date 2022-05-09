@@ -29,7 +29,7 @@ public class ExportPackgePlusEditorWindow : EditorWindow {
         {
             Rect contentRect = new Rect(0, 0, position.width, position.height);
             EditorGUILayout.BeginHorizontal();
-            EditorGUILayout.LabelField("sdfsf");
+            EditorGUILayout.LabelField("Items to Export");
             EditorGUILayout.EndHorizontal();
 
             Rect treeViewRect = GUILayoutUtility.GetRect(0f, 1e5f, 0f, 1e5f);
