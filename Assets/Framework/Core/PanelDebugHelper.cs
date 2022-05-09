@@ -18,7 +18,7 @@ public class PanelDebugHelper : MonoBehaviour {
 
 
     [SerializeField] GameObject[] m_groups;
-    [SerializeField] private TMP_Text m_textFPS;
+    [SerializeField] private TMP_Text m_textInfo;
     [SerializeField] private TMP_Text m_textPauseOrResume;
     [SerializeField] private TMP_InputField m_inputFieldOutput;
     [SerializeField] private TMP_InputField m_inputFieldLevelNumber;
@@ -95,7 +95,7 @@ public class PanelDebugHelper : MonoBehaviour {
         }
     }
 
-    private void UpdateFPS() {
+    private void UpdateInfoText() {
         m_time += (Time.unscaledDeltaTime - m_time) * 0.1f;
 
         float ms = m_time * 1000.0f;
@@ -108,7 +108,17 @@ public class PanelDebugHelper : MonoBehaviour {
 
         float mem = Mathf.CeilToInt(Profiler.GetTotalAllocatedMemoryLong() / 1024f / 1024f * 10f) / 10f;
         float memTotal = Mathf.CeilToInt(Profiler.GetTotalReservedMemoryLong() / 1024f / 1024f * 10f) / 10f;
-        m_textFPS.text = $"{fps} FPS ({ms}ms) {mem}/{memTotal}MB";
+
+#if UNITY_EDITOR
+        int savedDynamicBatches = UnityEditor.UnityStats.dynamicBatchedDrawCalls - UnityEditor.UnityStats.dynamicBatches;
+        int savedStaticBatches = UnityEditor.UnityStats.staticBatchedDrawCalls - UnityEditor.UnityStats.staticBatches;
+        int savedInstancedBatches = UnityEditor.UnityStats.instancedBatchedDrawCalls - UnityEditor.UnityStats.instancedBatches;
+
+        m_textInfo.text = $"{fps} FPS ({ms}ms)  {mem}/{memTotal}MB\n" +
+                          $"batches:{UnityEditor.UnityStats.batches}({savedDynamicBatches + savedStaticBatches + savedInstancedBatches})  shadowCasters:{UnityEditor.UnityStats.shadowCasters}";
+#else
+        m_textInfo.text = $"{fps} FPS ({ms}ms) {mem}/{memTotal}MB";
+#endif
     }
 
     private void LogHandler(string logString, string stackTrace, LogType type) {
@@ -135,7 +145,7 @@ public class PanelDebugHelper : MonoBehaviour {
     }
 
     private void Update() {
-        UpdateFPS();
+        UpdateInfoText();
     }
 
     private void OnDisable() {
