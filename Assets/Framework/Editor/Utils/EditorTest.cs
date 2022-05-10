@@ -38,6 +38,7 @@ public class EditorTest : Editor {
         // 重命名一个文件
         //EditorLevelSequence.RenameFile("Assets/Scenes",".unity", "Level_0", "Level_-");
 
+        
     }
 }
 

@@ -7,15 +7,20 @@
     }
 
     SubShader {
-        Tags { "Queue"="Transparent""RenderType"="Opaque" }
+		Tags{
+            "RenderPipeline" = "UniversalPipeline"
+			"Queue" = "Transparent"
+            "RenderType" = "Opaque" 
+        }
         ZWrite off
 
-        CGPROGRAM
+        HLSLPROGRAM
+			#include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #pragma surface surf Lambert nolightmap nodirlightmap alpha:blend
 
             sampler2D _BumpMap;
             sampler2D _MainTex;
-            float4 _Color;
+            half4 _Color;
             float _BumpAmt;
 
             struct Input {
@@ -23,15 +28,15 @@
                 float2 uv_BumpMap;
             };
 
-            void surf (Input IN,inout SurfaceOutput o) {
-                fixed3 nor = UnpackNormal (tex2D(_BumpMap, IN.uv_BumpMap));
-                fixed4 trans =tex2D(_MainTex,IN.uv_MainTex+nor.xy*_BumpAmt)*_Color;
+            void surf (Input IN, inout SurfaceOutput o) {
+                half3 nor = UnpackNormal (tex2D(_BumpMap, IN.uv_BumpMap));
+                half4 trans =tex2D(_MainTex,IN.uv_MainTex+nor.xy*_BumpAmt)*_Color;
 
                 o.Albedo = trans.rgb;
                 o.Alpha =trans.a;
                 o.Emission = trans; 
             }
-        ENDCG
+        ENDHLSL
     }
-    FallBack "Transparent/VertexLit"
+    FallBack "Universal Render Pipeline/Lit"
 }
