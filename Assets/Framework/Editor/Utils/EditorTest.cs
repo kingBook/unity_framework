@@ -1,10 +1,10 @@
 ﻿#if UNITY_EDITOR
 
 using System;
+using System.Reflection;
 using UnityEditor;
 using UnityEditor.SceneManagement;
 using UnityEngine;
-
 public class EditorTest : Editor {
 
     [MenuItem("Tools/EditorTest", true)]
@@ -38,7 +38,6 @@ public class EditorTest : Editor {
         // 重命名一个文件
         //EditorLevelSequence.RenameFile("Assets/Scenes",".unity", "Level_0", "Level_-");
 
-        
     }
 }
 
