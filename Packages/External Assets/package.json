@@ -1,6 +1,6 @@
 {
-  "name": "com.library.jmo-assets",
-  "displayName": "JMO Assets",
+  "name": "com.library.external-assets",
+  "displayName": "External Assets",
   "description": "",
   "version": "1.0.0",
   "unity": "2019.1",

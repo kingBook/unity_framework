@@ -33,14 +33,14 @@
         "com.unity.render-pipelines.universal": "7.1.5"
       }
     },
-    "com.library.highlighting-system": {
-      "version": "file:HighlightingSystem",
+    "com.library.external-assets": {
+      "version": "file:External Assets",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
     },
-    "com.library.jmo-assets": {
-      "version": "file:JMO Assets",
+    "com.library.highlighting-system": {
+      "version": "file:HighlightingSystem",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}

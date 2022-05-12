@@ -1,4 +1,6 @@
-﻿// Unity C# reference source
+﻿//#define ENABLE_PACKAGE_EXPORT_CS
+#if ENABLE_PACKAGE_EXPORT_CS
+// Unity C# reference source
 // Copyright (c) Unity Technologies. For terms of use, see
 // https://unity3d.com/legal/licenses/Unity_Reference_Only_License
 
@@ -279,3 +281,4 @@ public class PackageExport : EditorWindow {
         Repaint();
     }
 }
+#endif
