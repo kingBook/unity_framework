@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using System.Text.RegularExpressions;
@@ -137,3 +138,4 @@ public class EffectControllerInspector : Editor
 		EditorGUILayout.EndVertical ();
 	}
 }
+#endif
