@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
 using UnityEditorInternal;
@@ -82,4 +83,4 @@ static class XUIUtils {
 		return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
 	}
 }
-
+#endif
