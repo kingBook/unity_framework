@@ -6,8 +6,11 @@ using UnityEngine;
 
 /// <summary>
 /// 将材质引用的 .dds 纹理替换为.jpg或.png格式
-/// * .jpg或.png需与.dds同名，同位置
-/// * .fbx文件引用的.dds需将材质解压
+/// <para> 注意： </para>
+/// <para> 1) .jpg或.png需与.dds同名，同位置 </para>
+/// <para> 2) 引用.dds的.fbx文件需将材质解压 </para>
+/// <para> 3) 执行菜单 Assets -> Replace DDS Textures 进行替换</para>
+/// <para> 4) 替换完成后，执行菜单 Assets -> Delete All Replaced DDS 删除已被替换的所有.dds文件</para>
 /// </summary>
 public class ReplaceDDSTexturesEditor : Editor {
 
@@ -24,7 +27,7 @@ public class ReplaceDDSTexturesEditor : Editor {
                 string extension = Path.GetExtension(path).ToLower();
 
                 if (extension == ".fbx") {
-                    if (GetFBXReferenceDDS(path)) {
+                    if (IsReferenceDDS(path)) {
                         Debug.LogWarning($"{path} 引用了.dds纹理，需要将材质解压后才能替换");
                     }
                 } else {
@@ -56,12 +59,12 @@ public class ReplaceDDSTexturesEditor : Editor {
         Debug.Log("Delete all replaced DDS textures complete");
     }
 
-    private static bool GetFBXReferenceDDS(string fbxPath) {
+    private static bool IsReferenceDDS(string fbxPath) {
         Object[] objects = AssetDatabase.LoadAllAssetRepresentationsAtPath(fbxPath);
         for (int j = 0; j < objects.Length; j++) {
             Object obj = objects[j];
             if (obj && obj is Material) {
-                if (GetMaterialReferenceDDS((Material)obj)) {
+                if (IsReferenceDDS((Material)obj)) {
                     return true;
                 }
             }
@@ -69,7 +72,7 @@ public class ReplaceDDSTexturesEditor : Editor {
         return false;
     }
 
-    private static bool GetMaterialReferenceDDS(Material material) {
+    private static bool IsReferenceDDS(Material material) {
         for (int i = 0; i < s_propertyNames.Length; i++) {
             string propertyName = s_propertyNames[i];
             if (material.HasProperty(propertyName)) {
