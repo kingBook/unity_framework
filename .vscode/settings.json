@@ -32,7 +32,6 @@
 	"editor.minimap.enabled": false,
 	"editor.insertSpaces": true,
 	"editor.fontFamily": "Menlo, 'Courier New', monospace",
-	"files.eol": "\n",
 	"workbench.sideBar.location": "right",
 	"window.zoomLevel": 0,
 	"omnisharp.enableImportCompletion": true,
