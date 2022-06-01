@@ -4,6 +4,7 @@ SpineSharderURP导入警告：
 Shader warning in 'Universal Render Pipeline/2D/Spine/Sprite': Keyword PIXELSNAP_ON declared as global and local. It will be treated as local keyword.
 
 待完善的功能: 
+* ctrl+shift+d 复制关联预制件的对象时，会失去关联
 * 扩展 Export Package 功能，使其能导出 Project Settings
 * 解压 .fbx 材质时， 场景中引用此 .fbx 的对象被 "Unpack Prefab" 时，材质、网格等会失去关联
 * 物理投射盒添加
