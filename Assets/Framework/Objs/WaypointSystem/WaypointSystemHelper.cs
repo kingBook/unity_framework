@@ -7,6 +7,16 @@ public static class WaypointSystemHelper {
 
     private const float OVERLAP_THRESHOLD = 0.01f;
 
+    public static void ConvertToVector3sNonAlloc(WaypointObject[] waypointObjects, int count, Vector3[] results, bool isReverse) {
+        for (int i = 0; i < count; i++) {
+            if (isReverse) {
+                results[count - 1 - i] = waypointObjects[i].position;
+            } else {
+                results[i] = waypointObjects[i].position;
+            }
+        }
+    }
+
     public static WaypointPath[] ConvertCinemachinePaths(CinemachineSmoothPath[] cmPaths) {
         int pathCount = cmPaths.Length;
         var results = new WaypointPath[pathCount];
@@ -24,7 +34,14 @@ public static class WaypointSystemHelper {
                 };
                 wpos.Add(wpo);
             }
-            var wpoPath = new WaypointPath(wpos, path.Looped, WaypointPath.OrderType.TwoWay);
+
+            var orderType = WaypointPath.OrderType.TwoWay;
+            var additionalPathData = path.GetComponent<AdditionalPathData>();
+            if (additionalPathData && additionalPathData.orderType != 0) {
+                orderType = additionalPathData.orderType;
+            }
+
+            var wpoPath = new WaypointPath(wpos, path.Looped, orderType);
             results[i] = wpoPath;
         }
         // 设置共点列表
