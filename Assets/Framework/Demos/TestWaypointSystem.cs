@@ -19,17 +19,16 @@ public class TestWaypointSystem : MonoBehaviour {
         WaypointPath[] paths = WaypointSystemHelper.ConvertCinemachinePaths(m_cinemachinePaths);
         m_waypointSystem = new WaypointSystem(paths);
 
-
     }
 
     private void Update() {
         var sw = new System.Diagnostics.Stopwatch();
         sw.Start();
 
-        int count = m_waypointSystem.FindPathNonAlloc((6, 15), (0, 4), m_results);
+        int count = m_waypointSystem.FindPathNonAlloc((2, 15), (9, 0), m_results);
         WaypointSystemDebug.DrawFindPathResults(count, m_results, Color.red, 0.1f);
 
         sw.Stop();
-        Debug.Log($"FindPath time:{sw.ElapsedMilliseconds}");
+        Debug.Log($"FindPath time:{sw.ElapsedMilliseconds}, count:{count}");
     }
 }

@@ -5,7 +5,10 @@ using UnityEngine;
 
 public static class WaypointSystemHelper {
 
-    private const float OVERLAP_THRESHOLD = 0.01f;
+    /// <summary>
+    /// 重叠点的距离阀值，两个点的距离小于此值则视为重叠点
+    /// </summary>
+    private const float OVERLAP_THRESHOLD = 0.02f;
 
     public static void ConvertToVector3sNonAlloc(WaypointObject[] waypointObjects, int count, Vector3[] results, bool isReverse) {
         for (int i = 0; i < count; i++) {
@@ -49,7 +52,9 @@ public static class WaypointSystemHelper {
             var wpoPath = results[i];
             for (int j = 0, lenJ = wpoPath.waypoints.Count; j < lenJ; j++) {
                 var wpo = wpoPath.waypoints[j];
-                SetOverlapPoints(results, wpo);
+                if (wpo.overlapPointsCount <= 0) {
+                    SetOverlapPoints(results, wpo);
+                }
             }
         }
         return results;
@@ -80,7 +85,9 @@ public static class WaypointSystemHelper {
             var wpoPath = results[i];
             for (int j = 0, lenJ = wpoPath.waypoints.Count; j < lenJ; j++) {
                 var wpo = wpoPath.waypoints[j];
-                SetOverlapPoints(results, wpo);
+                if (wpo.overlapPointsCount <= 0) {
+                    SetOverlapPoints(results, wpo);
+                }
             }
         }
         return results;

@@ -46,7 +46,6 @@ public class WaypointSystem {
 
         var startWaypoint = m_paths[start.pathIndex].waypoints[start.wayPointIndex];
         var targetWaypoint = m_paths[target.pathIndex].waypoints[target.wayPointIndex];
-
         InitFind();
         m_openList.Add(startWaypoint);
         while (m_openList.Count > 0) {
@@ -57,10 +56,9 @@ public class WaypointSystem {
             m_openList.RemoveAt(inOpenIndex);
             m_closeList.Add(currentWaypoint);
 
-
             // 如果是目标点，返回
             if (currentWaypoint == targetWaypoint) {
-                resultsWaypointsCount = GeneratePath(startWaypoint, targetWaypoint, results);
+                resultsWaypointsCount = GeneratePath(startWaypoint, currentWaypoint, results);
                 break;
             }
 
