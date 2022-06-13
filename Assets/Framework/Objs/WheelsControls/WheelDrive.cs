@@ -29,6 +29,10 @@ public class WheelDrive : MonoBehaviour {
     public int stepsAboveThreshold = 3;
     [Tooltip("车辆的驱动类型：RearWheelDrive（后轮驱动）、FrontWheelDrive（前轮驱动）、AllWheelDrive（所有轮驱动）")]
     public DriveType driveType;
+    [Tooltip("true 时， maxBrakeTorque 和 SetBrakeTorqueInterpolation 方法无效，只能调用 SetCustomBrakeTorque 方法设置刹车扭矩")]
+    public bool useCustomBrakeTorque;
+    [Tooltip("true 时， maxTorque 和 SetMotorTorqueNormalized 方法无效，只能调用 SetCustomMotorTorque 方法设置驱动轮扭矩")]
+    public bool useCustomMotorTorque;
     [Space]
     public WheelCollider[] frontWheels;
     public WheelCollider[] rearWheels;
@@ -36,14 +40,21 @@ public class WheelDrive : MonoBehaviour {
     private float m_steerAngleNormalized;
     private float m_motorTorqueNormalized;
     private float m_brakeTorqueInterpolation;
+    private float m_customBrakeTorque;
+    private float m_customMotorTorque;
 
-
+    /// <summary> 当前的转向角 [-1,1] </summary>
+    public float steerAngleNormalized => m_steerAngleNormalized;
     /// <summary> 驱动轮上的最大扭矩 [-1,1] </summary>
     public float motorTorqueNormalized => m_motorTorqueNormalized;
     /// <summary> 刹车扭矩插值 [0,1] </summary>
     public float brakeTorqueInterpolation => m_brakeTorqueInterpolation;
     /// <summary> 当前轮轴转速（以每分钟转数为单位）</summary>
     public float rpm => frontWheels[0].rpm;
+    /// <summary> 自定义方式的刹车扭矩 </summary>
+    public float customBrakeTorque => m_customBrakeTorque;
+    /// <summary> 自定义方式的车轮轴电机扭矩 </summary>
+    public float customMotorTorque => m_customMotorTorque;
     /// <summary> 指示车轮当前是否与某物发生碰撞 </summary>
     public bool isGrounded {
         get {
@@ -63,21 +74,30 @@ public class WheelDrive : MonoBehaviour {
         }
     }
 
+    /// <summary> 自定义方式的刹车扭矩, <see cref="useCustomBrakeTorque"/> 为 true 时才有效 </summary>
+    public void SetCustomBrakeTorque(float value) {
+        m_customBrakeTorque = value;
+    }
 
-    /// <summary> 设置刹车扭矩插值 [0,1] </summary>
+    /// <summary> 自定义方式的车轮轴电机扭矩, <see cref="useCustomMotorTorque"/> 为 true 时才有效 </summary>
+    public void SetCustomMotorTorque(float value) {
+        m_customMotorTorque = value;
+    }
+
+    /// <summary> 设置刹车扭矩插值 [0,1]，<see cref="useCustomBrakeTorque"/> 为 false 时才有效 </summary>
     public void SetBrakeTorqueInterpolation(float t) {
         t = Mathf.Clamp01(t);
         m_brakeTorqueInterpolation = t;
     }
 
+    /// <summary> 设置单位化的车轮轴电机扭矩 [-1,1], <see cref="useCustomMotorTorque"/> 为 false 时才有效 </summary>
+    public void SetMotorTorqueNormalized(float value) {
+        m_motorTorqueNormalized = value;
+    }
+
     /// <summary> 设置单位化的转向角度 [-1,1] </summary>
     public void SetSteerAngleNormalized(float value) {
         m_steerAngleNormalized = value;
-    }
-
-    /// <summary> 设置单位化的车轮轴电机扭矩 [-1,1] </summary>
-    public void SetMotorTorqueNormalized(float value) {
-        m_motorTorqueNormalized = value;
     }
 
     /// <summary> 更新车轮外观 </summary>
@@ -97,7 +117,13 @@ public class WheelDrive : MonoBehaviour {
         //
         float steerAngle = m_steerAngleNormalized * maxAngle;
         float motorTorque = m_motorTorqueNormalized * maxTorque;
+        if (useCustomMotorTorque) {
+            motorTorque = customMotorTorque;
+        }
         float brakeTorqueValue = maxBrakeTorque * m_brakeTorqueInterpolation;
+        if (useCustomBrakeTorque) {
+            brakeTorqueValue = customBrakeTorque;
+        }
         ////////////////////////////设置前轮//////////////////////////
         int i = frontWheels.Length;
         while (--i >= 0) {
@@ -119,6 +145,5 @@ public class WheelDrive : MonoBehaviour {
             UpdateWheelSkin(wheel);
         }
     }
-
 
 }
