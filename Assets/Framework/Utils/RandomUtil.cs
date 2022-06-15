@@ -7,6 +7,8 @@ using System.Collections.Generic;
 /// </summary>
 public static class RandomUtil {
 
+    private static int[] s_rangeInts = new int[24];
+
     /// <summary> 随机返回浮点数 1.0f 或 -1.0f </summary>
     public static float sign => Random.value > 0.5f ? 1f : -1f;
 
@@ -80,4 +82,30 @@ public static class RandomUtil {
         return results;
     }
 
+    /// <summary>
+    /// 返回一个介于min[包括]和max[排除]之间的随机整数（此方法与<see cref="Random.Range(int, int)"/>作用一样，增加的 ignores 参数，用于设置忽略的随机数，效率较低）
+    /// </summary>
+    public static int Range(int min, int max, params int[] ignores) {
+        int count = max - min;
+        if (s_rangeInts.Length < count) {
+            s_rangeInts = new int[count];
+        }
+
+        int spaceCount = 0;
+        for (int i = 0; i < count; i++) {
+            int n = min + i;
+            if (System.Array.IndexOf(ignores, n) > -1) {
+                spaceCount++;
+                continue;
+            }
+            s_rangeInts[i - spaceCount] = n;
+        }
+
+        count -= spaceCount;
+        if (count <= 0) {
+            Debug.LogError("[min,max) 区间的整数，全被忽略，全在ignores里，将返回最小整数 0");
+            return 0;
+        }
+        return s_rangeInts[Random.Range(0, count)];
+    }
 }
