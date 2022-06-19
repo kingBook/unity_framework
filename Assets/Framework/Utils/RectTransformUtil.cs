@@ -46,50 +46,42 @@ public class RectTransformUtil {
     /// <param name="rectTransform"> 要移动的 RectTransform </param>
     /// <param name="velocity"> 屏幕速度向量 </param>
     /// <param name="canvas"> Canvas </param>
-    /// <param name="range"> 移动范围（RectTransform 的矩形） </param>
-    public static void Move(RectTransform rectTransform, Vector2 velocity, Canvas canvas, RangeFloat movableRangeX, RangeFloat movableRangeY) {
+    /// <param name="isLimitToParent"> 限制移动范围在父级的矩形内 </param>
+    public static void Move(RectTransform rectTransform, Vector2 velocity, Canvas canvas, bool isLimitToParent) {
         velocity /= canvas.scaleFactor;
-
         rectTransform.anchoredPosition += velocity;
 
+        if (isLimitToParent) {
+            LimitMoveRangeToParent(rectTransform);
+        }
+    }
 
-        //float sx = Screen.width / 2208f * rectTransform.localScale.x;// canvas.transform.localScale.x * rectTransform.localScale.x;
-        //float sy = Screen.height / 1242f * rectTransform.localScale.y;// canvas.transform.localScale.y * rectTransform.localScale.y;
+    /// <summary>
+    /// 限制 rectTransform 的移动范围在父级的矩形内
+    /// </summary>
+    /// <param name="rectTransform"></param>
+    public static void LimitMoveRangeToParent(RectTransform rectTransform) {
+        Bounds rangeBounds = RectTransformUtility.CalculateRelativeRectTransformBounds(rectTransform.parent);
+        Bounds bounds = RectTransformUtility.CalculateRelativeRectTransformBounds(rectTransform.parent, rectTransform);
 
-        //Vector2 anchoredPosition = rectTransform.anchoredPosition;
-        //Debug.Log($"sx:{Screen.width/2208f},sy:{Screen.height/1242f}");
-        //anchoredPosition.x = Mathf.Clamp(anchoredPosition.x + velocity.x, movableRangeX.min * sx, movableRangeX.max * sx);
-        //anchoredPosition.y = Mathf.Clamp(anchoredPosition.y + velocity.y, movableRangeY.min * sy, movableRangeY.max * sy);
+        Vector2 anchoredPosition = rectTransform.anchoredPosition;
 
-        //rectTransform.anchoredPosition = anchoredPosition;
+        float dxMin = bounds.min.x - rangeBounds.min.x;
+        float dxMax = bounds.max.x - rangeBounds.max.x;
+        if (dxMin > 0.0f) {
+            anchoredPosition.x -= dxMin;
+        } else if (dxMax < 0.0f) {
+            anchoredPosition.x -= dxMax;
+        }
 
-
-
-
-        // 限制移动范围
-        //Vector2 ov = Vector2.zero;
-        //Rect rangeRect = GetScreenRect(range, canvas);
-        //Rect rect = GetScreenRect(rectTransform, canvas);
-
-        //if (velocity.x > 0) {
-        //    if (rect.xMin > rangeRect.xMin) {
-        //        ov.x = rangeRect.xMin - rect.xMin;
-        //    }
-        //} else if (velocity.x < 0) {
-        //    if (rect.xMax < rangeRect.xMax) {
-        //        ov.x = rangeRect.xMax - rect.xMax;
-        //    }
-        //}
-        //if (velocity.y > 0) {
-        //    if (rect.yMin > rangeRect.yMin) {
-        //        ov.y = rangeRect.yMin - rect.yMin;
-        //    }
-        //} else if (velocity.y < 0) {
-        //    if (rect.yMax < rangeRect.yMax) {
-        //        ov.y = rangeRect.yMax - rect.yMax;
-        //    }
-        //}
-        //rectTransform.anchoredPosition += ov;
+        float dyMin = bounds.min.y - rangeBounds.min.y;
+        float dyMax = bounds.max.y - rangeBounds.max.y;
+        if (dyMin > 0.0f) {
+            anchoredPosition.y -= dyMin;
+        } else if (dyMax < 0.0f) {
+            anchoredPosition.y -= dyMax;
+        }
+        rectTransform.anchoredPosition = anchoredPosition;
     }
 
     /// <summary>
@@ -99,8 +91,8 @@ public class RectTransformUtil {
     /// <param name="screenPoint"></param>
     /// <param name="scaleValue"></param>
     /// <param name="canvas"></param>
-    /// /// <param name="range"> 移动范围（RectTransform 的矩形） </param>
-    public static void ScaleAroundPoint(RectTransform rectTransform, Vector2 screenPoint, float scaleValue, Canvas canvas, RangeFloat movableRangeX, RangeFloat movableRangeY) {
+    /// <param name="isLimitToParent"> 限制移动范围在父级的矩形内 </param>
+    public static void ScaleAroundPoint(RectTransform rectTransform, Vector2 screenPoint, float scaleValue, Canvas canvas, bool isLimitToParent) {
         // 缩放前，在屏幕坐标系的矩形
         Rect rect = GetScreenRect(rectTransform, canvas);
         // 缩放前，围绕缩放点在矩形中的单位化位置
@@ -115,9 +107,8 @@ public class RectTransformUtil {
 
         // 移动与 screenPoint 对齐
         Vector2 offset = screenPoint - pivotInRect2;
-        Move(rectTransform, offset, canvas, movableRangeX, movableRangeY);
+        Move(rectTransform, offset, canvas, isLimitToParent);
     }
-
 
     /// <summary>
     /// 获取 RectTransform 在屏幕坐标中的矩形(由4个蓝色圆形角点构成的矩形)
