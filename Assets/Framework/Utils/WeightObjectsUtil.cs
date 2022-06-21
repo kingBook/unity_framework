@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public static class WeightObjectsUtil {
@@ -10,24 +11,22 @@ public static class WeightObjectsUtil {
     /// <param name="weightObjects"> 权重对象列表 </param>
     /// <param name="defaultType"> 默认返回的枚举类型 </param>
     /// <returns></returns>
-    public static T GetTypeWithWeightList<T>((T type, int weight)[] weightObjects, T defaultType) where T : System.Enum {
+    public static T GetTypeWithWeightObjects<T>(ICollection<(T type, int weight)> weightObjects, T defaultType) {
         // 总权重
         int sumWeight = 0;
-        for (int i = 0, len = weightObjects.Length; i < len; i++) {
-            sumWeight += weightObjects[i].weight;
+        foreach (var (type, weight) in weightObjects) {
+            sumWeight += weight;
         }
 
         // 随机数 [0, sumWeight)
         int n = Random.Range(0, sumWeight);
         // 根据随机数所在总权重线段上的落点计算出结果
         int m = 0;
-        for (int i = 0, len = weightObjects.Length; i < len; i++) {
-            (T landType, int weight) weightObj = weightObjects[i];
-            if (n >= m && n < m + weightObj.weight) {
-                return weightObj.landType;
+        foreach (var (type, weight) in weightObjects) {
+            if (n >= m && n < m + weight) {
+                return type;
             }
-
-            m += weightObj.weight;
+            m += weight;
         }
         return defaultType;
     }
