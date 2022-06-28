@@ -19,7 +19,7 @@ public class LanguageSwapTMP_TextString : MonoBehaviour {
     public TMP_Text text;
     [Tooltip("在 Awake 函数中，是否使用 Regex.Unescape(string) 转换输入字符串中的任何转义字符")] public bool isUnescapeOnAwake;
 
-    private void OnChangeLanguage(App.Language language) {
+    private void OnChangedLanguage(App.Language language) {
         SwapStringToLanguage(language);
     }
 
@@ -43,7 +43,7 @@ public class LanguageSwapTMP_TextString : MonoBehaviour {
 
     private void Start() {
         SwapStringToLanguage(App.instance.language);
-        App.instance.onChangeLanguageEvent += OnChangeLanguage;
+        App.instance.onChangedLanguageEvent += OnChangedLanguage;
     }
 
     private void SwapStringToLanguage(App.Language language) {
@@ -56,6 +56,6 @@ public class LanguageSwapTMP_TextString : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        App.instance.onChangeLanguageEvent -= OnChangeLanguage;
+        App.instance.onChangedLanguageEvent -= OnChangedLanguage;
     }
 }
