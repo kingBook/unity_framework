@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class FlipMeshNormalsEditor : Editor {
 
+    private static bool s_isExecute;
+    
     /// <summary> 翻转网格的法线 </summary>
     private static void FlipMeshNormals(Mesh mesh) {
         int[] triangles = mesh.triangles;
@@ -81,7 +83,21 @@ public class FlipMeshNormalsEditor : Editor {
 
     [MenuItem("GameObject/Flip Mesh Normals", false, 11)]
     private static void FlipMeshNormalsOnGameObject() {
-        FlipMeshNormals(Selection.gameObjects);
+        if (s_isExecute) {
+            s_isExecute = false;
+            FlipMeshNormals(Selection.gameObjects);
+        }
+    }
+    
+    [InitializeOnLoadMethod]
+    private static void StartInitializeOnLoadMethod() {
+        EditorApplication.hierarchyWindowItemOnGUI += OnHierarchyGUI;
+    }
+
+    private static void OnHierarchyGUI(int instanceID, Rect selectionRect) {
+        if (Event.current != null && Event.current.button == 1 && Event.current.type == EventType.MouseUp) {
+            s_isExecute = true;
+        }
     }
 
 }
