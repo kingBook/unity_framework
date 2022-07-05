@@ -34,10 +34,13 @@ public class ResourcesTextAssetlLoader : MonoBehaviour {
     /// 同步加载 <see cref="TextAsset"/>
     /// </summary>
     /// <param name="filePath"> 文件相对于 Resources 文件夹的路径，不需要文件后缀名，如: WorkingMode/PhoneMessages </param>
-    public void Load(string filePath) {
+    /// <returns> TextAsset </returns>
+    public TextAsset Load(string filePath) {
         m_filePath = filePath;
         TextAsset textAsset = Resources.Load<TextAsset>(m_filePath);
         onLoadedEvent?.Invoke(textAsset);
+        onLoadedEvent = null;
+        return textAsset;
     }
 
     /// <summary>
@@ -57,7 +60,7 @@ public class ResourcesTextAssetlLoader : MonoBehaviour {
         }
         TextAsset textAsset = (TextAsset)resourceRequest.asset;
         onLoadedEvent?.Invoke(textAsset);
+        onLoadedEvent = null;
     }
-
 
 }

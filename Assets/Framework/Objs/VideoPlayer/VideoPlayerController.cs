@@ -15,6 +15,11 @@ public class VideoPlayerController : MonoBehaviour {
     private long m_gotoFrame;
 
     /// <summary>
+    /// 播放完成事件，回调函数格式: <code> void OnPlayCompleteHandler() </code>
+    /// </summary>
+    public event System.Action onPlayCompleteEvent;
+
+    /// <summary>
     /// 控制的 VideoPlayer
     /// </summary>
     public VideoPlayer videoPlayer => m_videoPlayer;
@@ -112,6 +117,9 @@ public class VideoPlayerController : MonoBehaviour {
 
     private void OnFrameReadiedHandler(VideoPlayer source, long frameIdx) {
         frameNumberReadied = frameIdx;
+        if ((ulong)frameIdx >= source.frameCount - 1) {
+            onPlayCompleteEvent?.Invoke();
+        }
         DetectGotoFrameCompleted();
     }
 
