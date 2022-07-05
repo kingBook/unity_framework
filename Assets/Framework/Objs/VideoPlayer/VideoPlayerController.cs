@@ -13,11 +13,7 @@ public class VideoPlayerController : MonoBehaviour {
     private RenderTextureGetter m_renderTextureGetter;
     private System.Action m_gotoFrameCompleteAction;
     private long m_gotoFrame;
-
-    /// <summary>
-    /// 播放完成事件，回调函数格式: <code> void OnPlayCompleteHandler() </code>
-    /// </summary>
-    public event System.Action onPlayCompleteEvent;
+    private System.Action m_onCompleteCallback;
 
     /// <summary>
     /// 控制的 VideoPlayer
@@ -110,6 +106,14 @@ public class VideoPlayerController : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// 设置播放完成时的回调函数，完成后自动设置为 null
+    /// </summary>
+    /// <param name="onCompleteCallback"></param>
+    public void OnComplete(System.Action onCompleteCallback) {
+        m_onCompleteCallback = onCompleteCallback;
+    }
+
     private void OnSeekCompletedHandler(VideoPlayer source) {
         isSeeking = false;
         DetectGotoFrameCompleted();
@@ -118,7 +122,8 @@ public class VideoPlayerController : MonoBehaviour {
     private void OnFrameReadiedHandler(VideoPlayer source, long frameIdx) {
         frameNumberReadied = frameIdx;
         if ((ulong)frameIdx >= source.frameCount - 1) {
-            onPlayCompleteEvent?.Invoke();
+            m_onCompleteCallback?.Invoke();
+            m_onCompleteCallback = null;
         }
         DetectGotoFrameCompleted();
     }
