@@ -70,11 +70,6 @@ public class PanelVideoPlayer : MonoBehaviour {
         m_imageLoading.gameObject.SetActive(m_videoPlayerController.isSeeking);
     }
 
-
-    private void OnEnable() {
-        UpdateUI();
-    }
-
     private void Update() {
         UpdateUI();
     }
