@@ -13,7 +13,16 @@ public class VideoPlayerController : MonoBehaviour {
     private RenderTextureGetter m_renderTextureGetter;
     private System.Action m_gotoFrameCompleteAction;
     private long m_gotoFrame;
-    private System.Action m_onCompleteCallback;
+
+    /// <summary>
+    /// 播放器准备就绪事件，回调函数格式：<code> void OnPrepareCompleteHandler() </code>
+    /// </summary>
+    public event System.Action onPrepareCompleteEvent;
+
+    /// <summary>
+    /// 播放完成事件，回调函数格式：<code> void OnPlayCompleteHandler() </code>
+    /// </summary>
+    public event System.Action onPlayCompleteEvent;
 
     /// <summary>
     /// 控制的 VideoPlayer
@@ -98,7 +107,7 @@ public class VideoPlayerController : MonoBehaviour {
             m_gotoFrameCompleteAction = onComplete;
             isSeeking = true;
             // 如果播放头在要跳到的帧，则直接完成
-            DetectGotoFrameCompleted();
+            CheckGotoFrameCompleted();
         } else {
             // 播放引擎未准备就绪，请调用 m_videoPlayer.Play()、m_videoPlayer.Prepare() 方法
             // 侦听 m_videoPlayer.prepareCompleted 事件，确认已准备就绪
@@ -106,29 +115,22 @@ public class VideoPlayerController : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// 设置播放完成时的回调函数，完成后自动设置为 null
-    /// </summary>
-    /// <param name="onCompleteCallback"></param>
-    public void OnComplete(System.Action onCompleteCallback) {
-        m_onCompleteCallback = onCompleteCallback;
+    private void OnPrepareCompletedHandler(VideoPlayer source) {
+        onPrepareCompleteEvent?.Invoke();
     }
 
     private void OnSeekCompletedHandler(VideoPlayer source) {
         isSeeking = false;
-        DetectGotoFrameCompleted();
+        CheckGotoFrameCompleted();
     }
 
     private void OnFrameReadiedHandler(VideoPlayer source, long frameIdx) {
         frameNumberReadied = frameIdx;
-        if ((ulong)frameIdx >= source.frameCount - 1) {
-            m_onCompleteCallback?.Invoke();
-            m_onCompleteCallback = null;
-        }
-        DetectGotoFrameCompleted();
+        CheckGotoFrameCompleted();
+        CheckComplete();
     }
 
-    private void DetectGotoFrameCompleted() {
+    private void CheckGotoFrameCompleted() {
         if (m_gotoFrame > 0) {
             if (m_videoPlayer.frame == m_gotoFrame) {
                 if (m_gotoFrameCompleteAction != null) {
@@ -136,6 +138,16 @@ public class VideoPlayerController : MonoBehaviour {
                     m_gotoFrameCompleteAction = null;
                 }
                 m_gotoFrame = 0;
+            }
+        }
+    }
+
+    private void CheckComplete() {
+        if (!m_videoPlayer.isPrepared) return;
+        if (m_videoPlayer.frame > 0 && m_videoPlayer.frameCount > 0 && m_videoPlayer.frame >= (long)m_videoPlayer.frameCount - 1) {
+            if (onPlayCompleteEvent != null) {
+                Debug.Log($"onPlayComplete, frame:{m_videoPlayer.frame}, frameCount:{m_videoPlayer.frameCount}");
+                onPlayCompleteEvent.Invoke();
             }
         }
     }
@@ -154,6 +166,7 @@ public class VideoPlayerController : MonoBehaviour {
 
         m_videoPlayer = GetComponent<VideoPlayer>();
         m_videoPlayer.skipOnDrop = false; // 不允许跳过帧以赶上当前时间
+        m_videoPlayer.prepareCompleted += OnPrepareCompletedHandler;
         m_videoPlayer.seekCompleted += OnSeekCompletedHandler;
         // 这可能会占用 CPU 资源
         m_videoPlayer.sendFrameReadyEvents = true;
@@ -175,11 +188,13 @@ public class VideoPlayerController : MonoBehaviour {
     }
 
     private void FixedUpdate() {
-        DetectGotoFrameCompleted();
+        CheckGotoFrameCompleted();
+        CheckComplete();
     }
 
     private void OnDestroy() {
         if (m_videoPlayer) {
+            m_videoPlayer.prepareCompleted -= OnPrepareCompletedHandler;
             m_videoPlayer.seekCompleted -= OnSeekCompletedHandler;
             m_videoPlayer.frameReady -= OnFrameReadiedHandler;
             m_videoPlayer.clockResyncOccurred -= OnClockResyncOccurredHandler;
