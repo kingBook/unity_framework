@@ -15,9 +15,14 @@ public class VideoPlayerController : MonoBehaviour {
     private long m_gotoFrame;
 
     /// <summary>
-    /// 播放器准备就绪事件，回调函数格式：<code> void OnPrepareCompleteHandler() </code>
+    /// 播放器准备就绪事件,此事件发出时播放头还在-1帧，但能访问视频的总帧数等属性，回调函数格式：<code> void OnPrepareCompleteHandler() </code>
     /// </summary>
     public event System.Action onPrepareCompleteEvent;
+
+    /// <summary>
+    /// 已开始事件，此事件发出时播放头已进入0帧，回调函数格式：<code> void OnStartedHandler() </code>
+    /// </summary>
+    public event System.Action onStartedEvent;
 
     /// <summary>
     /// 播放完成事件，回调函数格式：<code> void OnPlayCompleteHandler() </code>
@@ -119,6 +124,10 @@ public class VideoPlayerController : MonoBehaviour {
         onPrepareCompleteEvent?.Invoke();
     }
 
+    private void OnStartedHandler(VideoPlayer videoPlayer) {
+        onStartedEvent?.Invoke();
+    }
+
     private void OnSeekCompletedHandler(VideoPlayer source) {
         isSeeking = false;
         CheckGotoFrameCompleted();
@@ -166,6 +175,7 @@ public class VideoPlayerController : MonoBehaviour {
 
         m_videoPlayer = GetComponent<VideoPlayer>();
         m_videoPlayer.skipOnDrop = false; // 不允许跳过帧以赶上当前时间
+        m_videoPlayer.started += OnStartedHandler;
         m_videoPlayer.prepareCompleted += OnPrepareCompletedHandler;
         m_videoPlayer.seekCompleted += OnSeekCompletedHandler;
         // 这可能会占用 CPU 资源
@@ -194,6 +204,7 @@ public class VideoPlayerController : MonoBehaviour {
 
     private void OnDestroy() {
         if (m_videoPlayer) {
+            m_videoPlayer.started -= OnStartedHandler;
             m_videoPlayer.prepareCompleted -= OnPrepareCompletedHandler;
             m_videoPlayer.seekCompleted -= OnSeekCompletedHandler;
             m_videoPlayer.frameReady -= OnFrameReadiedHandler;
