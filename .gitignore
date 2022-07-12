@@ -3,6 +3,7 @@ Temp/
 .vs/
 obj/
 Recordings/
+Res/
 *.csproj
 *.sln
 *.zip
