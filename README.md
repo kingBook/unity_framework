@@ -22,6 +22,9 @@ Shader warning in 'Universal Render Pipeline/2D/Spine/Sprite': Keyword PIXELSNAP
 * jsfl导出是MaxRects无效与及在图集大于2048x2048时的MaxRects如何设置
 * FbxAnimationSpliter 已切分的动画如果有被引用，再次切分时会丢失
 
+* SceneLoader 需实现后台加载场景，能获取场景对象合并到其他对象
+* SceneLoader 需发出加载完成并激活事件，能访问加载后场景的对象，如：场景中有多个Panel能实现在加载后立即显示哪个Panel隐藏哪此Panel
+
 
 Spine运行库修改记录：
 Spine\Runtime\spine-csharp\SkeletonJson.cs
