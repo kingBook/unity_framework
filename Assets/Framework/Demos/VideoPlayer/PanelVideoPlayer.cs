@@ -58,7 +58,9 @@ public class PanelVideoPlayer : MonoBehaviour {
         const float maxTime = 215999.0f; // 如果以时分秒的形式显示时间不能超 59:59:59，就是 59*60*60+59*60+59=215999 秒
         float time = m_progressBar.frameOnPointerDown > 0 ? m_progressBar.timeOnPointerDown : m_videoPlayerController.time;
         time = Mathf.Clamp(time, 0.0f, maxTime);
+		time = Mathf.Ceil(time);
         float timeTotal = Mathf.Clamp(m_videoPlayerController.timeTotal, 0.0f, maxTime);
+		timeTotal = Mathf.Ceil(timeTotal);
         string timeString = TimeSpan.FromSeconds(time).ToString(@"hh\:mm\:ss");
         string timeTotalString = TimeSpan.FromSeconds(timeTotal).ToString(@"hh\:mm\:ss");
         m_textTime.text = $"{timeString}/{timeTotalString}";

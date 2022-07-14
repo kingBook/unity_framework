@@ -25,9 +25,9 @@ public class VideoPlayerController : MonoBehaviour {
     public event System.Action onStartedEvent;
 
     /// <summary>
-    /// 播放完成事件，回调函数格式：<code> void OnPlayCompleteHandler() </code>
+    /// 播放到达循环点事件（如果不循环此事件表示播放完成），回调函数格式：<code> void OnLoopPointReachedHandler() </code>
     /// </summary>
-    public event System.Action onPlayCompleteEvent;
+    public event System.Action onLoopPointReachedEvent;
 
     /// <summary>
     /// 控制的 VideoPlayer
@@ -121,6 +121,7 @@ public class VideoPlayerController : MonoBehaviour {
     }
 
     private void OnPrepareCompletedHandler(VideoPlayer source) {
+        Debug.Log($"frameRate:{m_videoPlayer.frameRate}");
         onPrepareCompleteEvent?.Invoke();
     }
 
@@ -136,7 +137,6 @@ public class VideoPlayerController : MonoBehaviour {
     private void OnFrameReadiedHandler(VideoPlayer source, long frameIdx) {
         frameNumberReadied = frameIdx;
         CheckGotoFrameCompleted();
-        CheckComplete();
     }
 
     private void CheckGotoFrameCompleted() {
@@ -151,22 +151,16 @@ public class VideoPlayerController : MonoBehaviour {
         }
     }
 
-    private void CheckComplete() {
-        if (!m_videoPlayer.isPrepared) return;
-        if (m_videoPlayer.frame > 0 && m_videoPlayer.frameCount > 0 && m_videoPlayer.frame >= (long)m_videoPlayer.frameCount - 1) {
-            if (onPlayCompleteEvent != null) {
-                Debug.Log($"onPlayComplete, frame:{m_videoPlayer.frame}, frameCount:{m_videoPlayer.frameCount}");
-                onPlayCompleteEvent.Invoke();
-            }
-        }
-    }
-
     private void OnClockResyncOccurredHandler(VideoPlayer source, double seconds) {
         Debug.Log($"OnClockResyncOccurredHandler:{seconds}");
     }
 
     private void OnErrorReceivedHandler(VideoPlayer source, string message) {
         Debug.LogError($"OnErrorReceivedHandler:{message}");
+    }
+
+    private void OnLoopPointReachedHandler(VideoPlayer source) {
+        onLoopPointReachedEvent?.Invoke();
     }
 
     private void Awake() {
@@ -183,6 +177,7 @@ public class VideoPlayerController : MonoBehaviour {
         m_videoPlayer.frameReady += OnFrameReadiedHandler;
         m_videoPlayer.clockResyncOccurred += OnClockResyncOccurredHandler;
         m_videoPlayer.errorReceived += OnErrorReceivedHandler;
+        m_videoPlayer.loopPointReached += OnLoopPointReachedHandler;
     }
 
     private void OnEnable() {
@@ -199,7 +194,6 @@ public class VideoPlayerController : MonoBehaviour {
 
     private void FixedUpdate() {
         CheckGotoFrameCompleted();
-        CheckComplete();
     }
 
     private void OnDestroy() {
@@ -209,6 +203,8 @@ public class VideoPlayerController : MonoBehaviour {
             m_videoPlayer.seekCompleted -= OnSeekCompletedHandler;
             m_videoPlayer.frameReady -= OnFrameReadiedHandler;
             m_videoPlayer.clockResyncOccurred -= OnClockResyncOccurredHandler;
+            m_videoPlayer.errorReceived -= OnErrorReceivedHandler;
+            m_videoPlayer.loopPointReached -= OnLoopPointReachedHandler;
         }
     }
 
