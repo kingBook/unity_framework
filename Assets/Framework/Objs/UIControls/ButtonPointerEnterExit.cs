@@ -5,10 +5,10 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 /// <summary>
-/// 用于实现滑入、滑出响应按钮
+/// 用于实现按下/滑入、释放/滑出响应按钮
 /// </summary>
 [RequireComponent(typeof(Button))]
-public class ButtonPointerEnterExit : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler {
+public class ButtonPointerEnterExit : MonoBehaviour, IPointerDownHandler, IPointerUpHandler, IPointerEnterHandler, IPointerExitHandler {
 
     public UnityEvent onEnterEvent;
     public UnityEvent onUpEvent;
@@ -18,6 +18,14 @@ public class ButtonPointerEnterExit : MonoBehaviour, IPointerEnterHandler, IPoin
     private Button m_button;
     private bool m_isMouseDown;
     private bool m_isDown;
+
+    void IPointerDownHandler.OnPointerDown(PointerEventData eventData) {
+        OnDown(eventData);
+    }
+
+    void IPointerUpHandler.OnPointerUp(PointerEventData eventData) {
+        OnUp(eventData);
+    }
 
     void IPointerEnterHandler.OnPointerEnter(PointerEventData eventData) {
         if (Input.touchSupported) {
