@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,13 +9,15 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
     [Space]
     public float spacing;
     public bool isScaleChildren = true;
-    [Range(0.1f, 1f)] public float minScale = 0.5f;
+    [Range(0.1f, 1.0f)] public float minScale = 0.5f;
+    [Range(1.0f, 5.0f)] public float maxScale = 1.0f;
 
     [Tooltip("当 child 超出视口范围，移动 child 到顶部或底部，此值调整需要超出多少时才移动 (局部坐标)")]
     [SerializeField] private float m_offsetBeyondViewport;
     [SerializeField] private ScrollRect m_scrollRect;
 
     private float m_startY;
+    private (RectTransform rectTransform, float scaleValue)[] m_siblingList;
 
 
     public float offsetBeyondViewport {
@@ -80,8 +83,6 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
             content.pivot = pivot;
 
             UpdateLayout();
-        } else {
-
         }
     }
 
@@ -97,8 +98,6 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
             content.pivot = pivot;
 
             UpdateLayout();
-        } else {
-
         }
     }
 
@@ -111,20 +110,24 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         Vector2 viewPortCenter = viewportRect.center;
         // 计算缩放
         int len = m_scrollRect.content.childCount;
-        (RectTransform rectTransform, float scaleValue)[] siblingList = new (RectTransform rectTransform, float scale)[len];
+        if (m_siblingList == null || len != m_siblingList.Length) {
+            m_siblingList = new (RectTransform rectTransform, float scaleValue)[len];
+        }
         for (int i = 0; i < len; i++) {
             RectTransform child = (RectTransform)m_scrollRect.content.GetChild(i);
             RectTransformUtility.ScreenPointToLocalPointInRectangle(m_scrollRect.viewport, child.position, null, out Vector2 localPoint);
             float distanceCenter = Vector2.Distance(viewPortCenter, localPoint);
             float t = 1f - Mathf.Clamp01(distanceCenter / viewportRect.height);
             t = Mathf.Clamp(t, minScale, 1f);
-            siblingList[i] = (child, t);
-            child.localScale = Vector3.one * t;
+            m_siblingList[i] = (child, t);
+            if (isScaleChildren) {
+                child.localScale = Vector3.one * t;
+            }
         }
         // 更改层级顺序
-        System.Array.Sort(siblingList, m_scaleValueComparer);
+        System.Array.Sort(m_siblingList, m_scaleValueComparer);
         for (int i = 0; i < len; i++) {
-            RectTransform child = siblingList[i].rectTransform;
+            RectTransform child = m_siblingList[i].rectTransform;
             child.SetSiblingIndex(i);
         }
     }
@@ -178,6 +181,8 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
                 m_scrollRect.onValueChanged.AddListener(OnScrollRectValueChangedHandler);
             }
         }
+
+        InitOrderListWithChildren();
     }
 
     protected override void Update() {
@@ -211,6 +216,8 @@ public class LoopVerticalLayout : LoopHorizontalOrVerticalLayout {
         if (!m_scrollRect) {
             m_scrollRect = GetComponentInParent<ScrollRect>();
         }
+
+        InitOrderListWithChildren();
     }
 
     protected override void OnValidate() {
