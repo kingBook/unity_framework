@@ -19,6 +19,8 @@ public class Flashing : MonoBehaviour {
 
     public void StartFlashing(float timeSeconds, System.Action onComplete) {
         if (isFlashing) return;
+        isFlashing = true;
+
         m_alphaRecord = m_spriteRenderer.color.a;
 
         m_sequence = DOTween.Sequence();

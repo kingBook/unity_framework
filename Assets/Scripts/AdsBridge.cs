@@ -53,8 +53,8 @@ public static class AdsBridge {
     public static void ShowRewardAd(System.Action onUserEarnedReward, System.Action OnAdClosed = null, System.Action OnAdOpening = null) {
         // TODO: 视频广告接口
         // onUserEarnedReward.Invoke(); // 注意:勿重复多次调用
-        // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调用可能为 null
-        // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调用可能为 null
+        // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
+        // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
 #if UNITY_IOS
         //AdsManager.instance.ShowRewardAd(onUserEarnedReward, OnAdClosed, OnAdOpening);
 #elif UNITY_ANDROID
