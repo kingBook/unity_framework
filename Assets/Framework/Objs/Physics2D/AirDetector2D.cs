@@ -8,7 +8,7 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody2D))]
 public class AirDetector2D : MonoBehaviour {
 
-    [Tooltip("碰撞平面的法线阀值y，大于此值表示在地面")] public float normalThresholdY = 0.5f;
+    [Range(0f, 1f), Tooltip("碰撞平面的法线阀值y，大于此值表示在地面")] public float normalThresholdY = 0.5f;
 
     /// <summary>
     /// 改变在空中变量时，回调函数格式：<code> void OnChangedHandler(bool isInAir) </code>
@@ -42,7 +42,7 @@ public class AirDetector2D : MonoBehaviour {
             onChangedEvent?.Invoke(isAir);
             m_isInAir = isAir;
         }
-        
+
     }
 
 
