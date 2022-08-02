@@ -4,7 +4,6 @@ using System.Threading.Tasks;
 
 public static class AdsBridge {
 
-
     /// <summary>
     /// 所有使用到的打点信息的枚举
     /// </summary>
@@ -14,9 +13,14 @@ public static class AdsBridge {
         /// <summary> 关卡胜利（id：关卡编号） </summary>
         LevelVictory,
         /// <summary> 关卡失败（id：关卡编号） </summary>
-        LevelFailure,
-        /// <summary> 点击进入小游戏按钮 </summary>
-        OnClickButtonEnterMiniGame
+        LevelFailure
+    }
+
+    /// <summary> 延时 (此方法仅用于测试) </summary>
+    private static async void Delay(System.Action callback) {
+        await Task.Delay(1000);
+        Debug.Log("== 模拟展示广告完成");
+        callback();
     }
 
     /// <summary>
@@ -32,9 +36,6 @@ public static class AdsBridge {
             case PointInfo.LevelStart:
                 //AnalyticsManager.LevelStart(id);
                 break;
-            case PointInfo.OnClickButtonEnterMiniGame:
-                //AnalyticsManager.OnClickButtonEnterMiniGame();
-                break;
         }
 #elif UNITY_ANDROID
 
@@ -43,7 +44,6 @@ public static class AdsBridge {
 #endif
     }
 
-
     /// <summary>
     /// 展示激励视频广告
     /// </summary>
@@ -51,7 +51,7 @@ public static class AdsBridge {
     /// <param name="OnAdClosed"> 中途关闭时调用（不给予奖励，可能为 null） </param>
     /// <param name="OnAdOpening"> 成功加载并开始显示时调用（用于播放广告时需要暂停游戏，可能为 null） </param>
     public static void ShowRewardAd(System.Action onUserEarnedReward, System.Action OnAdClosed = null, System.Action OnAdOpening = null) {
-        // TODO: 视频广告接口
+        // TODO: 激励视频广告接口
         // onUserEarnedReward.Invoke(); // 注意:勿重复多次调用
         // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
         // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
@@ -68,29 +68,31 @@ public static class AdsBridge {
 #endif
     }
 
-    /// <summary> 此方法仅用于测试 </summary>
-    private static async void Delay(System.Action callback) {
-        await Task.Delay(1000);
-        Debug.Log("== 模拟展示激励视频广告完成");
-        callback();
-    }
-
-
     /// <summary>
-    /// 展示插页式广告
+    /// 展示插屏广告
     /// </summary>
-    /// <param name="msg"> 说明信息 </param>
-    public static void ShowInterstitialAd(string msg) {
-        Debug.Log("== 模拟展示插页式广告: " + msg);
+    /// <param name="OnAdClosed"> 关闭时调用 (可能为 null) </param>
+    /// <param name="OnAdOpening"> 成功加载并开始显示时调用 (可能为 null) </param>
+    public static void ShowInterstitialAd(System.Action OnAdClosed = null, System.Action OnAdOpening = null) {
+        // TODO: 插屏广告接口
+        // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
+        // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
 #if UNITY_IOS
         //AdsManager.instance.ShowInterstitial();
 #elif UNITY_ANDROID
-
+        // 模拟测试代码
+        OnAdOpening?.Invoke();
+        if (OnAdClosed != null) {
+            Delay(OnAdClosed);
+        }
 #else
-        
+        // 模拟测试代码
+        OnAdOpening?.Invoke();
+        if (OnAdClosed != null) {
+            Delay(OnAdClosed);
+        }
 #endif
     }
-
 
     /// <summary>
     /// 链接到'其他游戏'
