@@ -158,8 +158,8 @@ public sealed class App : MonoBehaviour {
 
     private void OnApplicationQuit() {
 #if UNITY_EDITOR // 自定义进入播放模式（不重新加载域时），销毁 DOTween.instance
+        DOTween.Clear(true);
         if (DOTween.instance != null) {
-            DOTween.Clear(true);
             FieldInfo isQuittingField = typeof(DOTween).GetField("isQuitting", BindingFlags.Static | BindingFlags.NonPublic);
             isQuittingField.SetValue(DOTween.instance, false);
             Destroy(DOTween.instance);
