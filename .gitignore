@@ -1,12 +1,12 @@
-Library/
-Temp/
-.vs/
-obj/
 *.csproj
 *.sln
 *.zip
 *.rar
 
+.vs/
+obj/
+Library/
+Temp/
 
 Recordings/
 Res/
