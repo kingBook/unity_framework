@@ -58,4 +58,27 @@ public static class TransformUtil {
         }
         return vertices;
     }
+
+    /// <summary>
+    /// 吊销所有子级
+    /// </summary>
+    /// <param name="parent"></param>
+    public static void DeactiveChildren(Transform parent) {
+        for (int i = 0, len = parent.childCount; i < len; i++) {
+            Transform child = parent.GetChild(i);
+            child.gameObject.SetActive(false);
+        }
+    }
+
+    /// <summary>
+    /// 激活一个子级并吊销其他子级
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="childSiblingIndex"></param>
+    public static void ActiveChildAndDeactiveOtherChildren(Transform parent, int childSiblingIndex) {
+        for (int i = 0, childCount = parent.childCount; i < childCount; i++) {
+            Transform child = parent.GetChild(i);
+            child.gameObject.SetActive(i == childSiblingIndex);
+        }
+    }
 }

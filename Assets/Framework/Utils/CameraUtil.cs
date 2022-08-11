@@ -21,4 +21,30 @@ public static class CameraUtil {
         return result;
     }
 
+    /// <summary>
+    /// 设置相机渲染到纹理
+    /// </summary>
+    /// <param name="camera"></param>
+    /// <param name="targetTexture"></param>
+    public static void SetCameraToRenderTexture(Camera camera, RenderTexture targetTexture) {
+        if (targetTexture) {
+            camera.targetTexture = targetTexture;
+        }
+        //必须为 CameraClearFlags.SolidColor或CameraClearFlags.Depth，CameraClearFlags.Nothing 时会不显示
+        camera.clearFlags = CameraClearFlags.SolidColor;
+
+        //CameraClearFlags.SolidColor时会有背景色，需要设置背景色透明
+        Color color = camera.backgroundColor;
+        color.a = 0f;
+        camera.backgroundColor = color;
+    }
+
+    /// <summary>
+    /// 设置相机渲染到纹理
+    /// </summary>
+    /// <param name="camera"></param>
+    public static void SetCameraToRenderTexture(Camera camera) {
+        SetCameraToRenderTexture(camera, null);
+    }
+
 }

@@ -37,4 +37,22 @@ public static class GameObjectUtil {
         }
         return bounds;
     }
+
+    /// <summary>
+    /// 吊销所有子级
+    /// </summary>
+    /// <param name="parent"></param>
+    public static void DeactiveChildren(GameObject parent) {
+        TransformUtil.DeactiveChildren(parent.transform);
+    }
+
+
+    /// <summary>
+    /// 激活一个子级并吊销其他子级
+    /// </summary>
+    /// <param name="parent"></param>
+    /// <param name="childSiblingIndex"></param>
+    public static void ActiveChildAndDeactiveOtherChildren(GameObject parent, int childSiblingIndex) {
+        TransformUtil.ActiveChildAndDeactiveOtherChildren(parent.transform, childSiblingIndex);
+    }
 }
