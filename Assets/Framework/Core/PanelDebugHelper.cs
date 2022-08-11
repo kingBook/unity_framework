@@ -23,6 +23,7 @@ public class PanelDebugHelper : MonoBehaviour {
 
     [SerializeField] GameObject[] m_groups;
     [SerializeField] private TMP_Text m_textInfo;
+    [SerializeField] private TMP_Text m_textOutputOneLine;
     [SerializeField] private TMP_Text m_textPauseOrResume;
     [SerializeField] private TMP_InputField m_inputFieldOutput;
     [SerializeField] private TMP_InputField m_inputFieldLevelNumber;
@@ -128,6 +129,8 @@ public class PanelDebugHelper : MonoBehaviour {
 
     private void LogHandler(string logString, string stackTrace, LogType type) {
         if (m_isPause) return;
+
+        m_textOutputOneLine.text = $"[{System.DateTime.Now.ToString("HH:mm:ss")}] {logString}";
 
         // 单行时，每次清空
         if (m_isSingleLine) {

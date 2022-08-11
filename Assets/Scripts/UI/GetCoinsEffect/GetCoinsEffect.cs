@@ -51,8 +51,11 @@ public class GetCoinsEffect : MonoBehaviour {
     [Tooltip("允许射线投射计算（UI 按钮在动画结束前是否能被点击）")]
     public bool allowRaycast;
 
-    [SerializeField]
+    [SerializeField, Tooltip("展开时的音效")]
     private AudioClip m_audioClip;
+
+    [SerializeField, Tooltip("收集完一个时的音效")]
+    private AudioClip m_audoClipOne;
 
     private CoinImage[] m_coinImageInstances;
 
@@ -151,6 +154,16 @@ public class GetCoinsEffect : MonoBehaviour {
     /// </summary>
     private void OnCoinTweenComplete() {
         m_tweenCompleteCount++;
+
+        // 音效
+        if (m_tweenCompleteCount % 2 == 0) {
+            if (m_audioClip) {
+                App.instance.audioManager.PlayEffect(m_audoClipOne, Camera.main.transform);
+            }
+        }
+
+        // 振动
+        App.instance.vibrator.VibratePop();
 
         float progress = (float)m_tweenCompleteCount / coinImageCount;
 
