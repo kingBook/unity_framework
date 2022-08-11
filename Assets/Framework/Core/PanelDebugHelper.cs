@@ -11,14 +11,19 @@ using UnityEditor;
 public class PanelDebugHelper : MonoBehaviour {
 
     /// <summary>
-    /// 添加金钱事件，函数格式：<code> void OnAddMoneys() </code>
+    /// 添加金钱事件，回调函数格式：<code> void OnAddMoneysHandler() </code>
     /// </summary>
     public event System.Action onAddMoneysEvent;
 
     /// <summary>
-    /// 进入指定关卡事件，函数格式：<code> void onGotoLevel(int levelNumber) </code>
+    /// 进入指定关卡事件，回调函数格式：<code> void OnGotoLevelHandler(int levelNumber) </code>
     /// </summary>
     public event System.Action<int> onGotoLevelEvent;
+
+    /// <summary>
+    /// 切换解锁状态事件，回调函数格式: <code> void OnToggleUnlockLevelHandler(bool isUnlockLevel) </code>
+    /// </summary>
+    public event System.Action<bool> onToggleUnlockLevelEvent;
 
 
     [SerializeField] GameObject[] m_groups;
@@ -75,7 +80,7 @@ public class PanelDebugHelper : MonoBehaviour {
             onGotoLevelEvent?.Invoke(levelNumber);
         } else {
             m_inputFieldLevelNumber.text = "";
-            Debug.Log("请输入正确的关卡数字");
+            Debug.Log("Please enter the level number");
         }
 
     }
@@ -98,6 +103,7 @@ public class PanelDebugHelper : MonoBehaviour {
         for (int i = 0; i < m_groups.Length; i++) {
             m_groups[i].SetActive(m_groupIndex == i);
         }
+        m_textOutputOneLine.text = "";
     }
 
     private void UpdateInfoText() {
@@ -142,7 +148,6 @@ public class PanelDebugHelper : MonoBehaviour {
             m_inputFieldOutput.text += stackTrace + '\n';
         }
     }
-
 
     private void Awake() {
         ActiveGroup(0);

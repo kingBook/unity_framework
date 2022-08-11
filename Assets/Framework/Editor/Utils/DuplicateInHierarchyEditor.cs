@@ -3,12 +3,17 @@ using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using UnityEditor;
+using UnityEditor.Experimental.SceneManagement;
+using UnityEditor.SceneManagement;
+using UnityEditorInternal;
 using UnityEngine;
 
 /// <summary>
 /// 扩展 Edit/Duplicate Ctrl+Shift+D 向下复制对象菜单
 /// </summary>
 public class DuplicateInHierarchyEditor : ScriptableObject {
+
+    private static readonly List<GameObject> s_tempList = new List<GameObject>();
 
     [MenuItem("Edit/Duplicate Downward %#d", true)]
     private static bool ValidateDuplicateDownward() {
@@ -36,10 +41,15 @@ public class DuplicateInHierarchyEditor : ScriptableObject {
             int siblingIndex = original.transform.GetSiblingIndex();
             maxSiblingIndex = Mathf.Max(siblingIndex, maxSiblingIndex);
         }
-
+        
         for (int i = 0; i < len; i++) {
             GameObject original = gameObjects[i];
-            GameObject inst = Instantiate(original, original.transform.parent, true);
+            //PrefabUtility.InstantiatePrefab
+            GameObject inst = null;
+            if (PrefabUtility.IsAnyPrefabInstanceRoot(original)) {
+            } else {
+            }
+            inst = Instantiate(original, original.transform.parent, true);
             inst.name = GetNewInstanceName(original);
             Undo.RegisterCreatedObjectUndo(inst, $"Duplicate Downward {original.name}"); // 记录撤消
             maxSiblingIndex++;
@@ -90,12 +100,13 @@ public class DuplicateInHierarchyEditor : ScriptableObject {
     /// 去除是其它项的子级的项
     /// </summary>
     private static void RemoveChildOfGameObjects(ref GameObject[] gameObjects) {
-        List<GameObject> tempList = new List<GameObject>(gameObjects);
-        for (int i = tempList.Count - 1; i >= 0; i--) {
-            GameObject a = tempList[i];
+        s_tempList.Clear();
+        s_tempList.AddRange(gameObjects);
+        for (int i = s_tempList.Count - 1; i >= 0; i--) {
+            GameObject a = s_tempList[i];
             bool isRemove = false;
-            for (int j = 0; j < tempList.Count; j++) {
-                GameObject b = tempList[j];
+            for (int j = 0; j < s_tempList.Count; j++) {
+                GameObject b = s_tempList[j];
                 if (a == b) continue;
                 if (a.transform.IsChildOf(b.transform)) {
                     isRemove = true;
@@ -103,10 +114,10 @@ public class DuplicateInHierarchyEditor : ScriptableObject {
                 }
             }
             if (isRemove) {
-                tempList.RemoveAt(i);
+                s_tempList.RemoveAt(i);
             }
         }
-        gameObjects = tempList.ToArray();
+        gameObjects = s_tempList.ToArray();
     }
 
 }
