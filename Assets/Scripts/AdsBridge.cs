@@ -16,12 +16,14 @@ public static class AdsBridge {
         LevelFailure
     }
 
+    #region Test
     /// <summary> 延时 (此方法仅用于测试) </summary>
     private static async void Delay(System.Action callback) {
         await Task.Delay(1000);
         Debug.Log("== 模拟展示广告完成");
         callback();
     }
+    #endregion
 
     /// <summary>
     /// 标记打点
@@ -31,17 +33,15 @@ public static class AdsBridge {
     public static void MarkPoint(PointInfo info, int id = -1) {
         // 使用 info.ToString() 获取字符串 Key
         Debug.Log($"== 标记打点: info:{info.ToString()}, id:{id} ");
-#if UNITY_IOS
+
         switch (info) {
             case PointInfo.LevelStart:
-                //AnalyticsManager.LevelStart(id);
+                break;
+            case PointInfo.LevelVictory:
+                break;
+            case PointInfo.LevelFailure:
                 break;
         }
-#elif UNITY_ANDROID
-
-#else
-        
-#endif
     }
 
     /// <summary>
@@ -55,17 +55,10 @@ public static class AdsBridge {
         // onUserEarnedReward.Invoke(); // 注意:勿重复多次调用
         // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
         // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
-#if UNITY_IOS
-        //AdsManager.instance.ShowRewardAd(onUserEarnedReward, OnAdClosed, OnAdOpening);
-#elif UNITY_ANDROID
+
         // 模拟测试代码
         OnAdOpening?.Invoke();
         Delay(onUserEarnedReward);
-#else
-        // 模拟测试代码
-        OnAdOpening?.Invoke();
-        Delay(onUserEarnedReward);
-#endif
     }
 
     /// <summary>
@@ -77,21 +70,12 @@ public static class AdsBridge {
         // TODO: 插屏广告接口
         // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
         // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
-#if UNITY_IOS
-        //AdsManager.instance.ShowInterstitial();
-#elif UNITY_ANDROID
+
         // 模拟测试代码
         OnAdOpening?.Invoke();
         if (OnAdClosed != null) {
             Delay(OnAdClosed);
         }
-#else
-        // 模拟测试代码
-        OnAdOpening?.Invoke();
-        if (OnAdClosed != null) {
-            Delay(OnAdClosed);
-        }
-#endif
     }
 
     /// <summary>
@@ -100,12 +84,6 @@ public static class AdsBridge {
     /// <param name="id"> 0: xx游戏；1：xxx游戏 </param>
     public static void LinkToOtherGame(int id) {
         Debug.Log("== 点击'推广其他游戏'按钮:" + id);
-#if UNITY_IOS
-        //UnityStoreKitMgr.Instance.ShowAppDetail("1495959578");
-#elif UNITY_ANDROID
 
-#else
-        
-#endif
     }
 }
