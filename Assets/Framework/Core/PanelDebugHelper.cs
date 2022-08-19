@@ -87,6 +87,7 @@ public class PanelDebugHelper : MonoBehaviour {
 
     public void OnToggleUnlockLevel() {
         m_isUnlockLevel = !m_isUnlockLevel;
+        onToggleUnlockLevelEvent?.Invoke(m_isUnlockLevel);
     }
 
     public void OnToggleStackTrace() {
