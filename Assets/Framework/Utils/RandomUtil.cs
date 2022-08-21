@@ -7,8 +7,6 @@ using System.Collections.Generic;
 /// </summary>
 public static class RandomUtil {
 
-    private static int[] s_rangeInts = new int[24];
-
     /// <summary> 随机返回浮点数 1.0f 或 -1.0f </summary>
     public static float sign => Random.value > 0.5f ? 1f : -1f;
 
@@ -44,68 +42,121 @@ public static class RandomUtil {
         return results;
     }
 
+    /*public static void GetRandomInts(int min, int max, int[] result, int length) {
+
+    }*/
+
     /// <summary>
     /// 从一个数组中随机获取 [min, max) 个元素
     /// </summary>
-    public static T[] GetRandomElements<T>(T[] collection, int min, int max) {
+    /// <typeparam name="T"></typeparam>
+    /// <param name="collection"> 源数组 </param>
+    /// <param name="tempCollection"> 函数内部使用的临时数组，长度不能小于 collection.Length </param>
+    /// <param name="result"> 存储结果的数组 </param>
+    /// <param name="min">  </param>
+    /// <param name="max">  </param>
+    /// <returns> 返回获取随机元素的个数 </returns>
+    public static int GetRandomElements<T>(T[] collection, T[] tempCollection, T[] result, int min, int max) {
+        if (result.Length < max) {
+            Debug.LogError($"The length of result cannot be less than max");
+        }
         int count = Random.Range(min, max);
-        return GetRandomElements(collection, count);
+        GetRandomElements(collection, tempCollection, result, count);
+        return count;
     }
 
     /// <summary>
     /// 从一个数组中随机获取 count 个元素
     /// </summary>
-    public static T[] GetRandomElements<T>(T[] collection, int count) {
-        count = Mathf.Clamp(count, 0, collection.Length);
-        T[] results = new T[count];
-        List<T> tempList = new List<T>(collection);
-        for (int i = 0; i < count; i++) {
-            int index = Random.Range(0, tempList.Count);
-            results[i] = tempList[index];
-            tempList.RemoveAt(index);
+    /// <typeparam name="T"></typeparam>
+    /// <param name="collection"> 源数组 </param>
+    /// <param name="tempCollection"> 函数内部使用的临时数组，长度不能小于 collection.Length </param>
+    /// <param name="result"> 存储结果的数组 </param>
+    /// <param name="count"> 获取随机元素的个数 </param>
+    /// <returns> 返回获取随机元素的个数 </returns>
+    public static int GetRandomElements<T>(T[] collection, T[] tempCollection, T[] result, int count) {
+        if (tempCollection.Length < collection.Length) {
+            Debug.LogError($"The length of tempCollection cannot be less than {collection.Length} (collection.Length)");
         }
-        return results;
+        if (result.Length < count) {
+            Debug.LogError($"The length of result cannot be less than {count}");
+        }
+
+        collection.CopyTo(tempCollection, 0);
+
+        RandomizeArray(tempCollection, count);
+
+        for (int i = 0; i < count; i++) {
+            result[i] = tempCollection[i];
+        }
+        return count;
     }
 
     /// <summary>
-    /// 获取随机化后的数组
+    /// 随机化的一个数组
     /// </summary>
-    public static T[] GetRandomizedArray<T>(T[] collection) {
-        int count = collection.Length;
-        T[] results = new T[count];
-        List<T> tempList = new List<T>(collection);
-        for (int i = 0; i < count; i++) {
-            int index = Random.Range(0, tempList.Count);
-            results[i] = tempList[index];
-            tempList.RemoveAt(index);
-        }
-        return results;
+    public static void RandomizeArray<T>(T[] collection) {
+        RandomizeArray<T>(collection, collection.Length);
     }
 
     /// <summary>
-    /// 返回一个介于min[包括]和max[排除]之间的随机整数（此方法与<see cref="Random.Range(int, int)"/>作用一样，增加的 ignores 参数，用于设置忽略的随机数，效率较低）
+    /// 随机化的一个数组
     /// </summary>
-    public static int Range(int min, int max, params int[] ignores) {
+    public static void RandomizeArray<T>(T[] collection, int length) {
+        for (int i = 0; i < length; i++) {
+            int randomIndex = Random.Range(0, length);
+            T val = collection[i];
+            collection[i] = collection[randomIndex];
+            collection[randomIndex] = val;
+        }
+    }
+
+    /// <summary>
+    /// 随机化的一个 List
+    /// </summary>
+    public static void RandomizeList<T>(List<T> collection) {
+        RandomizeList<T>(collection, collection.Count);
+    }
+
+    /// <summary>
+    /// 随机化的一个 List
+    /// </summary>
+    public static void RandomizeList<T>(List<T> collection, int length) {
+        for (int i = 0; i < length; i++) {
+            int randomIndex = Random.Range(0, length);
+            T val = collection[i];
+            collection[i] = collection[randomIndex];
+            collection[randomIndex] = val;
+        }
+    }
+
+    /// <summary>
+    /// 返回一个介于min[包括]和max[排除]之间的随机整数（此方法与<see cref="Random.Range(int, int)"/>作用一样）
+    /// <para> 增加的 ignores 参数，用于设置忽略的随机数 </para>
+    /// <para> 注意：tempInts用于内部计算长度不能小于 max-min-ignores.Length </para>
+    /// </summary>
+    public static int Range(int min, int max, int[] ignores, int[] tempInts) {
         int count = max - min;
-        if (s_rangeInts.Length < count) {
-            s_rangeInts = new int[count];
+
+        if (tempInts.Length < count - ignores.Length) {
+            Debug.LogError($"The length of tempInts cannot be less than {count - ignores.Length} (max-min-ignores.Length).");
         }
 
-        int spaceCount = 0;
+        int ignoreCount = 0;
         for (int i = 0; i < count; i++) {
             int n = min + i;
             if (System.Array.IndexOf(ignores, n) > -1) {
-                spaceCount++;
+                ignoreCount++;
                 continue;
             }
-            s_rangeInts[i - spaceCount] = n;
+            tempInts[i - ignoreCount] = n;
         }
 
-        count -= spaceCount;
+        count -= ignoreCount;
         if (count <= 0) {
-            Debug.LogError("[min,max) 区间的整数，全被忽略，全在ignores里，将返回最小整数 0");
+            Debug.LogError("All numbers from min to max are in the ignored range.");
             return 0;
         }
-        return s_rangeInts[Random.Range(0, count)];
+        return tempInts[Random.Range(0, count)];
     }
 }

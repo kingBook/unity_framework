@@ -104,7 +104,6 @@ public class PanelDebugHelper : MonoBehaviour {
         for (int i = 0; i < m_groups.Length; i++) {
             m_groups[i].SetActive(m_groupIndex == i);
         }
-        m_textOutputOneLine.text = "";
     }
 
     private void UpdateInfoText() {
@@ -151,6 +150,7 @@ public class PanelDebugHelper : MonoBehaviour {
     }
 
     private void Awake() {
+        m_textOutputOneLine.text = "";
         ActiveGroup(0);
     }
 
