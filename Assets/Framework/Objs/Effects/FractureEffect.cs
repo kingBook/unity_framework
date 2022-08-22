@@ -14,12 +14,13 @@ public class FractureEffect : MonoBehaviour {
     [Tooltip("爆炸中心, null时当前 Transfrom 的位置")] public Transform explosionCenterTransform;
     public Vector3 explosionCenterOffset = new Vector3(0f, -0.5f, 0f);
 
-    private const uint FlagExplosioning = 1;
+    private const uint FLAG_EXPLOSIONING = 1;
 
     private FracturePart[] m_parts;
     private List<int> m_explosionLittleUsedIndices;
-
     private bool m_isInited;
+    private int[] m_tempInts;
+    private int[] m_randomIndices;
 
     public bool isExplosioning { get; private set; }
 
@@ -70,11 +71,17 @@ public class FractureEffect : MonoBehaviour {
         }
 
         // 从未爆炸碎片列表中随机取几个(注意此列表中的元素是 partIndices 的索引)
-        int[] randomIndices = RandomUtil.GetRandomUniqueIntList(0, partIndices.Count, Random.Range(2, 4));
+        if (m_tempInts == null) {
+            m_tempInts = new int[partIndices.Count];
+        }
+        if (m_randomIndices == null) {
+            m_randomIndices = new int[partIndices.Count];
+        }
+        int randomIndicesCount = RandomUtil.GetRandomInts(0, partIndices.Count, m_tempInts, m_randomIndices, Random.Range(2, 4));
 
-        FracturePart[] littleParts = new FracturePart[randomIndices.Length];
-        for (int i = 0, len = randomIndices.Length; i < len; i++) {
-            int index = partIndices[randomIndices[i]];
+        FracturePart[] littleParts = new FracturePart[randomIndicesCount];
+        for (int i = 0; i < randomIndicesCount; i++) {
+            int index = partIndices[m_randomIndices[i]];
             FracturePart part = m_parts[index];
             float explosionForce = Random.Range(explosionForceRange.min, explosionForceRange.max);
             float explosionRadius = Random.Range(explosionRadiusRange.min, explosionRadiusRange.max);

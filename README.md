@@ -5,7 +5,6 @@ Unity Framework
 =================== Framework start ===================
 Framework 待完善的功能: 
 * App.instance.Delay()需要重新加回来，参考racingTravel游戏，因为需要在执行一些延时操作时，需要在游戏暂停时不计算时间，游戏恢复暂停时继续计算延时，App.instance.Delay()实现了这一功能
-* RandomUtil.cs 中许多方法会分配内存，在运行时可能较慢
 * ctrl+shift+d 复制关联预制件的对象时，会失去关联
 * 扩展 Export Package 功能，使其能导出 Project Settings
 * 解压 .fbx 材质时， 场景中引用此 .fbx 的对象被 "Unpack Prefab" 时，材质、网格等会失去关联
