@@ -45,6 +45,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.library.line2d": {
+      "version": "file:Line2D",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.unity.2d.sprite": {
       "version": "1.0.0",
       "depth": 0,
