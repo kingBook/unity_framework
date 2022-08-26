@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿#if UNITY_EDITOR
+using UnityEngine;
 using UnityEditor;
 using System.Collections;
+using UnityEngine.SceneManagement;
+using UnityEditor.SceneManagement;
 
 namespace Line2D
 {
@@ -12,11 +15,13 @@ namespace Line2D
             GameObject newLine2d = CreateGameObjectInScene("Line2D");
             CenterOnScreen(newLine2d, 0);
             newLine2d.AddComponent<Line2DRenderer>();
+            Undo.RegisterCreatedObjectUndo(newLine2d, "Created Line2D");
         }
 
         public static GameObject CreateGameObjectInScene(string name)
         {
             GameObject go = new GameObject(GetRealName(name));
+            
             if (Selection.activeGameObject != null)
             {
                 string assetPath = AssetDatabase.GetAssetPath(Selection.activeGameObject);
@@ -26,7 +31,7 @@ namespace Line2D
                     go.layer = Selection.activeGameObject.layer;
                 }
             }
-            
+
             ResetLocalTransform(go);
             return go;
         }
@@ -61,3 +66,4 @@ namespace Line2D
     }
 
 }
+#endif
