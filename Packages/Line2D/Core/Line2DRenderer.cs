@@ -46,6 +46,8 @@ namespace Line2D {
                 UpdateCompleteLine();
                 lineMeshBuffer.Apply();
             }
+
+            meshRenderer.forceRenderingOff = points.Count < 2;
         }
 
         public void Apply() {
@@ -88,7 +90,9 @@ namespace Line2D {
                 if (Application.isPlaying) {
                     meshRenderer.sharedMaterial = new Material(Shader.Find("Sprites/Default"));
                 } else {
+#if UNITY_EDITOR
                     meshRenderer.sharedMaterial = UnityEditor.AssetDatabase.GetBuiltinExtraResource<Material>("Sprites-Default.mat");
+#endif
                 }
             }
         }
