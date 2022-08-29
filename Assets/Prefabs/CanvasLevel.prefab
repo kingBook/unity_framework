@@ -376,6 +376,7 @@ MonoBehaviour:
   stopOnCreated: 0
   allowRaycast: 0
   m_audioClip: {fileID: 0}
+  m_audoClipOne: {fileID: 0}
 --- !u!1 &3656639484748880004
 GameObject:
   m_ObjectHideFlags: 0
@@ -908,6 +909,8 @@ MonoBehaviour:
   directionInput: {fileID: 2832697816100491035}
   keyInput: {fileID: 2832697816190550564}
   m_clickAudioClip: {fileID: 8300000, guid: fe3158873d6186744a41d20f4df0bac5, type: 3}
+  m_addMoneysEffectPrefab: {fileID: 6063334482267025979}
+  m_getCoinsEffectPrefab: {fileID: 4537699649411771537}
 --- !u!1 &8449355929401539421
 GameObject:
   m_ObjectHideFlags: 0
