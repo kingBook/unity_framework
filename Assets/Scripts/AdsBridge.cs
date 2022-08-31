@@ -20,7 +20,7 @@ public static class AdsBridge {
     /// <summary> 延时 (此方法仅用于测试) </summary>
     private static async void Delay(System.Action callback) {
         await Task.Delay(1000);
-        Debug.Log("== 模拟展示广告完成");
+        Debug.Log("== Test display AD completed");
         callback();
     }
     #endregion
@@ -32,7 +32,7 @@ public static class AdsBridge {
     /// <param name="id"> 当多条相同的打点信息时用于区分的 Id，例如：MarkPoint(MarkInfo.LevelStart, 1/2/3...)，-1 时表示省略 </param>
     public static void MarkPoint(PointInfo info, int id = -1) {
         // 使用 info.ToString() 获取字符串 Key
-        Debug.Log($"== 标记打点: info:{info.ToString()}, id:{id} ");
+        Debug.Log($"== MarkPoint: info:{info.ToString()}, id:{id} ");
 
         switch (info) {
             case PointInfo.LevelStart:
@@ -83,7 +83,7 @@ public static class AdsBridge {
     /// </summary>
     /// <param name="id"> 0: xx游戏；1：xxx游戏 </param>
     public static void LinkToOtherGame(int id) {
-        Debug.Log("== 点击'推广其他游戏'按钮:" + id);
+        Debug.Log("== Click the link to other games button:" + id);
 
     }
 }
