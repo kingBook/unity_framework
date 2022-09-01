@@ -7,6 +7,7 @@ public class CanvasLevel : MonoBehaviour {
 
     public DirectionInput directionInput;
     public KeyInput keyInput;
+    public PanelInfo panelInfo;
 
     [Space]
     [SerializeField] private AudioClip m_clickAudioClip;
@@ -34,7 +35,10 @@ public class CanvasLevel : MonoBehaviour {
         effect.SetAddCount(addCount);
         effect.onCompleteEvent += (AddMoneysEffect addMoneysEffect, float progress, int addCount2) => {
             if (this && m_game) {
-                //m_game.SetDiamondsCount(m_game.roseCount + addCount2, progress >= 1f);
+                m_game.SetMoneyCount(m_game.moneyCount + addCount2);
+                if(progress >= 1f) {
+                    PlayerPrefs.Save();
+                }
             }
 
             if (progress >= 1f) {
@@ -69,13 +73,10 @@ public class CanvasLevel : MonoBehaviour {
         effect.SetAddCount(addCount);
         effect.onCompleteEvent += (GetCoinsEffect getCoinsEffect, float progress, int addCount2) => {
             if (this && m_game) {
-                //m_game.SetDiamondsCount(m_game.roseCount + addCount, progress >= 1f);
-                //播放音效和震动
-                //if (Time.time - m_lastPlayGetRoseAudioTime > 0.05f) {
-                //    App.instance.audioManager.PlayEffect(m_getRoseAudioClip, Camera.main.transform);
-                //    App.instance.VibratePop();
-                //    m_lastPlayGetRoseAudioTime = Time.time;
-                //}
+                m_game.SetMoneyCount(m_game.moneyCount + addCount2);
+                if (progress >= 1f) {
+                    PlayerPrefs.Save();
+                }
             }
 
             if (progress >= 1f) {
