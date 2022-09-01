@@ -56,7 +56,7 @@ Material:
     - _FaceUVSpeedY: 0
     - _GlowInner: 0.05
     - _GlowOffset: 0
-    - _GlowOuter: 0.05
+    - _GlowOuter: 0.496
     - _GlowPower: 0.75
     - _GradientScale: 6
     - _LightAngle: 3.1416
@@ -3095,8 +3095,7 @@ MonoBehaviour:
     atlasWidth: 512
     atlasHeight: 512
     characterSetSelectionMode: 8
-    characterSequence: "abcdefghijklmnopqrstuvwxyz\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n,./?<>;:'\"[]{}\\|\r\n\xB71234567890-=+\u2014\u2014\uFF09\uFF08\uFF09*&\u2026\u2026%\uFFE5#@\uFF01~\r\n
-      \uFF0C\u3002\u3001\u300A\u300B\uFF1F\u2018\u2019\u201C\u201D\uFF1B\uFF1A\u3010\u3011\uFF5B\uFF5D\u3001|
+    characterSequence: "abcdefghijklmnopqrstuvwxyz\r\nABCDEFGHIJKLMNOPQRSTUVWXYZ\r\n,./?<>;:'\"[]{}\\|\r\n\xB71234567890-=+\u2014\u2014\uFF09\uFF08\uFF09*&\u2026\u2026%\uFFE5#@\uFF01~\r\n\uFF0C\u3002\u3001\u300A\u300B\uFF1F\u2018\u2019\u201C\u201D\uFF1B\uFF1A\u3010\u3011\uFF5B\uFF5D\u3001|
       =+-\u2014\u2014\uFF08\uFF09*&\u2026\u2026%\uFFE5##@\uFF01~\xB7~!@#$%^&*()__+=-"
     referencedFontAssetGUID: f134616839dbb30498af27fdab55cd1a
     referencedTextAssetGUID: 082880c072c22e84c9b56b0b42cfcb3f
