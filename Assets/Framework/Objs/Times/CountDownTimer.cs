@@ -42,6 +42,7 @@ public class CountDownTimer : MonoBehaviour {
     public void StartTimer() {
         ResetTime();
         InvokeRepeating(nameof(OnTimer), 1f, 1f);
+        m_isPaused = false;
         isStarted = true;
     }
 
