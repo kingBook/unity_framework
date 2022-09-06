@@ -12,6 +12,11 @@ public class CountDownTimer : MonoBehaviour {
     private bool m_isPaused;
 
     /// <summary>
+    /// 计时事件，回调函数格式：<code> void OnTimerHandler(int timeSeconds) </code>
+    /// </summary>
+    public event System.Action<int> onTimerEvent;
+
+    /// <summary>
     /// 时间到事件，回调函数格式：<code> void OnTimeUpHandler() </code>
     /// </summary>
     public event System.Action onTimeUpEvent;
@@ -66,6 +71,8 @@ public class CountDownTimer : MonoBehaviour {
     private void OnTimer() {
         if (m_isPaused) return;
         m_timeSeconds--;
+
+        onTimerEvent?.Invoke(m_timeSeconds);
 
         if (m_timeSeconds <= 0) {
             StopTimer();
