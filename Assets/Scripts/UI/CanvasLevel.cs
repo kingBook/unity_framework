@@ -8,6 +8,7 @@ public class CanvasLevel : MonoBehaviour {
     public DirectionInput directionInput;
     public KeyInput keyInput;
     public PanelInfo panelInfo;
+    public PanelFullScreenNotice panelFullScreenNotice;
 
     [Space]
     [SerializeField] private AudioClip m_clickAudioClip;
