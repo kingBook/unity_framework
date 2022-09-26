@@ -25,16 +25,14 @@
       "source": "embedded",
       "dependencies": {}
     },
-    "com.esotericsoftware.spine.urp-shaders": {
-      "version": "file:com.esotericsoftware.spine.urp-shaders-3.8-2019.3",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.render-pipelines.universal": "7.1.5"
-      }
-    },
     "com.library.external-assets": {
       "version": "file:External Assets",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.library.flash-animation-toolset": {
+      "version": "file:FlashAnimationToolset",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
@@ -133,38 +131,12 @@
       },
       "url": "https://packages.unity.cn"
     },
-    "com.unity.render-pipelines.core": {
-      "version": "file:com.unity.render-pipelines.core@7.7.1",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.ugui": "1.0.0",
-        "com.unity.modules.physics": "1.0.0"
-      }
-    },
-    "com.unity.render-pipelines.universal": {
-      "version": "file:com.unity.render-pipelines.universal@7.7.1",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.render-pipelines.core": "7.7.1",
-        "com.unity.shadergraph": "7.7.1"
-      }
-    },
     "com.unity.settings-manager": {
       "version": "1.0.3",
       "depth": 1,
       "source": "registry",
       "dependencies": {},
       "url": "https://packages.unity.cn"
-    },
-    "com.unity.shadergraph": {
-      "version": "file:com.unity.shadergraph@7.7.1",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.render-pipelines.core": "7.7.1"
-      }
     },
     "com.unity.test-framework": {
       "version": "1.1.33",

@@ -17,10 +17,10 @@ Shader "Custom/Skybox/Background 2D"
 
         Pass 
         {
-            HLSLPROGRAM
+            CGPROGRAM
             #pragma vertex vert
             #pragma fragment frag
-            #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
+            #include "UnityCG.cginc"
 
             CBUFFER_START(UnityPerMaterial)
                 half4 _Color;
@@ -42,7 +42,7 @@ Shader "Custom/Skybox/Background 2D"
             vertOut vert(vertIn v) 
             {
                 vertOut o;
-                o.pos = TransformObjectToHClip(v.vertex.xyz);
+                o.pos = UnityObjectToClipPos(v.vertex.xyz);
                 o.scrPos = ComputeScreenPos(o.pos);
                 return o;
             }
@@ -53,7 +53,7 @@ Shader "Custom/Skybox/Background 2D"
                 return tex2D(_MainTex, uv) * _Color;
             }
 
-            ENDHLSL
+            ENDCG
         }
     } 
 } 

@@ -1,0 +1,506 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>FTRuntime</name>
+    </assembly>
+    <members>
+        <member name="E:FTRuntime.SwfClip.OnChangeClipEvent">
+            <summary>
+            Occurs when clip changes
+            </summary>
+        </member>
+        <member name="E:FTRuntime.SwfClip.OnChangeSequenceEvent">
+            <summary>
+            Occurs when sequence changes
+            </summary>
+        </member>
+        <member name="E:FTRuntime.SwfClip.OnChangeCurrentFrameEvent">
+            <summary>
+            Occurs when current frame changes
+            </summary>
+        </member>
+        <member name="P:FTRuntime.SwfClip.sortingLayer">
+            <summary>
+            Gets or sets the animation mesh renderer sorting layer
+            </summary>
+            <value>The sorting layer</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.sortingOrder">
+            <summary>
+            Gets or sets the animation mesh renderer sorting order
+            </summary>
+            <value>The sorting order</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.tint">
+            <summary>
+            Gets or sets the animation tint color
+            </summary>
+            <value>The tint color</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.clip">
+            <summary>
+            Gets or sets the animation asset (reset sequence and current frame)
+            </summary>
+            <value>The animation asset</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.sequence">
+            <summary>
+            Gets or sets the animation sequence (reset current frame)
+            </summary>
+            <value>The animation sequence</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.currentFrame">
+            <summary>
+            Gets or sets the animation current frame
+            </summary>
+            <value>The animation current frame</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.frameCount">
+            <summary>
+            Gets the current animation sequence frame count
+            </summary>
+            <value>The frame count</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.frameRate">
+            <summary>
+            Gets the animation frame rate
+            </summary>
+            <value>The frame rate</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.currentLabelCount">
+            <summary>
+            Gets the current frame label count
+            </summary>
+            <value>The frame label count</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.currentLocalBounds">
+            <summary>
+            Gets the current frame mesh bounding volume in local space
+            (Since 1.3.8)
+            </summary>
+            <value>The bounding volume in local space</value>
+        </member>
+        <member name="P:FTRuntime.SwfClip.currentWorldBounds">
+            <summary>
+            Gets the current frame mesh bounding volume in world space
+            (Since 1.3.8)
+            </summary>
+            <value>The bounding volume in world space</value>
+        </member>
+        <member name="M:FTRuntime.SwfClip.ToBeginFrame">
+            <summary>
+            Rewind current sequence to begin frame
+            </summary>
+        </member>
+        <member name="M:FTRuntime.SwfClip.ToEndFrame">
+            <summary>
+            Rewind current sequence to end frame
+            </summary>
+        </member>
+        <member name="M:FTRuntime.SwfClip.ToPrevFrame">
+            <summary>
+            Rewind current sequence to previous frame
+            </summary>
+            <returns><c>true</c>, if animation was rewound, <c>false</c> otherwise</returns>
+        </member>
+        <member name="M:FTRuntime.SwfClip.ToNextFrame">
+            <summary>
+            Rewind current sequence to next frame
+            </summary>
+            <returns><c>true</c>, if animation was rewound, <c>false</c> otherwise</returns>
+        </member>
+        <member name="M:FTRuntime.SwfClip.GetCurrentFrameLabel(System.Int32)">
+            <summary>
+            Gets the current frame label by index
+            </summary>
+            <returns>The current frame label</returns>
+            <param name="index">Current frame label index</param>
+        </member>
+        <member name="M:FTRuntime.SwfClip.Internal_UpdateAllProperties">
+            <summary>
+            Update all animation properties (for internal use only)
+            </summary>
+        </member>
+        <member name="E:FTRuntime.SwfClipController.OnStopPlayingEvent">
+            <summary>
+            Occurs when the controller stops played clip
+            </summary>
+        </member>
+        <member name="E:FTRuntime.SwfClipController.OnPlayStoppedEvent">
+            <summary>
+            Occurs when the controller plays stopped clip
+            </summary>
+        </member>
+        <member name="E:FTRuntime.SwfClipController.OnRewindPlayingEvent">
+            <summary>
+            Occurs when the controller rewinds played clip
+            </summary>
+        </member>
+        <member name="T:FTRuntime.SwfClipController.PlayModes">
+            <summary>
+            Controller play modes
+            </summary>
+        </member>
+        <member name="F:FTRuntime.SwfClipController.PlayModes.Forward">
+            <summary>
+            Forward play mode
+            </summary>
+        </member>
+        <member name="F:FTRuntime.SwfClipController.PlayModes.Backward">
+            <summary>
+            Backward play mode
+            </summary>
+        </member>
+        <member name="T:FTRuntime.SwfClipController.LoopModes">
+            <summary>
+            Controller loop modes
+            </summary>
+        </member>
+        <member name="F:FTRuntime.SwfClipController.LoopModes.Once">
+            <summary>
+            Once loop mode
+            </summary>
+        </member>
+        <member name="F:FTRuntime.SwfClipController.LoopModes.Loop">
+            <summary>
+            Repeat loop mode
+            </summary>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.autoPlay">
+            <summary>
+            Gets or sets a value indicating whether controller play after awake on scene
+            </summary>
+            <value><c>true</c> if auto play; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.useUnscaledDt">
+            <summary>
+            Gets or sets a value indicating whether controller uses unscaled delta time
+            </summary>
+            <value><c>true</c> if uses unscaled delta time; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.rateScale">
+            <summary>
+            Gets or sets the controller rate scale
+            </summary>
+            <value>The rate scale</value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.groupName">
+            <summary>
+            Gets or sets the controller group name
+            </summary>
+            <value>The group name</value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.playMode">
+            <summary>
+            Gets or sets the controller play mode
+            </summary>
+            <value>The play mode</value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.loopMode">
+            <summary>
+            Gets or sets the controller loop mode
+            </summary>
+            <value>The loop mode</value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.clip">
+            <summary>
+            Gets the controller clip
+            </summary>
+            <value>The clip</value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.isPlaying">
+            <summary>
+            Gets a value indicating whether controller is playing
+            </summary>
+            <value><c>true</c> if is playing; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:FTRuntime.SwfClipController.isStopped">
+            <summary>
+            Gets a value indicating whether controller is stopped
+            </summary>
+            <value><c>true</c> if is stopped; otherwise, <c>false</c></value>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.GotoAndStop(System.Int32)">
+            <summary>
+            Changes the animation frame with stops it
+            </summary>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.GotoAndStop(System.String,System.Int32)">
+            <summary>
+            Changes the animation sequence and frame with stops it
+            </summary>
+            <param name="sequence">The new sequence</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.GotoAndPlay(System.Int32)">
+            <summary>
+            Changes the animation frame with plays it
+            </summary>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.GotoAndPlay(System.String,System.Int32)">
+            <summary>
+            Changes the animation sequence and frame with plays it
+            </summary>
+            <param name="sequence">The new sequence</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.Stop(System.Boolean)">
+            <summary>
+            Stop with specified rewind action
+            </summary>
+            <param name="rewind">If set to <c>true</c> rewind animation to begin frame</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.Stop(System.String)">
+            <summary>
+            Changes the animation sequence and stop controller with rewind
+            </summary>
+            <param name="sequence">The new sequence</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.Play(System.Boolean)">
+            <summary>
+            Play with specified rewind action
+            </summary>
+            <param name="rewind">If set to <c>true</c> rewind animation to begin frame</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.Play(System.String)">
+            <summary>
+            Changes the animation sequence and play controller with rewind
+            </summary>
+            <param name="sequence">The new sequence</param>
+        </member>
+        <member name="M:FTRuntime.SwfClipController.Rewind">
+            <summary>
+            Rewind animation to begin frame
+            </summary>
+        </member>
+        <member name="M:FTRuntime.SwfManager.GetInstance(System.Boolean)">
+            <summary>
+            Get cached manager instance from scene or create it (if allowed)
+            </summary>
+            <returns>The manager instance</returns>
+            <param name="allow_create">If set to <c>true</c> allow create</param>
+        </member>
+        <member name="P:FTRuntime.SwfManager.clipCount">
+            <summary>
+            Get animation clip count on scene
+            </summary>
+            <value>Clip count</value>
+        </member>
+        <member name="P:FTRuntime.SwfManager.controllerCount">
+            <summary>
+            Get animation clip controller count on scene
+            </summary>
+            <value>Clip controller count</value>
+        </member>
+        <member name="P:FTRuntime.SwfManager.isPaused">
+            <summary>
+            Get or set a value indicating whether animation updates is paused
+            </summary>
+            <value><c>true</c> if is paused; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:FTRuntime.SwfManager.isPlaying">
+            <summary>
+            Get or set a value indicating whether animation updates is playing
+            </summary>
+            <value><c>true</c> if is playing; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:FTRuntime.SwfManager.useUnscaledDt">
+            <summary>
+            Get or set a value indicating whether animation updates uses unscaled delta time
+            </summary>
+            <value><c>true</c> if uses unscaled delta time; otherwise, <c>false</c></value>
+        </member>
+        <member name="P:FTRuntime.SwfManager.rateScale">
+            <summary>
+            Get or set the global animation rate scale
+            </summary>
+            <value>Global rate scale</value>
+        </member>
+        <member name="M:FTRuntime.SwfManager.Pause">
+            <summary>
+            Pause animation updates
+            </summary>
+        </member>
+        <member name="M:FTRuntime.SwfManager.Resume">
+            <summary>
+            Resume animation updates
+            </summary>
+        </member>
+        <member name="M:FTRuntime.SwfManager.PauseGroup(System.String)">
+            <summary>
+            Pause the group of animations by name
+            </summary>
+            <param name="group_name">Group name</param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.ResumeGroup(System.String)">
+            <summary>
+            Resume the group of animations by name
+            </summary>
+            <param name="group_name">Group name</param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.IsGroupPaused(System.String)">
+            <summary>
+            Determines whether group of animations is paused
+            </summary>
+            <returns><c>true</c> if group is paused; otherwise, <c>false</c></returns>
+            <param name="group_name">Group name</param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.IsGroupPlaying(System.String)">
+            <summary>
+            Determines whether group of animations is playing
+            </summary>
+            <returns><c>true</c> if group is playing; otherwise, <c>false</c></returns>
+            <param name="group_name">Group name</param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.SetGroupUseUnscaledDt(System.String,System.Boolean)">
+            <summary>
+            Set the group of animations use unscaled delta time
+            </summary>
+            <param name="group_name">Group name</param>
+            <param name="yesno"><c>true</c> if group will use unscaled delta time; otherwise, <c>false</c></param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.IsGroupUseUnscaledDt(System.String)">
+            <summary>
+            Determines whether group of animations uses unscaled delta time
+            </summary>
+            <returns><c>true</c> if group uses unscaled delta time; otherwise, <c>false</c></returns>
+            <param name="group_name">Group name</param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.SetGroupRateScale(System.String,System.Single)">
+            <summary>
+            Set the group of animations rate scale
+            </summary>
+            <param name="group_name">Group name</param>
+            <param name="rate_scale">Rate scale</param>
+        </member>
+        <member name="M:FTRuntime.SwfManager.GetGroupRateScale(System.String)">
+            <summary>
+            Get the group of animations rate scale
+            </summary>
+            <returns>The group rate scale</returns>
+            <param name="group_name">Group name</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.WaitForStopPlaying(FTRuntime.SwfClipController)">
+            <summary>Yield instruction for wait animation stop event</summary>
+            <returns>Yield instruction for wait animation stop event</returns>
+            <param name="ctrl">The controller</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.WaitForRewindPlaying(FTRuntime.SwfClipController)">
+            <summary>Yield instruction for wait animation rewind event</summary>
+            <returns>Yield instruction for wait animation rewind event</returns>
+            <param name="ctrl">The controller</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.WaitForStopOrRewindPlaying(FTRuntime.SwfClipController)">
+            <summary>Yield instruction for wait animation stop or rewind event</summary>
+            <returns>Yield instruction for wait animation stop or rewind event</returns>
+            <param name="ctrl">The controller</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.WaitForPlayStopped(FTRuntime.SwfClipController)">
+            <summary>Yield instruction for wait animation play event</summary>
+            <returns>Yield instruction for wait animation play event</returns>
+            <param name="ctrl">The controller</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.PlayAndWaitStop(FTRuntime.SwfClipController,System.Boolean)">
+            <summary>Play with specified rewind action</summary>
+            <returns>Yield instruction for wait animation stop event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="rewind">If set to <c>true</c> rewind animation to begin frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.PlayAndWaitStop(FTRuntime.SwfClipController,System.String)">
+            <summary>Changes the animation sequence and play controller with rewind</summary>
+            <returns>Yield instruction for wait animation stop event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.PlayAndWaitRewind(FTRuntime.SwfClipController,System.Boolean)">
+            <summary>Play with specified rewind action</summary>
+            <returns>Yield instruction for wait animation rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="rewind">If set to <c>true</c> rewind animation to begin frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.PlayAndWaitRewind(FTRuntime.SwfClipController,System.String)">
+            <summary>Changes the animation sequence and play controller with rewind</summary>
+            <returns>Yield instruction for wait animation rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.PlayAndWaitStopOrRewind(FTRuntime.SwfClipController,System.Boolean)">
+            <summary>Play with specified rewind action</summary>
+            <returns>Yield instruction for wait animation stop or rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="rewind">If set to <c>true</c> rewind animation to begin frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.PlayAndWaitStopOrRewind(FTRuntime.SwfClipController,System.String)">
+            <summary>Changes the animation sequence and play controller with rewind</summary>
+            <returns>Yield instruction for wait animation stop or rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndPlayAndWaitStop(FTRuntime.SwfClipController,System.Int32)">
+            <summary>Changes the animation frame with plays it</summary>
+            <returns>Yield instruction for wait animation stop event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndPlayAndWaitStop(FTRuntime.SwfClipController,System.String,System.Int32)">
+            <summary>Changes the animation sequence and frame with plays it</summary>
+            <returns>Yield instruction for wait animation stop event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndPlayAndWaitRewind(FTRuntime.SwfClipController,System.Int32)">
+            <summary>Changes the animation frame with plays it</summary>
+            <returns>Yield instruction for wait animation rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndPlayAndWaitRewind(FTRuntime.SwfClipController,System.String,System.Int32)">
+            <summary>Changes the animation sequence and frame with plays it</summary>
+            <returns>Yield instruction for wait animation rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndPlayAndWaitStopOrRewind(FTRuntime.SwfClipController,System.Int32)">
+            <summary>Changes the animation frame with plays it</summary>
+            <returns>Yield instruction for wait animation stop and rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndPlayAndWaitStopOrRewind(FTRuntime.SwfClipController,System.String,System.Int32)">
+            <summary>Changes the animation sequence and frame with plays it</summary>
+            <returns>Yield instruction for wait animation stop and rewind event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.StopAndWaitPlay(FTRuntime.SwfClipController,System.Boolean)">
+            <summary>Stop with specified rewind action</summary>
+            <returns>Yield instruction for wait animation play event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="rewind">If set to <c>true</c> rewind animation to begin frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.StopAndWaitPlay(FTRuntime.SwfClipController,System.String)">
+            <summary>Changes the animation sequence and stop controller with rewind</summary>
+            <returns>Yield instruction for wait animation play event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndStopAndWaitPlay(FTRuntime.SwfClipController,System.Int32)">
+            <summary>Changes the animation frame with stops it</summary>
+            <returns>Yield instruction for wait animation play event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="frame">The new current frame</param>
+        </member>
+        <member name="M:FTRuntime.Yields.SwfWaitExtensions.GotoAndStopAndWaitPlay(FTRuntime.SwfClipController,System.String,System.Int32)">
+            <summary>Changes the animation sequence and frame with stops it</summary>
+            <returns>Yield instruction for wait animation play event</returns>
+            <param name="ctrl">The clip controller</param>
+            <param name="sequence">The new sequence</param>
+            <param name="frame">The new current frame</param>
+        </member>
+    </members>
+</doc>
