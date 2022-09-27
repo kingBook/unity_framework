@@ -39,6 +39,12 @@
       "source": "embedded",
       "dependencies": {}
     },
+    "com.library.flash-animation-toolset": {
+      "version": "file:FlashAnimationToolset",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
     "com.library.highlighting-system": {
       "version": "file:HighlightingSystem",
       "depth": 0,
