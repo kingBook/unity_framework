@@ -7,8 +7,7 @@ public class Test : MonoBehaviour {
     public Text textTop;
     public Text text;
     public Text textBottom;
-
-
+    
     // Update is called once per frame
     void Update() {
         /*bool hasScreenPoint=InputUtil.GetTouchBeginScreenPoint(true,out Vector3 screenPoint,out int fingerId);
