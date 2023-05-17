@@ -140,7 +140,7 @@ namespace Line2D
 
                     if (line2d.useWorldSpace)
                     {
-                        Vector3 handlePos = Handles.FreeMoveHandle(line2d.points[i].pos, Quaternion.identity, line2d.points[i].width * 0.5f,  Vector3.zero,
+                        var fmh_143_90_638199473573632386 = Quaternion.identity; Vector3 handlePos = Handles.FreeMoveHandle(line2d.points[i].pos, line2d.points[i].width * 0.5f,  Vector3.zero,
                                                                    (controlID, position, rotation, size, eventType) => { controlIds1[i] = controlID; Handles.CircleHandleCap(controlID, position, rotation, size, eventType); } );
 
                         line2d.points[i].pos = new Vector3(handlePos.x , handlePos.y , line2d.points[i].pos.z);
@@ -150,7 +150,7 @@ namespace Line2D
                     }
                     else
                     {
-                        Vector3 handlePos = Handles.FreeMoveHandle(line2d.transform.position + line2d.points[i].pos, Quaternion.identity, line2d.points[i].width * 0.5f,  Vector3.zero,
+                        var fmh_153_118_638199473573671130 = Quaternion.identity; Vector3 handlePos = Handles.FreeMoveHandle(line2d.transform.position + line2d.points[i].pos, line2d.points[i].width * 0.5f,  Vector3.zero,
                                                                    (controlID, position, rotation, size, eventType) => { controlIds1[i] = controlID; Handles.CircleHandleCap(controlID, position, rotation, size, eventType); });
 
                         line2d.points[i].pos = new Vector3(handlePos.x - line2d.transform.position.x, handlePos.y - line2d.transform.position.y, line2d.points[i].pos.z);

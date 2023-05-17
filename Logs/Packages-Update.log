@@ -31,3 +31,17 @@ The following packages were updated:
   com.unity.render-pipelines.universal from version 7.7.1 to 12.1.11
   com.unity.textmeshpro from version 2.1.6 to 3.0.6
   nuget.mono-cecil from version 0.1.6-preview to 1.0.0
+
+=== Wed May 17 19:08:05 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were added:
+  com.unity.ai.navigation@1.1.1
+The following packages were updated:
+  com.unity.recorder from version 3.0.3 to 4.0.0
+  com.unity.render-pipelines.universal from version 12.1.11 to 14.0.7
+  com.unity.visualeffectgraph from version 12.1.11 to 14.0.7
+The following packages were removed:
+  com.unity.2d.path@5.0.2
