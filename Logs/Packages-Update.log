@@ -20,3 +20,14 @@ The following packages were updated:
   com.unity.timeline from version 1.0.0 to 1.2.18
 The following packages were removed:
   com.unity.package-manager-ui@2.1.2
+
+=== Wed May 17 00:20:09 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.burst from version 1.4.11 to 1.6.6
+  com.unity.render-pipelines.universal from version 7.7.1 to 12.1.11
+  com.unity.textmeshpro from version 2.1.6 to 3.0.6
+  nuget.mono-cecil from version 0.1.6-preview to 1.0.0

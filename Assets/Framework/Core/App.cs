@@ -115,7 +115,7 @@ public sealed class App : MonoBehaviour {
             // 暂停或恢复3D物理模拟
             Physics.autoSimulation = !this.isPause;
             // 暂停或恢复2D物理模拟
-            Physics2D.autoSimulation = !this.isPause;
+            //Physics2D.autoSimulation = !this.isPause;
         }
         if (isSetVolume) {
             AudioListener.pause = this.isPause;

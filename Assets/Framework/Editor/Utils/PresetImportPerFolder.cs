@@ -1,4 +1,4 @@
-﻿#if UNITY_EDITOR
+﻿/*#if UNITY_EDITOR
 using System.IO;
 using UnityEditor;
 using UnityEditor.Presets;
@@ -9,7 +9,6 @@ using UnityEditor.Experimental;
 using UnityEngine;
 
 namespace PresetImportPerFolder {
-
 #if UNITY_2020_1_OR_NEWER
     /// <summary>
     /// 此示例类将预设自动应用于包含预设的文件夹以及任何子文件夹中的资源。
@@ -242,4 +241,4 @@ namespace PresetImportPerFolder {
     }
 #endif
 }
-#endif
+#endif*/
