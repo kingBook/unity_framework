@@ -45,3 +45,12 @@ The following packages were updated:
   com.unity.visualeffectgraph from version 12.1.11 to 14.0.7
 The following packages were removed:
   com.unity.2d.path@5.0.2
+
+=== Fri Jun  9 17:15:10 2023
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.nuget.newtonsoft-json from version 3.2.0 to 3.2.1
+  com.unity.recorder from version 4.0.0 to 4.0.1

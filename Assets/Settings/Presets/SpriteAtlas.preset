@@ -161,28 +161,36 @@ Preset:
     value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_EditorData.packingSettings.enableAlphaDilation
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorData.secondaryTextureSettings.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_EditorData.variantMultiplier
     value: 1
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_EditorData.packables.Array.size
-    value: 3
+    value: 0
     objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_EditorData.packables.Array.data[0]
-    value: 
-    objectReference: {fileID: 2800000, guid: 65b485751b1752942bc54f8bf12e4258, type: 3}
-  - target: {fileID: 0}
-    propertyPath: m_EditorData.packables.Array.data[1]
-    value: 
-    objectReference: {fileID: 2800000, guid: afaac4b544a1c7f43b272414a3410ba6, type: 3}
-  - target: {fileID: 0}
-    propertyPath: m_EditorData.packables.Array.data[2]
-    value: 
-    objectReference: {fileID: 2800000, guid: cd39266075b917242ab70402c9dc8441, type: 3}
   - target: {fileID: 0}
     propertyPath: m_EditorData.bindAsDefault
     value: 1
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorData.isAtlasV2
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorData.cachedData
+    value: 
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
+    propertyPath: m_EditorData.packedSpriteRenderDataKeys.Array.size
+    value: 0
     objectReference: {fileID: 0}
   - target: {fileID: 0}
     propertyPath: m_MasterAtlas
@@ -221,6 +229,10 @@ Preset:
     value: back2
     objectReference: {fileID: 0}
   - target: {fileID: 0}
+    propertyPath: m_RenderDataMap.Array.size
+    value: 0
+    objectReference: {fileID: 0}
+  - target: {fileID: 0}
     propertyPath: m_Tag
     value: SpriteAtlas
     objectReference: {fileID: 0}
@@ -228,7 +240,4 @@ Preset:
     propertyPath: m_IsVariant
     value: 0
     objectReference: {fileID: 0}
-  - target: {fileID: 0}
-    propertyPath: m_IsPlaceholder
-    value: 0
-    objectReference: {fileID: 0}
+  m_ExcludedProperties: []
