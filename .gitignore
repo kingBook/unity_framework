@@ -6,6 +6,7 @@
 .vs/
 obj/
 Library/
+Logs/
 Temp/
 
 Recordings/
