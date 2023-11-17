@@ -48,34 +48,43 @@ public static class AdsBridge {
     /// 展示激励视频广告
     /// </summary>
     /// <param name="onUserEarnedReward"> 播放完成给予奖励时调用（不允许 null） </param>
-    /// <param name="OnAdClosed"> 中途关闭时调用（不给予奖励，可能为 null） </param>
-    /// <param name="OnAdOpening"> 成功加载并开始显示时调用（用于播放广告时需要暂停游戏，可能为 null） </param>
-    public static void ShowRewardAd(System.Action onUserEarnedReward, System.Action OnAdClosed = null, System.Action OnAdOpening = null) {
+    /// <param name="onAdClosed"> 中途关闭时调用（不给予奖励，可能为 null） </param>
+    /// <param name="onAdOpening"> 成功加载并开始显示时调用（用于播放广告时需要暂停游戏，可能为 null） </param>
+    public static void ShowRewardAd(System.Action onUserEarnedReward, System.Action onAdClosed = null, System.Action onAdOpening = null) {
         // TODO: 激励视频广告接口
         // onUserEarnedReward.Invoke(); // 注意:勿重复多次调用
-        // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
-        // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
+        // onAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
+        // onAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
 
         // 模拟测试代码
-        OnAdOpening?.Invoke();
+        onAdOpening?.Invoke();
         Delay(onUserEarnedReward);
     }
 
     /// <summary>
     /// 展示插屏广告
     /// </summary>
-    /// <param name="OnAdClosed"> 关闭时调用 (可能为 null) </param>
-    /// <param name="OnAdOpening"> 成功加载并开始显示时调用 (可能为 null) </param>
-    public static void ShowInterstitialAd(System.Action OnAdClosed = null, System.Action OnAdOpening = null) {
+    /// <param name="onAdClosed"> 关闭时调用 (可能为 null) </param>
+    /// <param name="onAdOpening"> 成功加载并开始显示时调用 (可能为 null) </param>
+    public static void ShowInterstitialAd(System.Action onAdClosed = null, System.Action onAdOpening = null) {
         // TODO: 插屏广告接口
-        // OnAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
-        // OnAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
+        // onAdClosed?.Invoke();        // 注意:勿重复多次调用，此回调可能为 null
+        // onAdOpening?.Invoke();       // 注意:勿重复多次调用，此回调可能为 null
 
         // 模拟测试代码
-        OnAdOpening?.Invoke();
-        if (OnAdClosed != null) {
-            Delay(OnAdClosed);
+        onAdOpening?.Invoke();
+        if (onAdClosed != null) {
+            Delay(onAdClosed);
         }
+    }
+	
+	/// <summary>
+    /// 播放横幅广告
+    /// </summary>
+    /// <param name="baseLine"> 0：顶部对齐;1：底部对齐 </param>
+    /// <param name="offset"> 距离基准位置 px </param>
+    public static void ShowBarnner(int baseLine, int offset = 0)  {
+        
     }
 
     /// <summary>
