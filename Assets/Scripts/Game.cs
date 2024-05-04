@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
@@ -8,6 +10,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public sealed class Game : BaseGame {
 
+    public FsmGame fsmGame { get; private set; }
     public int levelNumber { get; private set; }
     public Level currentLevel { get; private set; }
     public int moneyCount => LocalManager.GetMoneyCount();
@@ -43,12 +46,25 @@ public sealed class Game : BaseGame {
         GotoLevelScene(levelNumber + 1);
     }
 
+
     private void Start() {
-        //GotoTitleScene();
-        GotoLevelScene(1);
+        fsmGame = new FsmGame(StateGameLevel.instance, this);
+    }
+
+    private void FixedUpdate() {
+        fsmGame.FixedUpdate();
+    }
+
+    private void Update() {
+        fsmGame.Update();
+    }
+
+    private void LateUpdate() {
+        fsmGame.LateUpdate();
     }
 
     private void OnDestroy() {
+        fsmGame.OnDestroy();
         currentLevel = null;
     }
 
