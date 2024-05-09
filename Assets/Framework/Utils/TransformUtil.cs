@@ -81,4 +81,52 @@ public static class TransformUtil {
             child.gameObject.SetActive(i == childSiblingIndex);
         }
     }
+
+    /// <summary>
+    /// 获取在 Inspector 面板的欧拉角
+    /// </summary>
+    /// <param name="transform"></param>
+    /// <returns></returns>
+    public static Vector3 GetInspectorEulerAngles(this Transform transform) {
+        Vector3 angles = transform.localEulerAngles;
+        float x = angles.x;
+        float y = angles.y;
+        float z = angles.z;
+
+        Vector3 referenceUp = Vector3.up;
+        if (transform.parent) referenceUp = transform.parent.up;
+
+        // if (Vector3.Dot(referenceUp, transform.up) >= 0f) {
+        //     if (x >= 0f && x <= 90f) {
+        //
+        //     } else if (x >= 270f && x <= 360f) {
+        //         x -= 360f;
+        //     }
+        // } else {
+        //     if (x >= 0f && x <= 90f) {
+        //         x = 180f - x;
+        //     } else if (x >= 270f && x <= 360f) {
+        //         x = 180f - x;
+        //     }
+        // }
+
+        if (Vector3.Dot(referenceUp, transform.up) >= 0f) {
+            if (x >= 270f && x <= 360f) {
+                x -= 360f;
+            }
+        } else {
+            x = 180f - x;
+        }
+
+        if (y > 180f) {
+            y -= 360f;
+        }
+
+        if (z > 180f) {
+            z -= 360f;
+        }
+
+        angles.Set(x, y, z);
+        return angles;
+    }
 }
