@@ -103,5 +103,28 @@ public class Mathk {
         return rotation;
     }
 
+    /// <summary>
+    /// 保留数字 f 的前 p 位整数，当 p 大于位数时则保留所有整数位
+    /// </summary>
+    public static float ReserveInt(float f, int p) {
+        float sign = f >= 0f ? 1f : -1;
+        // 负数时，转为正数
+        f = sign * f;
+        // f 的位数
+        float c = Mathf.Ceil(Mathf.Log10(f));
+        if (p <= c) f /= Mathf.Pow(10, c - p);
+        f = (int)f * sign;
+        return f;
+    }
+
+    /// <summary>
+    /// 保留数字 f 的后 p 位小数
+    /// </summary>
+    public static float ReserveFloat(float f, int p) {
+        float pow = Mathf.Pow(10, p);
+        f = ((int)(f * pow)) / pow;
+        return f;
+    }
+
 
 }
