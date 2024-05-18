@@ -4,7 +4,7 @@ using UnityEngine.Rendering;
 
 public class StateLevelStart : State {
 
-    private FsmLevel m_fsmLevel;
+    private FsmLevel m_fsm;
     private Level m_level;
     
     public static readonly StateLevelStart instance = new StateLevelStart();
@@ -23,13 +23,13 @@ public class StateLevelStart : State {
     }
     
     protected override void OnStateEnter(Fsm fsm) {
-        m_fsmLevel = (FsmLevel)fsm;
-        m_level = m_fsmLevel.level;
+        m_fsm = (FsmLevel)fsm;
+        m_level = m_fsm.level;
         
         //InitRenderSettings();
         
         
-        m_fsmLevel.ChangeStateTo(StateLevelRunning.instance);
+        m_fsm.ChangeStateTo(StateLevelRunning.instance);
     }
 
     protected override void OnStateUpdate(Fsm fsm) {

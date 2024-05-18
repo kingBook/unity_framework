@@ -68,12 +68,8 @@ public class Grid2D {
     /// <param name="y"> 注意：表示第几行，通常3x4的网格，其中的4表示此值 </param>
     /// <returns></returns>
     public sbyte this[int x, int y] {
-        get {
-            return data[y * col + x];
-        }
-        set {
-            data[y * col + x] = value;
-        }
+       get => data[y * col + x];
+        set => data[y * col + x] = value;
     }
 
     public override string ToString() {

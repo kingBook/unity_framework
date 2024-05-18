@@ -10,7 +10,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public sealed class Game : BaseGame {
 
-    public FsmGame fsmGame { get; private set; }
+    public FsmGame fsm { get; private set; }
     public int levelNumber { get; private set; }
     public Level currentLevel { get; private set; }
     public int moneyCount => LocalManager.GetMoneyCount();
@@ -48,23 +48,23 @@ public sealed class Game : BaseGame {
 
 
     private void Start() {
-        fsmGame = new FsmGame(StateGameLevel.instance, this);
+        fsm = new FsmGame(StateGameLevel.instance, this);
     }
 
     private void FixedUpdate() {
-        fsmGame.FixedUpdate();
+        fsm.FixedUpdate();
     }
 
     private void Update() {
-        fsmGame.Update();
+        fsm.Update();
     }
 
     private void LateUpdate() {
-        fsmGame.LateUpdate();
+        fsm.LateUpdate();
     }
 
     private void OnDestroy() {
-        fsmGame.OnDestroy();
+        fsm.OnDestroy();
         currentLevel = null;
     }
 
