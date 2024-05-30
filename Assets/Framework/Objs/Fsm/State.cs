@@ -1,40 +1,21 @@
-﻿/// <summary> 最简单、无任何实现的状态 </summary>
-public class State : IState {
+﻿using UnityEngine;
 
-    void IState.OnStateEnter(Fsm fsm) {
-        OnStateEnter(fsm);
+/// <summary> 最简单、无任何实现的状态 (继承MonoBehaviour使子类能使用Invoke、StartCoroutine等函数)</summary>
+public class State : MonoBehaviour {
+
+    public virtual void OnStateEnter(Fsm fsm) {
     }
 
-    void IState.OnStateFixedUpdate(Fsm fsm) {
-        OnStateFixedUpdate(fsm);
+    public virtual void OnStateFixedUpdate(Fsm fsm) {
     }
 
-    void IState.OnStateUpdate(Fsm fsm) {
-        OnStateUpdate(fsm);
+    public virtual void OnStateUpdate(Fsm fsm) {
     }
 
-    void IState.OnStateLateUpdate(Fsm fsm) {
-        OnStateLateUpdate(fsm);
+    public virtual void OnStateLateUpdate(Fsm fsm) {
     }
 
-    void IState.OnStateExit(Fsm fsm) {
-        OnStateExit(fsm);
-    }
-
-
-    protected virtual void OnStateEnter(Fsm fsm) {
-    }
-
-    protected virtual void OnStateFixedUpdate(Fsm fsm) {
-    }
-
-    protected virtual void OnStateUpdate(Fsm fsm) {
-    }
-
-    protected virtual void OnStateLateUpdate(Fsm fsm) {
-    }
-
-    protected virtual void OnStateExit(Fsm fsm) {
+    public virtual void OnStateExit(Fsm fsm) {
     }
 
 

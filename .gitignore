@@ -2,7 +2,12 @@
 *.sln
 *.zip
 *.rar
+*.sln.DotSettings.user
 
+# 当已设置忽略指定文件夹，其内的文件发生修改，`git status` 时仍然能检测到修改，
+# 应该是此前已 `git add `追踪过该文件，此时需要执行，如:
+# git rm -r --cached "Library" 
+# Library 可以是文件名或文件夹名
 .vs/
 obj/
 Library/

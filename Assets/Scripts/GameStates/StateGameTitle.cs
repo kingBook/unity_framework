@@ -1,16 +1,16 @@
-﻿public class StateGameTitle : State {
-    public static readonly StateGameTitle instance = new StateGameTitle();
-    
-    protected override void OnStateEnter(Fsm fsm) {
-        base.OnStateEnter(fsm);
-        ((FsmGame)fsm).game.GotoTitleScene();
+﻿using UnityEngine.SceneManagement;
+
+public class StateGameTitle : State {
+
+    public override void OnStateEnter(Fsm fsm) {
+        App.instance.sceneLoader.Load("Scenes/Title");
     }
 
-    protected override void OnStateUpdate(Fsm fsm) {
-        base.OnStateUpdate(fsm);
+    public override void OnStateUpdate(Fsm fsm) {
+
     }
 
-    protected override void OnStateExit(Fsm fsm) {
-        base.OnStateExit(fsm);
+    public override void OnStateExit(Fsm fsm) {
+        SceneManager.UnloadSceneAsync("Scenes/Title");
     }
 }

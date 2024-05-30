@@ -6,10 +6,8 @@ public class StateLevelStart : State {
 
     private FsmLevel m_fsm;
     private Level m_level;
-    
-    public static readonly StateLevelStart instance = new StateLevelStart();
-    
-    
+
+
     private void InitRenderSettings() {
         RenderSettings.skybox = m_level.skyboxMaterial; // 天空盒
 
@@ -21,22 +19,22 @@ public class StateLevelStart : State {
         RenderSettings.fogColor = fogColor; // 雾颜色
         RenderSettings.fogDensity = 0.002f; // 雾密度
     }
-    
-    protected override void OnStateEnter(Fsm fsm) {
+
+    public override void OnStateEnter(Fsm fsm) {
         m_fsm = (FsmLevel)fsm;
         m_level = m_fsm.level;
-        
+
         //InitRenderSettings();
-        
-        
-        m_fsm.ChangeStateTo(StateLevelRunning.instance);
+
+
+        m_fsm.ChangeStateTo(m_level.stateLevelRunning);
     }
 
-    protected override void OnStateUpdate(Fsm fsm) {
+    public override void OnStateUpdate(Fsm fsm) {
         base.OnStateUpdate(fsm);
     }
 
-    protected override void OnStateExit(Fsm fsm) {
+    public override void OnStateExit(Fsm fsm) {
         base.OnStateExit(fsm);
     }
 }

@@ -1,20 +1,28 @@
 ﻿using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class StateGameLevel : State {
 
-    public static readonly StateGameLevel instance = new StateGameLevel();
 
+    private string m_sceneName;
 
-    protected override void OnStateEnter(Fsm fsm) {
-        base.OnStateEnter(fsm);
-       ((FsmGame)fsm).game.GotoLevelScene(1);
+    public int levelNumber { get; private set; }
+
+    public void SetLevelNumber(int value) {
+        levelNumber = value;
     }
 
-    protected override void OnStateUpdate(Fsm fsm) {
-        base.OnStateUpdate(fsm);
+    public override void OnStateEnter(Fsm fsm) {
+        m_sceneName = "Scenes/Level_0";
+        App.instance.sceneLoader.LoadAsync(m_sceneName);
     }
 
-    protected override void OnStateExit(Fsm fsm) {
-        base.OnStateExit(fsm);
+    public override void OnStateUpdate(Fsm fsm) {
+
     }
+
+    public override void OnStateExit(Fsm fsm) {
+        SceneManager.UnloadSceneAsync(m_sceneName);
+    }
+
 }

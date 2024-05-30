@@ -5,12 +5,12 @@ public class FsmLevel : Fsm {
 
     public Level level { get; private set; }
 
-    public FsmLevel(IState defaultState, Level level) {
+    public FsmLevel(State defaultState, Level level) {
         this.level = level;
         ChangeStateTo(defaultState);
     }
 
-    public FsmLevel(IState defaultState, Level level, System.Action<IState, IState> onStateChanged) {
+    public FsmLevel(State defaultState, Level level, System.Action<State, State> onStateChanged) {
         this.level = level;
         m_onStateChangedHandler = onStateChanged;
         ChangeStateTo(defaultState);

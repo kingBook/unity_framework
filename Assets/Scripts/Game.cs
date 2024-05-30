@@ -10,8 +10,10 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public sealed class Game : BaseGame {
 
+    public StateGameTitle stateGameTitle { get; private set; }
+    public StateGameLevel stateGameLevel { get; private set; }
+
     public FsmGame fsm { get; private set; }
-    public int levelNumber { get; private set; }
     public Level currentLevel { get; private set; }
     public int moneyCount => LocalManager.GetMoneyCount();
 
@@ -24,31 +26,14 @@ public sealed class Game : BaseGame {
         currentLevel = level;
     }
 
-    public void GotoTitleScene() {
-        App.instance.sceneLoader.Load("Scenes/Title");
+    private void Awake() {
+        stateGameTitle = gameObject.AddComponent<StateGameTitle>();
+        stateGameLevel = gameObject.AddComponent<StateGameLevel>();
     }
-
-    public void GotoLevelScene(int levelNum) {
-        levelNumber = levelNum;
-
-        App.instance.sceneLoader.LoadAsync("Scenes/Level_0");
-    }
-
-    /// <summary> 重新开始当前关 </summary>
-    public void RestartCurrentLevel(Scene sceneUnload) {
-        SceneManager.UnloadSceneAsync(sceneUnload);
-        GotoLevelScene(levelNumber);
-    }
-
-    /// <summary> 下一关 </summary>
-    public void NextLevel(Scene sceneUnload) {
-        SceneManager.UnloadSceneAsync(sceneUnload);
-        GotoLevelScene(levelNumber + 1);
-    }
-
 
     private void Start() {
-        fsm = new FsmGame(StateGameLevel.instance, this);
+        stateGameLevel.SetLevelNumber(1);
+        fsm = new FsmGame(stateGameLevel, this);
     }
 
     private void FixedUpdate() {

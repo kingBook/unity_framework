@@ -4,22 +4,22 @@
 public class Fsm {
 
     /// <summary> 状态发生改变后的回调函数，格式：<code> void OnStateChangedHandler(IState old, IState current) </code> </summary>
-    protected System.Action<IState, IState> m_onStateChangedHandler;
+    protected System.Action<State, State> m_onStateChangedHandler;
 
 
-    public IState currentState { get; protected set; }
+    public State currentState { get; protected set; }
 
 
-    // public Fsm(IState defaultState) {
+    // public Fsm(State defaultState) {
     //     ChangeStateTo(defaultState);
     // }
     //
-    // public Fsm(IState defaultState, UnityAction<IState, IState> onStateChanged) {
+    // public Fsm(State defaultState, UnityAction<State, State> onStateChanged) {
     //     m_onStateChangedHandler = onStateChanged;
     //     ChangeStateTo(defaultState);
     // }
 
-    public void ChangeStateTo(IState state) {
+    public void ChangeStateTo(State state) {
         if (currentState == state) return;
         var old = currentState;
         // 状态退出
