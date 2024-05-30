@@ -36,7 +36,7 @@ public class CanvasLevel : MonoBehaviour {
         effect.SetAddCount(addCount);
         effect.onCompleteEvent += (AddMoneysEffect addMoneysEffect, float progress, int addCount2) => {
             if (this && m_game) {
-                m_game.SetMoneyCount(m_game.moneyCount + addCount2);
+                LocalManager.SetMoneyCount(LocalManager.GetMoneyCount() + addCount2);
                 if(progress >= 1f) {
                     PlayerPrefs.Save();
                 }
@@ -74,7 +74,7 @@ public class CanvasLevel : MonoBehaviour {
         effect.SetAddCount(addCount);
         effect.onCompleteEvent += (GetCoinsEffect getCoinsEffect, float progress, int addCount2) => {
             if (this && m_game) {
-                m_game.SetMoneyCount(m_game.moneyCount + addCount2);
+                LocalManager.SetMoneyCount(LocalManager.GetMoneyCount() + addCount2);
                 if (progress >= 1f) {
                     PlayerPrefs.Save();
                 }

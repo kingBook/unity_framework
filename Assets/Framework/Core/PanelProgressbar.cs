@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PanelProgressbar : MonoBehaviour {
 
     [Tooltip("进度条滑块"), SerializeField]
-    private Image m_imageMid;
+    private Slider m_slider;
 
     [Tooltip("百分比文本框"), SerializeField]
     private TMP_Text m_text;
@@ -16,7 +16,7 @@ public class PanelProgressbar : MonoBehaviour {
     /// </summary>
     /// <param name="ratio">范围：[0,1]</param>
     public void SetProgress(float ratio) {
-        m_imageMid.fillAmount = Mathf.Clamp01(ratio);
+        m_slider.value = Mathf.Clamp01(ratio);
     }
 
     /// <summary>

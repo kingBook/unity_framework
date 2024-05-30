@@ -3,18 +3,12 @@ using UnityEngine;
 
 public static class LocalManager {
 
-    /// <summary>
-    /// 返回关卡数字
-    /// </summary>
-    /// <returns></returns>
+    /// <summary> 返回关卡数字 </summary>
     public static int GetLevelNumber() {
-        return PlayerPrefs.GetInt("LevelNumber", 1);
+        return PlayerPrefs.GetInt("LevelNumber", 0);
     }
 
-    /// <summary>
-    /// 设置关上写数字
-    /// </summary>
-    /// <param name="value"></param>
+    /// <summary> 设置关上写数字 </summary>
     public static void SetLevelNumber(int value) {
         PlayerPrefs.SetInt("LevelNumber", value);
     }

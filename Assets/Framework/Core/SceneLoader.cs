@@ -74,6 +74,15 @@ public sealed class SceneLoader : MonoBehaviour {
         StartCoroutine(LoadSceneAsync(sceneName, mode));
     }
 
+    public void LoadAsyncOnBackgroud(string sceneName) {
+        LoadAsyncOnBackgroud(sceneName, LoadSceneMode.Additive);
+    }
+
+    public void LoadAsyncOnBackgroud(string sceneName, LoadSceneMode mode) {
+        
+    }
+
+
     private IEnumerator LoadSceneAsync(string sceneName, LoadSceneMode mode) {
         m_asyncOperation = SceneManager.LoadSceneAsync(sceneName, mode);
         m_asyncOperation.completed += OnAsyncComplete;

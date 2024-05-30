@@ -15,12 +15,7 @@ public sealed class Game : BaseGame {
 
     public FsmGame fsm { get; private set; }
     public Level currentLevel { get; private set; }
-    public int moneyCount => LocalManager.GetMoneyCount();
 
-
-    public void SetMoneyCount(int value) {
-        LocalManager.SetMoneyCount(value);
-    }
 
     public void SetCurrentLevel(Level level) {
         currentLevel = level;
