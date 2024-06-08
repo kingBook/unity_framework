@@ -1,0 +1,25 @@
+{
+  "name": "com.test.template",
+  "version": "1.0.0",
+  "displayName": "Template",
+  "description": "",
+  "unity": "2019.4",
+  "unityRelease": "",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+  "dependencies": {
+    
+ },
+ "keywords": [
+   
+  ],
+ "samples": [
+   
+  ],
+  "author": {
+    "name": "",
+    "email": "",
+    "url": ""
+  }
+}

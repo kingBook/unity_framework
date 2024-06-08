@@ -33,14 +33,14 @@
         "com.unity.render-pipelines.universal": "7.1.5"
       }
     },
-    "com.library.external-assets": {
-      "version": "file:External Assets",
+    "com.flash.flashanimationtoolset": {
+      "version": "file:com.flash.flashanimationtoolset@1.4.0",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
     },
-    "com.library.flash-animation-toolset": {
-      "version": "file:FlashAnimationToolset",
+    "com.library.external-assets": {
+      "version": "file:External Assets",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}
@@ -53,6 +53,12 @@
     },
     "com.library.line2d": {
       "version": "file:Line2D",
+      "depth": 0,
+      "source": "embedded",
+      "dependencies": {}
+    },
+    "com.test.template": {
+      "version": "file:com.ui.fairygui@5.1.0",
       "depth": 0,
       "source": "embedded",
       "dependencies": {}

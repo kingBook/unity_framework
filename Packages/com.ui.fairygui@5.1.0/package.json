@@ -1,0 +1,25 @@
+{
+  "name": "com.test.template",
+  "version": "5.1.0",
+  "displayName": "FairyGUI",
+  "description": "",
+  "unity": "2019.4",
+  "unityRelease": "",
+  "documentationUrl": "",
+  "changelogUrl": "",
+  "licensesUrl": "",
+  "dependencies": {
+    
+ },
+ "keywords": [
+   
+  ],
+ "samples": [
+   
+  ],
+  "author": {
+    "name": "",
+    "email": "",
+    "url": ""
+  }
+}

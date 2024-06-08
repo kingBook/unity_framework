@@ -1,0 +1,18 @@
+{
+    "name": "com.ui.fairygui.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:460ccbb4fc22d1848b297573cf42e08a"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
