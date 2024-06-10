@@ -1,23 +1,29 @@
 ﻿using UnityEngine;
 
 /// <summary> 有限状态机 </summary>
-public class Fsm {
+public class Fsm : MonoBehaviour {
 
     /// <summary> 状态发生改变后的回调函数，格式：<code> void OnStateChangedHandler(IState old, IState current) </code> </summary>
     protected System.Action<State, State> m_onStateChangedHandler;
 
-
     public State currentState { get; protected set; }
+    public StateDefault stateDefault { get; private set; }
 
 
-    // public Fsm(State defaultState) {
-    //     ChangeStateTo(defaultState);
-    // }
-    //
-    // public Fsm(State defaultState, UnityAction<State, State> onStateChanged) {
-    //     m_onStateChangedHandler = onStateChanged;
-    //     ChangeStateTo(defaultState);
-    // }
+    public static T Create<T>(GameObject bind) where T : Fsm {
+        var gameObj = new GameObject(typeof(T).Name);
+        gameObj.transform.SetParent(bind.transform);
+        var fsm = gameObj.AddComponent<T>();
+        return fsm;
+    }
+
+    public void Init(System.Action<State, State> onStateChanged = null) {
+        if (!stateDefault) {
+            stateDefault = gameObject.AddComponent<StateDefault>();
+        }
+        m_onStateChangedHandler = onStateChanged;
+        ChangeStateTo(stateDefault);
+    }
 
     public void ChangeStateTo(State state) {
         if (currentState == state) return;
@@ -34,19 +40,19 @@ public class Fsm {
         currentState.OnStateEnter(this);
     }
 
-    public void FixedUpdate() {
+    private void FixedUpdate() {
         currentState.OnStateFixedUpdate(this);
     }
 
-    public void Update() {
+    private void Update() {
         currentState.OnStateUpdate(this);
     }
 
-    public void LateUpdate() {
+    private void LateUpdate() {
         currentState.OnStateLateUpdate(this);
     }
 
-    public void OnDestroy() {
+    private void OnDestroy() {
         currentState = null;
         m_onStateChangedHandler = null;
     }

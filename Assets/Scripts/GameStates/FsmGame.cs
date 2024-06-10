@@ -5,17 +5,16 @@
 /// </summary>
 public class FsmGame : Fsm {
 
+    public StateGameTitle stateGameTitle { get; private set; }
+    public StateGameLevel stateGameLevel { get; private set; }
+
     public Game game { get; private set; }
 
 
-    public FsmGame(State defaultState, Game game) {
+    public void Init(Game game, System.Action<State, State> onStateChanged = null) {
         this.game = game;
-        ChangeStateTo(defaultState);
-    }
-
-    public FsmGame(State defaultState, Game game, System.Action<State, State> onStateChanged) {
-        this.game = game;
-        m_onStateChangedHandler = onStateChanged;
-        ChangeStateTo(defaultState);
+        stateGameTitle = gameObject.AddComponent<StateGameTitle>();
+        stateGameLevel = gameObject.AddComponent<StateGameLevel>();
+        base.Init(onStateChanged);
     }
 }

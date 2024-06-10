@@ -12,12 +12,6 @@ public sealed class Level : MonoBehaviour {
 
     [SerializeField] private Material m_skyboxMaterial;
 
-    private Game m_game;
-
-    public StateLevelStart stateLevelStart;
-    public StateLevelRunning stateLevelRunning;
-    public StateLevelVictory stateLevelVictory;
-    public StateLevelFailure stateLevelFailure;
 
     public FsmLevel fsm { get; private set; }
     public EffectsFactory effectsFactory { get; private set; }
@@ -26,39 +20,15 @@ public sealed class Level : MonoBehaviour {
 
 
     private void Awake() {
-        stateLevelStart = gameObject.AddComponent<StateLevelStart>();
-        stateLevelRunning = gameObject.AddComponent<StateLevelRunning>();
-        stateLevelVictory = gameObject.AddComponent<StateLevelVictory>();
-        stateLevelFailure = gameObject.AddComponent<StateLevelFailure>();
-        
         effectsFactory = GetComponent<EffectsFactory>();
         canvasLevel = GameObject.Find("CanvasLevel").GetComponent<CanvasLevel>();
     }
 
     private void Start() {
-        m_game = App.instance.GetGame<Game>();
-        m_game.SetCurrentLevel(this);
-
-        fsm = new FsmLevel(stateLevelStart, this);
+        fsm = Fsm.Create<FsmLevel>(gameObject);
+        fsm.Init(this);
+        fsm.ChangeStateTo(fsm.stateLevelStart);
     }
 
-    private void FixedUpdate() {
-        fsm.FixedUpdate();
-    }
-
-    private void Update() {
-        fsm.Update();
-    }
-
-    private void LateUpdate() {
-        fsm.LateUpdate();
-    }
-
-    private void OnDestroy() {
-        if (m_game) {
-            m_game.SetCurrentLevel(null);
-        }
-        fsm.OnDestroy();
-    }
 
 }

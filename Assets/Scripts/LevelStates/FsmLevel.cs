@@ -3,16 +3,20 @@
 /// </summary>
 public class FsmLevel : Fsm {
 
+    public StateLevelStart stateLevelStart { get; private set; }
+    public StateLevelRunning stateLevelRunning { get; private set; }
+    public StateLevelVictory stateLevelVictory { get; private set; }
+    public StateLevelFailure stateLevelFailure { get; private set; }
+
     public Level level { get; private set; }
 
-    public FsmLevel(State defaultState, Level level) {
-        this.level = level;
-        ChangeStateTo(defaultState);
-    }
+    public void Init(Level level, System.Action<State, State> onStateChanged = null) {
+        stateLevelStart = gameObject.AddComponent<StateLevelStart>();
+        stateLevelRunning = gameObject.AddComponent<StateLevelRunning>();
+        stateLevelVictory = gameObject.AddComponent<StateLevelVictory>();
+        stateLevelFailure = gameObject.AddComponent<StateLevelFailure>();
 
-    public FsmLevel(State defaultState, Level level, System.Action<State, State> onStateChanged) {
         this.level = level;
-        m_onStateChangedHandler = onStateChanged;
-        ChangeStateTo(defaultState);
+        base.Init(onStateChanged);
     }
 }

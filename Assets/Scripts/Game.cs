@@ -10,8 +10,6 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public sealed class Game : BaseGame {
 
-    public StateGameTitle stateGameTitle { get; private set; }
-    public StateGameLevel stateGameLevel { get; private set; }
 
     public FsmGame fsm { get; private set; }
     public Level currentLevel { get; private set; }
@@ -22,30 +20,13 @@ public sealed class Game : BaseGame {
     }
 
     private void Awake() {
-        stateGameTitle = gameObject.AddComponent<StateGameTitle>();
-        stateGameLevel = gameObject.AddComponent<StateGameLevel>();
+
     }
 
     private void Start() {
-        stateGameLevel.SetLevelNumber(1);
-        fsm = new FsmGame(stateGameLevel, this);
-    }
-
-    private void FixedUpdate() {
-        fsm.FixedUpdate();
-    }
-
-    private void Update() {
-        fsm.Update();
-    }
-
-    private void LateUpdate() {
-        fsm.LateUpdate();
-    }
-
-    private void OnDestroy() {
-        fsm.OnDestroy();
-        currentLevel = null;
+        fsm = Fsm.Create<FsmGame>(gameObject);
+        fsm.Init(this);
+        fsm.ChangeStateTo(fsm.stateGameTitle);
     }
 
 
