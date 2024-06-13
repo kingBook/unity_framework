@@ -8,21 +8,29 @@ using System.Threading.Tasks;
 using System.Xml;
 using UnityEditor;
 using UnityEditor.Animations;
+using UnityEditor.U2D;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 切片flash导入出来的位图表
+/// 对 flash 导出来的位图表，进行切片
 /// </summary>
 public class SpriteSheetPostprocessor : AssetPostprocessor {
+
+
     /// <summary>当前项目的路径</summary>
     private static readonly string s_projectPath = Environment.CurrentDirectory.Replace("\\", "/");
+
     /// <summary>是否创建AnimatorContrller文件</summary>
     private static bool s_isCreateAnimatorController = false;
+
     /// <summary>单帧是否创建动画</summary>
     private const bool IS_SINGLE_FRAME_CREATE_ANIM = true;
+
     /// <summary>帧频</summary>
     private const int FRAME_RATE = 24;
+
     /// <summary>动画类型</summary>
     private enum AnimationType { Sprite, Image }
 
@@ -41,11 +49,18 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
             methodInfo.Invoke(importer, parameters);
             int textureHeight = (int)parameters[1];
             //切图
-            SpriteMetaData[] spritesheet = GetSpritesheetData(textureHeight, assetName, xmlPath);
+            SpriteRect[] spriteRects = GetSpritesheetData(textureHeight, assetName, xmlPath);
             //设置导入器属性
             importer.textureType = TextureImporterType.Sprite;
-            importer.spriteImportMode = spritesheet.Length > 0 ? SpriteImportMode.Multiple : SpriteImportMode.Single;
-            importer.spritesheet = spritesheet;
+            importer.spriteImportMode = spriteRects.Length > 0 ? SpriteImportMode.Multiple : SpriteImportMode.Single;
+
+            var factory = new SpriteDataProviderFactories();
+            factory.Init();
+            var dataProvider = factory.GetSpriteEditorDataProviderFromObject(assetImporter);
+            dataProvider.InitSpriteEditorDataProvider();
+            dataProvider.SetSpriteRects(spriteRects);
+            dataProvider.Apply();
+
         }
     }
 
@@ -114,13 +129,13 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <param name="assetName"></param>
     /// <param name="xmlPath"></param>
     /// <returns></returns>
-    private SpriteMetaData[] GetSpritesheetData(int textureHeight, string assetName, string xmlPath) {
+    private SpriteRect[] GetSpritesheetData(int textureHeight, string assetName, string xmlPath) {
         XmlDocument doc = new XmlDocument();
         doc.Load(xmlPath);
 
         XmlNodeList nodes = doc.DocumentElement.SelectNodes("SubTexture");
         int len = nodes.Count;
-        SpriteMetaData[] spritesheet = new SpriteMetaData[len];
+        SpriteRect[] spriteRects = new SpriteRect[len];
 
         Vector2 pivot = new Vector2();
         for (int i = 0; i < len; i++) {
@@ -155,14 +170,14 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
             float poX = (pivot.x + frameX) / width;
             float poY = (height - pivot.y - frameY) / height;
 
-            var spriteMetaData = new SpriteMetaData();
-            spriteMetaData.name = len > 1 ? assetName + name : assetName;
-            spriteMetaData.alignment = (int)SpriteAlignment.Custom;
-            spriteMetaData.pivot = new Vector2(poX, poY);
-            spriteMetaData.rect = new Rect(x, -y + textureHeight - height, width, height);
-            spritesheet[i] = spriteMetaData;
+            var spriteRect = new SpriteRect();
+            spriteRect.name = len > 1 ? assetName + name : assetName;
+            spriteRect.alignment = SpriteAlignment.Custom;
+            spriteRect.pivot = new Vector2(poX, poY);
+            spriteRect.rect = new Rect(x, -y + textureHeight - height, width, height);
+            spriteRects[i] = spriteRect;
         }
-        return spritesheet;
+        return spriteRects;
     }
 
     /// <summary>
@@ -182,7 +197,6 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
     /// <param name="multipleImageAnimPath">如：D:/projects/unity_test/Assets/Textures/idle.multipleImageAnim</param>
     /// <param name="multipleImageFolderPath">如：Assets/Textures</param>
     /// <param name="multipleImageAnimNamePath">如：Assets/Textures/idle</param>
-
     private static async void DelayCreateAnimationFileWithMultipleImage(int delay, string multipleImageAnimPath, string multipleImageFolderPath, string multipleImageAnimNamePath) {
         await Task.Delay(delay);
         XmlDocument doc = new XmlDocument();
@@ -223,7 +237,7 @@ public class SpriteSheetPostprocessor : AssetPostprocessor {
         }
         Sprite[] sprites = spriteList.ToArray();
 
-        if (!IS_SINGLE_FRAME_CREATE_ANIM && sprites.Length <= 1) return;//单帧不创建动画
+        if (!IS_SINGLE_FRAME_CREATE_ANIM && sprites.Length <= 1) return; //单帧不创建动画
 
         //创建动画文件
         CreateAnimationFile(AnimationType.Sprite, sprites, textureAssetNamePath);

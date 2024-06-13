@@ -26,7 +26,7 @@ public sealed class Game : BaseGame {
     private void Start() {
         fsm = Fsm.Create<FsmGame>(gameObject);
         fsm.Init(this);
-        fsm.ChangeStateTo(fsm.stateGameTitle);
+        fsm.ChangeStateTo(nameof(StateGameTitle));
     }
 
 

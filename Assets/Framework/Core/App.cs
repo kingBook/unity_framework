@@ -17,32 +17,41 @@ public sealed class App : MonoBehaviour {
 
     /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResumeHandler(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
+
     /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangedLanguageHandler(App.Language language) </code> </summary>
     public event Action<Language> onChangedLanguageEvent;
 
 
     [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
-     "\nCN:中文 " +
-     "\nEN:英文")
+             "\nCN:中文 " +
+             "\nEN:英文")
     ]
     [SerializeField, SetProperty(nameof(language))] // 此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
     private Language m_language = Language.AUTO;
+
     [Tooltip("进度条")]
     [SerializeField] private PanelProgressbar m_panelProgressbar;
+
     [Tooltip("开始的 Logo 屏幕")]
     [SerializeField] private PanelLogoScreen m_panelLogoScreen;
+
     [Tooltip("调试助手面板")]
     [SerializeField] private PanelDebugHelper m_panelDebugHelper;
+
     [Tooltip("文件加载器")]
     [SerializeField] private FileLoader m_fileLoader;
+
     [Tooltip("场景加载器")]
     [SerializeField] private SceneLoader m_sceneLoader;
+
     [Tooltip("音频管理器")]
     [SerializeField] private AudioManager m_audioManager;
+
     [Tooltip("移动设备震动器")]
     [SerializeField] private Vibrator m_vibrator;
+
     [Tooltip("游戏列表")]
-    [SerializeField] private BaseGame[] m_games = new BaseGame[0];
+    [SerializeField] private BaseGame[] m_games = Array.Empty<BaseGame>();
 
 
     /// <summary> 应用程序的语言 </summary>
@@ -113,9 +122,9 @@ public sealed class App : MonoBehaviour {
         this.isPause = isPause;
         if (isSetPhysics) {
             // 暂停或恢复3D物理模拟
-            Physics.autoSimulation = !this.isPause;
+            Physics.simulationMode = !this.isPause ? SimulationMode.FixedUpdate : SimulationMode.Script;
             // 暂停或恢复2D物理模拟
-            //Physics2D.autoSimulation = !this.isPause;
+            Physics2D.simulationMode = !this.isPause ? SimulationMode2D.FixedUpdate : SimulationMode2D.Script;
         }
         if (isSetVolume) {
             AudioListener.pause = this.isPause;

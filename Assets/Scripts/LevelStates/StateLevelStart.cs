@@ -20,22 +20,22 @@ public class StateLevelStart : State {
         RenderSettings.fogDensity = 0.002f; // 雾密度
     }
 
-    public override void OnStateEnter(Fsm fsm) {
+    protected override void OnStateEnter(Fsm fsm) {
         m_fsm = (FsmLevel)fsm;
         m_level = m_fsm.level;
-        
+
         App.instance.GetGame<Game>().SetCurrentLevel(m_level);
         //InitRenderSettings();
 
 
-        m_fsm.ChangeStateTo(m_fsm.stateLevelRunning);
+        m_fsm.ChangeStateTo(nameof(StateLevelRunning));
     }
 
-    public override void OnStateUpdate(Fsm fsm) {
+    protected override void OnStateUpdate(Fsm fsm) {
         base.OnStateUpdate(fsm);
     }
 
-    public override void OnStateExit(Fsm fsm) {
+    protected override void OnStateExit(Fsm fsm) {
         base.OnStateExit(fsm);
     }
 }

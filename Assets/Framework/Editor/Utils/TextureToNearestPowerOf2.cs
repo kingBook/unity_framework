@@ -1,7 +1,9 @@
 ﻿#if UNITY_EDITOR
+using System;
 using System.IO;
 using System.Reflection;
 using UnityEditor;
+using UnityEditor.U2D.Sprites;
 using UnityEngine;
 
 public class TextureToNearestPowerOf2 : ScriptableObject {
@@ -57,30 +59,37 @@ public class TextureToNearestPowerOf2 : ScriptableObject {
 
             // 删除原文件，写入新文件
             File.Delete(path);
-            string outputPath = path.Substring(0, path.LastIndexOf(dot)) + dotPNG; // 后缀改为.png
+            string outputPath = path.Substring(0, path.LastIndexOf(dot, StringComparison.Ordinal)) + dotPNG; // 后缀改为.png
             //outputPath = path;
             //outputPath = path.Insert(path.LastIndexOf("."), "_");
             Debug.Log(outputPath);
             byte[] bytes = output.EncodeToPNG();
             File.WriteAllBytes(outputPath, bytes);
 
-            File.Move(path + dotMeta, outputPath + dotMeta);// 修改.meta名为png.meta
+            File.Move(path + dotMeta, outputPath + dotMeta); // 修改.meta名为png.meta
 
             // 修改导入设置
             if (importer.spriteImportMode == SpriteImportMode.Single) {
                 importer.spriteImportMode = SpriteImportMode.Multiple;
-                importer.spritesheet = new SpriteMetaData[] {
-                            new SpriteMetaData{
-                                name=texture2D.name,
-                                rect=new Rect(0,0,texture2D.width,texture2D.height),
-                                alignment=0,
-                                pivot=new Vector2(0.5f,0.5f),
-                                border=importer.spriteBorder
-                            }
-                        };
-                importer.spritesheet[0].rect = new Rect(0, 0, texture2D.width, texture2D.height);
+                importer.spriteBorder = Vector4.zero;
+
+                var factory = new SpriteDataProviderFactories();
+                factory.Init();
+                var dataProvider = factory.GetSpriteEditorDataProviderFromObject(importer);
+                dataProvider.InitSpriteEditorDataProvider();
+                var spriteRects = new SpriteRect[] {
+                    new SpriteRect {
+                        name = texture2D.name,
+                        rect = new Rect(0, 0, texture2D.width, texture2D.height),
+                        alignment = SpriteAlignment.Center,
+                        pivot = new Vector2(0.5f, 0.5f),
+                        border = importer.spriteBorder
+                    }
+                };
+                dataProvider.SetSpriteRects(spriteRects);
+                dataProvider.Apply();
             }
-            importer.spriteBorder = Vector4.zero;
+
         }
         RenderTexture.active = activeRecord;
 

@@ -27,7 +27,7 @@ public sealed class Level : MonoBehaviour {
     private void Start() {
         fsm = Fsm.Create<FsmLevel>(gameObject);
         fsm.Init(this);
-        fsm.ChangeStateTo(fsm.stateLevelStart);
+        fsm.ChangeStateTo(nameof(StateLevelStart));
     }
 
 

@@ -12,16 +12,16 @@ public class StateGameLevel : State {
         levelNumber = value;
     }
 
-    public override void OnStateEnter(Fsm fsm) {
+    protected override void OnStateEnter(Fsm fsm) {
         m_sceneName = "Scenes/Level_0";
         App.instance.sceneLoader.LoadAsync(m_sceneName);
     }
 
-    public override void OnStateUpdate(Fsm fsm) {
+    protected override void OnStateUpdate(Fsm fsm) {
 
     }
 
-    public override void OnStateExit(Fsm fsm) {
+    protected override void OnStateExit(Fsm fsm) {
         SceneManager.UnloadSceneAsync(m_sceneName);
     }
 
