@@ -6,8 +6,8 @@ public class Fsm : MonoBehaviour {
 
     private Dictionary<string, IState> m_states = new();
 
-    /// <summary> 状态发生改变后的回调函数，格式：<code> void OnStateChangedHandler(State old, State current) </code> </summary>
-    protected System.Action<State, State> m_onStateChangedHandler;
+    /// <summary> 状态发生改变后的回调函数，格式：<code> void OnStateChanged(State old, State current) </code> </summary>
+    protected System.Action<State, State> m_onStateChanged;
 
     public IState currentState { get; protected set; }
 
@@ -21,7 +21,7 @@ public class Fsm : MonoBehaviour {
 
     public void Init(System.Action<State, State> onStateChanged = null) {
         AddState<StateDefault>();
-        m_onStateChangedHandler = onStateChanged;
+        m_onStateChanged = onStateChanged;
         ChangeStateTo(nameof(StateDefault));
     }
 
@@ -34,18 +34,22 @@ public class Fsm : MonoBehaviour {
         return (T)m_states[typeof(T).Name];
     }
 
-    public void ChangeStateTo(string stateName) {
+    /// <summary>
+    /// 切换到指定状态
+    /// </summary>
+    /// <param name="stateName"> 目标状态名称，如: <code> nameof(StateTitle) </code> </param>
+    /// <param name="onChanged"> 回调函数，格式：<code> void OnChanged(State old, State current) </code> </param>
+    public void ChangeStateTo(string stateName, System.Action<State, State> onChanged = null) {
         var state = m_states[stateName];
         if (currentState == state) return;
         var old = currentState;
         // 状态退出
-        if (old != null) {
-            old.OnStateExit(this);
-        }
+        old?.OnStateExit(this);
         // 
         currentState = state;
         // 改变状态时的回调
-        m_onStateChangedHandler?.Invoke((State)old, (State)state);
+        m_onStateChanged?.Invoke((State)old, (State)state);
+        onChanged?.Invoke((State)old, (State)state);
         // 状态进入
         currentState.OnStateEnter(this);
     }
@@ -64,7 +68,7 @@ public class Fsm : MonoBehaviour {
 
     private void OnDestroy() {
         currentState = null;
-        m_onStateChangedHandler = null;
+        m_onStateChanged = null;
         m_states = null;
     }
 
