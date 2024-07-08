@@ -1,8 +1,12 @@
 {
-    "name": "com.ui.fairygui.Runtime",
+    "name": "com.flash.flashanimationtoolset.Editor",
     "rootNamespace": "",
-    "references": [],
-    "includePlatforms": [],
+    "references": [
+        "GUID:c4fc001b3c579cf41bd1bb97b12be29d"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
     "excludePlatforms": [],
     "allowUnsafeCode": false,
     "overrideReferences": false,
