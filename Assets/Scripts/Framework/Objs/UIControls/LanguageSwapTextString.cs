@@ -47,9 +47,9 @@ public class LanguageSwapTextString : MonoBehaviour {
 
     private void SwapStringToLanguage(App.Language language) {
         if (text == null) return;
-        if (language == App.Language.EN) {
+        if (language == App.Language.En) {
             text.text = stringEN;
-        } else if (language == App.Language.CN) {
+        } else if (language == App.Language.Cn) {
             text.text = stringCN;
         }
     }

@@ -23,8 +23,8 @@ public class StateLevelStart : State {
     protected override void OnStateEnter(Fsm fsm) {
         m_fsm = (FsmLevel)fsm;
         m_level = m_fsm.level;
-
-        App.instance.GetGame<Game>().SetCurrentLevel(m_level);
+        
+        App.instance.fsm.GetCurrentState<Game>().SetCurrentLevel(m_level);
         //InitRenderSettings();
 
 

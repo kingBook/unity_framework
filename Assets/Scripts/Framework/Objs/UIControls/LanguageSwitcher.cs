@@ -21,13 +21,13 @@ public class LanguageSwitcher : MonoBehaviour {
     }
 
     private void ActiveWithLanguage(App.Language language) {
-        if (language == App.Language.AUTO) return;
+        if (language == App.Language.Auto) return;
         GameObject[] activeList = null;
         GameObject[] deactiveList = null;
-        if (language == App.Language.EN) {
+        if (language == App.Language.En) {
             activeList = enList;
             deactiveList = cnList;
-        } else if (language == App.Language.CN) {
+        } else if (language == App.Language.Cn) {
             activeList = cnList;
             deactiveList = enList;
         }

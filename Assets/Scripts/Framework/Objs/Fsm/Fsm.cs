@@ -11,6 +11,9 @@ public class Fsm : MonoBehaviour {
 
     public IState currentState { get; protected set; }
 
+    public T GetCurrentState<T>() where T : IState {
+        return (T)currentState;
+    }
 
     public static T Create<T>(GameObject bind) where T : Fsm {
         var gameObj = new GameObject(typeof(T).Name);

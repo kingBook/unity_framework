@@ -54,7 +54,7 @@ public class LanguageSwapImage : MonoBehaviour {
 
     private void SwapImageToLanguage(App.Language language) {
         Sprite targetSprite = spriteEN;
-        if (language == App.Language.CN) {
+        if (language == App.Language.Cn) {
             targetSprite = spriteCN;
         }
 

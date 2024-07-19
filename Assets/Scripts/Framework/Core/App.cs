@@ -13,7 +13,7 @@ public sealed class App : MonoBehaviour {
     /// <summary> 应用程序的单例实例 </summary>
     public static App instance { get; private set; }
 
-    public enum Language { AUTO, CN, EN }
+    public enum Language { Auto, Cn, En }
 
     /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResumeHandler(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
@@ -27,7 +27,7 @@ public sealed class App : MonoBehaviour {
              "\nEN:英文")
     ]
     [SerializeField, SetProperty(nameof(language))] // 此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
-    private Language m_language = Language.AUTO;
+    private Language m_language = Language.Auto;
 
     [Tooltip("进度条")]
     [SerializeField] private PanelProgressbar m_panelProgressbar;
@@ -50,8 +50,8 @@ public sealed class App : MonoBehaviour {
     [Tooltip("移动设备震动器")]
     [SerializeField] private Vibrator m_vibrator;
 
-    [Tooltip("游戏列表")]
-    [SerializeField] private BaseGame[] m_games = Array.Empty<BaseGame>();
+    [Tooltip("状态机，负责切换到指定的游戏")]
+    [SerializeField] private FsmApp m_fsm;
 
 
     /// <summary> 应用程序的语言 </summary>
@@ -84,25 +84,8 @@ public sealed class App : MonoBehaviour {
     /// <summary> 移动设备震动器 </summary>
     public Vibrator vibrator => m_vibrator;
 
-    /// <summary>
-    /// 返回 <see cref="m_games"/>[0]
-    /// </summary>
-    /// <typeparam name="T"> <see cref="BaseGame"/> </typeparam>
-    /// <returns></returns>
-    public T GetGame<T>() where T : BaseGame => (T)m_games[0];
-
-    /// <summary>
-    /// 返回 <see cref="m_games"/>[index]
-    /// </summary>
-    /// <typeparam name="T"> <see cref="BaseGame"/> </typeparam>
-    /// <param name="index"> 索引 </param>
-    /// <returns></returns>
-    public T GetGame<T>(int index) where T : BaseGame => (T)m_games[index];
-
-    /// <summary>
-    /// 返回 <see cref="m_games"/>.Length
-    /// </summary>
-    public int gameCount => m_games.Length;
+    /// <summary> 状态机，负责切换到指定的游戏 </summary>
+    public FsmApp fsm => m_fsm;
 
     /// <summary> 是否已暂停 </summary>
     public bool isPause { get; private set; }
@@ -133,7 +116,7 @@ public sealed class App : MonoBehaviour {
         onPauseOrResumeEvent?.Invoke(isPause);
     }
 
-    private void InitDOTween() {
+    private void InitDoTween() {
         DOTween.SetTweensCapacity(500, 500);
     }
 
@@ -145,10 +128,10 @@ public sealed class App : MonoBehaviour {
     }
 
     private void InitLanguage() {
-        bool isCN = Application.systemLanguage == SystemLanguage.Chinese;
-        isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseSimplified;
-        isCN = isCN || Application.systemLanguage == SystemLanguage.ChineseTraditional;
-        m_language = isCN ? Language.CN : Language.EN;
+        bool isCn = Application.systemLanguage == SystemLanguage.Chinese;
+        isCn = isCn || Application.systemLanguage == SystemLanguage.ChineseSimplified;
+        isCn = isCn || Application.systemLanguage == SystemLanguage.ChineseTraditional;
+        m_language = isCn ? Language.Cn : Language.En;
         //改变语言事件
         onChangedLanguageEvent?.Invoke(m_language);
     }
@@ -156,11 +139,11 @@ public sealed class App : MonoBehaviour {
     private void Awake() {
         instance = this;
         // 初始化 DOTween
-        InitDOTween();
+        InitDoTween();
         // 增加应用打开的次数 
         AddOpenCount();
         // 初始化语言
-        if (m_language == Language.AUTO) {
+        if (m_language == Language.Auto) {
             InitLanguage();
         }
     }
