@@ -1,0 +1,18 @@
+{
+    "name": "framework.libs.rope.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:209de28cfffdca1419e830f1db54e5fd"
+    ],
+    "includePlatforms": [
+        "Editor"
+    ],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

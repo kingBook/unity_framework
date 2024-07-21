@@ -1,0 +1,16 @@
+{
+    "name": "framework.libs.setProperty.Editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:bad0c27e348e8024c96cb92403cc76bc"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
