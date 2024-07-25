@@ -44,7 +44,7 @@ public class Fsm : MonoBehaviour {
     /// <param name="onChanged"> 回调函数，格式：<code> void OnChanged(State old, State current) </code> </param>
     public void ChangeStateTo(string stateName, System.Action<State, State> onChanged = null) {
         var state = m_states[stateName];
-        if (currentState == state) return;
+        //if (currentState == state) return;
         var old = currentState;
         // 状态退出
         old?.OnStateExit(this);

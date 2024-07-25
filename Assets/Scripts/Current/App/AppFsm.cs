@@ -1,4 +1,4 @@
-﻿public class FsmApp : Fsm {
+﻿public class AppFsm : Fsm {
 
     private void Start() {
         AddState<Game>();

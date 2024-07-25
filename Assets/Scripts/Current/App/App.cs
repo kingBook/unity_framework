@@ -51,7 +51,7 @@ public sealed class App : MonoBehaviour {
     [SerializeField] private Vibrator m_vibrator;
 
     [Tooltip("状态机，负责切换到指定的游戏")]
-    [SerializeField] private FsmApp m_fsm;
+    [SerializeField] private AppFsm m_fsm;
 
 
     /// <summary> 应用程序的语言 </summary>
@@ -85,7 +85,7 @@ public sealed class App : MonoBehaviour {
     public Vibrator vibrator => m_vibrator;
 
     /// <summary> 状态机，负责切换到指定的游戏 </summary>
-    public FsmApp fsm => m_fsm;
+    public AppFsm fsm => m_fsm;
 
     /// <summary> 是否已暂停 </summary>
     public bool isPause { get; private set; }

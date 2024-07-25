@@ -7,7 +7,7 @@
 public sealed class Game : State {
 
 
-    public FsmGame fsm { get; private set; }
+    public GameFsm gameFsm { get; private set; }
     public Level currentLevel { get; private set; }
 
 
@@ -16,9 +16,9 @@ public sealed class Game : State {
     }
     
     protected override void OnStateEnter(Fsm fsm) {
-        this.fsm = Fsm.Create<FsmGame>(gameObject);
-        this.fsm.Init(this);
-        this.fsm.ChangeStateTo(nameof(StateGameTitle));
+        this.gameFsm = Fsm.Create<GameFsm>(gameObject);
+        this.gameFsm.Init(this);
+        this.gameFsm.ChangeStateTo(nameof(StateGameTitle));
     }
 
     protected override void OnStateExit(Fsm fsm) {

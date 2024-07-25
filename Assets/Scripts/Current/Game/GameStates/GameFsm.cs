@@ -3,7 +3,7 @@
 /// <summary>
 ///  <see cref="Game"/> 的有限状态机
 /// </summary>
-public class FsmGame : Fsm {
+public class GameFsm : Fsm {
 
     public Game game { get; private set; }
 
