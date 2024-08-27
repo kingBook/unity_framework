@@ -44,7 +44,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// 设置音效的静音状态
+    /// 设置特效音的静音状态
     /// </summary>
     /// <param name="value"></param>
     public void SetEffectsMute(bool value) {
@@ -60,7 +60,7 @@ public class AudioManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// 循环播放一个音乐
+    /// 循环播放音乐
     /// </summary>
     /// <param name="clip"></param>
     /// <param name="positionTransform"> 用于绑定位置的 Transform </param>

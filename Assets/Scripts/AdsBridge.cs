@@ -77,8 +77,8 @@ public static class AdsBridge {
             Delay(onAdClosed);
         }
     }
-	
-	/// <summary>
+    
+    /// <summary>
     /// 播放横幅广告
     /// </summary>
     /// <param name="baseLine"> 0：顶部对齐;1：底部对齐 </param>

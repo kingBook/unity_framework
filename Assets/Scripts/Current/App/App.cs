@@ -7,6 +7,7 @@ using UnityEngine;
 
 /// <summary>
 /// 整个应用程序的单例
+/// <para> アプリケーション全体の単一インスタンス </para>
 /// </summary>
 public sealed class App : MonoBehaviour {
 
