@@ -13,7 +13,7 @@ public sealed class Level : MonoBehaviour {
     [SerializeField] private Material m_skyboxMaterial;
 
 
-    public FsmLevel fsm { get; private set; }
+    public LevelFsm fsm { get; private set; }
     public EffectsFactory effectsFactory { get; private set; }
     public CanvasLevel canvasLevel { get; private set; }
     public Material skyboxMaterial => m_skyboxMaterial;
@@ -25,7 +25,7 @@ public sealed class Level : MonoBehaviour {
     }
 
     private void Start() {
-        fsm = Fsm.Create<FsmLevel>(gameObject);
+        fsm = Fsm.Create<LevelFsm>(gameObject);
         fsm.Init(this);
         fsm.ChangeStateTo(nameof(StateLevelStart));
         

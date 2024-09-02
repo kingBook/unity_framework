@@ -1,7 +1,7 @@
 ﻿/// <summary>
 ///  <see cref="Level"/> 的有限状态机
 /// </summary>
-public class FsmLevel : Fsm {
+public class LevelFsm : Fsm {
 
 
     public Level level { get; private set; }
