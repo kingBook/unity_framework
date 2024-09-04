@@ -15,13 +15,6 @@ public class Fsm : MonoBehaviour {
         return (T)currentState;
     }
 
-    public static T Create<T>(GameObject bind) where T : Fsm {
-        var gameObj = new GameObject(typeof(T).Name);
-        gameObj.transform.SetParent(bind.transform);
-        var fsm = gameObj.AddComponent<T>();
-        return fsm;
-    }
-
     public void Init(System.Action<State, State> onStateChanged = null) {
         AddState<StateDefault>();
         m_onStateChanged = onStateChanged;
@@ -44,6 +37,10 @@ public class Fsm : MonoBehaviour {
     /// <param name="onChanged"> 回调函数，格式：<code> void OnChanged(State old, State current) </code> </param>
     public void ChangeStateTo(string stateName, System.Action<State, State> onChanged = null) {
         var state = m_states[stateName];
+        if (state == null) {
+            Debug.LogError("状态 " + stateName + " 未添加，使用 AddState(stateName) 方法进行添加");
+            return;
+        }
         //if (currentState == state) return;
         var old = currentState;
         // 状态退出

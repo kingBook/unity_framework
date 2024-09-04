@@ -46,13 +46,13 @@ public sealed class App : MonoBehaviour {
     [SerializeField] private SceneLoader m_sceneLoader;
 
     [Tooltip("音频管理器")]
-    [SerializeField] private AudioManager m_audioManager;
+    private AudioManager m_audioManager;
 
     [Tooltip("移动设备震动器")]
-    [SerializeField] private Vibrator m_vibrator;
+    private Vibrator m_vibrator;
 
     [Tooltip("状态机，负责切换到指定的游戏")]
-    [SerializeField] private AppFsm m_fsm;
+    private AppFsm m_fsm;
 
 
     /// <summary> 应用程序的语言 </summary>
@@ -147,6 +147,9 @@ public sealed class App : MonoBehaviour {
         if (m_language == Language.Auto) {
             InitLanguage();
         }
+        m_audioManager = GameObjectUtil.AddNodeComponent<AudioManager>(gameObject);
+        m_vibrator = GameObjectUtil.AddNodeComponent<Vibrator>(gameObject);
+        m_fsm = GameObjectUtil.AddNodeComponent<AppFsm>(gameObject);
     }
 
     private void OnApplicationQuit() {

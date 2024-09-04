@@ -5,11 +5,10 @@ using UnityEngine.Rendering;
 public class StateLevelStart : State {
 
     private LevelFsm m_fsm;
-    private Level m_level;
 
 
     private void InitRenderSettings() {
-        RenderSettings.skybox = m_level.skyboxMaterial; // 天空盒
+        RenderSettings.skybox = Level.instance.skyboxMaterial; // 天空盒
 
         RenderSettings.ambientMode = AmbientMode.Flat; // 平面环境光照
         RenderSettings.ambientLight = new Color(0.5988371f, 0.5701693f, 0.5574281f); // 环境光颜色
@@ -22,11 +21,8 @@ public class StateLevelStart : State {
 
     protected override void OnStateEnter(Fsm fsm) {
         m_fsm = (LevelFsm)fsm;
-        m_level = m_fsm.level;
         
-        App.instance.fsm.GetCurrentState<Game>().SetCurrentLevel(m_level);
         //InitRenderSettings();
-
 
         m_fsm.ChangeStateTo(nameof(StateLevelRunning));
     }

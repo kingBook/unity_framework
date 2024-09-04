@@ -9,6 +9,7 @@ using UnityEngine;
 /// </summary>
 public sealed class Level : MonoBehaviour {
 
+    public static Level instance { get; private set; }
 
     [SerializeField] private Material m_skyboxMaterial;
 
@@ -20,15 +21,17 @@ public sealed class Level : MonoBehaviour {
 
 
     private void Awake() {
+        instance = this;
         effectsFactory = GetComponent<EffectsFactory>();
         canvasLevel = GameObject.Find("CanvasLevel").GetComponent<CanvasLevel>();
     }
 
     private void Start() {
-        fsm = Fsm.Create<LevelFsm>(gameObject);
-        fsm.Init(this);
-        fsm.ChangeStateTo(nameof(StateLevelStart));
-        
+        fsm = GameObjectUtil.AddNodeComponent<LevelFsm>(gameObject);
+    }
+
+    private void OnDestroy() {
+        instance = null;
     }
 
 

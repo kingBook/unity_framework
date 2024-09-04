@@ -1,9 +1,23 @@
 using System.Collections;
 using UnityEngine;
+
 /// <summary>
 /// 游戏对象工具类
 /// </summary>
 public static class GameObjectUtil {
+
+    /// <summary>
+    /// 在 bind 节点下创建一个新的游戏对象并挂载指定的组件
+    /// </summary>
+    /// <param name="bind"> 父节点 </param>
+    /// <typeparam name="T"> 挂载的组件 </typeparam>
+    /// <returns></returns>
+    public static T AddNodeComponent<T>(GameObject bind) where T : Component {
+        var gameObj = new GameObject(typeof(T).Name);
+        gameObj.transform.SetParent(bind.transform);
+        var component = gameObj.AddComponent<T>();
+        return component;
+    }
 
     /// <summary>
     /// 返回一个游戏对象的包围盒(将跳过计算未激活的Renderer)
@@ -55,5 +69,5 @@ public static class GameObjectUtil {
     public static void ActiveChildAndDeactiveOtherChildren(GameObject parent, int childSiblingIndex) {
         TransformUtil.ActiveChildAndDeactiveOtherChildren(parent.transform, childSiblingIndex);
     }
-    
+
 }

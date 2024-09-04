@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 /// <summary>
 ///  <see cref="Game"/> 的有限状态机
@@ -7,11 +8,13 @@ public class GameFsm : Fsm {
 
     public Game game { get; private set; }
 
-
-    public void Init(Game game, System.Action<State, State> onStateChanged = null) {
-        this.game = game;
+    private void Awake() {
         AddState<StateGameTitle>();
         AddState<StateGameLevel>();
-        base.Init(onStateChanged);
+        Init();
+        ChangeStateTo(nameof(StateGameTitle));
+        
+        game = App.instance.fsm.GetCurrentState<Game>();
     }
+
 }
