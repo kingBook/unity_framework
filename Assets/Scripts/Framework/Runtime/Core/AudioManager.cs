@@ -160,7 +160,7 @@ public class AudioManager : MonoBehaviour {
         audioSource.playOnAwake = true;
         audioSource.Play();
 
-        StartCoroutine(nameof(DestroyAudioSourceOnComplete), audioSource);
+        StartCoroutine(DestroyAudioSourceOnComplete(audioSource));
 
         return audioSource;
     }

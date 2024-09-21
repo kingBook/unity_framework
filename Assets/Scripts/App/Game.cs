@@ -15,7 +15,7 @@ public sealed class Game : State {
     }
 
     protected override void OnStateExit(Fsm fsm) {
-        
+
     }
 
 
