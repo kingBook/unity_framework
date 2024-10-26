@@ -7,15 +7,17 @@
 /// </summary>
 public sealed class Game : State {
 
+    public static Game instance { get; private set; }
 
     public GameFsm fsm { get; private set; }
 
     protected override void OnStateEnter(Fsm fsm) {
+        instance = this;
         this.fsm = GameObjectUtil.AddNodeComponent<GameFsm>(gameObject);
     }
 
     protected override void OnStateExit(Fsm fsm) {
-        
+        instance = null;
     }
 
 

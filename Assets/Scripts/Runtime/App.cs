@@ -165,7 +165,6 @@ public sealed class App : MonoBehaviour {
     }
 
     private void OnDestroy() {
-        // 不需要销毁instance
-        //instance=null;
+        instance = null;
     }
 }
