@@ -12,7 +12,7 @@ public static class GameObjectUtil {
     /// <param name="bind"> 父节点 </param>
     /// <typeparam name="T"> 挂载的组件 </typeparam>
     /// <returns></returns>
-    public static T AddNodeComponent<T>(GameObject bind) where T : Component {
+    public static T addChildAndComponentToNode<T>(GameObject bind) where T : Component {
         var gameObj = new GameObject(typeof(T).Name);
         gameObj.transform.SetParent(bind.transform);
         var component = gameObj.AddComponent<T>();

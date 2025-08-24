@@ -1,4 +1,4 @@
-﻿#pragma warning disable 0649
+#pragma warning disable 0649
 
 using DG.Tweening;
 using System;
@@ -7,7 +7,6 @@ using UnityEngine;
 
 /// <summary>
 /// 整个应用程序的单例
-/// <para> アプリケーション全体の単一インスタンス </para>
 /// </summary>
 public sealed class App : MonoBehaviour {
 
@@ -22,71 +21,57 @@ public sealed class App : MonoBehaviour {
     /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangedLanguageHandler(App.Language language) </code> </summary>
     public event Action<Language> onChangedLanguageEvent;
 
+    // 此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
+    [SerializeField, SetProperty(nameof(language)), Tooltip("AUTO:运行时根据系统语言决定是CN/EN \nCN:中文 \nEN:英文")]
+    private Language _language = Language.Auto;
 
-    [Tooltip("AUTO:运行时根据系统语言决定是CN/EN " +
-             "\nCN:中文 " +
-             "\nEN:英文")
-    ]
-    [SerializeField, SetProperty(nameof(language))] // 此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
-    private Language m_language = Language.Auto;
+    [SerializeField, Tooltip("进度条")] private PanelProgressbar _panelProgressbar;
 
-    [Tooltip("进度条")]
-    [SerializeField] private PanelProgressbar m_panelProgressbar;
+    [SerializeField, Tooltip("开始的 Logo 屏幕")] private PanelLogoScreen _panelLogoScreen;
 
-    [Tooltip("开始的 Logo 屏幕")]
-    [SerializeField] private PanelLogoScreen m_panelLogoScreen;
+    [SerializeField, Tooltip("调试助手面板")] private PanelDebugHelper _panelDebugHelper;
 
-    [Tooltip("调试助手面板")]
-    [SerializeField] private PanelDebugHelper m_panelDebugHelper;
+    [SerializeField, Tooltip("文件加载器")] private FileLoader _fileLoader;
 
-    [Tooltip("文件加载器")]
-    [SerializeField] private FileLoader m_fileLoader;
+    [SerializeField, Tooltip("场景加载器")] private SceneLoader _sceneLoader;
 
-    [Tooltip("场景加载器")]
-    [SerializeField] private SceneLoader m_sceneLoader;
+    [Tooltip("音频管理器")] private AudioManager _audioManager;
 
-    [Tooltip("音频管理器")]
-    private AudioManager m_audioManager;
-
-    [Tooltip("移动设备震动器")]
-    private Vibrator m_vibrator;
-
-    [Tooltip("状态机，负责切换到指定的游戏")]
-    private AppFsm m_fsm;
+    [Tooltip("移动设备震动器")] private Vibrator _vibrator;
 
 
     /// <summary> 应用程序的语言 </summary>
     public Language language {
-        get => m_language;
+        get => _language;
         set {
-            m_language = value;
-            onChangedLanguageEvent?.Invoke(m_language);
+            _language = value;
+            onChangedLanguageEvent?.Invoke(_language);
         }
     }
 
     /// <summary> 进度条 </summary>
-    public PanelProgressbar panelProgressbar => m_panelProgressbar;
+    public PanelProgressbar panelProgressbar => _panelProgressbar;
 
     /// <summary> 开始的 Logo 屏幕 </summary>
-    public PanelLogoScreen panelLogoScreen => m_panelLogoScreen;
+    public PanelLogoScreen panelLogoScreen => _panelLogoScreen;
 
     /// <summary> 调试助手面板 </summary>
-    public PanelDebugHelper panelDebugHelper => m_panelDebugHelper;
+    public PanelDebugHelper panelDebugHelper => _panelDebugHelper;
 
     /// <summary> 文件加载器 </summary>
-    public FileLoader fileLoader => m_fileLoader;
+    public FileLoader fileLoader => _fileLoader;
 
     /// <summary> 场景加载器(有进度条) </summary>
-    public SceneLoader sceneLoader => m_sceneLoader;
+    public SceneLoader sceneLoader => _sceneLoader;
 
     /// <summary> 音频管理器 </summary>
-    public AudioManager audioManager => m_audioManager;
+    public AudioManager audioManager => _audioManager;
 
     /// <summary> 移动设备震动器 </summary>
-    public Vibrator vibrator => m_vibrator;
+    public Vibrator vibrator => _vibrator;
 
-    /// <summary> 状态机，负责切换到指定的游戏 </summary>
-    public AppFsm fsm => m_fsm;
+    /// <summary> 游戏类 </summary>
+    public Game game { get; private set; }
 
     /// <summary> 是否已暂停 </summary>
     public bool isPause { get; private set; }
@@ -118,9 +103,11 @@ public sealed class App : MonoBehaviour {
     }
 
     private void InitDoTween() {
+        // 设置 DOTween 缓动和序列的最大数量
         DOTween.SetTweensCapacity(500, 500);
     }
 
+    /// <summary> 打开应用的次数 </summary>
     private void AddOpenCount() {
         const string key = "ApplicationOpenCount";
         openCount = PlayerPrefs.GetInt(key, 0) + 1;
@@ -128,28 +115,40 @@ public sealed class App : MonoBehaviour {
         PlayerPrefs.Save();
     }
 
+    /// <summary> 初始语言 </summary>
     private void InitLanguage() {
         bool isCn = Application.systemLanguage == SystemLanguage.Chinese;
         isCn = isCn || Application.systemLanguage == SystemLanguage.ChineseSimplified;
         isCn = isCn || Application.systemLanguage == SystemLanguage.ChineseTraditional;
-        m_language = isCn ? Language.Cn : Language.En;
+        _language = isCn ? Language.Cn : Language.En;
+
         //改变语言事件
-        onChangedLanguageEvent?.Invoke(m_language);
+        onChangedLanguageEvent?.Invoke(_language);
     }
 
     private void Awake() {
         instance = this;
+
         // 初始化 DOTween
         InitDoTween();
+
         // 增加应用打开的次数 
         AddOpenCount();
+
         // 初始化语言
-        if (m_language == Language.Auto) {
+        if (_language == Language.Auto) {
             InitLanguage();
         }
-        m_audioManager = GameObjectUtil.AddNodeComponent<AudioManager>(gameObject);
-        m_vibrator = GameObjectUtil.AddNodeComponent<Vibrator>(gameObject);
-        m_fsm = GameObjectUtil.AddNodeComponent<AppFsm>(gameObject);
+
+        // 音频管理
+        _audioManager = GameObjectUtil.addChildAndComponentToNode<AudioManager>(gameObject);
+
+        // 振动管理
+        _vibrator = GameObjectUtil.addChildAndComponentToNode<Vibrator>(gameObject);
+
+        // 游戏类
+        game = GameObjectUtil.addChildAndComponentToNode<Game>(gameObject);
+
     }
 
     private void OnApplicationQuit() {

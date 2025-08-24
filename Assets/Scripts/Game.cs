@@ -3,20 +3,20 @@
 /// <summary>
 /// 游戏类:
 /// <para> 管理游戏全局变量、本地数据、场景切换. </para>
-/// <para> 可以通过 <code> App.instance.fsm.GetCurrentState&lt;Game&gt;() </code> 访问实例 </para>
+/// <para> 通过 <c> App.instance.game </c> 访问 </para>
 /// </summary>
-public sealed class Game : State {
+public sealed class Game : MonoBehaviour {
 
     public static Game instance { get; private set; }
 
     public GameFsm fsm { get; private set; }
 
-    protected override void OnStateEnter(Fsm fsm) {
+    private void Awake() {
         instance = this;
-        this.fsm = GameObjectUtil.AddNodeComponent<GameFsm>(gameObject);
+        fsm = GameObjectUtil.addChildAndComponentToNode<GameFsm>(gameObject);
     }
 
-    protected override void OnStateExit(Fsm fsm) {
+    private void OnDestroy() {
         instance = null;
     }
 

@@ -98,7 +98,7 @@ public class CanvasLevel : MonoBehaviour {
 
 
     private void Start() {
-        m_game = App.instance.fsm.GetCurrentState<Game>();
+        m_game = App.instance.game;
     }
 
     private void Update() {
