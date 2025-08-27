@@ -141,13 +141,13 @@ public sealed class App : MonoBehaviour {
         }
 
         // 音频管理
-        _audioManager = GameObjectUtil.addChildAndComponentToNode<AudioManager>(gameObject);
+        _audioManager = GameObjectUtil.AddNewChildAndComponentToNode<AudioManager>(gameObject);
 
         // 振动管理
-        _vibrator = GameObjectUtil.addChildAndComponentToNode<Vibrator>(gameObject);
+        _vibrator = GameObjectUtil.AddNewChildAndComponentToNode<Vibrator>(gameObject);
 
         // 游戏类
-        game = GameObjectUtil.addChildAndComponentToNode<Game>(gameObject);
+        game = GameObjectUtil.AddNewChildAndComponentToNode<Game>(gameObject);
 
     }
 

@@ -63,7 +63,7 @@
     "editor.codeLens": false,
     //"editor.fontSize": 11.5,
     "editor.trimAutoWhitespace": false,
-    "editor.minimap.enabled": false,
+    //"editor.minimap.enabled": false,
     "editor.insertSpaces": true,
     //"editor.fontFamily": "Menlo, 'Courier New', monospace",
     "window.zoomLevel": 0,
@@ -74,7 +74,7 @@
     "dotnet.completion.triggerCompletionInArgumentLists": false,
     "omnisharp.organizeImportsOnFormat": true,
     "omnisharp.enableEditorConfigSupport": true,
-    "workbench.sideBar.location": "right",
+    //"workbench.sideBar.location": "right",
     "workbench.colorCustomizations": {
         "[Default Light+]": {
             "activityBar.background": "#dddddd",

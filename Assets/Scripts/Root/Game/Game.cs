@@ -7,13 +7,22 @@
 /// </summary>
 public sealed class Game : MonoBehaviour {
 
+    /// <summary> 游戏单例 </summary>
     public static Game instance { get; private set; }
 
+    /// <summary> 游戏状态机 </summary>
     public GameFsm fsm { get; private set; }
 
     private void Awake() {
         instance = this;
-        fsm = GameObjectUtil.addChildAndComponentToNode<GameFsm>(gameObject);
+
+        // 初始化游戏状态机
+        fsm = GameObjectUtil.AddNewChildAndComponentToNode<GameFsm>(gameObject);
+        fsm.AddState<StateGameTitle>();
+        fsm.AddState<StateGameLevel>();
+        fsm.Init();
+        // 切换到游戏标题状态
+        fsm.ChangeStateTo(nameof(StateGameTitle));
     }
 
     private void OnDestroy() {

@@ -3,9 +3,9 @@ using System.Collections;
 using UnityEngine.UI;
 
 /// <summary>
-/// 根据语言交换图片
+/// 根据语言本地化 Image
 /// </summary>
-public class LanguageSwapImage : MonoBehaviour {
+public class LocalizedImage : MonoBehaviour {
 
     public Sprite spriteEN;
     public Sprite spriteCN;

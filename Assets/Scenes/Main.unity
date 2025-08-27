@@ -6373,12 +6373,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab530b9122c9fad45ad37215908fa0f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_language: 0
-  m_panelProgressbar: {fileID: 992276140}
-  m_panelLogoScreen: {fileID: 478117834}
-  m_panelDebugHelper: {fileID: 386011423}
-  m_fileLoader: {fileID: 535276211}
-  m_sceneLoader: {fileID: 1171199454}
+  _language: 0
+  _panelProgressbar: {fileID: 992276140}
+  _panelLogoScreen: {fileID: 478117834}
+  _panelDebugHelper: {fileID: 386011423}
+  _fileLoader: {fileID: 535276211}
+  _sceneLoader: {fileID: 1171199454}
 --- !u!4 &3926725188723983666
 Transform:
   m_ObjectHideFlags: 0

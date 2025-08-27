@@ -6,12 +6,12 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// 根据语言交换文本框的文本
+/// 根据语言本地化 Text
 /// <para> 注意： </para>
 /// <para> 当在 Unity 编辑器中输入字符串时，如果存在转义字符如"\r, \n, \r\n, \t, \b"，请勾选<see cref="isUnescapeOnAwake"/>，</para>
 /// <para> 或不要输入转义字符直接在字符串中按回车、tab等键代替转义字符. </para>
 /// </summary>
-public class LanguageSwapTextString : MonoBehaviour {
+public class LocalizedText : MonoBehaviour {
 
     [Multiline] public string stringEN;
     [Multiline] public string stringCN;

@@ -27,7 +27,7 @@ public sealed class Level : MonoBehaviour {
     }
 
     private void Start() {
-        fsm = GameObjectUtil.addChildAndComponentToNode<LevelFsm>(gameObject);
+        fsm = GameObjectUtil.AddNewChildAndComponentToNode<LevelFsm>(gameObject);
     }
 
     private void OnDestroy() {

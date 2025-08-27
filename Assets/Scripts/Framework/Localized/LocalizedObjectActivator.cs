@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using System.Collections;
 /// <summary>
-/// 根据当前应用程序的语言激活/吊销列表中的GameObject
+/// 根据语言本地化对象激活器
 /// </summary>
-public class LanguageSwitcher : MonoBehaviour {
-    [Tooltip("英文时，需要激活的GameObject列表")]
+public class LocalizedObjectActivator : MonoBehaviour {
+    
+    [Tooltip("英文时, 需要激活的GameObject列表")]
     public GameObject[] enList;
-    [Tooltip("中文时，需要激活的GameObject列表")]
+    [Tooltip("中文时, 需要激活的GameObject列表")]
     public GameObject[] cnList;
 
     private void Awake() {

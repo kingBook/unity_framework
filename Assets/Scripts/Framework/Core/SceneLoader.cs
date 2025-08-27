@@ -9,7 +9,7 @@ using UnityEngine.SceneManagement;
 /// </summary>
 public sealed class SceneLoader : MonoBehaviour {
 
-    [Tooltip("场景加完成后，是否调用SceneManager.SetActiveScene(scene)设置为激活场景")]
+    [Tooltip("场景加完成后, 是否调用SceneManager.SetActiveScene(scene)设置为激活场景")]
     public bool isActiveSceneOnLoaded = true;
 
     [Tooltip("进度条"), SerializeField]
