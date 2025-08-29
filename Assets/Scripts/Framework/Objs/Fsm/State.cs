@@ -8,16 +8,16 @@ public class State : MonoBehaviour, IState {
     protected virtual void OnStateEnter(Fsm fsm) {
     }
 
-    protected virtual void OnStateFixedUpdate(Fsm fsm) {
+    protected virtual void OnStateFixedUpdate() {
     }
 
-    protected virtual void OnStateUpdate(Fsm fsm) {
+    protected virtual void OnStateUpdate() {
     }
 
-    protected virtual void OnStateLateUpdate(Fsm fsm) {
+    protected virtual void OnStateLateUpdate() {
     }
 
-    protected virtual void OnStateExit(Fsm fsm) {
+    protected virtual void OnStateExit() {
     }
 
     // ‘显式’方式，实现 IState 接口的方法，又用 protected 进行封装，使用各方法在子类中不公开
@@ -26,19 +26,19 @@ public class State : MonoBehaviour, IState {
         OnStateEnter(fsm);
     }
 
-    void IState.OnStateFixedUpdate(Fsm fsm) {
-        OnStateFixedUpdate(fsm);
+    void IState.OnStateFixedUpdate() {
+        OnStateFixedUpdate();
     }
 
-    void IState.OnStateUpdate(Fsm fsm) {
-        OnStateUpdate(fsm);
+    void IState.OnStateUpdate() {
+        OnStateUpdate();
     }
 
-    void IState.OnStateLateUpdate(Fsm fsm) {
-        OnStateLateUpdate(fsm);
+    void IState.OnStateLateUpdate() {
+        OnStateLateUpdate();
     }
 
-    void IState.OnStateExit(Fsm fsm) {
-        OnStateExit(fsm);
+    void IState.OnStateExit() {
+        OnStateExit();
     }
 }

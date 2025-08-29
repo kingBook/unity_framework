@@ -4,14 +4,14 @@ using UnityEngine.SceneManagement;
 public class StateGameTitle : State {
 
     protected override void OnStateEnter(Fsm fsm) {
-        App.instance.sceneLoader.Load("Scenes/Title");
+        App.instance.sceneLoader.LoadAsync("Scenes/Title", false);
     }
 
-    protected override void OnStateUpdate(Fsm fsm) {
+    protected override void OnStateUpdate() {
         
     }
 
-    protected override void OnStateExit(Fsm fsm) {
+    protected override void OnStateExit() {
         SceneManager.UnloadSceneAsync("Scenes/Title");
     }
 }

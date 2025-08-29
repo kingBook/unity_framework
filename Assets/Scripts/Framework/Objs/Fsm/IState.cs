@@ -2,11 +2,11 @@
     
     void OnStateEnter(Fsm fsm);
 
-    void OnStateFixedUpdate(Fsm fsm);
+    void OnStateFixedUpdate();
 
-    void OnStateUpdate(Fsm fsm);
+    void OnStateUpdate();
 
-    void OnStateLateUpdate(Fsm fsm);
+    void OnStateLateUpdate();
     
-    void OnStateExit(Fsm fsm);
+    void OnStateExit();
 }

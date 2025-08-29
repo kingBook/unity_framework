@@ -17,11 +17,11 @@ public class StateGameLevel : State {
         App.instance.sceneLoader.LoadAsync(m_sceneName);
     }
 
-    protected override void OnStateUpdate(Fsm fsm) {
+    protected override void OnStateUpdate() {
 
     }
 
-    protected override void OnStateExit(Fsm fsm) {
+    protected override void OnStateExit() {
         SceneManager.UnloadSceneAsync(m_sceneName);
     }
 

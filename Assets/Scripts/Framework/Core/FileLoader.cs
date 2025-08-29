@@ -70,7 +70,6 @@ public class FileLoader : MonoBehaviour {
         m_progressValue = 0.0f;
         if (m_panelProgressbar != null) {
             m_panelProgressbar.SetProgress(m_progressValue);
-            m_panelProgressbar.SetText("loading 0%...");
             m_panelProgressbar.gameObject.SetActive(progressbarVisible);
         }
         gameObject.SetActive(true);
@@ -81,7 +80,6 @@ public class FileLoader : MonoBehaviour {
         m_progressValue = 1.0f;
         if (m_panelProgressbar != null) {
             m_panelProgressbar.SetProgress(m_progressValue);
-            m_panelProgressbar.SetText("loading 100%...");
             m_panelProgressbar.gameObject.SetActive(false);
         }
         gameObject.SetActive(false);
@@ -94,7 +92,6 @@ public class FileLoader : MonoBehaviour {
             //模拟假的加载进度
             m_progressValue = Mathf.Min(m_progressValue + 0.1f, 0.9f);
             m_panelProgressbar.SetProgress(m_progressValue);
-            m_panelProgressbar.SetText("loading " + Mathf.FloorToInt(m_progressValue * 100) + "%...");
             onProgressEvent?.Invoke(m_progressValue);
         }
     }

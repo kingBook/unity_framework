@@ -27,11 +27,11 @@ public class StateLevelStart : State {
         m_fsm.ChangeStateTo(nameof(StateLevelRunning));
     }
 
-    protected override void OnStateUpdate(Fsm fsm) {
-        base.OnStateUpdate(fsm);
+    protected override void OnStateUpdate() {
+        base.OnStateUpdate();
     }
 
-    protected override void OnStateExit(Fsm fsm) {
-        base.OnStateExit(fsm);
+    protected override void OnStateExit() {
+        base.OnStateExit();
     }
 }
