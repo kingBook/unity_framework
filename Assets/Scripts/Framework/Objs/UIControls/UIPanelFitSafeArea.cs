@@ -10,15 +10,15 @@ using UnityEngine;
 [DisallowMultipleComponent]
 public class UIPanelFitSafeArea : MonoBehaviour {
 
-    [SerializeField, Tooltip("如果true，将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
-    private bool m_isTest;
+    [SerializeField, Tooltip("如果true, 将截取屏幕的宽度/高度的95%进行刘海屏模拟测试")]
+    private bool _isTest;
 
-    private RectTransform m_panel;
-    private float m_time;
+    private RectTransform _panel;
+    private float _time;
 
     private void Awake() {
-        m_panel = GetComponent<RectTransform>();
-        m_time = Time.time;
+        _panel = GetComponent<RectTransform>();
+        _time = Time.time;
         MatchSafeArea();
     }
 
@@ -27,8 +27,8 @@ public class UIPanelFitSafeArea : MonoBehaviour {
     }
 
     private void Update() {
-        if (Time.time - m_time > 0.3f) {//限制刷新频率
-            m_time = Time.time;
+        if (Time.time - _time > 0.3f) {//限制刷新频率
+            _time = Time.time;
             MatchSafeArea();
         }
     }
@@ -39,7 +39,7 @@ public class UIPanelFitSafeArea : MonoBehaviour {
         float screenHeight = Screen.height;
         //在 Unity 编辑器时，如果 m_isTest 为 true 时，截取屏幕进行测试
 #if UNITY_EDITOR
-        if (m_isTest) {
+        if (_isTest) {
             bool isPortraitGameView = screenWidth < screenHeight;
             if (isPortraitGameView) safeArea.height *= 0.95f;
             else safeArea.width *= 0.95f;
@@ -59,11 +59,11 @@ public class UIPanelFitSafeArea : MonoBehaviour {
         anchorMin.y /= screenHeight;
         anchorMax.x /= screenWidth;
         anchorMax.y /= screenHeight;
-        m_panel.anchorMin = anchorMin;
-        m_panel.anchorMax = anchorMax;
+        _panel.anchorMin = anchorMin;
+        _panel.anchorMax = anchorMax;
     }
 
     public bool isTest {
-        get => m_isTest;
+        get => _isTest;
     }
 }

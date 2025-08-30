@@ -10,15 +10,17 @@ using UnityEngine.Events;
 /// </summary>
 public sealed class SceneLoader : MonoBehaviour {
 
-
-    [Tooltip("进度条"), SerializeField]
+    /// <summary> main 场景的主相机 </summary>
+    private Camera _cameraMain;
+    /// <summary> 进度条 </summary>
     private PanelProgressbar _panelProgressbar;
 
-    /// <summary> main 场景的主相机 </summary>
-    [SerializeField] private Camera _cameraMain;
 
+    /// <summary> 初始化 </summary>
+    public void Init(Camera cameraMain, PanelProgressbar panelProgressbar) {
+        _cameraMain = cameraMain;
+        _panelProgressbar = panelProgressbar;
 
-    private void Awake() {
         // 场景加载完成回调
         SceneManager.sceneLoaded += OnSceneLoaded;
     }

@@ -17,27 +17,25 @@ public sealed class App : MonoBehaviour {
 
     /// <summary> 暂停或恢复事件，在调用setPause(bool)时方法发出，回调函数格式：<code> void OnPauseOrResumeHandler(bool isPause) </code> </summary>
     public event Action<bool> onPauseOrResumeEvent;
-
     /// <summary> 更改语言事件, 回调函数格式: <code> void OnChangedLanguageHandler(App.Language language) </code> </summary>
     public event Action<Language> onChangedLanguageEvent;
 
     // 此处使用SetProperty序列化setter方法，用法： https://github.com/LMNRY/SetProperty
     [SerializeField, SetProperty(nameof(language)), Tooltip("AUTO:运行时根据系统语言决定是CN/EN \nCN:中文 \nEN:英文")]
     private Language _language = Language.Auto;
-
+    [SerializeField, Tooltip("main 场景的主相机")] private Camera _cameraMain;
     [SerializeField, Tooltip("进度条")] private PanelProgressbar _panelProgressbar;
-
     [SerializeField, Tooltip("开始的 Logo 屏幕")] private PanelLogoScreen _panelLogoScreen;
-
     [SerializeField, Tooltip("调试助手面板")] private PanelDebugHelper _panelDebugHelper;
 
-    [SerializeField, Tooltip("文件加载器")] private FileLoader _fileLoader;
-
-    [SerializeField, Tooltip("场景加载器")] private SceneLoader _sceneLoader;
-
-    [Tooltip("音频管理器")] private AudioManager _audioManager;
-
-    [Tooltip("移动设备震动器")] private Vibrator _vibrator;
+    /// <summary> 文件加载器 </summary>
+    private FileLoader _fileLoader;
+    /// <summary> 场景加载器 </summary>
+    private SceneLoader _sceneLoader;
+    /// <summary> 音频管理器 </summary>
+    private AudioManager _audioManager;
+    /// <summary> 移动设备振动器 </summary>
+    private Vibrator _vibrator;
 
 
     /// <summary> 应用程序的语言 </summary>
@@ -139,6 +137,14 @@ public sealed class App : MonoBehaviour {
         if (_language == Language.Auto) {
             InitLanguage();
         }
+
+        // 文件加载器
+        _fileLoader = GameObjectUtil.AddNewChildAndComponentToNode<FileLoader>(gameObject);
+        _fileLoader.Init(_panelProgressbar);
+
+        // 场景加载器
+        _sceneLoader = GameObjectUtil.AddNewChildAndComponentToNode<SceneLoader>(gameObject);
+        _sceneLoader.Init(_cameraMain, _panelProgressbar);
 
         // 音频管理
         _audioManager = GameObjectUtil.AddNewChildAndComponentToNode<AudioManager>(gameObject);

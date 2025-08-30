@@ -8,8 +8,9 @@ using UnityEngine;
 /// 文件加载器
 /// </summary>
 public class FileLoader : MonoBehaviour {
-    [Tooltip("进度条"), SerializeField]
-    private PanelProgressbar m_panelProgressbar;
+
+    /// <summary> 进度条 </summary>
+    private PanelProgressbar _panelProgressbar;
 
     /// <summary>
     /// 文件加载进度事件（是假模拟的进度）
@@ -24,9 +25,14 @@ public class FileLoader : MonoBehaviour {
     /// </summary>
     public event Action<byte[][]> onCompleteEvent;
 
-    private FileStream m_fileStream;
-    private bool m_isLoading;
-    private float m_progressValue;
+    private FileStream _fileStream;
+    private bool _isLoading;
+    private float _progressValue;
+    
+    /// <summary> 初始化 </summary>
+    public void Init(PanelProgressbar panelProgressbar) {
+        _panelProgressbar = panelProgressbar;
+    }
 
     /// <summary>
     /// 异步加载一个或多个本地文件
@@ -43,12 +49,12 @@ public class FileLoader : MonoBehaviour {
             string filePath = filePaths[i];
             await Task.Run(() => {
                 if (File.Exists(filePath)) {
-                    m_fileStream = File.OpenRead(filePath);
+                    _fileStream = File.OpenRead(filePath);
 
-                    int fileLength = (int)m_fileStream.Length;
+                    int fileLength = (int)_fileStream.Length;
                     buffer = new byte[fileLength];
 
-                    m_fileStream.Read(buffer, 0, fileLength);
+                    _fileStream.Read(buffer, 0, fileLength);
                 }
             });
             if (!gameObject.activeSelf) {
@@ -66,21 +72,21 @@ public class FileLoader : MonoBehaviour {
     }
 
     private void OnLoadStart(bool progressbarVisible) {
-        m_isLoading = true;
-        m_progressValue = 0.0f;
-        if (m_panelProgressbar != null) {
-            m_panelProgressbar.SetProgress(m_progressValue);
-            m_panelProgressbar.gameObject.SetActive(progressbarVisible);
+        _isLoading = true;
+        _progressValue = 0.0f;
+        if (_panelProgressbar != null) {
+            _panelProgressbar.SetProgress(_progressValue);
+            _panelProgressbar.gameObject.SetActive(progressbarVisible);
         }
         gameObject.SetActive(true);
     }
 
     private void OnLoadCompleteAll(byte[][] outBytesList) {
-        m_isLoading = false;
-        m_progressValue = 1.0f;
-        if (m_panelProgressbar != null) {
-            m_panelProgressbar.SetProgress(m_progressValue);
-            m_panelProgressbar.gameObject.SetActive(false);
+        _isLoading = false;
+        _progressValue = 1.0f;
+        if (_panelProgressbar != null) {
+            _panelProgressbar.SetProgress(_progressValue);
+            _panelProgressbar.gameObject.SetActive(false);
         }
         gameObject.SetActive(false);
 
@@ -88,19 +94,19 @@ public class FileLoader : MonoBehaviour {
     }
 
     private void Update() {
-        if (m_isLoading) {
+        if (_isLoading) {
             //模拟假的加载进度
-            m_progressValue = Mathf.Min(m_progressValue + 0.1f, 0.9f);
-            m_panelProgressbar.SetProgress(m_progressValue);
-            onProgressEvent?.Invoke(m_progressValue);
+            _progressValue = Mathf.Min(_progressValue + 0.1f, 0.9f);
+            _panelProgressbar.SetProgress(_progressValue);
+            onProgressEvent?.Invoke(_progressValue);
         }
     }
 
     private void Dispose() {
-        if (m_fileStream != null) {
-            m_fileStream.Dispose();
-            m_fileStream.Close();
-            m_fileStream = null;
+        if (_fileStream != null) {
+            _fileStream.Dispose();
+            _fileStream.Close();
+            _fileStream = null;
         }
     }
 
