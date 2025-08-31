@@ -24,24 +24,10 @@ public sealed class App : MonoBehaviour {
     [SerializeField, SetProperty(nameof(language)), Tooltip("AUTO:运行时根据系统语言决定是CN/EN \nCN:中文 \nEN:英文")]
     private Language _language = Language.Auto;
     [Space]
-    [SerializeField, Tooltip("主 Canvas")] private Canvas _mainCanvas;
+    [SerializeField, Tooltip("UI 画布")] private UICanvas _uiCanvas;
     [SerializeField, Tooltip("main 场景的主相机")] private Camera _mainCamera;
-    [SerializeField, Tooltip("开始的 Logo 屏幕")] private PanelLogoScreen _panelLogoScreen;
-    [SerializeField, Tooltip("调试助手面板")] private PanelDebugHelper _panelDebugHelper;
     [Space]
     [SerializeField, Tooltip("加载进度条预制件")] private PanelLoading _panelLoadingPrefab;
-
-    /// <summary> 加载进度面板 </summary>
-    private PanelLoading _panelLoading;
-    /// <summary> 文件加载器 </summary>
-    private FileLoader _fileLoader;
-    /// <summary> 场景加载器 </summary>
-    private SceneLoader _sceneLoader;
-    /// <summary> 音频管理器 </summary>
-    private AudioManager _audioManager;
-    /// <summary> 移动设备振动器 </summary>
-    private Vibrator _vibrator;
-
 
     /// <summary> 应用程序的语言 </summary>
     public Language language {
@@ -53,23 +39,18 @@ public sealed class App : MonoBehaviour {
         }
     }
 
-    /// <summary> 主 Canvas </summary>
-    public Canvas mainCanvas => _mainCanvas;
+    /// <summary> UI 画布 </summary>
+    public UICanvas uiCanvas => _uiCanvas;
     /// <summary> 加载进度面板 </summary>
-    public PanelLoading panelLoading => _panelLoading;
-    /// <summary> 开始的 Logo 屏幕 </summary>
-    public PanelLogoScreen panelLogoScreen => _panelLogoScreen;
-    /// <summary> 调试助手面板 </summary>
-    public PanelDebugHelper panelDebugHelper => _panelDebugHelper;
+    public PanelLoading panelLoading { get; private set; }
     /// <summary> 文件加载器 </summary>
-    public FileLoader fileLoader => _fileLoader;
+    public FileLoader fileLoader { get; private set; }
     /// <summary> 场景加载器(有进度条) </summary>
-    public SceneLoader sceneLoader => _sceneLoader;
+    public SceneLoader sceneLoader { get; private set; }
     /// <summary> 音频管理器 </summary>
-    public AudioManager audioManager => _audioManager;
+    public AudioManager audioManager { get; private set; }
     /// <summary> 移动设备震动器 </summary>
-    public Vibrator vibrator => _vibrator;
-
+    public Vibrator vibrator { get; private set; }
     /// <summary> 游戏类 </summary>
     public Game game { get; private set; }
     /// <summary> 是否已暂停 </summary>
@@ -135,19 +116,19 @@ public sealed class App : MonoBehaviour {
         if (_language == Language.Auto) {
             InitLanguage();
         }
-        
+
         // 加载进度面板
-        _panelLoading = Instantiate(_panelLoadingPrefab, _mainCanvas.transform);
+        panelLoading = Instantiate(_panelLoadingPrefab, _uiCanvas.transform);
         // 文件加载器
-        _fileLoader = GameObjectUtil.AddNewChildAndComponentToNode<FileLoader>(gameObject);
-        _fileLoader.Init(_panelLoading);
+        fileLoader = GameObjectUtil.AddNewChildAndComponentToNode<FileLoader>(gameObject);
+        fileLoader.Init(panelLoading);
         // 场景加载器
-        _sceneLoader = GameObjectUtil.AddNewChildAndComponentToNode<SceneLoader>(gameObject);
-        _sceneLoader.Init(_mainCamera, _panelLoading);
+        sceneLoader = GameObjectUtil.AddNewChildAndComponentToNode<SceneLoader>(gameObject);
+        sceneLoader.Init(_mainCamera, panelLoading);
         // 音频管理
-        _audioManager = GameObjectUtil.AddNewChildAndComponentToNode<AudioManager>(gameObject);
+        audioManager = GameObjectUtil.AddNewChildAndComponentToNode<AudioManager>(gameObject);
         // 振动管理
-        _vibrator = GameObjectUtil.AddNewChildAndComponentToNode<Vibrator>(gameObject);
+        vibrator = GameObjectUtil.AddNewChildAndComponentToNode<Vibrator>(gameObject);
         // 游戏类
         game = GameObjectUtil.AddNewChildAndComponentToNode<Game>(gameObject);
 
