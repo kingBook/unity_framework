@@ -4,7 +4,7 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PanelProgressbar : MonoBehaviour {
+public class PanelLoading : MonoBehaviour {
 
     [Tooltip("进度条滑块"), SerializeField]
     private Slider m_slider;

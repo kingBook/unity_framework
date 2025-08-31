@@ -25,20 +25,21 @@ public class PanelLogoScreen : MonoBehaviour {
         if (scene.path != gameObject.scene.path) {
             if (gameObject.activeInHierarchy) {
                 SceneManager.sceneLoaded -= OnSceneLoaded;
-                StartFadeOut();
+                FadeOut();
             }
         }
     }
 
-    private void StartFadeOut() {
-        m_canvasGroup.DOFade(0.0f, 1f).OnComplete(OnFadeOut);
+    private void FadeOut() {
+        m_canvasGroup.DOFade(0.0f, 1f).OnComplete(() => {
+            gameObject.SetActive(false);
+            onFadeOutEvent?.Invoke();
+        });
     }
 
-    private void OnFadeOut() {
-        gameObject.SetActive(false);
-        onFadeOutEvent?.Invoke();
-    }
-
+    /// <summary>
+    /// 激活
+    /// </summary>
     public void Active() {
         gameObject.SetActive(true);
     }

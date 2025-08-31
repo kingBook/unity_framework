@@ -9,8 +9,8 @@ using UnityEngine;
 /// </summary>
 public class FileLoader : MonoBehaviour {
 
-    /// <summary> 进度条 </summary>
-    private PanelProgressbar _panelProgressbar;
+    /// <summary> 加载进度面板 </summary>
+    private PanelLoading _panelLoading;
 
     /// <summary>
     /// 文件加载进度事件（是假模拟的进度）
@@ -30,8 +30,8 @@ public class FileLoader : MonoBehaviour {
     private float _progressValue;
     
     /// <summary> 初始化 </summary>
-    public void Init(PanelProgressbar panelProgressbar) {
-        _panelProgressbar = panelProgressbar;
+    public void Init(PanelLoading panelLoading) {
+        _panelLoading = panelLoading;
     }
 
     /// <summary>
@@ -74,9 +74,9 @@ public class FileLoader : MonoBehaviour {
     private void OnLoadStart(bool progressbarVisible) {
         _isLoading = true;
         _progressValue = 0.0f;
-        if (_panelProgressbar != null) {
-            _panelProgressbar.SetProgress(_progressValue);
-            _panelProgressbar.gameObject.SetActive(progressbarVisible);
+        if (_panelLoading != null) {
+            _panelLoading.SetProgress(_progressValue);
+            _panelLoading.gameObject.SetActive(progressbarVisible);
         }
         gameObject.SetActive(true);
     }
@@ -84,9 +84,9 @@ public class FileLoader : MonoBehaviour {
     private void OnLoadCompleteAll(byte[][] outBytesList) {
         _isLoading = false;
         _progressValue = 1.0f;
-        if (_panelProgressbar != null) {
-            _panelProgressbar.SetProgress(_progressValue);
-            _panelProgressbar.gameObject.SetActive(false);
+        if (_panelLoading != null) {
+            _panelLoading.SetProgress(_progressValue);
+            _panelLoading.gameObject.SetActive(false);
         }
         gameObject.SetActive(false);
 
@@ -97,7 +97,7 @@ public class FileLoader : MonoBehaviour {
         if (_isLoading) {
             //模拟假的加载进度
             _progressValue = Mathf.Min(_progressValue + 0.1f, 0.9f);
-            _panelProgressbar.SetProgress(_progressValue);
+            _panelLoading.SetProgress(_progressValue);
             onProgressEvent?.Invoke(_progressValue);
         }
     }

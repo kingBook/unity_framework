@@ -11,15 +11,15 @@ using UnityEngine.Events;
 public sealed class SceneLoader : MonoBehaviour {
 
     /// <summary> main 场景的主相机 </summary>
-    private Camera _cameraMain;
+    private Camera _mainCamera;
     /// <summary> 进度条 </summary>
-    private PanelProgressbar _panelProgressbar;
+    private PanelLoading _panelLoading;
 
 
     /// <summary> 初始化 </summary>
-    public void Init(Camera cameraMain, PanelProgressbar panelProgressbar) {
-        _cameraMain = cameraMain;
-        _panelProgressbar = panelProgressbar;
+    public void Init(Camera mainCamera, PanelLoading panelLoading) {
+        _mainCamera = mainCamera;
+        _panelLoading = panelLoading;
 
         // 场景加载完成回调
         SceneManager.sceneLoaded += OnSceneLoaded;
@@ -30,11 +30,11 @@ public sealed class SceneLoader : MonoBehaviour {
     /// （注意：LoadSceneMode.Additive 模式加载场景时，被加载场景里的对象不能在 Awake() 或 OnEnable() 里访问 Camera.main, 会访问到 Main 场景的主相机）
     /// </summary>
     /// <param name="sceneName"> 场景在BuildSettings窗口的路径或名称 </param>
-    /// <param name="progressBarVisible"> 显示加载进度页面 </param>
+    /// <param name="panelLoadingVisible"> 显示加载进度页面 </param>
     /// <param name="onComplete"> 加载完成回调 </param>
-    public void LoadAsync(string sceneName, bool progressBarVisible = true, UnityAction onComplete = null) {
+    public void LoadAsync(string sceneName, bool panelLoadingVisible = true, UnityAction onComplete = null) {
         // 开始异步加载场景协程
-        StartCoroutine(LoadAsync(sceneName, LoadSceneMode.Additive, progressBarVisible, onComplete));
+        StartCoroutine(LoadAsync(sceneName, LoadSceneMode.Additive, panelLoadingVisible, onComplete));
     }
 
     /// <summary>
@@ -43,14 +43,14 @@ public sealed class SceneLoader : MonoBehaviour {
     /// </summary>
     /// <param name="sceneName"> 场景在BuildSettings窗口的路径或名称 </param>
     /// <param name="mode"> 加载场景的模式 </param>
-    /// <param name="progressBarVisible"> 显示加载进度页面 </param>
+    /// <param name="panelLoadingVisible"> 显示加载进度页面 </param>
     /// <param name="onComplete"> 加载完成回调 </param>
     /// <returns></returns>
-    public IEnumerator LoadAsync(string sceneName, LoadSceneMode mode, bool progressBarVisible, UnityAction onComplete) {
+    public IEnumerator LoadAsync(string sceneName, LoadSceneMode mode, bool panelLoadingVisible, UnityAction onComplete) {
         // 显示进度条 0%
-        if (progressBarVisible) {
-            _panelProgressbar.gameObject.SetActive(true);
-            _panelProgressbar.SetProgress(0.0f);
+        if (panelLoadingVisible) {
+            _panelLoading.gameObject.SetActive(true);
+            _panelLoading.SetProgress(0.0f);
         }
 
         // 加载场景异步操作
@@ -58,7 +58,7 @@ public sealed class SceneLoader : MonoBehaviour {
 
         // 加载完成回调
         asyncOperation.completed += (asyncOp) => {
-            _panelProgressbar.gameObject.SetActive(false);
+            _panelLoading.gameObject.SetActive(false);
         };
 
         // 一旦准备好，允许场景被激活
@@ -67,14 +67,14 @@ public sealed class SceneLoader : MonoBehaviour {
         // 异步操作未完成
         while (!asyncOperation.isDone) {
             // 加载进度
-            if (progressBarVisible) _panelProgressbar.SetProgress(asyncOperation.progress);
+            if (panelLoadingVisible) _panelLoading.SetProgress(asyncOperation.progress);
             yield return null;
         }
 
         // 异步操作完成
-        if (progressBarVisible) {
-            _panelProgressbar.SetProgress(1.0f);
-            _panelProgressbar.gameObject.SetActive(false);
+        if (panelLoadingVisible) {
+            _panelLoading.SetProgress(1.0f);
+            _panelLoading.gameObject.SetActive(false);
         }
 
         // 设置为激活场景
@@ -87,7 +87,7 @@ public sealed class SceneLoader : MonoBehaviour {
     /// <summary> 场景加载完成回调 </summary>
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
         // 已加载场景非 main 场景时，吊销 main 场景的主相机
-        _cameraMain.gameObject.SetActive(scene.buildIndex == _cameraMain.gameObject.scene.buildIndex);
+        _mainCamera.gameObject.SetActive(scene.buildIndex == _mainCamera.gameObject.scene.buildIndex);
     }
 
     private void OnDestroy() {
