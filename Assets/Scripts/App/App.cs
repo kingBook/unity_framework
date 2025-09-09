@@ -24,7 +24,7 @@ public sealed class App : MonoBehaviour {
     [SerializeField, SetProperty(nameof(language)), Tooltip("AUTO:运行时根据系统语言决定是CN/EN \nCN:中文 \nEN:英文")]
     private Language _language = Language.Auto;
     [Space]
-    [SerializeField, Tooltip("UI 画布")] private UICanvas _uiCanvas;
+    [SerializeField, Tooltip("UI 画布")] private Canvas _canvas;
     [SerializeField, Tooltip("main 场景的主相机")] private Camera _mainCamera;
     [Space]
     [SerializeField, Tooltip("加载进度条预制件")] private PanelLoading _panelLoadingPrefab;
@@ -40,7 +40,7 @@ public sealed class App : MonoBehaviour {
     }
 
     /// <summary> UI 画布 </summary>
-    public UICanvas uiCanvas => _uiCanvas;
+    public Canvas canvas => _canvas;
     /// <summary> 加载进度面板 </summary>
     public PanelLoading panelLoading { get; private set; }
     /// <summary> 文件加载器 </summary>
@@ -118,7 +118,7 @@ public sealed class App : MonoBehaviour {
         }
 
         // 加载进度面板
-        panelLoading = Instantiate(_panelLoadingPrefab, _uiCanvas.transform);
+        panelLoading = Instantiate(_panelLoadingPrefab, _canvas.transform);
         // 文件加载器
         fileLoader = GameObjectUtil.AddNewChildAndComponentToNode<FileLoader>(gameObject);
         fileLoader.Init(panelLoading);
